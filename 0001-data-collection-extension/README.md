@@ -1,13 +1,14 @@
 ---
 name: Data Collection Extension
-editor: Alexey Shmalko
+shortname: 1/DCE
 status: raw
-contributors: Alexey Gamov
+editor: Alexey Shmalko <ashmalko@cybervisiontech.com>
+contributors: Alexey Gamov <agamov@cybervisiontech.com>
 ---
 
 ## Introduction
 
-This document describes data collection extension. For general statements and principles refer to the [protocol design reference]().
+This document describes data collection extension. For general statements and principles refer to the [protocol design reference](/0002-kaa-protocol/README.md).
 
 The feature is intended to solve the problem of delivering collected data to a server for further processing e.g. storing the data, perform analytics and so on.
 
@@ -25,11 +26,11 @@ This section describes requirements for *Data Collection Extension*, basing on t
 
   - The issue can be resolved using separate address tokens for all the combinations of data formats with data set. The mean for data sets descriptions is data schemes. A data schemes set and a data formats set should be restricted by an [application version]() e.g. if we have the application v.1.0.0, it supports json data format and data schema v.1 then the application can not send data in protobuf format or use another data schema version. For this purpose another application should be created, with another application version. Possible format for address token is:
 
-```
-<endpoint>/<format>[/<schema>]
-```
+    ```
+    <endpoint>/<format>[/<schema>]
+    ```
 
-**NOTE:** The current solution suggests using no scheme in the address token.
+    **NOTE:** The current solution suggests using no scheme in the address token.
 
 3. Sometimes data from different endpoint should be handled the different way and a server has no notion of which endpoint sends data to it.
 

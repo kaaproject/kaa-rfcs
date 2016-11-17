@@ -1,8 +1,9 @@
 ---
-name: Kaa protocol design
-editor: Alexey Shmalko
+name: Kaa Protocol
+shortname: 2/KP
 status: raw
-contributors: Alexey Gamov
+editor: Alexey Shmalko <ashmalko@cybervisiontech.com>
+contributors: Alexey Gamov <agamov@cybervisiontech.com>
 ---
 
 ## Introduction
@@ -125,9 +126,9 @@ We introduce `/status` topic for response messages. In case original payload con
 
 ```
 {
-    [extension specific payload],
-	[“timestamp” : timestamp],
-    [“packet_id” : packet_id]
+    <extension specific payload>,
+    ["timestamp": timestamp],
+    ["packet_id": packet_id]
 }
 ```
 
