@@ -26,7 +26,7 @@ The document describes general guidelines, principles, requirements for **Kaa pr
 
 Mass production. All devices share the same firmware, and there is no means to modify it. However, they all have distinct embedded hardware identifiers (e.g., MAC addresses).
 
-### Use case 1
+### Use case 2
 
 A gateway. Multiple constrained devices communicate with Kaa server by means of a gateway. Gateway is a traditional Kaa client and uses Kaa protocol to communicate with the server. On the other hand, end devices use a custom (proprietary) protocol to communicate with the gateway.
 
@@ -35,15 +35,15 @@ A gateway. Multiple constrained devices communicate with Kaa server by means of 
 
 ### Client vs endpoint
 
-According to glossary, in Kaa 0.x series, client is:
+According to [glossary](http://kaaproject.github.io/kaa/docs/v0.10.0/Glossary), in Kaa 0.x series, client is:
 
-_A client-side entity that implements the endpoint functionality. Kaa client typically uses Kaa endpoint SDK to communicate to Kaa server._
+> A client-side entity that implements the endpoint functionality. Kaa client typically uses Kaa endpoint SDK to communicate to Kaa server.
 
 An endpoint is:
 
-_An independently managed client-side entity within a Kaa deployment. Kaa represents every managed entity – device, sensor, mobile phone, etc. – as an endpoint._
+> An independently managed client-side entity within a Kaa deployment. Kaa represents every managed entity – device, sensor, mobile phone, etc. – as an endpoint.
 
-Starting from Kaa 1.0, we differentiate between clients and endpoints.
+Starting from Kaa 1.0, we differentiate between [clients and endpoints](#Glossary).
 
 ### Extensions
 
@@ -51,11 +51,11 @@ The protocol must be extensible to allow adding more features in the future. We 
 
 ### Authentication
 
-We separate _client authentication_ and _endpoint identification_. During the client authentication, a client and a server should verify each other: client verifies server identity  and server verifies that client is authorized to access the server. Note that multiple clients may share the same credentials, and thus server can’t identify clients—it merely verifies the client knows a shared secret.
+We separate _client authentication_ and _endpoint identification_. During the client authentication, a client and a server should verify each other: client verifies server identity and server verifies that client is authorized to access the server. Note that multiple clients may share the same credentials, and thus server can’t identify clients—it merely verifies the client knows a shared secret.
 
 The client authentication and _session-wide encryption_ are usually handled simultaneously by separate encapsulating protocols (TLS, DTLS, IPSec, none, etc.), so it is not described in this document. However, a possible authentication method is using MQTT CONNECT packet with name and password. (It is also possible to disable client authentication at all, but that’s insecure and not recommended.)
 
-After client authentication is done, the client may issue commands on behalf of endpoints. To do so, it needs endpoint token. A token is sent along with each request as part of the resource path.
+After client authentication is done, the client may issue commands on behalf of endpoints. To do so, it needs endpoint token. A token is sent along with each request as part of the [resource path](#Glossary).
 
 _Token_ is an opaque data blob that uniquely identifies an endpoint. Each endpoint has exactly one token assigned by the server. In the simplest form, a client always uses the same token, thus representing a single endpoint.
 
@@ -137,3 +137,20 @@ We introduce `/status` topic for response messages. In case original payload con
 `packet_id` field is required for request/response operations. If the field is present, response containing proper packet_id should be published under `<request_topic>/status`.
 
 **NOTE:** we might have used MQTT packet id, but in that case we lose ability to work via gateways as MQTT packet id is different for client and server.
+
+## Open questions
+
+### Topic name aliases
+
+It’s good to keep topic names short. Maybe, we can introduce topic aliases, so user won’t need to use full-length topic name.
+
+### Endpoint/extension order
+
+We’re not yet set on whether general path should look like `<extension>/<endpoint>` or `<endpoint>/<extension>`. The later might look more logical, but the main issue is extensions that don’t need endpoint. The former case handles that better.
+
+## Glossary
+
+- Endpoint — end device that produces data. The user is interested in differentiating all endpoints. Endpoint can be virtual.
+- Client — an application that uses a single “connection” to the Kaa server. One application can represent multiple endpoints.
+- Resource path — unique resource identifier included in each request. For MQTT, that’s Topic Name; for CoAP—URI-Path.
+- Extension — a piece of functionality offered to the client by the server. It is usually represented by a separate resource. Examples of extensions are data collection, configuration, profiling.
