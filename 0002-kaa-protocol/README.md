@@ -148,6 +148,10 @@ It’s good to keep topic names short. Maybe, we can introduce topic aliases, so
 
 We’re not yet set on whether general path should look like `<extension>/<endpoint>` or `<endpoint>/<extension>`. The later might look more logical, but the main issue is extensions that don’t need endpoint. The former case handles that better.
 
+- `<endpoint>/<extension>` - from the architecture point of view, this option nicely works for the extensions which require `endpoint`. As for extensions which don't require `endpoint` the solution isn't the best fit - `endpoint` part of address token can not be easily dropped. As a workaround an artificial `endpoint` can be used to indicate that an extension don't need `endpoint` e.g. `<no_endpoint>/<extension>`. Though the solution works, it requires user to take this fact into account while developing extensions, what can be inconvenient - no one likes to deal with things which are not used.
+- `<extension>/<endpoint>` - this solution covers both cases. In case if extensions require `endpoint`, it is required user to implement the handlers for `endpoint` inside of each extension he develops. Nevertheless the solution allows to drop `endpoint` part easily if it is not required and sometimes only extensions know what `endpoint` means and how to handle the information stream from a specific endpoint.
+
+
 ## Glossary
 
 - Endpoint — end device that produces data. The user is interested in differentiating all endpoints. Endpoint can be virtual.
