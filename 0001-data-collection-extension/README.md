@@ -111,6 +111,8 @@ If `id` field is present, the server will post a processing confirmation respons
 <endpoint_token>/json/status
 ```
 
+_Note: we might have used MQTT packet id, but in that case we lose ability to work via gateways as MQTT packet id is different for client and server._
+
 Processing confirmation response is a JSON record with the following fields:
 - `id` a copy of the `id` field from the corresponding request.
 - `status` a human-readable string explaining the cause of an error (if any). In case processing was sucessful, it is `"ok"`.

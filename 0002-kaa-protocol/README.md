@@ -12,13 +12,11 @@ The document describes general guidelines, principles, requirements for **Kaa pr
 
 ## Requirements and constraints
 
-- The protocol should work over both **TCP** and **UDP** internet layers.
-- The protocol should allow clients to connect to a server without using any SDKs and with minimum custom implementation.
-- The protocol should allow clients to have the ability to establish either secure or non-secure connection. The non-secure connection can be used in case if client performance decreases gratefully while encrypting data.
-- The protocol should work over MQTT and CoAP. Generally, it should work over any of application level transport protocols.
-- The protocol should be extensible enough to be supplemented via users extensions.
-- The protocol should allow clients to work through any gateways e.g. **MQTT** gateways or **MQTT-SN** gateways.
-
+- Clients must be able to connect to Kaa server without using a Kaa SDK and with minimum custom implementation.
+- Encrypted and unencrypted channels should be supported.
+- Protocol should work over MQTT and CoAP.
+- Protocol must be extensible to support future extensions.
+- Clients should be able to work through MQTT gateways. That also includes MQTT-SN gateways.
 
 ## Use cases
 
@@ -30,6 +28,7 @@ Mass production. All devices share the same firmware, and there is no means to m
 
 A gateway. Multiple constrained devices communicate with Kaa server by means of a gateway. Gateway is a traditional Kaa client and uses Kaa protocol to communicate with the server. On the other hand, end devices use a custom (proprietary) protocol to communicate with the gateway.
 
+// TODO: add more use cases. Especially, non-embedded ones + web
 
 ## Design
 
@@ -43,7 +42,7 @@ An endpoint is:
 
 > An independently managed client-side entity within a Kaa deployment. Kaa represents every managed entity – device, sensor, mobile phone, etc. – as an endpoint.
 
-Starting from Kaa 1.0, we differentiate between [clients and endpoints](#Glossary).
+Starting from Kaa 1.0, we differentiate between clients and endpoints. See [glossary section](#Glossary).
 
 ### Extensions
 
@@ -61,9 +60,9 @@ _Token_ is an opaque data blob that uniquely identifies an endpoint. Each endpoi
 
 There are two possibilities for a client to get an endpoint token: it is either pre-provisioned into the application, or requested at run-time via an extension _(endpoint registration)_. Using an extension allows implementing different registration schemes as well as changing and allocating endpoint tokens dynamically.
 
-**NOTE:** the server may require endpoint registration before using by specific client. That way we can prevent endpoint stealing to some degree.
+_Note: the server may require endpoint registration before using by specific client. That way we can prevent endpoint stealing to some degree._
 
-**NOTE:** we can assign endpoint tokens per client session. That’s more secure and allows using short non-secure tokens.
+_Note: we can assign endpoint tokens per client session. That’s more secure and allows using short non-secure tokens._
 
 On the other hand, using a predefined token is a simpler but less secure alternative. In that case, the endpoint is manually added to the server, the server allocates a unique token and provides it to the user, the user hard-codes the token in the application.
 
@@ -89,17 +88,18 @@ All paths have a **kaa** prefix. (It’s likely to be configurable in the future
 
 The rest of the path is extension-specific and is described in separate documents. Note that endpoint token is not part of the first part of resource path as there are extensions that don’t require endpoint identity (e.g., endpoint registration extension).
 
-**NOTE:** it might be good to restrict extension usage. That’s best handled by filtering clients, not endpoints (as we don’t really authenticate endpoints).
+_Note: it might be good to restrict extension usage. That’s best handled by filtering clients, not endpoints (as we don’t really authenticate endpoints)._
 
 
 ## Extension design guidelines
 
 While extensions have all the freedom to define their own resource hierarchies, payload format, and communication template, they all need a set of rules to make them uniform.
 
-The current solution suggest the following format:
-
+Examples of extension specific paths are:
 ```
-<endpoint>/<format>[/<schema>]
+/<endpoint_token>/json
+/protobuf/<scheme_id>
+/json/status
 ```
 
 ### Endpoint-specific and nonspecific extensions
@@ -122,22 +122,6 @@ Many extensions require request/response style communication, which is not suppo
 
 We introduce `/status` topic for response messages. In case original payload contains “packet_id” response should be published in that topic.
 
-### Payload fields
-
-```
-{
-    <extension specific payload>,
-    ["timestamp": timestamp],
-    ["packet_id": packet_id]
-}
-```
-
-`timestamp` field is optional. If it’s not present, server uses packet delivery time.
-
-`packet_id` field is required for request/response operations. If the field is present, response containing proper packet_id should be published under `<request_topic>/status`.
-
-**NOTE:** we might have used MQTT packet id, but in that case we lose ability to work via gateways as MQTT packet id is different for client and server.
-
 ## Open questions
 
 ### Topic name aliases
@@ -146,15 +130,15 @@ It’s good to keep topic names short. Maybe, we can introduce topic aliases, so
 
 ### Endpoint/extension order
 
-We’re not yet set on whether general path should look like `<extension>/<endpoint>` or `<endpoint>/<extension>`. The later might look more logical, but the main issue is extensions that don’t need endpoint. The former case handles that better.
+We’re not yet set on whether general path should look like `<extension_token>/<endpoint_token>` or `<endpoint_token>/<extension_token>`. The later might look more logical, but the main issue is extensions that don’t need endpoint. The former case handles that better.
 
-- `<endpoint>/<extension>` - from the architecture point of view, this option nicely works for the extensions which require `endpoint`. As for extensions which don't require `endpoint` the solution isn't the best fit - `endpoint` part of address token can not be easily dropped. As a workaround an artificial `endpoint` can be used to indicate that an extension don't need `endpoint` e.g. `<no_endpoint>/<extension>`. Though the solution works, it requires user to take this fact into account while developing extensions, what can be inconvenient - no one likes to deal with things which are not used.
-- `<extension>/<endpoint>` - this solution covers both cases. In case if extensions require `endpoint`, it is required user to implement the handlers for `endpoint` inside of each extension he develops. Nevertheless the solution allows to drop `endpoint` part easily if it is not required and sometimes only extensions know what `endpoint` means and how to handle the information stream from a specific endpoint.
+- `<endpoint_token>/<extension_token>` - from the architecture point of view, this option nicely works for the extensions which require `endpoint`. As for extensions which don't require `endpoint` the solution isn't the best fit - `endpoint` part of address token can not be easily dropped. As a workaround an artificial `endpoint` can be used to indicate that an extension don't need `endpoint` (e.g. `0/<extension_token>`). Though the solution works, it requires user to take this fact into account while developing extensions, what can be inconvenient - no one likes to deal with things which are not used.
+- `<extension_token>/<endpoint_token>` - this solution covers both cases. In case if extensions require endpoint, it is required user to implement the handlers for endpoint inside of each extension he develops. Nevertheless the solution allows to drop `endpoint_token` part easily if it is not required and sometimes only extensions know what `endpoint_token` means and how to handle the information stream from a specific endpoint.
 
 
 ## Glossary
 
-- Endpoint — end device that produces data. The user is interested in differentiating all endpoints. Endpoint can be virtual.
-- Client — an application that uses a single “connection” to the Kaa server. One application can represent multiple endpoints.
-- Resource path — unique resource identifier included in each request. For MQTT, that’s Topic Name; for CoAP—URI-Path.
-- Extension — a piece of functionality offered to the client by the server. It is usually represented by a separate resource. Examples of extensions are data collection, configuration, profiling.
+- _Endpoint_ — end device that produces data. The user is interested in differentiating all endpoints. Endpoint can be virtual.
+- _Client_ — an application that uses a single "connection" to the Kaa server. One application can represent multiple endpoints.
+- _Resource path_ — unique resource identifier included in each request. For MQTT, that’s Topic Name; for CoAP—URI-Path.
+- _Extension_ — a piece of functionality offered to the client by the server. It is usually represented by a separate resource. Examples of extensions are data collection, configuration, profiling.
