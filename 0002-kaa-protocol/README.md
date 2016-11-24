@@ -72,8 +72,9 @@ Both MQTT and CoAP have some kind of _resource path_: MQTT has hierarchical topi
 
 We divide resource path into two parts. The first part of the path identifies a specific extension instance, and the second part is extension-specific. That allows extensions to have their own resource hierarchies. This document only describes the first part and gives general recommendation for the second.
 
-Note that MQTT is sensitive to trailing/leading slashes: **a/b/c** is not same as **a/b/c/** or **/a/b/c**. The common path has the next form:
+Note that MQTT is sensitive to trailing/leading slashes: **a/b/c** is not same as **a/b/c/** or **/a/b/c**.
 
+The common path has the next form:
 ```
 kaa/<application_token>/<extension_token>
 ```
@@ -86,9 +87,9 @@ All paths have a **kaa** prefix. (It’s likely to be configurable in the future
 
 // TODO(Alexey Shmalko): not using tokens is more user-friendly, we should discuss that.
 
-The rest of the path is extension-specific and is described in separate documents. Note that endpoint token is not part of the first part of resource path as there are extensions that don’t require endpoint identity (e.g., endpoint registration extension).
+The rest of the path is extension-specific and is described in separate documents. Note that endpoint token is not part of the first part of resource path as there are extensions that don't require endpoint identity (e.g., endpoint registration extension).
 
-_Note: it might be good to restrict extension usage. That’s best handled by filtering clients, not endpoints (as we don’t really authenticate endpoints)._
+_Note: it might be good to restrict extension usage. That's best handled by filtering clients, not endpoints (as we don’t really authenticate endpoints)._
 
 
 ## Extension design guidelines
