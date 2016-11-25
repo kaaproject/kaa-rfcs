@@ -86,7 +86,7 @@ Data collection extension should support uploading arbitrary JSON records as dat
 
 The payload should be a JSON-encoded object with the following fields:
 - `id` (optional) - id of the batch. Should be either string or number.
-- `entries` (required) - an array of data entries. Entry can be of any type.
+- `entries` (required) - an array of data entries. Each one of the entries can be of any type.
 
 Example:
 ```json
@@ -119,7 +119,7 @@ Processing confirmation response is a JSON record with the following fields:
 
 ## Open questions
 ### Batches without id
-If batch does not have an id, the request degrades into a single-field JSON object. It might be good to drop `{"entries": }` part in that case.
+If a batch does not have an id, the request degrades into a single-field JSON object. It might be good to drop `{"entries": }` part in that case.
 
 Example request:
 ```json
