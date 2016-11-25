@@ -70,7 +70,7 @@ Historical data collection. The user is interested in storing all collected data
 To reduce network usage, all records are uploaded in _batches_. All records in a batch are processed as one and have a single response status.
 
 ### Timestamps
-Due to the fact different application might need timestamps in different formats and precision, data collection extension does not provide any special handling for timestamps. That's responsibility of higher layers to interpret any field as a timestamp.
+Due to the fact that different application might need timestamps in different formats and precision, data collection extension does not provide any special handling for timestamps. That's responsibility of higher layers to interpret any field as a timestamp.
 
 #### Absent timestamp handling
 As there is no special field for a timestamp, that's higher level's issue how to handle absent timestamps.
