@@ -6,62 +6,56 @@ editor: Alexey Shmalko <ashmalko@cybervisiontech.com>
 contributors: Alexey Gamov <agamov@cybervisiontech.com>
 ---
 
-// TODO(Alexey Shmalko): remove all terms related to logging. (i.e., rename "log records", "log buckets", etc.)
-
 ## Introduction
 
-This document describes data collection extension. For general statements and principles refer to the [protocol design reference](/0002-kaa-protocol/README.md).
+The Data Collection Extension is a [Kaa Protocol](/0002-kaa-protocol/README.md) extension.
 
-The feature is intended to solve the problem of delivering collected data to a server for further processing (e.g. storing the data, perform analytics).
+It is intended to solve the problem of transfering collected data to a server for further storing or processing.
 
 ## Requirements and constraints
 ### Problems and possible solutions
 
-1. TCP or UDP can be used as a network layer, so it's unknown if the message sent by an endpoint has reached a server. As for UDP, it is clear that there is no delivery guarantee and this issue should be handled on the higher layer - application one. As for TCP, things are not so obvious: though TCP guarantees delivery, an acknowledgment can be lost (in case a connection has been lost), so the endpoint re-transmits the message and the server receives a duplicate.
+1. _Record processing is asynchronous._ Processing might require a significant period of time and may be performed simultaneously or in different order.
 
-  - As for UDP case, QoS can be used for delivery confirmation. As for TCP case, [log batch id](#Glossary) can be used for *a processing confirmation*. *Log batch id* is the token which represents at least one [log record](#Glossary). Log records are sent via [batches](#Glossary). All log records inside the batch have the same *log batch id*.
+2. _The client should know if a record has been delivered and/or processed._ This is needed for client to guarantee data has been processed and free resources.
 
-2. A server should handle different types of data. At one time point the endpoint can send one type of data and at another time point it can send different one. The variety of data types are represented via multiple data formats (JSON, Protocol Buffers) and different data itself.
+   Solutions:
+   - Use QoS levels for message delivery confirmation.
+   - Use QoS levels for message processing confirmation.
 
-  - The issue can be resolved using separate address tokens for all the combinations of data formats with data set. The mean for data sets descriptions is data schemes. A data schemes set and a data formats set should be restricted by an [application version]() e.g. if we have the application v.1.0.0, it supports JSON data format and data schema v.1 then the application can not send data in protobuf format or use another data schema version. For this purpose another application should be created, with another application version. Possible format for address token is:
+     MQTT requires all PUBACK messages appear in the same order as received PUBLISH messages. This creates a synchronization point, which conflicts with asynchronous record processing.
+   - Use separate response messages for processing confirmation
 
-    ```
-    <endpoint>/<format>[/<schema>]
-    ```
+     For CoAP, this is supported by [Separate Response (RFC 7252, Section 5.2.2)](https://tools.ietf.org/html/rfc7252#section-5.2.2).
 
-3. Sometimes data from different endpoint should be handled the different way and a server has no notion of which endpoint sends data to it.
+     For MQTT, this is achieved by publishing a response into the status topic. (See [Kaa Protocol](/0002-kaa-protocol/README.md).)
 
-  - The solution is simple: we can use `<endpoint>` part in the address token to uniquely identify an endpoint.
+3. _A server should handle different types of data._ Different endpoints may send data in a variety of formats; the server should know the format to parse the payload.
 
-4. Internet connection can be slow or unstable or really expensive to waste the traffic.
+   Solutions:
+   - Use distinct resource paths for different formats. Embed `<format_specifier>` into the resource path.
 
-  - There is a need to send as little data as possible. Because of the fact that a logs amount can be sufficient, even in the case with stable connection, adding some excessive meta-data increases overhead in a significant degree. So, possible solutions are:
+4. _The server should know the endpoint that generates the data._
 
-    - Using *batches*. In this case meta-data is added to batches instead of log records and log records are uploaded batch-by-batch, so we save a lot of internet traffic.
-    - Using *delta compression*.
+   Solutions:
+   - Embed `<endpoint_token>` into the resource path.
 
-5. Devices can have no ability to generate timestamps.
+5. _Little network usage._ Internet connection may be slow, unstable, or costly, so the extension should send as little data as possible.
 
-  - Timestamps can be appended on a server. Trade-off here is that timestamps can be quite inaccurate.
+   Solutions:
+   - Upload data in _batches_. A batch is a number of records, which are uploaded in one network packet.
 
-6. A current server may go down.
+6. _A device may have no ability to generate timestamps._
 
-  - A client should have ability to migrate to another server without stopping the client. //TODO: Design an implementation.
-
-7. A client (gateway) may go down.
-
-  - If another client (gateway) is accessible, there is to be the ability for an endpoint to work through the accessible client (gateway). //TODO: Design an implementation.
-
-8. An endpoint can have no persistent storage.
-
-  - The necessary metadata, such as *batch id* should be stored on the server.
+   Solutions:
+   - On the server side, use network packet arrival time as a timestamp.
 
 ## Use cases
 
-### Use case 1
+### UC1
 Device shadow. The user is only interested in the current status of the endpoint parameters. The endpoint updates them periodically.
 
-### Use case 2
+### UC2
 Historical data collection. The user is interested in storing all collected data with timestamps for further processing and visualizing historical trends.
 
 ## Design
@@ -77,16 +71,21 @@ As there is no special field for a timestamp, that's higher level's issue how to
 
 The recommended solution is to save server timestamp upon network message receiving and pass it along the parsed data, so upper layers can use receiving timestamp if needed.
 
+### Request/response
+The extension uses request/response pattern. A response is sent if a bucket requires a processing confirmation.
+
+For MQTT, responses MUST be published at `<request_path>/status`.
+
 ### Formats
 #### Schemeless JSON
-Data collection extension should support uploading arbitrary JSON records as data points at the following resource path:
+The server should support uploading arbitrary JSON records as data points at the following resource path:
 ```
 <endpoint_token>/json
 ```
 
 The payload should be a JSON-encoded object with the following fields:
 - `id` (optional) - id of the batch. Should be either string or number.
-- `entries` (required) - an array of data entries. Each one of the entries can be of any type.
+- `entries` (required) - an array of data entries. Each one of the entries can be of any JSON type.
 
 Example:
 ```json
@@ -102,18 +101,15 @@ Example:
 
 ```json
 {
-  "entries": [ 0 ]
+  "entries": [ 15 ]
 }
 ```
 
-If `id` field is present, the server will post a processing confirmation response at the following resource path:
-```
-<endpoint_token>/json/status
-```
+If `id` field is present, the server MUST respond with a processing confirmation response.
 
-_Note: we might have used MQTT packet id, but in that case we lose ability to work via gateways as MQTT packet id is different for client and server._
+_Note: we might have used MQTT packet id, but in that case we lose ability to work via gateways as a gateway may change MQTT packet id._
 
-Processing confirmation response is a JSON record with the following fields:
+A processing confirmation response is a JSON record with the following fields:
 - `id` a copy of the `id` field from the corresponding request.
 - `status` a human-readable string explaining the cause of an error (if any). In case processing was sucessful, it is `"ok"`.
 
@@ -139,8 +135,6 @@ Cons:
 
 ## Glossary
 
-- Log record — a single data point user is interested in.
-- Log batch — a collection of records that are uploaded within a single transaction.
-- Log batch id - a token which identifies a batch of log records.
-- Application version - //TODO: Discuss what it is.
-- A processing confirmation - an acknowledgment which is sent by a server, which designates that the server has received and processed a message.
+- Record — a single data point user is interested in.
+- Batch — a collection of records that are uploaded within a single transaction.
+- A processing confirmation - an acknowledgment, which designates that the server has finished processing a request.

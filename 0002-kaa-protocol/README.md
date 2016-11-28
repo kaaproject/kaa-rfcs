@@ -34,7 +34,7 @@ A gateway. Multiple constrained devices communicate with Kaa server by means of 
 
 ### Client vs endpoint
 
-According to [glossary](http://kaaproject.github.io/kaa/docs/v0.10.0/Glossary), in Kaa 0.x series, client is:
+According to [the glossary](http://kaaproject.github.io/kaa/docs/v0.10.0/Glossary), in Kaa 0.x series, client is:
 
 > A client-side entity that implements the endpoint functionality. Kaa client typically uses Kaa endpoint SDK to communicate to Kaa server.
 
@@ -127,7 +127,10 @@ We introduce `/status` topic for response messages. In case original payload con
 
 ### Topic name aliases
 
-It’s good to keep topic names short. Maybe, we can introduce topic aliases, so user won’t need to use full-length topic name.
+It's good to keep topic names short. Maybe, we can introduce topic aliases, so user won't need to use full-length topic name.
+
+### Endpoint migration
+An endpoint might migrate between different clients. How possible this use case is?
 
 ### Endpoint/extension order
 
