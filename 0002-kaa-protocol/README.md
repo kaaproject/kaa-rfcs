@@ -134,11 +134,25 @@ An endpoint might migrate between different clients. How possible this use case 
 
 ### Endpoint/extension order
 
-We’re not yet set on whether general path should look like `<extension_token>/<endpoint_token>` or `<endpoint_token>/<extension_token>`. The later might look more logical, but the main issue is extensions that don’t need endpoint. The former case handles that better.
+There is an ongoing discussion whether the general path should look like `<extension_token>/<endpoint_token>` or `<endpoint_token>/<extension_token>`.
 
-- `<endpoint_token>/<extension_token>` - from the architecture point of view, this option nicely works for the extensions which require `<endpoint_token>`. As for extensions which don't require `<endpoint_token>` the solution isn't the best fit - `endpoint` part of address token can not be easily dropped. As a workaround an artificial `endpoint` can be used to indicate that an extension don't need `<endpoint_token>` (e.g. `0/<extension_token>`). Though the solution works, it requires user to take this fact into account while developing extensions, what can be inconvenient - no one likes to deal with things which are not used. Also zero-length topic levels can be used, what seems more appropriate (in this case no magic ids are used). This way address tokens look like `<//<extension_token>`. As for authorization, this order is also more convenient: an upper layer having `endpoint_token` can decide whether it is permitted for an endpoint to work with an extension, so an extension-related part needn't perform validation itself.
-- `<extension_token>/<endpoint_token>` - this solution covers both cases. In case if extensions require endpoint, it is required user to implement the handlers for endpoint inside of each extension he develops. Nevertheless the solution allows to drop `endpoint_token` part easily if it is not required and sometimes only extensions know what `endpoint_token` means and how to handle the information stream from a specific endpoint.
+`<endpoint_token>/<extension_token>` helps handling endpoint authorization at a higher level (if the endpoint has rights to use the requested extension). This simplifies extensions, as they don't need to check endpoint authority.
 
+However, that introduces an issue for extensions that don't require an endpoint; the client can't easily skip `<endpoint_token>` part as the server can't know if it looks at extension or endpoint token.
+
+This might be resolved by introducing a special token, which means "no endpoint".
+
+Examples are:
+- "0".
+- "" (empty). (This leads to paths like this: `kaa/<application_token>//<extension_token>`. `//` part looks confusing, and many may "normalize" it to `/`.)
+
+Though this solution works, it requires user to take this fact into accoung while developing clients, which can be inconvenient -- no one likes to deal with things which are not used.
+
+`<extension_token>/<endpoint_token>` handles no-endpoint extensions better; the client can omit endpoint token from the resource path as the extension knows whether the token is required or not.
+
+However, this solution moves endpoint authorization responsibility on extensions. (Though, this might be facilitated with clever programming abstractions, so that shouldn't be much an issue.)
+
+// TODO: how useful endpoint authorization use case is? (given we authorize clients)
 
 ## Glossary
 
