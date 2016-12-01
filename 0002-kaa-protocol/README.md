@@ -138,7 +138,7 @@ There is an ongoing discussion whether the general path should look like `<exten
 
 `<endpoint_token>/<extension_token>` helps handling endpoint authorization at a higher level (if the endpoint has rights to use the requested extension). This simplifies extensions, as they don't need to check endpoint authority.
 
-However, that introduces an issue for extensions that don't require an endpoint; the client can't easily skip `<endpoint_token>` part as the server can't know whether the current part of a resource token is an extension token or endpoint one.
+However, that introduces an issue for extensions that don't require an endpoint; the client can't easily skip `<endpoint_token>` part as the server can't know whether the current part of a resource path is an extension token or endpoint one.
 
 This might be resolved by introducing a special token, which means "no endpoint".
 
@@ -146,7 +146,7 @@ Examples are:
 - "0".
 - "" (empty). (This leads to paths like this: `kaa/<application_token>//<extension_token>`. `//` part looks confusing, so users may consider it as a mistake and "normalize" it to `/`.)
 
-Though this solution works, it requires user to take this fact into accoung while developing clients. It can be inconvenient -- no one likes to deal with things which are not used.
+Though this solution works, it requires the user to take this fact into account, while developing clients. That may be inconvenient -- no one likes to deal with things which are not used.
 
 `<extension_token>/<endpoint_token>` handles no-endpoint extensions better; the client can omit an endpoint token from the resource path as the extension knows whether the token is required or not.
 
