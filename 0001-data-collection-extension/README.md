@@ -74,7 +74,7 @@ The recommended solution is to save server timestamp upon network message receiv
 ### Request/response
 The extension uses request/response pattern. A response is sent if a bucket requires a processing confirmation.
 
-For MQTT, responses MUST be published at `<request_path>/status`. Each response MUST be published with the same `QoS` as the corresponding request.
+For MQTT, responses MUST be published at `<request_path>/status`. Each response MUST be published with the same QoS as the corresponding request.
 
 ### Formats
 #### Schemeless JSON
