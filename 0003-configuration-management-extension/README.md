@@ -9,7 +9,7 @@ editor: Dmitry Sergeev <dsergeev@cybervisiontech.com>
 
 The Configuration Management Extension is a [Kaa Protocol](/0002-kaa-protocol/README.md) extension.
 
-It is intended to manage endpoint configuration delivery.
+It is intended to manage endpoint configuration distribution.
 
 ## Requirements and constraints
 ### Problems and possible solutions
@@ -19,20 +19,14 @@ It is intended to manage endpoint configuration delivery.
    - Only latest configuration should be sent to an endpoint to reduce amount of traffic.
 _Note:_ Approach for FOTA should be different.
 
-2. _The server should know if a configuration has been delivered and/or applied._ This is needed for server to guarantee configuration has been applied.
+2. _The server should know if a configuration has been delivered._ 
 
    Solutions:
    - Use QoS levels for message delivery confirmation.
-   - Use QoS levels for message processing confirmation.
 
      MQTT requires all PUBACK messages appear in the same order as received PUBLISH messages.
-   - Use separate response messages for processing confirmation
 
-     For CoAP, this is supported by [Separate Response (RFC 7252, Section 5.2.2)](https://tools.ietf.org/html/rfc7252#section-5.2.2).
-
-     For MQTT, this is achieved by publishing a response into the status topic. (See [Kaa Protocol](/0002-kaa-protocol/README.md).)
-
-3. _Configuration management extension obtains configuration from Endpoint Data Provider extensions_
+3. _Configuration management extension obtains configuration from Endpoint Configuration Data Provider extensions_
 
 4. _Endpoint lifecycle events._ CMX should monitor endpoint lifecycle and deliver configuration updates if present.
 
@@ -59,7 +53,7 @@ Configuration delivery as a reaction on EP lifecycle event. The endpoint should 
 ## Design
 
 ### Request/response
-The extension uses request/response pattern. A response from is sent to confirm delivery and/or configuration appliance.
+The extension uses request/response pattern. A response from client is sent to confirm delivery.
 
 For MQTT, responses MUST be published at `<request_path>/status`. Each response MUST be published with the same QoS as the corresponding request.
 
@@ -94,6 +88,6 @@ Example:
 
 _Note: we might have used MQTT packet id, but in that case we lose ability to work via gateways as a gateway may change MQTT packet id._
 
-A processing confirmation response is a JSON record with the following fields:
+A delivery confirmation response is a JSON record with the following fields:
 - `id` a copy of the `id` field from the corresponding request.
 - `status` a human-readable string explaining the cause of an error (if any). In case processing was sucessful, it is `"ok"`.
