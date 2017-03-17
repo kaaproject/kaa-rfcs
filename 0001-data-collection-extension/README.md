@@ -1,6 +1,6 @@
 ---
 name: Data Collection Extension
-shortname: 1/DCX
+shortname: 1/DCE
 status: raw
 editor: Alexey Shmalko <ashmalko@cybervisiontech.com>
 contributors: Alexey Gamov <agamov@cybervisiontech.com>

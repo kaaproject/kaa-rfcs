@@ -14,33 +14,15 @@ It is intended to manage endpoint configuration distribution.
 ## Requirements and constraints
 ### Problems and possible solutions
 
-1. _Multiple configurations available for client._ It is possible that there will be more than one available configurations for endpoint (eg.: endpoint was offline while new configurations were added).
+1. _Multiple configurations available for client._ It is possible that there will be more than one available configurations for endpoint (e.g.: endpoint was offline while new configurations were added).
    Solution:
    - Only latest configuration should be sent to an endpoint to reduce amount of traffic.
-_Note:_ Approach for FOTA should be different.
+_Note:_ Approach for delivering firmware updates over the air should be different.
 
 2. _The server should know if a configuration has been delivered._ 
 
    Solutions:
-   - Use QoS levels for message delivery confirmation.
-
-     MQTT requires all PUBACK messages appear in the same order as received PUBLISH messages.
-
-3. _Configuration management extension obtains configuration from Endpoint Configuration Data Provider extensions_
-
-4. _Endpoint lifecycle events._ CMX should monitor endpoint lifecycle and deliver configuration updates if present.
-
-   Solutions:
-   - Integrate CMX with NATS endpoint lifecycle topic. If there's undelivered configuration updates, then send it when endpoint connects. Also, provide API for endpoint to request latest configuration. 
-
-5. _A device may have no ability to generate timestamps._
-
-   Solutions:
-   - On the server side, use network packet arrival time as a timestamp.
-   
-6. _Override configuration._ CMX should be able to work with different CDP extensions resulting. If there are different configuration records in multiple CDPs for one endpoint, then merge algorithm should be applied.
-   Solutions:
-   - TBD
+   - Send PUBLISH message from client to "/status" topic. See below sections for details.
 
 ## Use cases
 
