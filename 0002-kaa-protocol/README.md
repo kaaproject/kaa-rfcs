@@ -1,7 +1,7 @@
 ---
 name: Kaa Protocol
 shortname: 2/KP
-status: raw
+status: draft
 editor: Alexey Shmalko <ashmalko@cybervisiontech.com>
 contributors: Alexey Gamov <agamov@cybervisiontech.com>
 ---
