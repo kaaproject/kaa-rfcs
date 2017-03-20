@@ -31,7 +31,7 @@ _Note:_ Approach for delivering firmware updates over the air should be differen
 Configuration delivery by request. The endpoint should be able to receive latest configuration from CMX by request.
 
 ### UC2
-Configuration delivery as a reaction on EP lifecycle event. The endpoint should receive latest configuration when it connects to a server if this configuration hadn't applied yet.
+Configuration delivery that is initiated by the server. The endpoint should receive latest configuration when it connects to a server if this configuration hadn't applied yet.
 
 ## Design
 
@@ -130,4 +130,3 @@ A delivery confirmation response is a JSON record with the following fields:
 ## Glossary
 
 - _Endpoint (short: EP)_ — end device that produces data. The user is interested in differentiating all endpoints. Endpoint can be virtual.
-- _EP lifecycle event_ — message inside server infrastructure that notifies services that subscribed to corresponding topic about endpoint state changes (e.g.: "connected", "disconnected", etc)
