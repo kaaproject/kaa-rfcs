@@ -110,14 +110,14 @@ The server should be able to publish endpoint configuration updates at the follo
 The payload is a JSON record with the following fields:
 - `id` a copy of the `id` field from the corresponding request.
 - `configVersion` (required) - version of configuration that is included into the message.
-- `entries` (required) - an array of configuration entries. Each one of the entries can be of any JSON type.
+- `config` (required) - configuration body of an arbitrary JSON type.
 
 Example:
 ```json
 {
   "id": 42,
   "configVersion": 2,
-  "entries": [
+  "config": [
     { "key": "value" },
     15,
     [ "an", "array", 13 ]
