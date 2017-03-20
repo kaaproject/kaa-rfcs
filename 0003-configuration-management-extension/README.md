@@ -51,18 +51,19 @@ The server should be able to listen for configuration request at the following r
 The payload should be a JSON-encoded object with the following fields:
 - `id` (required) - id of the message. Should be either string or number. Used in delivery confirmation process.
 - `currentConfigVersion` - current endpoint configuration version. Should be of integer type. Used by server to determine is it needed to send response with configuration, server must not send configuration record if latest available configuration version equals to the one sent by endpoint. If this field was excluded from the message, then server will send configuration anyway.
-- `config` - an array of configuration entries. Each one of the entries can be of any JSON type.
+- `config` - a json object with configuration fields.
 
 Example:
 ```json
 {
   "id": 42,
   "currentConfigVersion": 1,
-  "config": [
-    { "key": "value" },
-    15,
-    [ "an", "array", 13 ]
-  ]
+  "config": {
+      "key": "value",
+      "array" : [
+          "key2": "value2",
+      ]
+  }
 }
 ```
 
@@ -70,7 +71,7 @@ A server response is a JSON record with the following fields:
 - `id` a copy of the `id` field from the corresponding request.
 - `configVersion` (required) - version of configuration that is included into the message. If there's no new configuration versions and config body isn't included into message, then value of this field will equal to the one provided by endpoint.
 - `status` a human-readable string explaining the cause of an error (if any). In case that request was sucessful, it is `"ok"`.
-- `config` - an array of configuration entries. Each one of the entries can be of any JSON type.
+- `config` - a json object with configuration fields.
 
 Example:
 ```json
@@ -78,11 +79,12 @@ Example:
   "id": 42,
   "configVersion": 2,
   "status": "ok",
-  "config": [
-    { "key": "value" },
-    15,
-    [ "an", "array", 13 ]
-  ]
+  "config": {
+    "key": "value",
+    "array" : [
+        "key2": "value2",
+    ]
+  }
 }
 ```
 
