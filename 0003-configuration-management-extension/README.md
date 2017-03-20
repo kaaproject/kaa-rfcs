@@ -45,7 +45,7 @@ For MQTT, responses MUST be published at `<request_path>/status`. Each response 
 ##### Use case 1
 The server should be able to listen for configuration request at the following resource path:
 ```
-<endpoint_token>/config/request/json
+<endpoint_token>/config/pull/json
 ```
 
 The payload should be a JSON-encoded object with the following fields:
@@ -97,7 +97,7 @@ Example for case when there's no new configuration version for endpoint:
 ##### Use case 2
 The server should be able to publish endpoint configuration updates at the following resource path:
 ```
-<endpoint_token>/config/distribution/json
+<endpoint_token>/config/push/json
 ```
 
 
