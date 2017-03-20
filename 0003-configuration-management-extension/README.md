@@ -14,11 +14,10 @@ It is intended to manage endpoint configuration distribution.
 ## Requirements and constraints
 ### Problems and possible solutions
 
-1. _Multiple configurations available for client._ It is possible that there will be more than one available configurations for endpoint (e.g.: endpoint was offline while new configurations were added).
+1. _Multiple configurations available for client._ It is possible that there will be more than one available configurations for endpoint (e.g., endpoint was offline while new configurations were added).
    
    Solution:
    - Only latest configuration should be sent to an endpoint to reduce amount of traffic.
-_Note:_ Approach for delivering firmware updates over the air should be different.
 
 2. _The server should know if a configuration has been delivered._ 
 
@@ -72,6 +71,10 @@ A server response is a JSON record with the following fields:
 - `configVersion` (required) - version of configuration that is included into the message. If there's no new configuration versions and config body isn't included into message, then value of this field will equal to the one provided by endpoint.
 - `status` a human-readable string explaining the cause of an error (if any). In case that request was sucessful, it is `"ok"`.
 - `config` - configuration body of an arbitrary JSON type.
+Destination topic is 
+```
+<endpoint_token>/push/json
+```
 
 Example:
 ```json
@@ -127,3 +130,11 @@ _Note: we might have used MQTT packet id, but in that case we lose ability to wo
 A delivery confirmation response is a JSON record with the following fields:
 - `id` a copy of the `id` field from the corresponding request.
 - `status` a human-readable string explaining the cause of an error (if any). In case processing was sucessful, it is `"ok"`.
+
+Example:
+```json
+{
+  "id": 42,
+  "status": "ok"
+}
+```
