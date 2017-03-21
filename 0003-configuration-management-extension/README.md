@@ -87,7 +87,7 @@ A server response is a JSON record with the following fields:
 - `config` - configuration body of an arbitrary JSON type.
 Destination topic is 
 ```
-<endpoint_token>/push/json
+<endpoint_token>/pull/status/json
 ```
 
 Example:
@@ -144,7 +144,10 @@ _Note: we might have used MQTT packet id, but in that case we lose ability to wo
 A delivery confirmation response is a JSON record with the following fields:
 - `id` a copy of the `id` field from the corresponding request.
 - `status` a human-readable string explaining the cause of an error (if any). In case processing was sucessful, it is `"ok"`.
-
+The destination topic is 
+```
+<endpoint_token>/push/status/json
+```
 Example:
 ```json
 {
