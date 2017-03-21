@@ -49,20 +49,34 @@ The server should be able to listen for configuration request at the following r
 
 The payload should be a JSON-encoded object with the following fields:
 - `id` (required) - id of the message. Should be either string or number. Used in delivery confirmation process.
-- `configVersion` - current endpoint configuration version. Should be of integer type. Used by server to determine is it needed to send response with configuration, server must not send configuration record if latest available configuration version equals to the one sent by endpoint. If this field was excluded from the message, then server will send configuration anyway.
-- `config` - configuration body of an arbitrary JSON type.
+- `configVersion` - current endpoint configuration version. Should be of integer type.
+- `requiredConfigVersion` - endpoint configuration version that is requested by endpoint. This provides ability to re-send configuration for endpoints that cannot persist the configuration and provides mechanism to request previous configuration versions (roll-back).
+If there's no `requiredConfigVersion` field in message, then server should use `configVersion` to determine is it needed to send response with configuration, server must not send configuration record if latest available configuration version equals to the one sent by endpoint. If this field was excluded from the message, then server will send configuration anyway
 
 Example:
 ```json
 {
   "id": 42,
   "configVersion": 1,
-  "config": {
-      "key": "value",
-      "array" : [
-          "value2"
-      ]
-  }
+  "requiredConfigVersion": 2
+
+}
+```
+Example 2:
+```json
+{
+  "id": 42,
+  "configVersion": 3,
+  "requiredConfigVersion": 2
+
+}
+```
+Example 3:
+```json
+{
+  "id": 42,
+  "configVersion": 1,
+
 }
 ```
 
