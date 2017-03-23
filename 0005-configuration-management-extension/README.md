@@ -1,6 +1,6 @@
 ---
 name: Configuration Management Extension
-shortname: 3/CMX
+shortname: 5/CMX
 status: raw
 editor: Dmitry Sergeev <dsergeev@cybervisiontech.com>
 ---
