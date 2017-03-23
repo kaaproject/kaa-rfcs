@@ -63,9 +63,7 @@ Format of the ECS-to-extension message:
 - `correlationId` (string, required) - refer to [Kaa event-based protocol documentation](/) for description.
 - `timestamp` (number, required) - message creation timestamp.
 - `timeout` (number, required) - amount of milliseconds from `timestamp` 
-- `clientSessionId` (string, optional) - refer to [??](/) for description.
 - `appVersionToken` (string, required) - refer to [??](/) for description.
-- `extensionInstanceId` (string, required) - id of the instance that is message's source or destination. 
 - `endpointId` (string, optional) - refer to [??](/) for description.
 - `contentType` (string, optional) - content-type of the payload content (e.g. "json", "protobuf"). Can be skipped in `status` message.
 - `path` (string, required) - action path from MQTT topic name. For example if MQTT topic is "kaa/<application_token>/<extension_instance_id>/<endpoint_token>/pull/json" then "/pull/json" part is the value for `path` field. This is used by extension to determine which function should be applied to message. Also, ECS uses this field to determine destination topic of the response.
@@ -79,11 +77,7 @@ Example of message from ECS to extension with payload:
   "correlationId" : "1",
   "timestamp" : 1490262793349,
   "timeout" : 3600000,
-  "clientSessionId" : {
-    "string" : "a1d4cfbe-4775-4f15-a7da-f89cb4246397"
-  },
   "appVersionToken" : "89556d5962",
-  "extensionInstanceId" : "9070ad58-e5e6-482d-bd88-bdf79db23b63",
   "endpointId" : {
     "string" : "7ad263ec-3347-4c7d-af89-50c67061367a"
   },
@@ -103,11 +97,7 @@ Example of message from ECS to extension with payload and status:
   "correlationId" : "1",
   "timestamp" : 1490262793349,
   "timeout" : 3600000,
-  "clientSessionId" : {
-    "string" : "a1d4cfbe-4775-4f15-a7da-f89cb4246397"
-  },
   "appVersionToken" : "89556d5962",
-  "extensionInstanceId" : "9070ad58-e5e6-482d-bd88-bdf79db23b63",
   "endpointId" : {
     "string" : "7ad263ec-3347-4c7d-af89-50c67061367a"
   },
@@ -129,11 +119,7 @@ Example of status message from ECS to extension:
   "correlationId" : "1",
   "timestamp" : 1490262793349,
   "timeout" : 3600000,
-  "clientSessionId" : {
-    "string" : "a1d4cfbe-4775-4f15-a7da-f89cb4246397"
-  },
   "appVersionToken" : "89556d5962",
-  "extensionInstanceId" : "9070ad58-e5e6-482d-bd88-bdf79db23b63",
   "endpointId" : {
     "string" : "7ad263ec-3347-4c7d-af89-50c67061367a"
   },
@@ -159,7 +145,6 @@ Format of the extension-to-ECS message:
 - `correlationId` (string, required) - refer to [Kaa event-based protocol documentation](/) for description.
 - `timestamp` (number, required) - message creation timestamp.
 - `timeout` (number, required) - amount of milliseconds from `timestamp` 
-- `clientSessionId` (string, optional) - refer to [??](/) for description.
 - `appVersionToken` (string, required) - refer to [??](/) for description.
 - `extensionInstanceId` (string, required) - id of the instance that is message's source or destination. 
 - `endpointId` (string, optional) - refer to [??](/) for description.
@@ -175,9 +160,6 @@ Example of message from extension to ECS with payload:
   "correlationId" : "1",
   "timestamp" : 1490262793349,
   "timeout" : 3600000,
-  "clientSessionId" : {
-    "string" : "a1d4cfbe-4775-4f15-a7da-f89cb4246397"
-  },
   "appVersionToken" : "89556d5962",
   "extensionInstanceId" : "9070ad58-e5e6-482d-bd88-bdf79db23b63",
   "endpointId" : {
@@ -199,9 +181,6 @@ Example of message from extension to ECS with payload and status:
   "correlationId" : "1",
   "timestamp" : 1490262793349,
   "timeout" : 3600000,
-  "clientSessionId" : {
-    "string" : "a1d4cfbe-4775-4f15-a7da-f89cb4246397"
-  },
   "appVersionToken" : "89556d5962",
   "extensionInstanceId" : "9070ad58-e5e6-482d-bd88-bdf79db23b63",
   "endpointId" : {
@@ -225,9 +204,6 @@ Example of status message from extension to ECS:
   "correlationId" : "1",
   "timestamp" : 1490262793349,
   "timeout" : 3600000,
-  "clientSessionId" : {
-    "string" : "a1d4cfbe-4775-4f15-a7da-f89cb4246397"
-  },
   "appVersionToken" : "89556d5962",
   "extensionInstanceId" : "9070ad58-e5e6-482d-bd88-bdf79db23b63",
   "endpointId" : {

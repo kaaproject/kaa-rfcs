@@ -15,12 +15,6 @@
     "name" : "timeout",
     "type" : "long"
   }, {
-    "name" : "clientSessionId",
-    "type" : [ {
-      "type" : "string",
-      "avro.java.string" : "String"
-    }, "null" ]
-  }, {
     "name" : "appVersionToken",
     "type" : {
       "type" : "string",
