@@ -1,7 +1,7 @@
 ---
 name: Communication protocol between Endpoint Communication Service and extension service
 shortname: 5/ECS2EXT
-status: draft
+status: raw
 editor: Dmitry Sergeev <dsergeev@cybervisiontech.com>
 ---
 
@@ -19,17 +19,17 @@ It is intended to solve the problem of communication between ECS and any extensi
    Solutions:
    - Protocol contains field named "status" that is used to send error message or confirm successful delivery. 
    
-2. _Ability to determine which Avro schema should be used on extension to deserialize payload._ 
+2. _Ability to determine which Avro schema should be used on extension to deserialize `payload` field._ 
 
    Solutions:
    - MQTT path (e.g. "config/pull", "log/send" etc) will be passed as a `path` field in ECS2EXT protocol.
 
-3. _Ability to send payload in to directions._ 
+3. _Ability to send payload in two directions._ 
 
    Solutions:
-   - Protocol message contain `payload` field for both directions: from ECS to extension and vice versa.
+   - Protocol message contains `payload` field for both directions: from ECS to extension and vice versa.
    
-4. _Ability to send acknowledge (status) message without payload._
+4. _Ability to send acknowledgement (status) message without payload._
 
    Solutions:
    - `payload` and `contentType` fields are optional.
@@ -66,7 +66,7 @@ Format of the ECS-to-extension message:
 - `clientSessionId` (string, optional) - refer to [??](/) for description.
 - `appVersionToken` (string, required) - refer to [??](/) for description.
 - `extensionInstanceId` (string, required) - id of the instance that is message's source or destination. 
-- `endpointId` (string, required) - refer to [??](/) for description.
+- `endpointId` (string, optional) - refer to [??](/) for description.
 - `contentType` (string, optional) - content-type of the payload content (e.g. "json", "protobuf"). Can be skipped in `status` message.
 - `path` (string, required) - action path from MQTT topic name. For example if MQTT topic is "kaa/<application_token>/<extension_instance_id>/<endpoint_token>/pull/json" then "/pull/json" part is the value for `path` field. This is used by extension to determine which function should be applied to message. Also, ECS uses this field to determine destination topic of the response.
 - `payload` (bytes, optional) - serialized message content. Can be skipped in `status` message.
@@ -162,7 +162,7 @@ Format of the extension-to-ECS message:
 - `clientSessionId` (string, optional) - refer to [??](/) for description.
 - `appVersionToken` (string, required) - refer to [??](/) for description.
 - `extensionInstanceId` (string, required) - id of the instance that is message's source or destination. 
-- `endpointId` (string, required) - refer to [??](/) for description.
+- `endpointId` (string, optional) - refer to [??](/) for description.
 - `contentType` (string, optional) - content-type of the payload content (e.g. "json", "protobuf"). Can be skipped in `status` message.
 - `path` (string, required) - action path from MQTT topic name. For example if MQTT topic is "kaa/<application_token>/<extension_instance_id>/<endpoint_token>/pull/json" then "/pull/json" part is the value for `path` field. This is used by extension to determine which function should be applied to message. Also, ECS uses this field to determine destination topic of the response.
 - `payload` (bytes, optional) - serialized message content. Can be skipped in `status` message.
@@ -247,5 +247,5 @@ Example of status message from extension to ECS:
 ## Glossary
 
 - ECS2EXT -- name of the protocol used in communication between Endpoint Communication Service and extension service
-- ECS -- shot name for Endpoint Communication Service
+- ECS -- short name for Endpoint Communication Service
 - `status` message -- message that contains `status` field value, but `payload` and `contentType` values are missing. Used in delivery confirmation process.
