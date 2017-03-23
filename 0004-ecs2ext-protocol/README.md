@@ -57,6 +57,10 @@ ECS should send message using NATS to the next subject:
 ```
 kaa.{protocol-version}.service.{service-instance-id}
 ```
+Also, ECS should include NATS `replyTo` field which should point to ECS replica that will handle response:
+```
+kaa.{protocol-version}.service.{service-instance-id}.{service-instance-replica-id} 
+```
 Refer to [Kaa event-based protocol documentation](/) for `protocol-version` and `service-instance-id` parameters.
 
 Format of the ECS-to-extension message:
