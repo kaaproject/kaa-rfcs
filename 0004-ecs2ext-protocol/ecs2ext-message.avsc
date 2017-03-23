@@ -1,0 +1,63 @@
+{
+  "type" : "record",
+  "name" : "EcsToExtensionInboundMessage",
+  "namespace" : "org.kaaproject.ipc.ecskp2ext.gen.v1",
+  "fields" : [ {
+    "name" : "correlationId",
+    "type" : {
+      "type" : "string",
+      "avro.java.string" : "String"
+    }
+  }, {
+    "name" : "timestamp",
+    "type" : "long"
+  }, {
+    "name" : "timeout",
+    "type" : "long"
+  }, {
+    "name" : "clientSessionId",
+    "type" : [ {
+      "type" : "string",
+      "avro.java.string" : "String"
+    }, "null" ]
+  }, {
+    "name" : "appVersionToken",
+    "type" : {
+      "type" : "string",
+      "avro.java.string" : "String"
+    }
+  }, {
+    "name" : "extensionInstanceId",
+    "type" : {
+      "type" : "string",
+      "avro.java.string" : "String"
+    }
+  }, {
+    "name" : "endpointId",
+    "type" : [ {
+      "type" : "string",
+      "avro.java.string" : "String"
+    }, "null" ]
+  }, {
+    "name" : "contentType",
+    "type" : [ {
+      "type" : "string",
+      "avro.java.string" : "String"
+    }, "null" ]
+  }, {
+    "name" : "payload",
+    "type" : [ "bytes", "null" ]
+  }, {
+    "name" : "status",
+    "type" : [ {
+      "type" : "string",
+      "avro.java.string" : "String"
+    }, "null" ]
+  }, {
+    "name" : "path",
+    "type" : {
+      "type" : "string",
+      "avro.java.string" : "String"
+    }
+  } ]
+}
