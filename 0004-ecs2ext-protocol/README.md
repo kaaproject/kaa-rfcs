@@ -71,7 +71,7 @@ Format of the ECS-to-extension message:
 - `path` (string, required) - action path from MQTT topic name. For example if MQTT topic is "kaa/<application_token>/<extension_instance_id>/<endpoint_token>/pull/json" then "/pull/json" part is the value for `path` field. This is used by extension to determine which function should be applied to message. Also, ECS uses this field to determine destination topic of the response.
 - `payload` (bytes, optional) - serialized message content. Can be skipped in `status` message.
 - `status` (string, optional) - message status. Main field for `status` message.
-Avro schema can be found [here](0004-ecs2ext-protocol/ecs2ext-message.avsc).
+Avro schema can be found [here](./ecs2ext-message.avsc).
 
 Example of message from ECS to extension with payload:
 ```
@@ -167,7 +167,7 @@ Format of the extension-to-ECS message:
 - `path` (string, required) - action path from MQTT topic name. For example if MQTT topic is "kaa/<application_token>/<extension_instance_id>/<endpoint_token>/pull/json" then "/pull/json" part is the value for `path` field. This is used by extension to determine which function should be applied to message. Also, ECS uses this field to determine destination topic of the response.
 - `payload` (bytes, optional) - serialized message content. Can be skipped in `status` message.
 - `status` (string, optional) - message status. Main field for `status` message.
-Avro schema can be found [here](0004-ecs2ext-protocol/ext2ecs-message.avsc).
+Avro schema can be found [here](ext2ecs-message.avsc).
 
 Example of message from extension to ECS with payload:
 ```
