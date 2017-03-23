@@ -119,7 +119,7 @@ Example for the case when there's no new configuration version for endpoint:
 ``` 
 
 ##### Use case 2
-Client can listen to incoming endpoint configuration updates at the following resource path:
+Client can listen for incoming endpoint configuration updates at the following resource path:
 ```
 <endpoint_token>/push/json
 ```
