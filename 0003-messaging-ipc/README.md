@@ -27,20 +27,20 @@ In targeted messaging typically two subscription subject prefixes are used per s
 Depending on the load balancing strategy, service instance replicas may subscribe in a queue group.
 In such case the queue name should match the service instance identifier.
 
-The subject prefix format is:
+  The subject prefix format is:
 
-`kaa.v1.service.{service-instance-id}`
+  `kaa.v1.service.{service-instance-id}`
 
-where `{service-instance-id}` is the service instance identifier.
+  where `{service-instance-id}` is the service instance identifier.
 
 - **Service replica-specific subject** is specific for each service instance replica.
 Typically used as a `replyTo` subject when a service expects a processing response from a receiving service.
 
-The subject prefix format is:
+  The subject prefix format is:
 
-`kaa.v1.service.{service-instance-id}.{service-instance-replica-id}`
+  `kaa.v1.service.{service-instance-id}.{service-instance-replica-id}`
 
-where `{service-instance-replica-id}` is the service replica identifier.
+  where `{service-instance-replica-id}` is the service replica identifier.
 
 ### Targeted message common fields
 
@@ -49,7 +49,7 @@ Each targeted message must contain the following fields:
 - `correlationId` (String, required) - primary used for tracking the message processing across the services.
 This field must be logged according to kaaiot.io logging standards.
 
-##Broadcast messaging
+## Broadcast messaging
 
 NATS subjects format
 
