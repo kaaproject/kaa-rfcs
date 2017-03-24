@@ -7,13 +7,15 @@ contributors: Alexey Gamov <agamov@cybervisiontech.com>
 ---
 
 ## Introduction
-The document describes the general requirements, principles, design and guidelines for the **Kaa Protocol** (KP).
+The document describes the general requirements, principles, design and guidelines for the **Kaa Protocol** (KP) version 1.
 KP is a standard protocol designed for connecting clients and endpoints (colloquially - devices) to a Kaa server.
 
 ## Requirements and constraints
+- KP must support asynchronous messaging.
 - Clients must be able to connect to Kaa server without using an SDK and with minimum custom implementation.
 - Encrypted and unencrypted channels must be supported.
-- KP should work over MQTT and CoAP.
+- KP must be able to work over MQTT v3.1 and later.
+- KP should be able to work over CoAP.
 - KP must be extensible to support future extensions.
 - Clients should be able to work through MQTT gateways. That also includes MQTT-SN gateways.
 - KP must support client authentication.
@@ -27,7 +29,7 @@ Every device has an individual set of credentials that they use to authenticate 
 The credentials may be loaded into the device at the factory or set by the device user.
 
 ### UC2: mass production device
-All devices share the same firmware, and there are no unique credentials that can be loaded of set per device.
+All devices share the same firmware, and there are no per-device unique credentials that can be loaded.
 However, they have distinct embedded hardware identifiers (e.g., MAC addresses).
 
 ### UC3: actor gateway
@@ -83,8 +85,9 @@ This document only describes the first part and provides requirements and recomm
 The common resource path part has the following format:
 `kaa/<appversion_name>/<extension_instance_name>`
 
-All KP resource paths start with `kaa`.
-This helps routing all KP-related traffic though MQTT brokers, as all messages can be matched with a single topic filter: `kaa/#`.
+All KP resource paths start with `kaa`, which is the reserved prefix for KP version 1.
+Future versions of KP will have prefixes such as `kaav2`, `kaav3`, and so on.
+Having a predefined prefix helps routing all KP-related traffic though MQTT brokers, as all messages can be matched with a single topic filter.
 
 `<appversion_name>` is a unique name that identifies application and its version within a Kaa solution.
 
@@ -118,10 +121,8 @@ For example, use `/json` for JSON-formatted payload, and `/protobuf/<scheme_id>`
 Many extensions require request/response style communication, which is not supported by MQTT natively.
 That is usually overcome by introducing a separate topic name for responses.
 
-We introduce `/status` topic for response messages.
-In case original payload contains `packet_id`, response should be published in that topic.
-
-**Note:** this only applies to client-originating requests.
+Responses must be published to the topic constructed by appending `/status` suffix to the request topic.
+This applies to both server and client responses.
 
 ### Security
 We separate _client authentication_ and _endpoint identification_.
@@ -160,10 +161,14 @@ Maybe we can introduce topic aliases, so user won't need to use full-length topi
 
 ### Endpoint migration
 An endpoint might migrate between different clients.
-How possible this use case is?
 
-### KP versioning
-Need to explicitly define how the future versions of KP will be differentiated.
+#### UC1
+Endpoint is a wearable that communicates through stationary gateways.
+The endpoint thus can be seen through any of the gateways.
+Also, it can be seen through two or more gateways at the same time.
+
+#### UC2
+Endpoint has channel redundancy through two (or more) different gateways (or forward proxies).
 
 ### Reporting errors
 In the current KP design it is not possible to respond with an error to a specific message.
@@ -172,6 +177,9 @@ Errors may be:
 - wrong extension instance name;
 - unauthorized (EP token not found);
 - etc.
+
+### QoS
+Which MQTT QoS levels compliant implementations must support?
 
 ### Security
 - Which authentication combinations should the KP implementations support?
