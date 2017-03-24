@@ -1,5 +1,5 @@
 ---
-name: Kaa Protocol
+name: Communication protocol between CMX and CDP services
 shortname: 5/CMX2CDP
 status: raw
 editor: Andrew Pasika <apasika@cybervisiontech.com>
