@@ -1,6 +1,6 @@
 ---
 name: Communication protocol between Endpoint Communication Service and extension service
-shortname: 5/ECS2EXT
+shortname: 4/ECS2EXT
 status: raw
 editor: Dmitry Sergeev <dsergeev@cybervisiontech.com>
 ---
@@ -66,7 +66,7 @@ Refer to [Kaa event-based protocol documentation](/) for `protocol-version`, `se
 Format of the ECS-to-extension message:
 - `correlationId` (string, required) - refer to [Kaa event-based protocol documentation](/) for description.
 - `timestamp` (number, required) - message creation timestamp.
-- `timeout` (number, required) - amount of milliseconds from `timestamp` 
+- `timeout` (number, required) - amount of milliseconds from `timestamp`. Value '0' means "the request does not time out".
 - `appVersionToken` (string, required) - refer to [??](/) for description.
 - `endpointId` (string, optional) - refer to [??](/) for description.
 - `contentType` (string, optional) - content-type of the payload content (e.g. "json", "protobuf"). Can be skipped in `status` message.
@@ -148,7 +148,7 @@ Refer to [Kaa event-based protocol documentation](/) for `protocol-version` and 
 Format of the extension-to-ECS message:
 - `correlationId` (string, required) - refer to [Kaa event-based protocol documentation](/) for description.
 - `timestamp` (number, required) - message creation timestamp.
-- `timeout` (number, required) - amount of milliseconds from `timestamp` 
+- `timeout` (number, required) - amount of milliseconds from `timestamp`. Value '0' means "the request does not time out".
 - `appVersionToken` (string, required) - refer to [??](/) for description.
 - `extensionInstanceId` (string, required) - id of the instance that is message's source or destination. 
 - `endpointId` (string, optional) - refer to [??](/) for description.
