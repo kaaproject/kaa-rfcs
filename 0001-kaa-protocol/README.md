@@ -99,6 +99,9 @@ Thus, for them the resource paths start with:
 
 The rest of the resource path is extension-specific and is described in separate documents that define KP protocol extensions.
 
+### MQTT QoS
+KP uses MQTT QoS level 0.
+
 ## Extension design guidelines
 While extensions have all the freedom to define their own resource hierarchies, payload format, and communication template, they all need a set of rules to make them uniform.
 
@@ -159,6 +162,10 @@ In that case, the endpoint is manually added to the server, the server allocates
 It's good to keep topic names short.
 Maybe we can introduce topic aliases, so user won't need to use full-length topic name.
 
+### Status topics
+Would it make sense to move `/status` suffix to some place in the middle of the MQTT path (like between the common and extension-specific parts) instead of the end?
+This would make it easier for clients to subscribe to responses with a wildcard.
+
 ### Endpoint migration
 An endpoint might migrate between different clients.
 
@@ -178,12 +185,8 @@ Errors may be:
 - unauthorized (EP token not found);
 - etc.
 
-### QoS
-Which MQTT QoS levels compliant implementations must support?
-
 ### Security
-- Which authentication combinations should the KP implementations support?
-- Is it possible to send unencrypted, yet signed data?
+Which authentication combinations should the KP implementations support?
 
 ## Glossary
 - _Endpoint_ -- an entity that is managed by the Kaa platform.
