@@ -61,7 +61,7 @@ Also, ECS should include NATS `replyTo` field which should point to ECS replica 
 ```
 kaa.{protocol-version}.service.{service-instance-id}.{service-instance-replica-id} 
 ```
-Refer to [Kaa event-based protocol documentation](/) for `protocol-version` and `service-instance-id` parameters.
+Refer to [Kaa event-based protocol documentation](/) for `protocol-version`, `service-instance-id` and `service-instance-replica-id` parameters.
 
 Format of the ECS-to-extension message:
 - `correlationId` (string, required) - refer to [Kaa event-based protocol documentation](/) for description.
