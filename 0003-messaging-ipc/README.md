@@ -1,8 +1,8 @@
 ---
 name: Messaging IPC
 shortname: 3/MIPC
-status: raw
-contributors: Andrew Kokhanovskyi <akokhanovskyi@cybervisiontech.com>
+status: draft
+editor: Andrew Kokhanovskyi <akokhanovskyi@cybervisiontech.com>
 ---
 
 ## Kaa BB: messaging IPC
@@ -94,5 +94,3 @@ or
 Whenever load balancing across service instance replicas is desired, the service instance ID should be used as a NATS queue group name.
 When all replicas should receive the message, no NATS queue group should be specified on subscription.
 It is up to event listener implementations to subscribe with or without queue groups.
-
----
