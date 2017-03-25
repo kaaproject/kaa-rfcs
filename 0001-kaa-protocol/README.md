@@ -83,24 +83,21 @@ This document only describes the first part and provides requirements and recomm
 **Note:** MQTT is sensitive to trailing/leading slashes: `a/b/c` is not the same as `a/b/c/` or `/a/b/c`.
 
 The common resource path part has the following format:
-`kaa/<appversion_name>/<extension_instance_name>`
+`kp1/<appversion_name>/<extension_instance_name>`
 
-All KP resource paths start with `kaa`, which is the reserved prefix for KP version 1.
-Future versions of KP will have prefixes such as `kaav2`, `kaav3`, and so on.
-Having a predefined prefix helps routing all KP-related traffic though MQTT brokers, as all messages can be matched with a single topic filter.
+All KP resource paths start with `kp1`, which is the reserved prefix for KP version 1.
+Future versions of KP will have prefixes such as `kp2`, `kp3`, and so on.
+Having a predefined prefix helps routing all KP-related traffic through MQTT brokers, as all messages can be matched with a single topic filter (`kp1/#` for KP version 1).
 
-`<appversion_name>` is a unique name that identifies application and its version within a Kaa solution.
+`<appversion_name>` is a unique name that identifies application and its version within a Kaa server.
 
 `<extension_instance_name>` is a name that uniquely identifies an extension instance within the application.
 
-Extension-specific resource path part for endpoint-aware extensions **must** start with the endpoint token.
+Extension-specific resource path part for endpoint-aware extensions MUST start with the endpoint token.
 Thus, for them the resource paths start with:
-`kaa/<appversion_name>/<extension_instance_name>/<endpoint_token>`
+`kp1/<appversion_name>/<extension_instance_name>/<endpoint_token>`
 
 The rest of the resource path is extension-specific and is described in separate documents that define KP protocol extensions.
-
-### MQTT QoS
-KP uses MQTT QoS level 0.
 
 ## Extension design guidelines
 While extensions have all the freedom to define their own resource hierarchies, payload format, and communication template, they all need a set of rules to make them uniform.
@@ -124,7 +121,7 @@ For example, use `/json` for JSON-formatted payload, and `/protobuf/<scheme_id>`
 Many extensions require request/response style communication, which is not supported by MQTT natively.
 That is usually overcome by introducing a separate topic name for responses.
 
-Responses must be published to the topic constructed by appending `/status` suffix to the request topic.
+Responses MUST be published to the topic constructed by appending `/status` suffix to the request topic.
 This applies to both server and client responses.
 
 ### Security
@@ -166,6 +163,17 @@ Maybe we can introduce topic aliases, so user won't need to use full-length topi
 Would it make sense to move `/status` suffix to some place in the middle of the MQTT path (like between the common and extension-specific parts) instead of the end?
 This would make it easier for clients to subscribe to responses with a wildcard.
 
+If it is, it should be placed right after the endpoint token.
+In that case, a wildcard to subscribe to all endpoint responses is `kp1/+/+/<endpoint_token>/status/#`.
+
+Downsides are:
+- The rule seems to be more complex.
+When it is "whatever the request topic is, just append /status", it is really easy to follow.
+
+- Status topics have different directions.
+(Some are client->server, some are server->client.)
+That means that subscribing to all status topics isn't always a good idea.
+
 ### Endpoint migration
 An endpoint might migrate between different clients.
 
@@ -184,6 +192,9 @@ Errors may be:
 - wrong extension instance name;
 - unauthorized (EP token not found);
 - etc.
+
+With MQTT the only option seems to be responding to the `.../status` topic using the MQTT request packet id.
+With CoAP the response can be direct.
 
 ### Security
 Which authentication combinations should the KP implementations support?
