@@ -1,6 +1,6 @@
 ---
 name: Communication protocol between CMX and CDP services
-shortname: 5/CMX2CDP
+shortname: 6/CMX2CDP
 status: raw
 editor: Andrew Pasika <apasika@cybervisiontech.com>
 ---
@@ -9,7 +9,8 @@ editor: Andrew Pasika <apasika@cybervisiontech.com>
 
 The CMX2CDP protocol is a [Kaa BB: messaging IPC](/0003-messaging-ipc/README.md) protocol extension.
 
-It is intended to solve the problem of communication between CMX and CDP.
+CMX2CDP is the protocol designed to communicate endpoint configurations from configuration provider 
+implementations to the configuration management extensions
 
 ## Requirements and constraints
 
@@ -25,7 +26,7 @@ It is intended to solve the problem of communication between CMX and CDP.
     Solutions:
     - CPD should broadcast event that new configuration is available.
 
-3. _It is possible that there are two CPD instances configured to work with different 
+3. _It is possible that there are two CDP instances configured to work with different 
 content types and one originator service instance. When originator service publishes config event 
 message with certain content type it is consumed by both CDPs._
 
@@ -36,15 +37,24 @@ message with certain content type it is consumed by both CDPs._
 CDP should somehow inform endpoint about it.
 
     Solutions:
-    - Use status codes which encapsulate meaningful information: 0 - OK, 1 - FAIL, 2 - NO CONTENT.
+    - Use status codes which encapsulate meaningful information: 
+        - 1x - **Successful.**
+            - 10 - Ok - The request has succeeded.
+        - 2x - **Client Error.**
+            - 20 - Not found - the server has not found anything matching the requested requirements.
+            - 21 - Bad request - the request could not be understood by the server due to malformed syntax.
+        - 3x - **Server Error.**
+            - 30 - Internal Server Error - The server encountered an unexpected condition which prevented it 
+            from fulfilling the request.
+        
 
 #### Key concept
 
 There are two messaging approaches used in CMX-CDP communication:
-* [Targeted messaging](#targeted-messaging)
-* [Broadcast messaging](#broadcast-messaging)
+* [Configuration pull](#configuration-pull)
+* [Configuration push](#configuration-push)
 
-### Targeted messaging
+### Configuration pull
 
 Is used when CMX is intended to request particular configuration.
 
@@ -52,13 +62,13 @@ Is used when CMX is intended to request particular configuration.
 
 CMX should send message using NATS to the next subject:
 
-    kaa.{protocol-version}.service.{service-instance-id}
+    kaa.v1.service.{service-instance-id}
     
 Also, CMX should include NATS `replyTo` field which points to CMX replica that will handle the response:
     
-    kaa.{protocol-version}.service.{service-instance-id}.{service-replica-id}
+    kaa.v1.service.{service-instance-id}.{service-replica-id}
     
-Refer to [Kaa BB: messaging IPC](/0003-messaging-ipc/README.md) for explanation of above subject parts.
+Refer to [Messaging IPC](/0003-messaging-ipc/README.md) for explanation of above subject parts.
 
 #### Targeted message types:
 
@@ -68,11 +78,11 @@ There are next types of such messages:
 
 _“config-request”_ message structure:
 
-- `correlationId` (string, required) - refer to [Kaa BB: messaging IPC](/0003-messaging-ipc/README.md) documentation for description.
-- `timestamp` (number, required) - refer to [Kaa BB: messaging IPC](/0003-messaging-ipc/README.md) documentation for description.
-- `timeout` (number, required) - refer to [Kaa BB: messaging IPC](/0003-messaging-ipc/README.md) documentation for description.
-- `appVersionToken` (string, required) - application version to which configuration schema is applicable.
-- `endpointId` (string, required) - unique identifier of endpoint to which configuration schema is applicable.
+- `correlationId` (string, required) - refer to [Messaging IPC](/0003-messaging-ipc/README.md) documentation for description.
+- `timestamp` (number, required) - timestamp of the message creation time.
+- `timeout` (number, required) - the amount of time from timestamp that message is actual.
+- `appVersionToken` (string, required) - application version to which endpoint configuration is applicable.
+- `endpointId` (string, required) - unique identifier of endpoint to which configuration is applicable.
 - `configVersion` (int, optional) - version of endpoint configuration. If not present, response message will
 hold configuration with latest version.
 
@@ -91,15 +101,15 @@ Example:
 
 _“config-response”_ message structure:
 
-- `correlationId` (string, required) - refer to [Kaa BB: messaging IPC](/0003-messaging-ipc/README.md) documentation for description.
-- `timestamp` (number, required) - refer to [Kaa BB: messaging IPC](/0003-messaging-ipc/README.md) documentation for description.
-- `timeout` (number, required) - refer to [Kaa BB: messaging IPC](/0003-messaging-ipc/README.md) documentation for description.
-- `appVersionToken` (string, required) - application version to which configuration schema is applicable.
-- `endpointId` (string, required) - endpoint unique identifier to which configuration schema is applicable.
-- `contentType` (string, required) - content type of configuration schema, e.g.: json, protobuf.
-- `configVersion` (int, required) - version of configuration schema.
+- `correlationId` (string, required) - see [Messaging IPC](/0003-messaging-ipc/README.md) for description.
+- `timestamp` (number, required) - timestamp of the message creation time.
+- `timeout` (number, required) - the amount of time from timestamp that message is actual.
+- `appVersionToken` (string, required) - application version to which endpoint configuration is applicable.
+- `endpointId` (string, required) - endpoint unique identifier to which configuration is applicable.
+- `contentType` (string, required) - content type of configuration, e.g.: json, protobuf.
+- `configVersion` (int, required) - version of endpoint configuration.
 - `statusCode` (int, required) - status code that holds meaningful information about the result of inbound message processing.
-- `content` (byte[], optional) - content with configuration.
+- `content` (byte[], optional) - content with configuration data.
 
 Example:
 
@@ -118,28 +128,29 @@ Example:
 }
 ```
 
-### Broadcast messaging
+### Configuration push
 
-Event-based approach as described in [Kaa BB: messaging IPC](/0003-messaging-ipc/README.md) documentation can be used as alternative, 
-thus manipulations with configuration schemas are accepted as events.
+Event-based approach as described in [Messaging IPC](/0003-messaging-ipc/README.md) documentation can be used as alternative, 
+thus manipulations with endpoint configurations are accepted as events.
 
 #### Subject structure
 
 CMX and CDP should listen on and send broadcast messages to the next subject:
 
-    kaa.v1.events.{originator-service-instance-id}.endpoint.config.{event-type}
+    kaa.v1.events.{originator-service-instance-name}.endpoint.config.{event-type}
 
-For subject parts explanation refer to [Kaa BB: messaging IPC](/0003-messaging-ipc/README.md).
+For subject parts explanation refer to [Messaging IPC](/0003-messaging-ipc/README.md).
 
 There are next types of such messages:
 
-* _"updated"_ message
-* _"new-available"_ message 
+* _"updated"_ message - is initiated by CMX when it receives notification that particular endpoint has updated 
+configuration. 
+* _"new-available"_ message - is initiated by CDP when it receives new configuration.
 
 _“updated”_ message structure:
 
-- `appVersionToken` (string, required) - application version to which configuration schema is applicable.
-- `endpointId` (string, required) - unique identifier of endpoint to which configuration schema is applicable.
+- `appVersionToken` (string, required) - application version to which endpoint configuration is applicable.
+- `endpointId` (string, required) - unique identifier of endpoint to which configuration is applicable.
 - `configVersion` (string, required) - version of endpoint configuration.
 
 Example:
@@ -157,11 +168,11 @@ Example:
 
 _“new-available”_ message structure:
 
-- `appVersionToken` (string, required) - application version to which configuration schema is applicable.
-- `endpointId` (string, required) - endpoint unique identifier to which configuration schema is applicable.
-- `configVersion` (string, required) - version of configuration schema.
-- `contentType` (string, required) - content type of configuration schema, e.g.: json, protobuf.
-- `content` (byte[], required) - content with configuration.
+- `appVersionToken` (string, required) - application version to which endpoint configuration is applicable.
+- `endpointId` (string, required) - endpoint unique identifier to which configuration is applicable.
+- `configVersion` (string, required) - version of endpoint configuration.
+- `contentType` (string, required) - content type of endpoint configuration, e.g.: json, protobuf.
+- `content` (byte[], required) - content with configuration data.
 
 Example:
 
@@ -180,7 +191,7 @@ Example:
 ```
 
 Regardless of specified above broadcast types all other restriction concerning message 
-fields are applicable from [Kaa BB: messaging IPC](/0003-messaging-ipc/README.md) documentation.
+fields are applicable from [Messaging IPC](/0003-messaging-ipc/README.md) documentation.
 
 ## Use cases
 
