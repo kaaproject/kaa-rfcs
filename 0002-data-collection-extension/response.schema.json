@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "2/DCX response scheme",
+
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": [ "string", "number" ]
+    },
+    "status": {
+      "type": "string"
+    }
+  },
+  "required": [ "id", "status" ],
+  "additionalProperties": false
+}
