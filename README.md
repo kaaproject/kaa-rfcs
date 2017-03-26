@@ -8,3 +8,4 @@ RFCs can be in raw, draft, stable, deprecated, or retired status.
 | [1/KP](0001-kaa-protocol/README.md)               | Draft  |
 | [2/DCX](0002-data-collection-extension/README.md) | Draft  |
 | [3/MIPC](0003-messaging-ipc/README.md)            | Draft  |
+| [6/CMX2CDP](0006-cmx2cdp-protocol/README.md)      | Raw    |
