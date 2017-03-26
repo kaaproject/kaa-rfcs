@@ -3,16 +3,20 @@ name: Kaa Protocol
 shortname: 1/KP
 status: draft
 editor: Alexey Shmalko <ashmalko@cybervisiontech.com>
-contributors: Alexey Gamov <agamov@cybervisiontech.com>
+contributors: Alexey Gamov <agamov@cybervisiontech.com>, Andrew Kokhanovskyi <akokhanovskyi@cybervisiontech.com>
 ---
 
 ## Introduction
 The document describes the general requirements, principles, design and guidelines for the **Kaa Protocol** (KP) version 1.
 KP is a standard protocol designed for connecting clients and endpoints (colloquially - devices) to a Kaa server.
 
+## Language
+
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).
+
 ## Requirements and constraints
 - KP must support asynchronous messaging.
-- Clients must be able to connect to Kaa server without using an SDK and with minimum custom implementation.
+- Clients must be able to connect to a server without using an SDK and with minimum custom implementation.
 - Encrypted and unencrypted channels must be supported.
 - KP must be able to work over MQTT v3.1 and later.
 - KP should be able to work over CoAP.
@@ -33,24 +37,24 @@ All devices share the same firmware, and there are no per-device unique credenti
 However, they have distinct embedded hardware identifiers (e.g., MAC addresses).
 
 ### UC3: actor gateway
-Multiple constrained devices communicate with Kaa server through a gateway.
-Gateway is a Kaa client that uses KP to communicate with the server and represent the end devices.
+Multiple constrained devices communicate with a server through a gateway.
+Gateway is a client that uses KP to communicate with the server and represent the end devices.
 On the other hand, end devices use a custom (proprietary) protocol to communicate with the gateway.
 
 ### UC4: forward proxy
-One or more devices communicate to the Kaa server by using KP and connecting via a forward proxy.
-Forward proxies between the end device and the Kaa server may be chained.
+One or more devices communicate to a server by using KP and connecting via a forward proxy.
+Forward proxies between the end device and a server may be chained.
 
 ## Design
 
 ### Client vs endpoint
 We introduce two following terms.
 
-- _Endpoint_ -- an entity that is managed by the Kaa platform.
+- _Endpoint_ – an entity that is managed by a server.
 Platform users are interested in differentiating all endpoints.
 Endpoints may be either physical or virtual.
 
-- _Client_ -- an application that uses a single "connection" to the server.
+- _Client_ – an application that uses a single "connection" to the server.
 One client may represent multiple endpoints.
 
 ### Extensions
@@ -119,15 +123,17 @@ For example, use `/json` for JSON-formatted payload, and `/protobuf/<scheme_id>`
 
 ### Request/response pattern
 Many extensions require request/response style communication, which is not supported by MQTT natively.
-That is usually overcome by introducing a separate topic name for responses.
+That is overcome by introducing a separate topic name for responses.
 
 Responses MUST be published to the topic constructed by appending `/status` suffix to the request topic.
 This applies to both server and client responses.
 
+Response MUST be published with the same QoS level as the corresponding request.
+
 ### Security
 We separate _client authentication_ and _endpoint identification_.
 During the client authentication, a client and a server should verify each other: client verifies server identity and server verifies that the client is authorized to access the server.
-Note that multiple clients may share the same credentials, and thus server can't identify clients -- it merely verifies the client knows a shared secret.
+Note that multiple clients may share the same credentials, and thus server can't identify clients – it merely verifies the client knows a shared secret.
 
 The client authentication and _session-wide encryption_ are usually handled simultaneously by separate encapsulating protocols (TLS, DTLS, IPSec, none, etc.), so it is not described in this document.
 However, a possible authentication method is using MQTT CONNECT packet with name and password.
@@ -148,7 +154,7 @@ _Note: the server may require endpoint registration before using by specific cli
 _That way we can prevent endpoint stealing to some degree._
 
 _Note: we can assign endpoint tokens per client session._
-_That’s more secure and allows using short non-secure tokens._
+_That's more secure and allows using short non-secure tokens._
 
 On the other hand, using a predefined token is a simpler but less secure alternative.
 In that case, the endpoint is manually added to the server, the server allocates a unique token and provides it to the user, the user embeds the token in the application.
@@ -193,23 +199,24 @@ Errors may be:
 - unauthorized (EP token not found);
 - etc.
 
-With MQTT the only option seems to be responding to the `.../status` topic using the MQTT request packet id.
-With CoAP the response can be direct.
+With MQTT, the only option seems to be responding to the `.../status` topic using the MQTT request packet id. That does not play well with gateways/proxies as they do not preserve packet id.
+
+With CoAP, the response can be direct.
 
 ### Security
 Which authentication combinations should the KP implementations support?
 
 ## Glossary
-- _Endpoint_ -- an entity that is managed by the Kaa platform.
+- _Endpoint_ – an entity that is managed by the Kaa platform.
 Platform users are interested in differentiating all endpoints.
 Endpoints may be either physical or virtual.
 
-- _Client_ -- an application that uses a single "connection" to the server.
+- _Client_ – an application that uses a single "connection" to the server.
 One client may represent multiple endpoints.
 
-- _Resource path_ -- a unique resource identifier included in each request.
+- _Resource path_ – a unique resource identifier included in each request.
 For MQTT that is Topic Name, for CoAP: URI-Paths.
 
-- _Extension_ -- a piece of functionality offered to the client by the server.
+- _Extension_ – a piece of functionality offered to the client by the server.
 It is usually represented by a separate resource.
 Examples of extensions are data collection, configuration management, endpoint metadata synchronization.
