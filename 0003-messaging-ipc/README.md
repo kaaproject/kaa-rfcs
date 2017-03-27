@@ -48,7 +48,7 @@ Typically used as a `replyTo` subject when a service expects a processing respon
 
 Each targeted message must contain the following fields:
 
-- `timestamp` (long, required) - (Unix time)[https://en.wikipedia.org/wiki/Unix_time] in milliseconds when the message was created.
+- `timestamp` (long, required) - [Unix time](https://en.wikipedia.org/wiki/Unix_time) in milliseconds when the message was created.
 
 - `timeout` (long, optional) - the amount of milliseconds since `timestamp` when the message expires at the originating entity.
 `Null` value or `0` indicates no expiration.
@@ -82,7 +82,7 @@ For example, EP connectivity events the types will be connected, disconnected, d
 
 Each broadcast message must contain the following fields:
 
-- `timestamp` (long, required) - (Unix time)[https://en.wikipedia.org/wiki/Unix_time] in milliseconds when the event was created.
+- `timestamp` (long, required) - [Unix time](https://en.wikipedia.org/wiki/Unix_time) in milliseconds when the event was created.
 
 - `timeout` (long, optional) - the amount of milliseconds since `timestamp` when the message expires at the originating entity.
 `Null` value or `0` indicates no expiration.
