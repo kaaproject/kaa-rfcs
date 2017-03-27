@@ -3,19 +3,21 @@ name: Messaging IPC
 shortname: 3/MIPC
 status: draft
 editor: Andrew Kokhanovskyi <akokhanovskyi@cybervisiontech.com>
+contributors: Volodymir Tkhir <vtkhir@cybervisiontech.com>
 ---
 
-## Kaa BB: messaging IPC
+## Introduction
 
 Kaa Banana Beach release uses REST / HTTP API and NATS-based messaging for communication between microservices.
 This document defines the general design principle of the latter type of messaging.
 
-Kaa event-based IPC is classified into two categories:
+Messaging IPC is classified into two categories:
 
 - **Targeted messaging** is used in the cases when the message originator has the intention of communicating with a specific service instance.
 The sender may specify the exact target service replica, or allow NATS select one or more replicas to deliver the message to - depending on the target service instance subscription strategy.
 
 - **Broadcast messaging** is used when the originator intends to publish message without specifying the exact recipients.
+This type of messaging is typically applied to communicate events that occurred and may require reaction from one or more subscribing services.
 Multiple service instances may subscribe to a broadcast event feed for receiving copies of messages.
 
 ## Targeted messaging
@@ -46,14 +48,19 @@ Typically used as a `replyTo` subject when a service expects a processing respon
 
 Each targeted message must contain the following fields:
 
-- `correlationId` (String, required) - primary used for tracking the message processing across the services.
-This field must be logged according to kaaiot.io logging standards.
+- `timestamp` (long, required) - [Unix time](https://en.wikipedia.org/wiki/Unix_time) in milliseconds when the message was created.
+
+- `timeout` (long, optional) - the amount of milliseconds since `timestamp` when the message expires at the originating entity.
+`Null` value or `0` indicates no expiration.
+
+- `correlationId` (String, required) - message tracing ID primarily used for tracking the message processing across services.
+This field must be logged according to (kaaiot.io logging standards)[].
 
 ## Broadcast messaging
 
-NATS subjects format
+### NATS subjects format
 
-The proposed format for events subjects is:
+The proposed format for message subjects is:
 
 `kaa.v1.events.{originator-service-instance}.{target-entity-type}.{event-group}.{event-type}`
 
@@ -69,16 +76,19 @@ Examples: endpoint, client, EP group, etc.
 For example, for endpoint event groups can be connectivity, lifecycle, token (for EP token invalidation notifications across in all services that cached EP tokens), etc.
 
 - `{event-type}` - specific event type.
-For EP connectivity events the types will be connected, disconnected, dormant, awake, etc.
+For example, EP connectivity events the types will be connected, disconnected, dormant, awake, etc.
 
-### Broadcast event common fields
+### Broadcast message common fields
 
-Each broadcast event must contain the following fields:
+Each broadcast message must contain the following fields:
 
-- `correlationId` (String, required) - primary used for tracking the event processing across the services.
-This field must be logged according to kaaiot.io logging standards.
+- `timestamp` (long, required) - [Unix time](https://en.wikipedia.org/wiki/Unix_time) in milliseconds when the event was created.
 
-- `eventTimestamp` (long, required) - timestamp when the event was created.
+- `timeout` (long, optional) - the amount of milliseconds since `timestamp` when the message expires at the originating entity.
+`Null` value or `0` indicates no expiration.
+
+- `correlationId` (String, required) - message tracing ID primarily used for tracking the message processing across services.
+This field must be logged according to (kaaiot.io logging standards)[].
 
 - `originatorReplicaId` (String, optional) - identifier of the service replica that generated the event.
 Some services may use this field to filter out and ignore events they generated themselves.
@@ -86,11 +96,11 @@ Some services may use this field to filter out and ignore events they generated 
 ### Event listeners
 
 Event listeners can subscribe to wildcard subjects.
-For example, `kaa.v1.events.*.endpoint.lifecycle.*` - to subscribe on all endpoint lifecycle events from any originator service
+For example, `kaa.v1.events.*.endpoint.lifecycle.*` - to subscribe to all endpoint lifecycle events from any originator service
 
 or
 
-`kaa.v1.events.service-instance-id.endpoint.>` - to stubscribe for the all endpoint events from the service with instance ID `service-instance-id`.
-Whenever load balancing across service instance replicas is desired, the service instance ID should be used as a NATS queue group name.
+`kaa.v1.events.service-instance-name.endpoint.>` - to subscribe to all endpoint events from the service with instance ID `service-instance-name`.
+Whenever load balancing across service instance replicas is desired, the service instance name should be used as a NATS queue group name.
 When all replicas should receive the message, no NATS queue group should be specified on subscription.
 It is up to event listener implementations to subscribe with or without queue groups.
