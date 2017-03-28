@@ -1,6 +1,12 @@
 # Kaa RFCs
 
 Kaa RFCs define integration protocols, APIs, and general designs for the Kaa IoT platform.
+
+# Change process
+
+Kaa RFC's are developed in compliance with the [C4](https://rfc.zeromq.org/spec:42/C4/) and [COSS](https://rfc.unprotocols.org/spec:2/COSS/) specifications.
+Please refer to these specifications whenever you have difficulty understanding the process, the usage of specific terms, etc.
+
 RFCs can be in raw, draft, stable, deprecated, or retired status.
 
 | RFC                                               | Status |
