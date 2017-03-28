@@ -2,45 +2,53 @@
   "type" : "record",
   "name" : "ClientData",
   "namespace" : "org.kaaproject.ipc.ecs2ext.gen.v1",
-  "doc"  : "ClientData message carries client-originated messages from ECS to extensions",
+  "doc" : "ClientData message carries client-originated messages from ECS to extensions",
   "fields" : [ {
     "name" : "correlationId",
     "type" : {
       "type" : "string",
       "avro.java.string" : "String"
-    }
+    },
+    "doc" : "Message tracing ID primarily used for tracking the message processing across services."
   }, {
     "name" : "timestamp",
-    "type" : "long"
+    "type" : "long",
+    "doc" : "Unix time in milliseconds when the message was created."
   }, {
     "name" : "timeout",
-    "type" : "long"
-  }, {
-    "name" : "appVersionName",
-    "type" : {
-      "type" : "string",
-      "avro.java.string" : "String"
-    }
+    "type" : "long",
+    "doc" : "The amount of milliseconds since timestamp when the message expires at the originating entity."
   }, {
     "name" : "endpointId",
     "type" : [ {
       "type" : "string",
       "avro.java.string" : "String"
-    }, "null" ]
+    }, "null" ],
+    "doc" : "Unique endpoint ID. Null for endpoint-unaware extensions."
+  }, {
+    "name" : "appVersionName",
+    "type" : [ {
+      "type" : "string",
+      "avro.java.string" : "String"
+    }, "null" ],
+    "doc" : "Unique name of the application version that the endpoint identified by the endpointID belongs to. Null for endpoint-unaware extensions."
   }, {
     "name" : "path",
     "type" : {
       "type" : "string",
       "avro.java.string" : "String"
-    }
+    },
+    "doc" : "Action path field that is used to determine the message handling function and the payload format."
   }, {
     "name" : "payload",
-    "type" : [ "bytes", "null" ]
+    "type" : [ "bytes", "null" ],
+    "doc" : "Serialized message content. Can be null in status-only messages."
   }, {
     "name" : "status",
     "type" : [ {
       "type" : "string",
       "avro.java.string" : "String"
-    }, "null" ]
+    }, "null" ],
+    "doc" : "Message processing status. Can be null in payload-only messages."
   } ]
 }

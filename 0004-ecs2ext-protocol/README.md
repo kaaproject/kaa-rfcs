@@ -3,6 +3,7 @@ name: Communication protocol between Endpoint Communication Service and extensio
 shortname: 4/ECS2EXT
 status: raw
 editor: Dmitry Sergeev <dsergeev@cybervisiontech.com>
+contributors: Andrew Kokhanovskyi <akokhanovskyi@cybervisiontech.com>
 ---
 
 ## Introduction
@@ -13,61 +14,22 @@ It is based on the [targeted messaging IPC design](/0003-messaging-ipc/README.md
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).
 
 ## Requirements and constraints
-### Problems and possible solutions
-1. _Message delivery confirmation._
+1. The protocol must support transporting client-originated data to extensions and vice versa.
+2. Some extensions may provide multiple message handling functions and payload formats.
+The protocol must support specification of the handling function and payload format to use for processing transported data.
+3. Some extensions require reporting processing status back to clients with or without any payload.
+4. Some extensions require clients to report processing status with or without any payload.
 
-   Solutions:
-   - Protocol contains field named `status` that is used to send error message or confirm successful processing.
-
-2. _Ability to determine which Avro schema should be used on extension to de-serialize the `payload` field._
-
-   Solutions:
-   - Part of the `path` protocol message field may specify the payload content-encoding (e.g. `json`, `pull/json`, etc.).
-
-3. _Ability to send payload in both directions._
-
-   Solutions:
-   - Protocol message contains `payload` field for both directions: from ECS to extension and vice versa.
-
-4. _Ability to send acknowledgement (status) message without a payload._
-
-   Solutions:
-   - `payload` field is optional.
-
-## Use cases
-
-### UC1
-Endpoint can send some data to extension that should not respond with any data except of a status message for delivery confirmation.
-In that case `payload` fields will be filled only in messages that goes from ECS to extension.
-Message from extension to ECS should contain `status` field filled; `payload` can be dropped.
-Example of extension with such communication: Data Collection Extension.
-
-### UC2
-Endpoint can receive messages from extension with `payload` but respond with `status` message only.
-Example of such case is push notifications from server to client.
-
-### UC3
-Endpoint and extension can send and receive messages with `payload`.
-
-
-## Message exchange
-![](ecs2ext-ipc.png?raw=true)
+## Design
 
 ### Client data transfer to extensions
-ECS should send message using NATS to the next subject: `kaa.v1.service.{service-instance-name}.ecs2ext.ClientData`.
-Also, ECS should include NATS `replyTo` field pointing to the ECS replica that will handle the response: `kaa.v1.service.{service-instance-name}.{service-instance-replica-id}`.
-
-In addition to `correlationId`, `timestamp`, and `timeout` fields that are defined in the [targeted messaging IPC design](/0003-messaging-ipc/README.md), ECS-to-extension message contains the following fields:
-- `appVersionName` (string, required) - refer to [??](/) for description.
-- `endpointId` (string, optional) - refer to [??](/) for description.
-- `path` (string, required) - action path from MQTT topic name. For example if MQTT topic is "kaa/<application_token>/<extension_instance_id>/<endpoint_token>/pull/json" then "/pull/json" part is the value for `path` field. This is used by extension to determine which function should be applied to message. Also, ECS uses this field to determine destination topic of the response.
-- `payload` (bytes, optional) - serialized message content. Can be skipped in `status` message.
-- `status` (string, optional) - message status. Main field for `status` message.
+ECS implementations MUST send message using NATS to the next subject: `kaa.v1.service.{service-instance-name}.ecs2ext.ClientData`.
+Also, ECS SHOULD include NATS `replyTo` field pointing to the ECS replica that will handle the response: `kaa.v1.service.{service-instance-name}.{service-instance-replica-id}`.
 
 The NATS message is a JSON-encoded Avro object.
 The Avro schema can be found [here](./ClientData.avsc).
 
-Example of a message from ECS to extension with payload:
+Example of a ClientData message with payload:
 ```
 {
   "correlationId" : "1",
@@ -85,7 +47,7 @@ Example of a message from ECS to extension with payload:
 }
 ```
 
-Example of a message from ECS to extension with payload and status:
+Example of a ClientData message with payload and status:
 ```
 {
   "correlationId" : "1",
@@ -105,7 +67,7 @@ Example of a message from ECS to extension with payload and status:
 }
 ```
 
-Example of a status message from ECS to extension:
+Example of a ClientData status message:
 ```
 {
   "correlationId" : "1",
@@ -124,27 +86,19 @@ Example of a status message from ECS to extension:
 ```
 
 ### Extension data transfer to clients
-Extensions should send message to ECS using `reply to` NATS field value or to the next subject: `kaa.v1.service.{service-instance-name}.ecs2ext.ExtensionData`.
-
-In addition to `correlationId`, `timestamp`, and `timeout` fields that are defined in the [targeted messaging IPC design](/0003-messaging-ipc/README.md), extension-to-ECS message contains the following fields:
-- `appVersionToken` (string, required) - refer to [??](/) for description.
-- `extensionInstanceId` (string, required) - id of the instance that is message's source or destination.
-- `endpointId` (string, optional) - refer to [??](/) for description.
-- `path` (string, required) - action path from MQTT topic name. For example if MQTT topic is "kaa/<application_token>/<extension_instance_id>/<endpoint_token>/pull/json" then "/pull/json" part is the value for `path` field. This is used by extension to determine which function should be applied to message. Also, ECS uses this field to determine destination topic of the response.
-- `payload` (bytes, optional) - serialized message content. Can be skipped in `status` message.
-- `status` (string, optional) - message status. Main field for `status` message.
+Extensions MUST send message to ECS using `reply to` NATS field value or to the next subject: `kaa.v1.service.{service-instance-name}.ecs2ext.ExtensionData`.
 
 The NATS message is a JSON-encoded Avro object.
 The Avro schema can be found [here](./ExtensionData.avsc).
 
-Example of a message from extension to ECS with payload:
+Example of an ExtensionData message with payload:
 ```
 {
   "correlationId" : "1",
   "timestamp" : 1490262793349,
   "timeout" : 3600000,
-  "appVersionToken" : "89556d5962",
-  "extensionInstanceId" : "9070ad58-e5e6-482d-bd88-bdf79db23b63",
+  "appVersionName" : "89556d5962",
+  "extensionInstanceName" : "9070ad58-e5e6-482d-bd88-bdf79db23b63",
   "endpointId" : {
     "string" : "7ad263ec-3347-4c7d-af89-50c67061367a"
   },
@@ -155,14 +109,15 @@ Example of a message from extension to ECS with payload:
   "path" : "/push/json"
 }
 ```
-Example of a message from extension to ECS with payload and status:
+
+Example of an ExtensionData message:
 ```
 {
   "correlationId" : "1",
   "timestamp" : 1490262793349,
   "timeout" : 3600000,
-  "appVersionToken" : "89556d5962",
-  "extensionInstanceId" : "9070ad58-e5e6-482d-bd88-bdf79db23b63",
+  "appVersionName" : "89556d5962",
+  "extensionInstanceName" : "9070ad58-e5e6-482d-bd88-bdf79db23b63",
   "endpointId" : {
     "string" : "7ad263ec-3347-4c7d-af89-50c67061367a"
   },
@@ -175,14 +130,15 @@ Example of a message from extension to ECS with payload and status:
   "path" : "/push/json"
 }
 ```
-Example of a status message from extension to ECS:
+
+Example of a status ExtensionData message:
 ```
 {
   "correlationId" : "1",
   "timestamp" : 1490262793349,
   "timeout" : 3600000,
-  "appVersionToken" : "89556d5962",
-  "extensionInstanceId" : "9070ad58-e5e6-482d-bd88-bdf79db23b63",
+  "appVersionName" : "89556d5962",
+  "extensionInstanceName" : "9070ad58-e5e6-482d-bd88-bdf79db23b63",
   "endpointId" : {
     "string" : "7ad263ec-3347-4c7d-af89-50c67061367a"
   },
@@ -198,4 +154,5 @@ Example of a status message from extension to ECS:
 
 - ECS2EXT -- name of the protocol used in communication between Endpoint Communication Service and extension service
 - ECS -- short name for Endpoint Communication Service
-- `status` message -- message that contains `status` field value, but `payload` value is missing. Used in delivery confirmation process.
+- payload-only message -- message that contains `payload` field value, but `status` value is missing.
+- status-only message -- message that contains `status` field value, but `payload` value is missing. Used in delivery confirmation process.
