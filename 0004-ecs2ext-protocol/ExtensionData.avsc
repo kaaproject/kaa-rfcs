@@ -1,7 +1,8 @@
 {
   "type" : "record",
-  "name" : "EcsToExtensionInboundMessage",
-  "namespace" : "org.kaaproject.ipc.ecskp2ext.gen.v1",
+  "name" : "ExtensionData",
+  "namespace" : "org.kaaproject.ipc.ecs2ext.gen.v1",
+  "doc"  : "ExtensionData message carries extension-originated messages destined for clients to ECS",
   "fields" : [ {
     "name" : "correlationId",
     "type" : {
@@ -15,28 +16,19 @@
     "name" : "timeout",
     "type" : "long"
   }, {
-    "name" : "appVersionToken",
+    "name" : "appVersionName",
     "type" : {
       "type" : "string",
       "avro.java.string" : "String"
     }
   }, {
+    "name" : "extensionInstanceName",
+    "type" : [ {
+      "type" : "string",
+      "avro.java.string" : "String"
+    }, "null" ]
+  }, {
     "name" : "endpointId",
-    "type" : [ {
-      "type" : "string",
-      "avro.java.string" : "String"
-    }, "null" ]
-  }, {
-    "name" : "contentType",
-    "type" : [ {
-      "type" : "string",
-      "avro.java.string" : "String"
-    }, "null" ]
-  }, {
-    "name" : "payload",
-    "type" : [ "bytes", "null" ]
-  }, {
-    "name" : "status",
     "type" : [ {
       "type" : "string",
       "avro.java.string" : "String"
@@ -47,5 +39,14 @@
       "type" : "string",
       "avro.java.string" : "String"
     }
+  }, {
+    "name" : "payload",
+    "type" : [ "bytes", "null" ]
+  }, {
+    "name" : "status",
+    "type" : [ {
+      "type" : "string",
+      "avro.java.string" : "String"
+    }, "null" ]
   } ]
 }

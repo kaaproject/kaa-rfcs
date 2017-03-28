@@ -29,20 +29,26 @@ In targeted messaging typically two subscription subject prefixes are used per s
 Depending on the load balancing strategy, service instance replicas may subscribe in a queue group.
 In such case the queue name should match the service instance identifier.
 
-  The subject prefix format is:
+  The subject format is:
 
-  `kaa.v1.service.{service-instance-id}`
+  `kaa.v1.service.{service-instance-name}.{protocol-name}.{message-type}`
 
-  where `{service-instance-id}` is the service instance identifier.
+  where:
+  - `{service-instance-name}` is the service instance identifier;
+  - `{protocol-name}` is the name of the specific messaging protocol;
+  - `{message-type}` is the specific type of the message being sent.
 
 - **Service replica-specific subject** is specific for each service instance replica.
 Typically used as a `replyTo` subject when a service expects a processing response from a receiving service.
 
-  The subject prefix format is:
+  The subject format is:
 
-  `kaa.v1.service.{service-instance-id}.{service-instance-replica-id}`
+  `kaa.v1.replica.{service-instance-replica-id}.{protocol-name}.{message-type}`
 
-  where `{service-instance-replica-id}` is the service replica identifier.
+  where:
+  - `{service-instance-replica-id}` is the service replica identifier;
+  - `{protocol-name}` is the name of the specific messaging protocol;
+  - `{message-type}` is the specific type of the message being sent.
 
 ### Targeted message common fields
 
@@ -54,7 +60,7 @@ Each targeted message must contain the following fields:
 `Null` value or `0` indicates no expiration.
 
 - `correlationId` (String, required) - message tracing ID primarily used for tracking the message processing across services.
-This field must be logged according to (kaaiot.io logging standards)[].
+This field must be logged according to the (Kaa logging standards)[].
 
 ## Broadcast messaging
 
@@ -88,7 +94,7 @@ Each broadcast message must contain the following fields:
 `Null` value or `0` indicates no expiration.
 
 - `correlationId` (String, required) - message tracing ID primarily used for tracking the message processing across services.
-This field must be logged according to (kaaiot.io logging standards)[].
+This field must be logged according to the (Kaa logging standards)[].
 
 - `originatorReplicaId` (String, optional) - identifier of the service replica that generated the event.
 Some services may use this field to filter out and ignore events they generated themselves.

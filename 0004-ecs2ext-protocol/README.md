@@ -53,8 +53,8 @@ Endpoint and extension can send and receive messages with `payload`.
 ## Message exchange
 ![](ecs2ext-ipc.png?raw=true)
 
-#### Message from ECS to extension
-ECS should send message using NATS to the next subject: `kaa.v1.service.{service-instance-name}`.
+### Client data transfer to extensions
+ECS should send message using NATS to the next subject: `kaa.v1.service.{service-instance-name}.ecs2ext.ClientData`.
 Also, ECS should include NATS `replyTo` field pointing to the ECS replica that will handle the response: `kaa.v1.service.{service-instance-name}.{service-instance-replica-id}`.
 
 In addition to `correlationId`, `timestamp`, and `timeout` fields that are defined in the [targeted messaging IPC design](/0003-messaging-ipc/README.md), ECS-to-extension message contains the following fields:
@@ -65,7 +65,7 @@ In addition to `correlationId`, `timestamp`, and `timeout` fields that are defin
 - `status` (string, optional) - message status. Main field for `status` message.
 
 The NATS message is a JSON-encoded Avro object.
-The Avro schema can be found [here](./ecs2ext-message.avsc).
+The Avro schema can be found [here](./ClientData.avsc).
 
 Example of a message from ECS to extension with payload:
 ```
@@ -123,8 +123,8 @@ Example of a status message from ECS to extension:
 }
 ```
 
-#### Message from extension to ECS
-Extension should send message to ECS using `reply to` NATS field value or to the next subject: `kaa.v1.service.{service-instance-name}`.
+### Extension data transfer to clients
+Extensions should send message to ECS using `reply to` NATS field value or to the next subject: `kaa.v1.service.{service-instance-name}.ecs2ext.ExtensionData`.
 
 In addition to `correlationId`, `timestamp`, and `timeout` fields that are defined in the [targeted messaging IPC design](/0003-messaging-ipc/README.md), extension-to-ECS message contains the following fields:
 - `appVersionToken` (string, required) - refer to [??](/) for description.
@@ -135,7 +135,7 @@ In addition to `correlationId`, `timestamp`, and `timeout` fields that are defin
 - `status` (string, optional) - message status. Main field for `status` message.
 
 The NATS message is a JSON-encoded Avro object.
-The Avro schema can be found [here](./ext2ecs-message.avsc).
+The Avro schema can be found [here](./ExtensionData.avsc).
 
 Example of a message from extension to ECS with payload:
 ```
