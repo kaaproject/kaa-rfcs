@@ -19,19 +19,19 @@
     "type" : "long",
     "doc" : "The amount of milliseconds since timestamp when the message expires at the originating entity."
   }, {
-    "name" : "endpointId",
-    "type" : [ {
-      "type" : "string",
-      "avro.java.string" : "String"
-    }, "null" ],
-    "doc" : "Unique endpoint ID. Null for endpoint-unaware extensions."
-  }, {
     "name" : "appVersionName",
     "type" : [ {
       "type" : "string",
       "avro.java.string" : "String"
     }, "null" ],
     "doc" : "Unique name of the application version that the endpoint identified by the endpointID belongs to. Null for endpoint-unaware extensions."
+  }, {
+    "name" : "endpointId",
+    "type" : [ {
+      "type" : "string",
+      "avro.java.string" : "String"
+    }, "null" ],
+    "doc" : "Unique endpoint ID. Null for endpoint-unaware extensions."
   }, {
     "name" : "path",
     "type" : {

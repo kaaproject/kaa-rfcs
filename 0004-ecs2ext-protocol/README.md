@@ -44,15 +44,15 @@ Example of a ClientData message with payload:
   "correlationId" : "1",
   "timestamp" : 1490262793349,
   "timeout" : 3600000,
-  "appVersionName" : "89556d5962",
+  "appVersionName" : "humidity-sensor-v3",
   "endpointId" : {
     "string" : "7ad263ec-3347-4c7d-af89-50c67061367a"
   },
+  "path" : "/push/json",
   "payload" : {
-    "bytes" : "skodg'j394gj3q9i0jg03[09j0[3q[jj39g4"
+    "bytes" : "ewogICJpZCI6IDQyLAogICJlbnRyaWVzIjogWwogICAgeyAiaHVtaWRpdHkiOiA4OCB9CiAgXQp9"
   },
-  "status" : null,
-  "path" : "/push/json"
+  "status" : null
 }
 ```
 
@@ -62,17 +62,15 @@ Example of a ClientData message with payload and status:
   "correlationId" : "1",
   "timestamp" : 1490262793349,
   "timeout" : 3600000,
-  "appVersionName" : "89556d5962",
+  "appVersionName" : "humidity-sensor-v3",
   "endpointId" : {
     "string" : "7ad263ec-3347-4c7d-af89-50c67061367a"
   },
+  "path" : "/push/json",
   "payload" : {
-    "bytes" : "skodg'j394gj3q9i0jg03[09j0[3q[jj39g4"
+    "bytes" : "ewogICJpZCI6IDQyLAogICJlbnRyaWVzIjogWwogICAgeyAiaHVtaWRpdHkiOiA4OCB9CiAgXQp9"
   },
-  "status" : {
-    "string" : "ok"
-  },
-  "path" : "/push/json"
+  "status" : 200
 }
 ```
 
@@ -82,15 +80,13 @@ Example of a ClientData status message:
   "correlationId" : "1",
   "timestamp" : 1490262793349,
   "timeout" : 3600000,
-  "appVersionName" : "89556d5962",
+  "appVersionName" : "humidity-sensor-v3",
   "endpointId" : {
     "string" : "7ad263ec-3347-4c7d-af89-50c67061367a"
   },
+  "path" : "/push/json",
   "payload" : null,
-  "status" : {
-    "string" : "ok"
-  },
-  "path" : "/push/json"
+  "status" : 200
 }
 ```
 
@@ -116,16 +112,16 @@ Example of an ExtensionData message with payload:
   "correlationId" : "1",
   "timestamp" : 1490262793349,
   "timeout" : 3600000,
-  "appVersionName" : "89556d5962",
-  "extensionInstanceName" : "9070ad58-e5e6-482d-bd88-bdf79db23b63",
+  "extensionInstanceName" : "humidity-sensor-dcx-1",
+  "appVersionName" : "humidity-sensor-v3",
   "endpointId" : {
     "string" : "7ad263ec-3347-4c7d-af89-50c67061367a"
   },
+  "path" : "/push/json/status",
   "payload" : {
-    "bytes" : "skodg'j394gj3q9i0jg03[09j0[3q[jj39g4"
+    "bytes" : "ewogICJpZCI6IDQyLAogICJzdGF0dXMiOiAib2siCn0="
   },
-  "status" : null,
-  "path" : "/push/json"
+  "status" : null
 }
 ```
 
@@ -135,18 +131,16 @@ Example of an ExtensionData message:
   "correlationId" : "1",
   "timestamp" : 1490262793349,
   "timeout" : 3600000,
-  "appVersionName" : "89556d5962",
-  "extensionInstanceName" : "9070ad58-e5e6-482d-bd88-bdf79db23b63",
+  "extensionInstanceName" : "humidity-sensor-dcx-1",
+  "appVersionName" : "humidity-sensor-v3",
   "endpointId" : {
     "string" : "7ad263ec-3347-4c7d-af89-50c67061367a"
   },
+  "path" : "/push/json/status",
   "payload" : {
-    "bytes" : "skodg'j394gj3q9i0jg03[09j0[3q[jj39g4"
+    "bytes" : "ewogICJpZCI6IDQyLAogICJzdGF0dXMiOiAib2siCn0="
   },
-  "status" : {
-    "string" : "ok"
-  },
-  "path" : "/push/json"
+  "status" : 200
 }
 ```
 
@@ -156,16 +150,14 @@ Example of a status ExtensionData message:
   "correlationId" : "1",
   "timestamp" : 1490262793349,
   "timeout" : 3600000,
-  "appVersionName" : "89556d5962",
-  "extensionInstanceName" : "9070ad58-e5e6-482d-bd88-bdf79db23b63",
+  "extensionInstanceName" : "humidity-sensor-dcx-1",
+  "appVersionName" : "humidity-sensor-v3",
   "endpointId" : {
     "string" : "7ad263ec-3347-4c7d-af89-50c67061367a"
   },
+  "path" : "/push/json/status",
   "payload" : null,
-  "status" : {
-    "string" : "ok"
-  },
-  "path" : "/push/json"
+  "status" : 200
 }
 ```
 
