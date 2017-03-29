@@ -45,10 +45,7 @@
     "doc" : "Serialized message content. Can be null in status-only messages."
   }, {
     "name" : "status",
-    "type" : [ {
-      "type" : "string",
-      "avro.java.string" : "String"
-    }, "null" ],
-    "doc" : "Message processing status. Can be null in payload-only messages."
+    "type" : [ "int", "null" ],
+    "doc" : "Message processing status code. Can be null in requests."
   } ]
 }

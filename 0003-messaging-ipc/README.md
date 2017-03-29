@@ -39,7 +39,7 @@ In such case the queue name SHOULD match the service instance identifier.
   `kaa.v1.service.{service-instance-name}.{protocol-name}.{message-type}`
 
   where:
-  - `{service-instance-name}` is the service instance identifier;
+  - `{service-instance-name}` is the target service instance name;
   - `{protocol-name}` is the name of the specific messaging protocol;
   - `{message-type}` is the specific type of the message being sent.
 
@@ -51,7 +51,7 @@ These subjects are specific for each service instance replica.
   `kaa.v1.replica.{service-instance-replica-id}.{protocol-name}.{message-type}`
 
   where:
-  - `{service-instance-replica-id}` is the service replica identifier;
+  - `{service-instance-replica-id}` is the target service replica name;
   - `{protocol-name}` is the name of the specific messaging protocol;
   - `{message-type}` is the specific type of the message being sent.
 
@@ -73,11 +73,11 @@ This field SHOULD be logged according to the (Kaa logging standards)[].
 
 The proposed format for message subjects is:
 
-`kaa.v1.events.{originator-service-instance}.{target-entity-type}.{event-group}.{event-type}`
+`kaa.v1.events.{originator-service-instance-name}.{target-entity-type}.{event-group}.{event-type}`
 
 where:
 
-- `{originator-service-instance}` - the identifier of the originator service instance.
+- `{originator-service-instance-name}` - the name of the originator service instance.
 Allows consumers to subscribe to events from a specific source.
 
 - `{target-entity-type}` - the target entity type on which a specific event occurred.
