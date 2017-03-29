@@ -20,14 +20,19 @@ The sender may specify the exact target service replica, or allow NATS select on
 This type of messaging is typically applied to communicate events that occurred and may require reaction from one or more subscribing services.
 Multiple service instances may subscribe to a broadcast event feed for receiving copies of messages.
 
+## Language
+
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).
+
 ## Targeted messaging
 
 ### NATS subjects format
 In targeted messaging typically two subscription subject prefixes are used per service instance:
 
-- **Service instance-wide subjects** are common for all service instance replicas.
+#### Service instance-wide subjects
+These subjects are common for all service instance replicas.
 Depending on the load balancing strategy, service instance replicas may subscribe in a queue group.
-In such case the queue name should match the service instance identifier.
+In such case the queue name SHOULD match the service instance identifier.
 
   The subject format is:
 
@@ -38,8 +43,8 @@ In such case the queue name should match the service instance identifier.
   - `{protocol-name}` is the name of the specific messaging protocol;
   - `{message-type}` is the specific type of the message being sent.
 
-- **Service replica-specific subject** is specific for each service instance replica.
-Typically used as a `replyTo` subject when a service expects a processing response from a receiving service.
+#### Service replica-specific subjects
+These subjects are specific for each service instance replica.
 
   The subject format is:
 
@@ -52,7 +57,7 @@ Typically used as a `replyTo` subject when a service expects a processing respon
 
 ### Targeted message common fields
 
-Each targeted message must contain the following fields:
+Each targeted message MUST contain the following fields:
 
 - `timestamp` (long, required) - [Unix time](https://en.wikipedia.org/wiki/Unix_time) in milliseconds when the message was created.
 
@@ -60,7 +65,7 @@ Each targeted message must contain the following fields:
 `Null` value or `0` indicates no expiration.
 
 - `correlationId` (String, required) - message tracing ID primarily used for tracking the message processing across services.
-This field must be logged according to the (Kaa logging standards)[].
+This field SHOULD be logged according to the (Kaa logging standards)[].
 
 ## Broadcast messaging
 
@@ -86,7 +91,7 @@ For example, EP connectivity events the types will be connected, disconnected, d
 
 ### Broadcast message common fields
 
-Each broadcast message must contain the following fields:
+Each broadcast message MUST contain the following fields:
 
 - `timestamp` (long, required) - [Unix time](https://en.wikipedia.org/wiki/Unix_time) in milliseconds when the event was created.
 
@@ -94,19 +99,30 @@ Each broadcast message must contain the following fields:
 `Null` value or `0` indicates no expiration.
 
 - `correlationId` (String, required) - message tracing ID primarily used for tracking the message processing across services.
-This field must be logged according to the (Kaa logging standards)[].
+This field SHOULD be logged according to the (Kaa logging standards)[].
 
 - `originatorReplicaId` (String, optional) - identifier of the service replica that generated the event.
 Some services may use this field to filter out and ignore events they generated themselves.
 
 ### Event listeners
 
-Event listeners can subscribe to wildcard subjects.
+Event listeners may subscribe to wildcard subjects.
 For example, `kaa.v1.events.*.endpoint.lifecycle.*` - to subscribe to all endpoint lifecycle events from any originator service
 
 or
 
 `kaa.v1.events.service-instance-name.endpoint.>` - to subscribe to all endpoint events from the service with instance ID `service-instance-name`.
-Whenever load balancing across service instance replicas is desired, the service instance name should be used as a NATS queue group name.
+Whenever load balancing across service instance replicas is desired, the service instance name SHOULD be used as a NATS queue group name.
 When all replicas should receive the message, no NATS queue group should be specified on subscription.
 It is up to event listener implementations to subscribe with or without queue groups.
+
+## Session affinity
+
+Some services may expect responses to the messages (requests) they send.
+In cases when it is desired that the response is delivered to the same service replica that originated the request, the requesting service MUST set the NATS `replyTo` subject to the [targeted service replica-specific subject](#Service-replica-specific-subjects), where:
+  - `{service-instance-replica-id}` is the requesting service replica identifier;
+  - `{protocol-name}` is the name of the messaging protocol;
+  - `{message-type}` is the expected type of response message.
+
+Whenever the NATS `replyTo` subject is set in a request message, the recipients MUST use that subject to respond with messages of a matching message type.
+In cases when the recipient service needs to respond with a different message type, it is responsible for substituting the last token in the `replyTo` subject accordingly.
