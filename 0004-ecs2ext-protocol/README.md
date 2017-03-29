@@ -112,20 +112,20 @@ Example of an ExtensionData message with payload:
   "correlationId" : "1",
   "timestamp" : 1490262793349,
   "timeout" : 3600000,
-  "extensionInstanceName" : "humidity-sensor-dcx-1",
+  "extensionInstanceName" : "humidity-sensor-cmx-1",
   "appVersionName" : "humidity-sensor-v3",
   "endpointId" : {
     "string" : "7ad263ec-3347-4c7d-af89-50c67061367a"
   },
-  "path" : "/push/json/status",
+  "path" : "/push/json",
   "payload" : {
-    "bytes" : "ewogICJpZCI6IDQyLAogICJzdGF0dXMiOiAib2siCn0="
+    "bytes" : "ewogICJzYW1wbGluZyIgOiAyMDAKfQ=="
   },
   "status" : null
 }
 ```
 
-Example of an ExtensionData message:
+Example of an ExtensionData message with payload and status:
 ```
 {
   "correlationId" : "1",
@@ -144,26 +144,8 @@ Example of an ExtensionData message:
 }
 ```
 
-Example of a status ExtensionData message:
-```
-{
-  "correlationId" : "1",
-  "timestamp" : 1490262793349,
-  "timeout" : 3600000,
-  "extensionInstanceName" : "humidity-sensor-dcx-1",
-  "appVersionName" : "humidity-sensor-v3",
-  "endpointId" : {
-    "string" : "7ad263ec-3347-4c7d-af89-50c67061367a"
-  },
-  "path" : "/push/json/status",
-  "payload" : null,
-  "status" : 200
-}
-```
 
 ## Glossary
 
 - ECS2EXT -- name of the protocol used in communication between Endpoint Communication Service and extension service
 - ECS -- short name for Endpoint Communication Service
-- payload-only message -- message that contains `payload` field value, but `status` value is missing.
-- status-only message -- message that contains `status` field value, but `payload` value is missing. Used in delivery confirmation process.
