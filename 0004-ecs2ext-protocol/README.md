@@ -25,15 +25,15 @@ The protocol must support specification of the handling function and payload for
 ### Client data transfer to extensions
 
 ClientData messages are used by ECS implementations for transferring endpoint-originated data to extension services.
-Non-affinity session messages MUST be published to a [service instance-wide subject](/0003-messaging-ipc/README.md#Service-instance-wide-subjects):
+Non-affinity session messages MUST be published to a [service instance-wide subject](/0003-messaging-ipc/README.md#service-instance-wide-subjects):
 
   `kaa.v1.service.{service-instance-name}.ecs2ext.ClientData`
 
   where `{service-instance-name}` is the target extension service instance name.
 
-In case of affinity sessions ClientData message MUST be published to the [service replica-specific subject](/0003-messaging-ipc/README.md#Service-replica-specific-subjects) defined by the `replyTo` subject in the previously received message that set up the session affinity.
+In case of affinity sessions ClientData message MUST be published to the [service replica-specific subject](/0003-messaging-ipc/README.md#service-replica-specific-subjects) defined by the `replyTo` subject in the previously received message that set up the session affinity.
 
-ECS implementations SHOULD also set `replyTo` subject when sending ClientData messages according to the [session affinity](/0003-messaging-ipc/README.md#Session-affinity) rules.
+ECS implementations SHOULD also set `replyTo` subject when sending ClientData messages according to the [session affinity](/0003-messaging-ipc/README.md#session-affinity) rules.
 
 The NATS message payload is an Avro object.
 The Avro schema can be found [here](./ClientData.avsc).
@@ -93,15 +93,15 @@ Example of a ClientData status message:
 ### Extension data transfer to clients
 
 ExtensionData messages are used by extension services for transferring data to ECS services.
-Non-affinity session messages MUST be published to a [service instance-wide subject](/0003-messaging-ipc/README.md#Service-instance-wide-subjects):
+Non-affinity session messages MUST be published to a [service instance-wide subject](/0003-messaging-ipc/README.md#service-instance-wide-subjects):
 
   `kaa.v1.service.{service-instance-name}.ecs2ext.ExtensionData`
 
   where `{service-instance-name}` is the target ECS service instance name.
 
-In case of affinity sessions ExtensionData message MUST be published to the [service replica-specific subject](/0003-messaging-ipc/README.md#Service-replica-specific-subjects) defined by the `replyTo` subject in the previously received message that set up the session affinity.
+In case of affinity sessions ExtensionData message MUST be published to the [service replica-specific subject](/0003-messaging-ipc/README.md#service-replica-specific-subjects) defined by the `replyTo` subject in the previously received message that set up the session affinity.
 
-Extensions MAY also set `replyTo` subject when sending ExtensionData messages according to the [session affinity](/0003-messaging-ipc/README.md#Session-affinity) rules.
+Extensions MAY also set `replyTo` subject when sending ExtensionData messages according to the [session affinity](/0003-messaging-ipc/README.md#session-affinity) rules.
 
 The NATS message payload is an Avro object.
 The Avro schema can be found [here](./ExtensionData.avsc).

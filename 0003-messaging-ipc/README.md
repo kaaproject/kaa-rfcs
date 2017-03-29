@@ -119,7 +119,7 @@ It is up to event listener implementations to subscribe with or without queue gr
 ## Session affinity
 
 Some services may expect responses to the messages (requests) they send.
-In cases when it is desired that the response is delivered to the same service replica that originated the request, the requesting service MUST set the NATS `replyTo` subject to the [targeted service replica-specific subject](#Service-replica-specific-subjects), where:
+In cases when it is desired that the response is delivered to the same service replica that originated the request, the requesting service MUST set the NATS `replyTo` to the [targeted service replica-specific subject](#service-replica-specific-subjects), where:
   - `{service-instance-replica-id}` is the requesting service replica identifier;
   - `{protocol-name}` is the name of the messaging protocol;
   - `{message-type}` is the expected type of response message.
