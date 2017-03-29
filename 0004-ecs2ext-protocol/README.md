@@ -1,231 +1,151 @@
 ---
-name: Communication protocol between Endpoint Communication Service and extension service
+name: Communication protocol between Endpoint Communication Service and extension services
 shortname: 4/ECS2EXT
 status: raw
 editor: Dmitry Sergeev <dsergeev@cybervisiontech.com>
+contributors: Andrew Kokhanovskyi <akokhanovskyi@cybervisiontech.com>
 ---
 
 ## Introduction
+ECS2EXT is the messaging protocol for communicating between Endpoint Communication Service implementations and the various extension services.
+It is based on the [targeted messaging IPC design](/0003-messaging-ipc/README.md#targeted-messaging).
 
-The ECS2EXT protocol is a [Kaa event-based protocol](/) extension.
-
-It is intended to solve the problem of communication between ECS and any extension service.
+## Language
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).
 
 ## Requirements and constraints
-### Problems and possible solutions
+1. The protocol must support transporting client-originated data to extensions and vice versa.
+2. Some extensions may provide multiple message handling functions and payload formats.
+The protocol must support specification of the handling function and payload format to use for processing transported data.
+3. Some extensions require reporting processing status back to clients with or without any payload.
+4. Some extensions require clients to report processing status with or without any payload.
 
-1. _Message delivery confirmation._
+## Design
 
-   Solutions:
-   - Protocol contains field named "status" that is used to send error message or confirm successful delivery. 
-   
-2. _Ability to determine which Avro schema should be used on extension to deserialize `payload` field._ 
+### Client data transfer to extensions
 
-   Solutions:
-   - MQTT path (e.g. "config/pull", "log/send" etc) will be passed as a `path` field in ECS2EXT protocol.
+ClientData messages are used by ECS implementations for transferring endpoint-originated data to extension services.
+Non-affinity session messages MUST be published to a [service instance-wide subject](/0003-messaging-ipc/README.md#Service-instance-wide-subjects):
 
-3. _Ability to send payload in two directions._ 
+  `kaa.v1.service.{service-instance-name}.ecs2ext.ClientData`
 
-   Solutions:
-   - Protocol message contains `payload` field for both directions: from ECS to extension and vice versa.
-   
-4. _Ability to send acknowledgement (status) message without payload._
+  where `{service-instance-name}` is the target extension service instance name.
 
-   Solutions:
-   - `payload` and `contentType` fields are optional.
-   
-## Use cases
+In case of affinity sessions ClientData message MUST be published to the [service replica-specific subject](/0003-messaging-ipc/README.md#Service-replica-specific-subjects) defined by the `replyTo` subject in the previously received message that set up the session affinity.
 
-### UC1
-Endpoint can send some data to extension that should not respond with any data excepting status message for delivery confirmation.
-In that case `payload` and `contentType` fields will be filled only in messages that goes from ECS to extension. Message from extension to ECS should contain `status` field filled, `payload` and `contentType` can be dropped.
-Example of extension with such communication:```Data collection extension```
+ECS implementations SHOULD also set `replyTo` subject when sending ClientData messages according to the [session affinity](/0003-messaging-ipc/README.md#Session-affinity) rules.
 
-### UC2
-Endpoint can receive messages from extension with `payload` but respond with `status` message only.
-Example of such case is push notifications from server to client.
+The NATS message payload is an Avro object.
+The Avro schema can be found [here](./ClientData.avsc).
 
-### UC3
-Endpoint and extension can send and receive messages with `payload`.
-
-
-### Formats
-#### Avro JSON
-![](ecs2ext-ipc.png?raw=true)
-##### Message from ECS to extension
-ECS should send message using NATS to the next subject:
-```
-kaa.{protocol-version}.service.{service-instance-id}
-```
-Also, ECS should include NATS `replyTo` field which should point to ECS replica that will handle response:
-```
-kaa.{protocol-version}.service.{service-instance-id}.{service-instance-replica-id} 
-```
-Refer to [Kaa event-based protocol documentation](/) for `protocol-version`, `service-instance-id` and `service-instance-replica-id` parameters.
-
-Format of the ECS-to-extension message:
-- `correlationId` (string, required) - refer to [Kaa event-based protocol documentation](/) for description.
-- `timestamp` (number, required) - message creation timestamp.
-- `timeout` (number, required) - amount of milliseconds from `timestamp`. Value '0' means "the request does not time out".
-- `appVersionToken` (string, required) - refer to [??](/) for description.
-- `endpointId` (string, optional) - refer to [??](/) for description.
-- `contentType` (string, optional) - content-type of the payload content (e.g. "json", "protobuf"). Can be skipped in `status` message.
-- `path` (string, required) - action path from MQTT topic name. For example if MQTT topic is "kaa/<application_token>/<extension_instance_id>/<endpoint_token>/pull/json" then "/pull/json" part is the value for `path` field. This is used by extension to determine which function should be applied to message. Also, ECS uses this field to determine destination topic of the response.
-- `payload` (bytes, optional) - serialized message content. Can be skipped in `status` message.
-- `status` (string, optional) - message status. Main field for `status` message.
-Avro schema can be found [here](./ecs2ext-message.avsc).
-
-Example of message from ECS to extension with payload:
+Example of a ClientData message with payload:
 ```
 {
   "correlationId" : "1",
   "timestamp" : 1490262793349,
   "timeout" : 3600000,
-  "appVersionToken" : "89556d5962",
+  "appVersionName" : "humidity-sensor-v3",
   "endpointId" : {
     "string" : "7ad263ec-3347-4c7d-af89-50c67061367a"
   },
-  "contentType" : {
-    "string" : "json"
-  },
+  "path" : "/push/json",
   "payload" : {
-    "bytes" : "skodg'j394gj3q9i0jg03[09j0[3q[jj39g4"
+    "bytes" : "ewogICJpZCI6IDQyLAogICJlbnRyaWVzIjogWwogICAgeyAiaHVtaWRpdHkiOiA4OCB9CiAgXQp9"
   },
-  "status" : null,
-  "path" : "/push/json"
+  "status" : null
 }
 ```
-Example of message from ECS to extension with payload and status:
+
+Example of a ClientData message with payload and status:
 ```
 {
   "correlationId" : "1",
   "timestamp" : 1490262793349,
   "timeout" : 3600000,
-  "appVersionToken" : "89556d5962",
+  "appVersionName" : "humidity-sensor-v3",
   "endpointId" : {
     "string" : "7ad263ec-3347-4c7d-af89-50c67061367a"
   },
-  "contentType" : {
-    "string" : "json"
-  },
+  "path" : "/push/json",
   "payload" : {
-    "bytes" : "skodg'j394gj3q9i0jg03[09j0[3q[jj39g4"
+    "bytes" : "ewogICJpZCI6IDQyLAogICJlbnRyaWVzIjogWwogICAgeyAiaHVtaWRpdHkiOiA4OCB9CiAgXQp9"
   },
-  "status" : {
-    "string" : "ok"
-  },
-  "path" : "/push/json"
+  "status" : 200
 }
 ```
-Example of status message from ECS to extension:
+
+Example of a ClientData status message:
 ```
 {
   "correlationId" : "1",
   "timestamp" : 1490262793349,
   "timeout" : 3600000,
-  "appVersionToken" : "89556d5962",
+  "appVersionName" : "humidity-sensor-v3",
   "endpointId" : {
     "string" : "7ad263ec-3347-4c7d-af89-50c67061367a"
   },
-  "contentType" : {
-    "string" : ""
-  },
+  "path" : "/push/json",
   "payload" : null,
-  "status" : {
-    "string" : "ok"
-  },
-  "path" : "/push/json"
+  "status" : 200
 }
 ```
 
-##### Message from extension to ECS
-Extension should send message to ECS using `reply to` NATS field value or to the next subject:
-```
-kaa.{protocol-version}.service.{service-instance-id}
-```
-Refer to [Kaa event-based protocol documentation](/) for `protocol-version` and `service-instance-id` parameters.
+### Extension data transfer to clients
 
-Format of the extension-to-ECS message:
-- `correlationId` (string, required) - refer to [Kaa event-based protocol documentation](/) for description.
-- `timestamp` (number, required) - message creation timestamp.
-- `timeout` (number, required) - amount of milliseconds from `timestamp`. Value '0' means "the request does not time out".
-- `appVersionToken` (string, required) - refer to [??](/) for description.
-- `extensionInstanceId` (string, required) - id of the instance that is message's source or destination. 
-- `endpointId` (string, optional) - refer to [??](/) for description.
-- `contentType` (string, optional) - content-type of the payload content (e.g. "json", "protobuf"). Can be skipped in `status` message.
-- `path` (string, required) - action path from MQTT topic name. For example if MQTT topic is "kaa/<application_token>/<extension_instance_id>/<endpoint_token>/pull/json" then "/pull/json" part is the value for `path` field. This is used by extension to determine which function should be applied to message. Also, ECS uses this field to determine destination topic of the response.
-- `payload` (bytes, optional) - serialized message content. Can be skipped in `status` message.
-- `status` (string, optional) - message status. Main field for `status` message.
-Avro schema can be found [here](./ext2ecs-message.avsc).
+ExtensionData messages are used by extension services for transferring data to ECS services.
+Non-affinity session messages MUST be published to a [service instance-wide subject](/0003-messaging-ipc/README.md#Service-instance-wide-subjects):
 
-Example of message from extension to ECS with payload:
+  `kaa.v1.service.{service-instance-name}.ecs2ext.ExtensionData`
+
+  where `{service-instance-name}` is the target ECS service instance name.
+
+In case of affinity sessions ExtensionData message MUST be published to the [service replica-specific subject](/0003-messaging-ipc/README.md#Service-replica-specific-subjects) defined by the `replyTo` subject in the previously received message that set up the session affinity.
+
+Extensions MAY also set `replyTo` subject when sending ExtensionData messages according to the [session affinity](/0003-messaging-ipc/README.md#Session-affinity) rules.
+
+The NATS message payload is an Avro object.
+The Avro schema can be found [here](./ExtensionData.avsc).
+
+Example of an ExtensionData message with payload:
 ```
 {
   "correlationId" : "1",
   "timestamp" : 1490262793349,
   "timeout" : 3600000,
-  "appVersionToken" : "89556d5962",
-  "extensionInstanceId" : "9070ad58-e5e6-482d-bd88-bdf79db23b63",
+  "extensionInstanceName" : "humidity-sensor-cmx-1",
+  "appVersionName" : "humidity-sensor-v3",
   "endpointId" : {
     "string" : "7ad263ec-3347-4c7d-af89-50c67061367a"
   },
-  "contentType" : {
-    "string" : "json"
-  },
+  "path" : "/push/json",
   "payload" : {
-    "bytes" : "skodg'j394gj3q9i0jg03[09j0[3q[jj39g4"
+    "bytes" : "ewogICJzYW1wbGluZyIgOiAyMDAKfQ=="
   },
-  "status" : null,
-  "path" : "/push/json"
+  "status" : null
 }
 ```
-Example of message from extension to ECS with payload and status:
+
+Example of an ExtensionData message with payload and status:
 ```
 {
   "correlationId" : "1",
   "timestamp" : 1490262793349,
   "timeout" : 3600000,
-  "appVersionToken" : "89556d5962",
-  "extensionInstanceId" : "9070ad58-e5e6-482d-bd88-bdf79db23b63",
+  "extensionInstanceName" : "humidity-sensor-dcx-1",
+  "appVersionName" : "humidity-sensor-v3",
   "endpointId" : {
     "string" : "7ad263ec-3347-4c7d-af89-50c67061367a"
   },
-  "contentType" : {
-    "string" : "json"
-  },
+  "path" : "/push/json/status",
   "payload" : {
-    "bytes" : "skodg'j394gj3q9i0jg03[09j0[3q[jj39g4"
+    "bytes" : "ewogICJpZCI6IDQyLAogICJzdGF0dXMiOiAib2siCn0="
   },
-  "status" : {
-    "string" : "ok"
-  },
-  "path" : "/push/json"
+  "status" : 200
 }
 ```
-Example of status message from extension to ECS:
-```
-{
-  "correlationId" : "1",
-  "timestamp" : 1490262793349,
-  "timeout" : 3600000,
-  "appVersionToken" : "89556d5962",
-  "extensionInstanceId" : "9070ad58-e5e6-482d-bd88-bdf79db23b63",
-  "endpointId" : {
-    "string" : "7ad263ec-3347-4c7d-af89-50c67061367a"
-  },
-  "contentType" : {
-    "string" : ""
-  },
-  "payload" : null,
-  "status" : {
-    "string" : "ok"
-  },
-  "path" : "/push/json"
-}
-```
+
 
 ## Glossary
 
 - ECS2EXT -- name of the protocol used in communication between Endpoint Communication Service and extension service
 - ECS -- short name for Endpoint Communication Service
-- `status` message -- message that contains `status` field value, but `payload` and `contentType` values are missing. Used in delivery confirmation process.
