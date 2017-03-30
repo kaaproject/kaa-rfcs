@@ -1,5 +1,5 @@
 ---
-name: Data Collection Extension
+name: Data Collection Extension protocol
 shortname: 2/DCX
 status: draft
 editor: Alexey Shmalko <ashmalko@cybervisiontech.com>
@@ -8,7 +8,7 @@ contributors: Alexey Gamov <agamov@cybervisiontech.com>
 
 ## Introduction
 
-The Data Collection Extension is an endpoint-aware [Kaa Protocol](/0001-kaa-protocol/README.md) extension.
+The Data Collection Extension protocol is an endpoint-aware [Kaa Protocol](/0001-kaa-protocol/README.md) extension.
 
 It is intended to solve the problem of transfering collected data to a server for further storing or processing.
 
