@@ -22,26 +22,25 @@ It is intended to manage endpoint configuration distribution.
 2. _The server should know if a configuration has been delivered._ 
 
    Solutions:
-   - Send PUBLISH message from client to "/status" topic. See below sections for details.
+   - Use request/response messaging pattern from [Kaa Protocol RFC1](/0001-kaa-protocol/README.md).
 
 ## Use cases
 
-### UC1
+### UC1: pull
 Configuration delivery by request. The endpoint should be able to receive latest configuration from CMX by request.
 
-### UC2
+### UC2: push
 Configuration delivery that is initiated by the server. The endpoint should receive latest configuration when it connects to a server if this configuration hadn't applied yet.
 
 ## Design
 
 ### Request/response
-The extension uses request/response pattern. A response from client is sent to confirm delivery.
+This topic is covered in [Kaa Protocol RFC1](/0001-kaa-protocol/README.md)
 
-For MQTT, responses MUST be published at `<request_path>/status`. Each response MUST be published with the same QoS as the corresponding request.
 
 ### Formats
 #### Schemeless JSON
-##### Use case 1
+##### Configuration pull
 Endpoint must send messages to the next topic in order to obtain configuration:
 ```
 <endpoint_token>/pull/json
@@ -118,7 +117,7 @@ Example for the case when there's no new configuration version for endpoint:
 }
 ``` 
 
-##### Use case 2
+##### Configuration push
 Client can listen for incoming endpoint configuration updates at the following resource path:
 ```
 <endpoint_token>/push/json
@@ -142,8 +141,6 @@ Example:
   ]
 }
 ```
-
-_Note: we might have used MQTT packet id, but in that case we lose ability to work via gateways as a gateway may change MQTT packet id._
 
 A delivery confirmation response must be sent to the next topic:
 ```
