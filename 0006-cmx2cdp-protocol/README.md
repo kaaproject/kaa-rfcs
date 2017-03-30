@@ -1,5 +1,5 @@
 ---
-name: Communication protocol between CMX and CDP services
+name: CMX to CDP protocol
 shortname: 6/CMX2CDP
 status: raw
 editor: Andrew Pasika <apasika@cybervisiontech.com>

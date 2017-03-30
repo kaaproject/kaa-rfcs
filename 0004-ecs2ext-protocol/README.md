@@ -1,7 +1,7 @@
 ---
-name: Communication protocol between Endpoint Communication Service and extension services
+name: ECS to extensions protocol
 shortname: 4/ECS2EXT
-status: raw
+status: draft
 editor: Dmitry Sergeev <dsergeev@cybervisiontech.com>
 contributors: Andrew Kokhanovskyi <akokhanovskyi@cybervisiontech.com>
 ---
