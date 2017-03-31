@@ -7,10 +7,10 @@ editor: Andrew Pasika <apasika@cybervisiontech.com>
 
 ## Introduction
 
-The CMX2CDP protocol is a [Kaa BB: messaging IPC](/0003-messaging-ipc/README.md) protocol extension.
+The CMX2CDP protocol is a [3/Messaging IPC](/0003-messaging-ipc/README.md) protocol extension.
 
-CMX2CDP is the protocol designed to communicate endpoint configurations from configuration provider 
-implementations to the configuration management extensions.
+CMX2CDP is the protocol designed to communicate endpoint configurations from _configuration data provider_ 
+implementations to the _configuration management extensions_.
 
 ## Requirements and constraints
 
@@ -19,7 +19,7 @@ implementations to the configuration management extensions.
 1. _Configuration push._
 
     Solutions:
-    - CPD should broadcast event that new configuration is available.
+    - CDP should broadcast event that new configuration is available.
 
 2. _Configuration delivery confirmation after configuration push._
 
@@ -39,7 +39,7 @@ message with certain content type it is consumed by both CDPs._
 CDP should somehow inform about it.
 
     Solutions:
-    - Use HTTP status codes.
+    - Use HTTP status codes and arbitrary reason phrases.
         
 
 #### Key concept
@@ -56,13 +56,13 @@ Is used when CMX is intended to request particular configuration.
 
 CMX should send message using NATS to the next subject:
 
-    kaa.v1.service.{service-instance-name}
+    kaa.v1.service.{cdp-service-instance-name}.cmx2cdp.{message-type}
     
 Also, CMX should include NATS `replyTo` field which points to CMX replica that will handle the response:
     
-    kaa.v1.service.{service-instance-name}.{service-replica-id}
+    kaa.v1.replica.{cmx-service-instance-replica-id}.cmx2cdp.{message-type}
     
-Refer to [Messaging IPC](/0003-messaging-ipc/README.md) for explanation of above subject parts.
+Refer to [3/Messaging IPC](/0003-messaging-ipc/README.md) for explanation of above subject parts.
 
 #### Targeted message types:
 
@@ -72,12 +72,13 @@ There are next types of such messages:
 
 _“config-request”_ message structure:
 
-- `correlationId` (string, required) - refer to [Messaging IPC](/0003-messaging-ipc/README.md) documentation for description.
+- `correlationId` (string, required) - refer to [3/Messaging IPC](/0003-messaging-ipc/README.md) documentation for description.
 - `timestamp` (number, required) - timestamp of the message creation time.
 - `timeout` (number, required) - the amount of time from timestamp that message is actual.
+- `endpointMessageId` (string, required) - unique identifier of original endpoint message.
 - `appVersionName` (string, required) - application version to which endpoint configuration is applicable.
 - `endpointId` (string, required) - unique identifier of endpoint to which configuration is applicable.
-- `configVersion` (int, optional) - version of endpoint configuration. If not present, response message will
+- `configId` (string, optional) - unique identifier of endpoint configuration. If not present, response message will
 hold configuration with latest version.
 
 Example:
@@ -87,22 +88,25 @@ Example:
   "correlationId": "07d78e95-2c4d-4899-957c-b9e5a3701fbb",
   "timestamp": 1490303342158,
   "timeout": 3000,
+  "endpointMessageId": "6b73cd7c-1de5-4c4e-bbad-b7eda079ccbd",
   "appVersionName": "39774993-a426-4092-9e38-02ec213272d0",
   "endpointId": "b197e391-1d13-403b-83f5-87bdd44888cf",
-  "configVersion": 7
+  "configId": "76d34f8b-c038-413f-b122-318dce49edd1"
 }
 ```
 
 _“config-response”_ message structure:
 
-- `correlationId` (string, required) - see [Messaging IPC](/0003-messaging-ipc/README.md) for description.
+- `correlationId` (string, required) - see [3/Messaging IPC](/0003-messaging-ipc/README.md) for description.
 - `timestamp` (number, required) - timestamp of the message creation time.
 - `timeout` (number, required) - the amount of time from timestamp that message is actual.
+- `endpointMessageId` (string, required) - unique identifier of original endpoint message.
 - `appVersionName` (string, required) - application version to which endpoint configuration is applicable.
 - `endpointId` (string, required) - endpoint unique identifier to which configuration is applicable.
 - `contentType` (string, required) - content type of configuration, e.g.: json, protobuf.
-- `configVersion` (int, required) - version of endpoint configuration.
-- `statusCode` (int, required) - status code that holds meaningful information about the result of inbound message processing.
+- `configId` (string, required) - unique identifier of endpoint configuration.
+- `statusCode` (number, required) - status code that holds meaningful information about the result of inbound message processing.
+- `reasonPhrase` (string, optional) - status code that holds meaningful information about the result of inbound message processing.
 - `content` (byte[], optional) - content with configuration data.
 
 Example:
@@ -112,10 +116,13 @@ Example:
   "correlationId": "07d78e95-2c4d-4899-957c-b9e5a3701fbb",
   "timestamp": 1490303342158,
   "timeout": 3000,
+  "endpointMessageId": "6b73cd7c-1de5-4c4e-bbad-b7eda079ccbd",
   "appVersionName": "39774993-a426-4092-9e38-02ec213272d0",
   "endpointId": "b197e391-1d13-403b-83f5-87bdd44888cf",
-  "configVersion": 7,
-  "statusCode": 0,
+  "contentType": "json",
+  "configId": "76d34f8b-c038-413f-b122-318dce49edd1",
+  "statusCode": 200,
+  "reasonPhrase": "OK",
   "content": {
     "bytes": "d2FpdXJoM2pmbmxzZGtjdjg3eTg3b3cz"
   }
@@ -124,7 +131,7 @@ Example:
 
 ### Configuration push
 
-Event-based approach as described in [Messaging IPC](/0003-messaging-ipc/README.md) documentation can be used as alternative, 
+Event-based approach as described in [3/Messaging IPC](/0003-messaging-ipc/README.md) documentation can be used as alternative, 
 thus manipulations with endpoint configurations are accepted as events.
 
 #### Subject structure
@@ -133,7 +140,7 @@ CMX and CDP should listen on and send broadcast messages to the next subject:
 
     kaa.v1.events.{originator-service-instance-name}.endpoint.config.{event-type}
 
-For subject parts explanation refer to [Messaging IPC](/0003-messaging-ipc/README.md).
+For subject parts explanation refer to [3/Messaging IPC](/0003-messaging-ipc/README.md).
 
 There are next types of such messages:
 
@@ -145,7 +152,7 @@ _“updated”_ message structure:
 
 - `appVersionName` (string, required) - application version to which endpoint configuration is applicable.
 - `endpointId` (string, required) - unique identifier of endpoint to which configuration is applicable.
-- `configVersion` (string, required) - version of endpoint configuration.
+- `configId` (string, required) - unique identifier of endpoint configuration.
 
 Example:
 
@@ -156,7 +163,7 @@ Example:
   "originatorReplicaId": "1758dc39-63d2-47d0-9b58-6f617a4e0bba",
   "appVersionName": "39774993-a426-4092-9e38-02ec213272d0",
   "endpointId": "b197e391-1d13-403b-83f5-87bdd44888cf",
-  "configVersion": 7
+  "configId": "76d34f8b-c038-413f-b122-318dce49edd1"
 }
 ```
 
@@ -164,7 +171,7 @@ _“new-available”_ message structure:
 
 - `appVersionName` (string, required) - application version to which endpoint configuration is applicable.
 - `endpointId` (string, required) - endpoint unique identifier to which configuration is applicable.
-- `configVersion` (string, required) - version of endpoint configuration.
+- `configId` (string, required) - unique identifier of endpoint configuration.
 - `contentType` (string, required) - content type of endpoint configuration, e.g.: json, protobuf.
 - `content` (byte[], required) - content with configuration data.
 
@@ -177,7 +184,8 @@ Example:
   "originatorReplicaId": "3b823589-d90b-497e-91f8-0209ecaef908",
   "appVersionName": "39774993-a426-4092-9e38-02ec213272d0",
   "endpointId": "b197e391-1d13-403b-83f5-87bdd44888cf",
-  "configVersion": 7,
+  "configId": "76d34f8b-c038-413f-b122-318dce49edd1",
+  "contentType": "json",
   "content": {
     "bytes": "d2FpdXJoM2pmbmxzZGtjdjg3eTg3b3cz"
   }
@@ -185,7 +193,7 @@ Example:
 ```
 
 Regardless of specified above broadcast types all other restriction concerning message 
-fields are applicable from [Messaging IPC](/0003-messaging-ipc/README.md) documentation.
+fields are applicable from [3/Messaging IPC](/0003-messaging-ipc/README.md) documentation.
 
 ## Use cases
 
