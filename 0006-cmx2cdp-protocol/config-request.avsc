@@ -1,0 +1,13 @@
+{"namespace": "org.kaaproject.ipc.cmx2cdp.gen.v1",
+ "type": "record",
+ "name": "ConfigRequest",
+ "fields": [
+    {"name": "correlationId", "type": "string", "default":""},
+    {"name": "timestamp", "type": "long"},
+    {"name": "timeout", "type": "long", "default":-1},
+    {"name": "endpointMessageId", "type": "string", "default":""},
+    {"name": "appVersionName", "type": "string", "default": ""},
+    {"name": "endpointId", "type": "string", "default": ""},
+    {"name": "configId", "type": "string", "default": ""}
+ ]
+}
