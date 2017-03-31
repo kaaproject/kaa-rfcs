@@ -184,7 +184,7 @@ Example:
   "originatorReplicaId": "3b823589-d90b-497e-91f8-0209ecaef908",
   "appVersionName": "39774993-a426-4092-9e38-02ec213272d0",
   "endpointId": "b197e391-1d13-403b-83f5-87bdd44888cf",
-  "configId": 7,
+  "configId": "76d34f8b-c038-413f-b122-318dce49edd1",
   "contentType": "json",
   "content": {
     "bytes": "d2FpdXJoM2pmbmxzZGtjdjg3eTg3b3cz"
