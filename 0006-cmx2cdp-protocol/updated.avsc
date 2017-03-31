@@ -1,0 +1,12 @@
+{"namespace": "org.kaaproject.ipc.events.gen.v1",
+ "type": "record",
+ "name": "ConfigUpdated",
+ "fields": [
+    {"name": "correlationId", "type": "string", "default":""},
+    {"name": "eventTimestamp", "type": "long", "default":-1},
+    {"name": "originatorReplicaId", "type": "string", "default":""},
+    {"name": "appVersionName", "type": "string", "default": ""},
+    {"name": "endpointId", "type": "string", "default": ""},
+    {"name": "configId", "type": "string", "default":""}
+ ]
+}
