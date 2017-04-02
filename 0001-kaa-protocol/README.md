@@ -97,7 +97,7 @@ Having a predefined prefix helps routing all KP-related traffic through MQTT bro
 
 `<extension_instance_name>` is a name that uniquely identifies an extension instance within the application.
 
-Extension-specific resource path part for endpoint-aware extensions MUST start with the endpoint identifier ("endpoint token").
+Extension-specific resource path part for endpoint-aware extensions MUST start with the [endpoint token](#Glossary).
 Thus, for them the resource paths start with:
 `kp1/<appversion_name>/<extension_instance_name>/<endpoint_token>`.
 
@@ -122,10 +122,10 @@ For example, use `/json` for JSON-formatted payload, and `/protobuf/<scheme_id>`
 // TODO: CoAP has Content-Format option for that. It already has json and cbor, but not protobuf.
 
 ### Request/response pattern
-Many extensions require request/response style communication, which is not supported by MQTT natively.
-That is overcome by introducing a separate resource path for responses.
+Many extensions require request/response style communication, which is natively supported by CoAP, but not MQTT.
+That is overcome by introducing a separate topic (resource path) for responses over MQTT.
 
-Responses MUST be published using the resource path constructed by appending `/status` suffix to the request resource path.
+Responses over MQTT MUST be published using the resource path constructed by appending `/status` suffix to the request resource path.
 This applies to both server and client responses.
 
 Response MUST be published with the same QoS level as the corresponding request.
@@ -213,6 +213,9 @@ Endpoints may be either physical or virtual.
 
 - _Client_ – an application that uses a single "connection" to the server.
 One client may represent multiple endpoints.
+
+- _Endpoint token_ is an opaque data blob that uniquely identifies an endpoint.
+Each endpoint has exactly one token assigned by the server.
 
 - _Resource path_ – a unique resource identifier included in each request.
 For MQTT that is Topic Name, for CoAP: URI-Paths.

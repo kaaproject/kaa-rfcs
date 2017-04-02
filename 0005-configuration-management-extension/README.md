@@ -95,7 +95,7 @@ Example 2:
 
 #### Configuration pull response
 
-The server MUST respond to the configuration pull request by publishing the response message to the `/status` resource path according to the [request/response design pattern defined in 1/KP](/0001-kaa-protocol/README.md#requestresponse-pattern).
+The server MUST respond to the configuration pull request by publishing the response message according to the [request/response design pattern defined in 1/KP](/0001-kaa-protocol/README.md#requestresponse-pattern).
 The extension-specific resource path part format is:
 
   `<endpoint_token>/pull/<message_format>[/<config_format>]/status`
@@ -232,7 +232,7 @@ Example:
 
 #### Configuration push response
 
-The client MUST respond to the configuration push request by publishing the response message to the `/status` resource path according to the [request/response design pattern defined in 1/KP](/0001-kaa-protocol/README.md#requestresponse-pattern).
+The client MUST respond to the configuration push request by publishing the response message according to the [request/response design pattern defined in 1/KP](/0001-kaa-protocol/README.md#requestresponse-pattern).
 The extension-specific resource path part format is:
 
   `<endpoint_token>/push/<message_format>[/<config_format>]/status`
