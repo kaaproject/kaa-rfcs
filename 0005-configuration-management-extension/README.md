@@ -239,7 +239,7 @@ The extension-specific resource path part format is:
 
   where `message_format` and `config_format` (if present) are copied from the request message.
 
-When the `<message_format>` is set to `json`, the response payload MUST be a JSON-encoded object with the following JSON schema ([separate file](./config-pull-response.schema.json)):
+When the `<message_format>` is set to `json`, the response payload MUST be a JSON-encoded object with the following JSON schema ([separate file](./config-push-response.schema.json)):
 
 ```json
 {
