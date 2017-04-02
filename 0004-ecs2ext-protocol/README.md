@@ -27,19 +27,72 @@ The protocol must support specification of the handling function and payload for
 ClientData messages are used by ECS implementations for transferring endpoint-originated data to extension services.
 Non-affinity session messages MUST be published to a [service instance-wide subject](/0003-messaging-ipc/README.md#service-instance-wide-subjects):
 
-  `kaa.v1.service.{service-instance-name}.ecs2ext.ClientData`
+  `kaa.v1.service.<service-instance-name>.ecs2ext.ClientData`
 
-  where `{service-instance-name}` is the target extension service instance name.
+  where `service-instance-name` is the target extension service instance name.
 
 In case of affinity sessions ClientData message MUST be published to the [service replica-specific subject](/0003-messaging-ipc/README.md#service-replica-specific-subjects) defined by the `replyTo` subject in the previously received message that set up the session affinity.
 
 ECS implementations SHOULD also set `replyTo` subject when sending ClientData messages according to the [session affinity](/0003-messaging-ipc/README.md#session-affinity) rules.
 
-The NATS message payload is an Avro object.
-The Avro schema can be found [here](./ClientData.avsc).
+The NATS message payload is an Avro object with the following schema ([file](./ClientData.avsc)):
+
+```json
+{
+  "type" : "record",
+  "name" : "ClientData",
+  "namespace" : "org.kaaproject.ipc.ecs2ext.gen.v1",
+  "doc" : "ClientData message carries client-originated messages from ECS to extensions",
+  "fields" : [ {
+    "name" : "correlationId",
+    "type" : {
+      "type" : "string",
+      "avro.java.string" : "String"
+    },
+    "doc" : "Message tracing ID primarily used for tracking the message processing across services."
+  }, {
+    "name" : "timestamp",
+    "type" : "long",
+    "doc" : "Unix time in milliseconds when the message was created."
+  }, {
+    "name" : "timeout",
+    "type" : "long",
+    "doc" : "The amount of milliseconds since timestamp when the message expires at the originating entity."
+  }, {
+    "name" : "appVersionName",
+    "type" : [ {
+      "type" : "string",
+      "avro.java.string" : "String"
+    }, "null" ],
+    "doc" : "Unique name of the application version that the endpoint identified by the endpointID belongs to. Null for endpoint-unaware extensions."
+  }, {
+    "name" : "endpointId",
+    "type" : [ {
+      "type" : "string",
+      "avro.java.string" : "String"
+    }, "null" ],
+    "doc" : "Unique endpoint ID. Null for endpoint-unaware extensions."
+  }, {
+    "name" : "path",
+    "type" : {
+      "type" : "string",
+      "avro.java.string" : "String"
+    },
+    "doc" : "Action path field that is used to determine the message handling function and the payload format."
+  }, {
+    "name" : "payload",
+    "type" : [ "bytes", "null" ],
+    "doc" : "Serialized message content. Can be null in status-only messages."
+  }, {
+    "name" : "status",
+    "type" : [ "int", "null" ],
+    "doc" : "Message processing status code. Can be null in requests."
+  } ]
+}
+```
 
 Example of a ClientData message with payload:
-```
+```json
 {
   "correlationId" : "1",
   "timestamp" : 1490262793349,
@@ -57,7 +110,7 @@ Example of a ClientData message with payload:
 ```
 
 Example of a ClientData message with payload and status:
-```
+```json
 {
   "correlationId" : "1",
   "timestamp" : 1490262793349,
@@ -75,7 +128,7 @@ Example of a ClientData message with payload and status:
 ```
 
 Example of a ClientData status message:
-```
+```json
 {
   "correlationId" : "1",
   "timestamp" : 1490262793349,
@@ -95,19 +148,79 @@ Example of a ClientData status message:
 ExtensionData messages are used by extension services for transferring data to ECS services.
 Non-affinity session messages MUST be published to a [service instance-wide subject](/0003-messaging-ipc/README.md#service-instance-wide-subjects):
 
-  `kaa.v1.service.{service-instance-name}.ecs2ext.ExtensionData`
+  `kaa.v1.service.<service-instance-name>.ecs2ext.ExtensionData`
 
-  where `{service-instance-name}` is the target ECS service instance name.
+  where `service-instance-name` is the target ECS service instance name.
 
 In case of affinity sessions ExtensionData message MUST be published to the [service replica-specific subject](/0003-messaging-ipc/README.md#service-replica-specific-subjects) defined by the `replyTo` subject in the previously received message that set up the session affinity.
 
 Extensions MAY also set `replyTo` subject when sending ExtensionData messages according to the [session affinity](/0003-messaging-ipc/README.md#session-affinity) rules.
 
-The NATS message payload is an Avro object.
-The Avro schema can be found [here](./ExtensionData.avsc).
+The NATS message payload is an Avro object with the following schema ([file](./ExtensionData.avsc)):
+
+```json
+{
+  "type" : "record",
+  "name" : "ExtensionData",
+  "namespace" : "org.kaaproject.ipc.ecs2ext.gen.v1",
+  "doc"  : "ExtensionData message carries extension-originated messages destined for clients to ECS",
+  "fields" : [ {
+    "name" : "correlationId",
+    "type" : {
+      "type" : "string",
+      "avro.java.string" : "String"
+    },
+    "doc" : "Message tracing ID primarily used for tracking the message processing across services."
+  }, {
+    "name" : "timestamp",
+    "type" : "long",
+    "doc" : "Unix time in milliseconds when the message was created."
+  }, {
+    "name" : "timeout",
+    "type" : "long",
+    "doc" : "The amount of milliseconds since timestamp when the message expires at the originating entity."
+  }, {
+    "name" : "extensionInstanceName",
+    "type" : [ {
+      "type" : "string",
+      "avro.java.string" : "String"
+    }, "null" ],
+    "doc" : "Unique name of the extension instance that originated the message."
+  }, {
+    "name" : "appVersionName",
+    "type" : [ {
+      "type" : "string",
+      "avro.java.string" : "String"
+    }, "null" ],
+    "doc" : "Unique name of the application version that the endpoint identified by the endpointID belongs to. Null for endpoint-unaware extensions."
+  }, {
+    "name" : "endpointId",
+    "type" : [ {
+      "type" : "string",
+      "avro.java.string" : "String"
+    }, "null" ],
+    "doc" : "Unique endpoint ID. Null for endpoint-unaware extensions."
+  }, {
+    "name" : "path",
+    "type" : {
+      "type" : "string",
+      "avro.java.string" : "String"
+    },
+    "doc" : "Action path field that is used to determine the message handling function and the payload format."
+  }, {
+    "name" : "payload",
+    "type" : [ "bytes", "null" ],
+    "doc" : "Serialized message content. Can be null in status-only messages."
+  }, {
+    "name" : "status",
+    "type" : [ "int", "null" ],
+    "doc" : "Message processing status code. Can be null in requests."
+  } ]
+}
+```
 
 Example of an ExtensionData message with payload:
-```
+```json
 {
   "correlationId" : "1",
   "timestamp" : 1490262793349,
@@ -126,7 +239,7 @@ Example of an ExtensionData message with payload:
 ```
 
 Example of an ExtensionData message with payload and status:
-```
+```json
 {
   "correlationId" : "1",
   "timestamp" : 1490262793349,
@@ -147,5 +260,6 @@ Example of an ExtensionData message with payload and status:
 
 ## Glossary
 
-- ECS2EXT -- name of the protocol used in communication between Endpoint Communication Service and extension service
-- ECS -- short name for Endpoint Communication Service
+- _ECS2EXT_ -- name of the protocol used in communication between Endpoint Communication Service and extension service.
+
+- _ECS_ -- short name for Endpoint Communication Service
