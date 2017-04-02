@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "5/CMX configuration pull response schema",
+
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": [ "string", "number" ],
+      "description": "ID of the message used to match server response to the request."
+    },
+    "configId": {
+      "type": "string",
+      "description": "Identifier of the current configuration."
+    },
+    "statusCode": {
+      "type": "number",
+      "description": "Status code based on HTTP status codes."
+    },
+    "reasonPhrase": {
+      "type": "string",
+      "description": "A human-readable string explaining the cause of an error (if any). In case the request was successful, it is `ok`."
+    },
+    "config": {
+      "description": "Configuration body of an arbitrary type (as defined by the request `config_format`)."
+    }
+  },
+  "required": [ "id", "configId", "statusCode", "reasonPhrase" ],
+  "additionalProperties": false
+}

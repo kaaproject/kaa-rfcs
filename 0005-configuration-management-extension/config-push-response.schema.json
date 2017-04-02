@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "5/CMX configuration push response schema",
+
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": [ "string", "number" ],
+      "description": "ID of the message used to match client response to the request."
+    },
+    "statusCode": {
+      "type": "number",
+      "description": "Status code based on HTTP status codes."
+    },
+    "reasonPhrase": {
+      "type": "string",
+      "description": "A human-readable string explaining the cause of an error (if any). In case the request was successful, it is `ok`."
+    }
+  },
+  "required": [ "id", "statusCode", "reasonPhrase" ],
+  "additionalProperties": false
+}

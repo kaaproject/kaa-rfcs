@@ -97,9 +97,9 @@ Having a predefined prefix helps routing all KP-related traffic through MQTT bro
 
 `<extension_instance_name>` is a name that uniquely identifies an extension instance within the application.
 
-Extension-specific resource path part for endpoint-aware extensions MUST start with the endpoint token.
+Extension-specific resource path part for endpoint-aware extensions MUST start with the endpoint identifier ("endpoint token").
 Thus, for them the resource paths start with:
-`kp1/<appversion_name>/<extension_instance_name>/<endpoint_token>`
+`kp1/<appversion_name>/<extension_instance_name>/<endpoint_token>`.
 
 The rest of the resource path is extension-specific and is described in separate documents that define KP protocol extensions.
 
@@ -123,9 +123,9 @@ For example, use `/json` for JSON-formatted payload, and `/protobuf/<scheme_id>`
 
 ### Request/response pattern
 Many extensions require request/response style communication, which is not supported by MQTT natively.
-That is overcome by introducing a separate topic name for responses.
+That is overcome by introducing a separate resource path for responses.
 
-Responses MUST be published to the topic constructed by appending `/status` suffix to the request topic.
+Responses MUST be published using the resource path constructed by appending `/status` suffix to the request resource path.
 This applies to both server and client responses.
 
 Response MUST be published with the same QoS level as the corresponding request.
