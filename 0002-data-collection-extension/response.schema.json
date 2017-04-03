@@ -5,7 +5,8 @@
   "type": "object",
   "properties": {
     "id": {
-      "type": "number"
+      "type": "number",
+      "multipleOf": 1.0
     },
     "status": {
       "type": "string"
