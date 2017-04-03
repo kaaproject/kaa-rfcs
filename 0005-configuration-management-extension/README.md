@@ -64,8 +64,8 @@ When the `<message_format>` is set to `json`, the request payload MUST be a JSON
   "type": "object",
   "properties": {
     "id": {
-      "type": [ "string", "number" ],
-      "description": "ID of the message used to match server response to the request."
+      "type": "number",
+      "description": "ID of the message used to match server response to the request. MUST be integer."
     },
     "configId": {
       "type": "string",
@@ -112,8 +112,8 @@ When the `<message_format>` is set to `json`, the response payload MUST be a JSO
   "type": "object",
   "properties": {
     "id": {
-      "type": [ "string", "number" ],
-      "description": "ID of the message used to match server response to the request."
+      "type": "number",
+      "description": "ID of the message used to match server response to the request. MUST be integer."
     },
     "configId": {
       "type": "string",
@@ -201,8 +201,8 @@ When the `<message_format>` is set to `json`, the request payload MUST be a JSON
   "type": "object",
   "properties": {
     "id": {
-      "type": [ "string", "number" ],
-      "description": "ID of the message used to match client response to the request."
+      "type": "number",
+      "description": "ID of the message used to match client response to the request. MUST be integer."
     },
     "configId": {
       "type": "string",
@@ -249,8 +249,8 @@ When the `<message_format>` is set to `json`, the response payload MUST be a JSO
   "type": "object",
   "properties": {
     "id": {
-      "type": [ "string", "number" ],
-      "description": "ID of the message used to match client response to the request."
+      "type": "number",
+      "description": "ID of the message used to match client response to the request. MUST be integer."
     },
     "statusCode": {
       "type": "number",
