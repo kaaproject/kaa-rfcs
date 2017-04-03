@@ -125,7 +125,7 @@ For example, use `/json` for JSON-formatted payload, and `/protobuf/<scheme_id>`
 Many extensions require request/response style communication, which is natively supported by CoAP, but not MQTT.
 That is overcome by introducing a separate topic (resource path) for responses over MQTT.
 
-Responses over MQTT MUST be published using the resource path constructed by appending `/status` suffix to the request resource path.
+Responses over MQTT MUST be published to the topic constructed by appending `/status` suffix to the request topic.
 This applies to both server and client responses.
 
 Response MUST be published with the same QoS level as the corresponding request.
