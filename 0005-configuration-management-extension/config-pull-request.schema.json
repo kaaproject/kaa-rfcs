@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "5/CMX configuration pull request schema",
+
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": [ "string", "number" ],
+      "description": "ID of the message used to match server response to the request."
+    },
+    "configId": {
+      "type": "string",
+      "description": "Identifier of the currently applied configuration."
+    }
+  },
+  "required": [ "id" ],
+  "additionalProperties": false
+}
