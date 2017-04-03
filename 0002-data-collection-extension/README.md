@@ -89,7 +89,7 @@ The server SHOULD support uploading arbitrary JSON records as data points at the
 ```
 
 The payload MUST be a UTF-8 encoded JSON object with the following fields:
-- `id` (optional) – id of the batch. Should be either string or number.
+- `id` (optional) – id of the batch. Should be number.
 - `entries` (required) – an array of data entries. Each one of the entries can be of any JSON type.
 
 Example:

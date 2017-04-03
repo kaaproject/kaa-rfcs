@@ -7,7 +7,7 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": [ "string", "number" ]
+          "type": "number"
         },
         "entries": {
           "type": "array"
