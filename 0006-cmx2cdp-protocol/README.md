@@ -172,8 +172,6 @@ _“new-available”_ message structure:
 - `appVersionName` (string, required) - application version to which endpoint configuration is applicable.
 - `endpointId` (string, required) - endpoint unique identifier to which configuration is applicable.
 - `configId` (string, required) - unique identifier of endpoint configuration.
-- `contentType` (string, required) - content type of endpoint configuration, e.g.: json, protobuf.
-- `content` (byte[], required) - content with configuration data.
 
 Example:
 
