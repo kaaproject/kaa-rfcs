@@ -207,10 +207,6 @@ events and replies on them accordingly.
 Once endpoint was connected it can ask for its configuration initiating request to CMX which 
 forwards it to specific CDP.
 
-## Flow chart
-
-![](cmx2cdp-ipc.png?raw=true)
-
 ## Glossary
 
 - CMX - short name for Configuration Management Extension service.
