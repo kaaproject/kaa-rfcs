@@ -8,7 +8,5 @@
     {"name": "appVersionName", "type": "string", "default": ""},
     {"name": "endpointId", "type": "string", "default": ""},
     {"name": "configId", "type": "string", "default":""},
-    {"name": "contentType", "type": "string", "default":""},
-    {"name": "content", "type": ["null", "bytes"], "default": null}
  ]
 }
