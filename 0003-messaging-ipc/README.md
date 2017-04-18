@@ -93,9 +93,9 @@ For example, EP connectivity events the types will be connected, disconnected, d
 
 Each broadcast message MUST contain the following fields:
 
-- `timestamp` (long, required) - [Unix time](https://en.wikipedia.org/wiki/Unix_time) in milliseconds when the event was created.
+- `eventTimestamp` (long, required) - [Unix time](https://en.wikipedia.org/wiki/Unix_time) in milliseconds when the event was created.
 
-- `timeout` (long, optional) - the amount of milliseconds since `timestamp` when the message expires at the originating entity.
+- `eventTimeout` (long, optional) - the amount of milliseconds since `eventTimestamp` when the message expires at the originating entity.
 `Null` value or `-1` indicates no expiration.
 
 - `correlationId` (String, required) - message tracing ID primarily used for tracking the message processing across services.
