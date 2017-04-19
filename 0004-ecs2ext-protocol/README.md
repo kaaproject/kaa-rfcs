@@ -35,59 +35,72 @@ In case of affinity sessions ClientData message MUST be published to the [servic
 
 ECS implementations SHOULD also set `replyTo` subject when sending ClientData messages according to the [session affinity](/0003-messaging-ipc/README.md#session-affinity) rules.
 
-The NATS message payload is an Avro object with the following schema ([file](./ClientData.avsc)):
+The NATS message payload is an Avro object with the following schema ([file](./ecs2ext-client-data.avsc)):
 
 ```json
 {
-  "type" : "record",
-  "name" : "ClientData",
-  "namespace" : "org.kaaproject.ipc.ecs2ext.gen.v1",
-  "doc" : "ClientData message carries client-originated messages from ECS to extensions",
-  "fields" : [ {
-    "name" : "correlationId",
-    "type" : {
-      "type" : "string",
-      "avro.java.string" : "String"
+  "type": "record",
+  "name": "ClientData",
+  "namespace": "org.kaaproject.ipc.ecs2ext.gen.v1",
+  "doc": "ClientData message carries client-originated messages from ECS to extensions",
+  "fields": [
+    {
+      "name": "correlationId",
+      "type": "string",
+      "doc": "Message tracing ID primarily used for tracking the message processing across services."
     },
-    "doc" : "Message tracing ID primarily used for tracking the message processing across services."
-  }, {
-    "name" : "timestamp",
-    "type" : "long",
-    "doc" : "Unix time in milliseconds when the message was created."
-  }, {
-    "name" : "timeout",
-    "type" : "long",
-    "doc" : "The amount of milliseconds since timestamp when the message expires at the originating entity."
-  }, {
-    "name" : "appVersionName",
-    "type" : [ {
-      "type" : "string",
-      "avro.java.string" : "String"
-    }, "null" ],
-    "doc" : "Unique name of the application version that the endpoint identified by the endpointID belongs to. Null for endpoint-unaware extensions."
-  }, {
-    "name" : "endpointId",
-    "type" : [ {
-      "type" : "string",
-      "avro.java.string" : "String"
-    }, "null" ],
-    "doc" : "Unique endpoint ID. Null for endpoint-unaware extensions."
-  }, {
-    "name" : "path",
-    "type" : {
-      "type" : "string",
-      "avro.java.string" : "String"
+    {
+      "name": "timestamp",
+      "type": "long",
+      "doc": "Unix time in milliseconds when the message was created."
     },
-    "doc" : "Action path field that is used to determine the message handling function and the payload format."
-  }, {
-    "name" : "payload",
-    "type" : [ "bytes", "null" ],
-    "doc" : "Serialized message content. Can be null in status-only messages."
-  }, {
-    "name" : "status",
-    "type" : [ "int", "null" ],
-    "doc" : "Message processing status code. Can be null in requests."
-  } ]
+    {
+      "name": "timeout",
+      "type": "long",
+      "default": -1,
+      "doc": "The amount of milliseconds since timestamp when the message expires at the originating entity."
+    },
+    {
+      "name": "appVersionName",
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": "",
+      "doc": "Unique name of the application version that the endpoint identified by the endpointID belongs to. Null for endpoint-unaware extensions."
+    },
+    {
+      "name": "endpointId",
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": "",
+      "doc": "Unique endpoint ID. Null for endpoint-unaware extensions."
+    },
+    {
+      "name": "path",
+      "type": "string",
+      "doc": "Action path field that is used to determine the message handling function and the payload format."
+    },
+    {
+      "name": "payload",
+      "type": [
+        "bytes",
+        "null"
+      ],
+      "doc": "Serialized message content. Can be null in status-only messages."
+    },
+    {
+      "name": "statusCode",
+      "type": [
+        "int",
+        "null"
+      ],
+      "default": 200,
+      "doc": "Message processing status code. Can be null in requests."
+    }
+  ]
 }
 ```
 
@@ -156,66 +169,84 @@ In case of affinity sessions ExtensionData message MUST be published to the [ser
 
 Extensions MAY also set `replyTo` subject when sending ExtensionData messages according to the [session affinity](/0003-messaging-ipc/README.md#session-affinity) rules.
 
-The NATS message payload is an Avro object with the following schema ([file](./ExtensionData.avsc)):
+The NATS message payload is an Avro object with the following schema ([file](./ecs2ext-extension-data.avsc)):
 
 ```json
 {
-  "type" : "record",
-  "name" : "ExtensionData",
-  "namespace" : "org.kaaproject.ipc.ecs2ext.gen.v1",
-  "doc"  : "ExtensionData message carries extension-originated messages destined for clients to ECS",
-  "fields" : [ {
-    "name" : "correlationId",
-    "type" : {
-      "type" : "string",
-      "avro.java.string" : "String"
+  "type": "record",
+  "name": "ExtensionData",
+  "namespace": "org.kaaproject.ipc.ecs2ext.gen.v1",
+  "doc": "ExtensionData message carries extension-originated messages destined for clients to ECS",
+  "fields": [
+    {
+      "name": "correlationId",
+      "type": "string",
+      "doc": "Message tracing ID primarily used for tracking the message processing across services."
     },
-    "doc" : "Message tracing ID primarily used for tracking the message processing across services."
-  }, {
-    "name" : "timestamp",
-    "type" : "long",
-    "doc" : "Unix time in milliseconds when the message was created."
-  }, {
-    "name" : "timeout",
-    "type" : "long",
-    "doc" : "The amount of milliseconds since timestamp when the message expires at the originating entity."
-  }, {
-    "name" : "extensionInstanceName",
-    "type" : [ {
-      "type" : "string",
-      "avro.java.string" : "String"
-    }, "null" ],
-    "doc" : "Unique name of the extension instance that originated the message."
-  }, {
-    "name" : "appVersionName",
-    "type" : [ {
-      "type" : "string",
-      "avro.java.string" : "String"
-    }, "null" ],
-    "doc" : "Unique name of the application version that the endpoint identified by the endpointID belongs to. Null for endpoint-unaware extensions."
-  }, {
-    "name" : "endpointId",
-    "type" : [ {
-      "type" : "string",
-      "avro.java.string" : "String"
-    }, "null" ],
-    "doc" : "Unique endpoint ID. Null for endpoint-unaware extensions."
-  }, {
-    "name" : "path",
-    "type" : {
-      "type" : "string",
-      "avro.java.string" : "String"
+    {
+      "name": "timestamp",
+      "type": "long",
+      "doc": "Unix time in milliseconds when the message was created."
     },
-    "doc" : "Action path field that is used to determine the message handling function and the payload format."
-  }, {
-    "name" : "payload",
-    "type" : [ "bytes", "null" ],
-    "doc" : "Serialized message content. Can be null in status-only messages."
-  }, {
-    "name" : "status",
-    "type" : [ "int", "null" ],
-    "doc" : "Message processing status code. Can be null in requests."
-  } ]
+    {
+      "name": "timeout",
+      "type": "long",
+      "default": -1,
+      "doc": "The amount of milliseconds since timestamp when the message expires at the originating entity."
+    },
+    {
+      "name": "appVersionName",
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": "",
+      "doc": "Unique name of the application version that the endpoint identified by the endpointID belongs to. Null for endpoint-unaware extensions."
+    },
+    {
+      "name": "extensionInstanceName",
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": "",
+      "doc": "Unique name of the extension instance that originated the message."
+    },
+    {
+      "name": "endpointId",
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": "",
+      "doc": "Unique endpoint ID. Null for endpoint-unaware extensions."
+    },
+    {
+      "name": "path",
+      "type": [
+        "string",
+        "null"
+      ],
+      "doc": "Action path field that is used to determine the message handling function and the payload format. Null if extension responding with error status code with no need to publish message to client"
+    },
+    {
+      "name": "payload",
+      "type": [
+        "bytes",
+        "null"
+      ],
+      "doc": "Serialized message content. Can be null in status-only messages."
+    },
+    {
+      "name": "statusCode",
+      "type": [
+        "int",
+        "null"
+      ],
+      "default": 200,
+      "doc": "Message processing status code. Can be null in requests."
+    }
+  ]
 }
 ```
 
