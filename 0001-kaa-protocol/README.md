@@ -68,10 +68,11 @@ KP requirements:
 - Client authentication.
 - Endpoint identification (but not necessarily authentication).
 
-Client requirements:
+KP should enable client to:
 
-- Connecting to a server without using an SDK and with minimum custom implementation.
-- Working through MQTT gateways. This also includes MQTT-SN gateways.
+- Connect to a server without using an SDK and with minimum custom implementation.
+- Work through MQTT gateways.
+This also includes MQTT-SN gateways.
 
 ## Use cases
 KP is designed to accommodate for the following key use cases (and combinations thereof).
