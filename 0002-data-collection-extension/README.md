@@ -32,9 +32,9 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 The following terms and definitions are used in this RFC.
 
-- **Record** — a single data point user is interested in.
-- **Batch** — a collection of records uploaded within a single transaction.
-- **Processing confirmation** — an acknowledgment designating that the server has finished processing a request.
+- **Record**: a single data point user is interested in.
+- **Batch**: a collection of records uploaded within a single transaction.
+- **Processing confirmation**: an acknowledgment designating that the server has finished processing a request.
 
 ## Requirements and constraints
 ### Problems and possible solutions
@@ -120,9 +120,9 @@ The server SHOULD support uploading arbitrary JSON records as data points to the
 ```
 
 The payload MUST be a UTF-8 encoded JSON object with the following fields:
-- `id` (optional) — ID of the batch.
+- `id` (optional): ID of the batch.
 Should be integer number.
-- `entries` (required) — an array of data entries.
+- `entries` (required): an array of data entries.
 Each entry can be of any JSON type.
 
 Example:
@@ -168,8 +168,8 @@ For MQTT, processing confirmation responses are published to the following resou
 ```
 
 A processing confirmation response MUST be a UFT-8 encoded JSON record with the following fields:
-- `id` — a copy of the `id` field from the corresponding request.
-- `status` — a human-readable string explaining the cause of an error (if any).
+- `id`: a copy of the `id` field from the corresponding request.
+- `status`: a human-readable string explaining the cause of an error (if any).
 If the processing is successful, the value MUST be `"ok"`.
 
 JSON schema for responses is defined in the [response.schema.json](./response.schema.json) file.
