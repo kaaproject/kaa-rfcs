@@ -32,7 +32,7 @@ contributors: Alexey Gamov <agamov@cybervisiontech.com>, Andrew Kokhanovskyi <ak
 
 ## Introduction
 This document describes general requirements, principles, design, and guidelines for **Kaa Protocol** (KP) version 1.
-KP is a standard protocol designed to connect client applications and endpoints (colloquially --- devices) to a Kaa server.
+KP is a standard protocol designed to connect client applications and endpoints (colloquially — devices) to a Kaa server.
 
 ## Language
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).
@@ -50,7 +50,7 @@ One client may represent multiple endpoints.
 Each endpoint has exactly one token assigned by the server.
 
 - **Resource path**: a unique resource identifier included in each request.
-For MQTT, that is Topic Name, for CoAP --- URI-Paths.
+For MQTT, that is Topic Name, for CoAP — URI-Paths.
 
 - **Extension**: a piece of functionality offered to the client by the server.
 Extension is usually represented by a separate resource.
@@ -171,7 +171,7 @@ Response MUST be published with the same QoS level as the corresponding request.
 ### Security
 We separate *client authentication* and *endpoint identification*.
 During client authentication, a client and a server should verify each other: client verifies server identity and server verifies that the client is authorized to access the server.
-Note that multiple clients may share the same credentials, and thus server can't identify clients --- it merely verifies the client knows a shared secret.
+Note that multiple clients may share the same credentials, and thus server can't identify clients — it merely verifies the client knows a shared secret.
 
 Client authentication and *session-wide encryption* are usually handled simultaneously by separate encapsulating protocols (TLS, DTLS, IPSec, none, etc.), so it is not described in this RFC.
 However, a possible authentication method is using MQTT CONNECT packet with name and password.
