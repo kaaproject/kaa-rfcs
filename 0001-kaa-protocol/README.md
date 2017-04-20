@@ -193,7 +193,7 @@ Using an extension allows implementing different registration schemes as well as
 >- Endpoint tokens can be assigned per client session.
 >This provides better security and allows using short non-secure tokens.
 
-You can also use a predefined token, which is a simpler but less secure alternative.
+A predefined token can also be used, which is a simpler but less secure alternative.
 In that case, the endpoint is manually added to the server, the server allocates a unique token and provides it to the user, the user embeds the token in the application.
 
 ## Open questions
