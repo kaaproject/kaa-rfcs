@@ -140,7 +140,7 @@ Example:
 If the `id` field is present, the server MUST respond with a processing confirmation response.
 
 >**NOTE:** MQTT packet ID cannot be used.
->If used, we would be unable to work via gateways as a gateway is allowed to change MQTT packet ID.
+>If used, it would not allow working via gateways as a gateway can change MQTT packet ID.
 
 If a batch does not specify the ID, the request degrades into a single-field JSON object.
 ```json
@@ -158,7 +158,7 @@ In that case, the client MAY omit the `{"entries": }` part.
 ]
 ```
 
-JSON schema for requests is defined in the [request.schema.json](./request.schema.json) file.
+JSON Schema for requests is defined in the [request.schema.json](./request.schema.json) file.
 
 ##### Response
 
@@ -167,11 +167,9 @@ For MQTT, processing confirmation responses are published to the following resou
 <endpoint_token>/json
 ```
 
-A processing confirmation response MUST be a UFT-8 encoded JSON record with the following fields:
+A processing confirmation response MUST be a UTF-8 encoded JSON record with the following fields:
 - `id`: a copy of the `id` field from the corresponding request.
 - `status`: a human-readable string explaining the cause of an error (if any).
 If the processing is successful, the value MUST be `"ok"`.
 
-JSON schema for responses is defined in the [response.schema.json](./response.schema.json) file.
-
----
+JSON Schema for responses is defined in the [response.schema.json](./response.schema.json) file.
