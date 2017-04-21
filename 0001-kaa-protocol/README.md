@@ -244,5 +244,3 @@ With CoAP, the response can be direct.
 
 ### Security
 Which authentication combinations should the KP implementations support?
-
----
