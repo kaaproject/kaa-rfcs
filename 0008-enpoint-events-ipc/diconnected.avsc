@@ -1,36 +1,42 @@
 {
-  "namespace":"org.kaaproject.ecskp.event.gen",
-  "type":"record",
-  "name":"DisconnectEventMessage",
-  "doc":"Event of disconnect message of client.",
-  "fields":[
+  "namespace": "org.kaaproject.ipc.event.gen.v1",
+  "type": "record",
+  "name": "EndpointDisconnectedEvent",
+  "doc": "Endpoint(s) disconnected event message.",
+  "fields": [
     {
-      "name":"endpointIds",
-      "doc":"Endpoint IDs",
-      "type":{
-        "type":"array",
-        "items":"string",
-         "default":[
-         ]
-       }
+      "name": "correlationId",
+      "type": "string",
+      "default": "",
+      "doc": "Message tracing ID primarily used for tracking the message processing across services."
     },
     {
-      "name":"correlationId",
-      "type":"string",
-      "default":"",
-      "doc":"Correlation ID"
+      "name": "timestamp",
+      "type": "long",
+      "default": "",
+      "doc": "Unix time in milliseconds when the message was created."
     },
     {
-      "name":"timestamp",
-      "type":"long",
-      "default":"",
-      "doc":"Timestamp when the event was created."
+      "name": "timeout",
+      "type": "long",
+      "default": -1,
+      "doc": "The amount of milliseconds since timestamp when the message expires at the originating entity."
     },
     {
-      "name":"originatorReplicaId",
-      "type":"string",
-      "default":"",
-      "doc":"Identifier of the service replica that generated the event"
+      "name": "endpointIds",
+      "doc": "Endpoint identifiers. May contain multiple items when client that was associated with multiple endpoints closed the communication session.",
+      "type": {
+        "type": "array",
+        "items": "string",
+        "default": [
+        ]
+      }
+    },
+    {
+      "name": "originatorReplicaId",
+      "type": "string",
+      "default": "",
+      "doc": "Identifier of the service replica that generated the event."
     }
   ]
 }

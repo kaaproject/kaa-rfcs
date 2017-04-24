@@ -1,38 +1,43 @@
 {
-  "namespace":"org.kaaproject.ecskp.event.gen",
-  "type":"record",
-  "name":"ConnectEventMessage",
-  "doc":"Event of connect message of client.",
-  "fields":[
+  "namespace": "org.kaaproject.ipc.event.gen.v1",
+  "type": "record",
+  "name": "EndpointConnectedEvent",
+  "doc": "Endpoint connected event message.",
+  "fields": [
     {
-      "name":"endpointId",
-      "type":"string",
-      "default":"",
-      "doc":"Endpoint ID"
+      "name": "correlationId",
+      "type": "string",
+      "default": "",
+      "doc": "Message tracing ID primarily used for tracking the message processing across services."
     },
     {
-      "name":"appVersionName",
-      "type":"string",
-      "default":"",
-      "doc":"the endpoint’s current application version name."
+      "name": "timestamp",
+      "type": "long",
+      "doc": "Unix time in milliseconds when the message was created."
     },
     {
-      "name":"correlationId",
-      "type":"string",
-      "default":"",
-      "doc":"Correlation ID"
+      "name": "timeout",
+      "type": "long",
+      "default": -1,
+      "doc": "The amount of milliseconds since timestamp when the message expires at the originating entity."
     },
     {
-      "name":"timestamp",
-      "type":"long",
-      "default":"",
-      "doc":"Timestamp when the event was created."
+      "name": "endpointId",
+      "type": "string",
+      "default": "",
+      "doc": "The endpoint identifier"
     },
     {
-      "name":"originatorReplicaId",
-      "type":"string",
-      "default":"",
-      "doc":"Identifier of the service replica that generated the event"
+      "name": "appVersionName",
+      "type": "string",
+      "default": "",
+      "doc": "Unique name of the application version that the endpoint identified by the endpointID belongs to."
+    },
+    {
+      "name": "originatorReplicaId",
+      "type": "string",
+      "default": "",
+      "doc": "Identifier of the service replica that generated the event."
     }
   ]
 }

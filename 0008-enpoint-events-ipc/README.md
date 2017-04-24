@@ -25,6 +25,7 @@ The `{event-type}` is `connected`.
 
 NATS subject format:
 `kaa.v1.events.{originator-service-instance-name}.endpoint.connectivity.connected`
+
 The Avro schema for the NATS message payload can be found here ([file](./connected.avsc))
 ### Endpoint disconnected
 Published when communication session with the Kaa Iot Platform has been closed.
@@ -32,5 +33,8 @@ The `{event-type}` is `disconnected`.
 
 NATS subject format:
 `kaa.v1.events.{originator-service-instance-name}.endpoint.connectivity.disconnected`
+
 The Avro schema for the NATS message payload can be found here ([file](./disconnected.avsc))
+
+The endpoint disconnected event may contain a mutiple endpoint IDs in _endpointIds_ field because endpoint disconnected event can be published when the client (see [Client vs endpoint](/0001-kaa-protocol#client-vs-endpoint)) disconnected. And the client session may be associated with multiple endpoints.
 
