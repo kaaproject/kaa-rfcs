@@ -1,0 +1,36 @@
+{
+  "namespace":"org.kaaproject.ecskp.event.gen",
+  "type":"record",
+  "name":"DisconnectEventMessage",
+  "doc":"Event of disconnect message of client.",
+  "fields":[
+    {
+      "name":"endpointIds",
+      "doc":"Endpoint IDs",
+      "type":{
+        "type":"array",
+        "items":"string",
+         "default":[
+         ]
+       }
+    },
+    {
+      "name":"correlationId",
+      "type":"string",
+      "default":"",
+      "doc":"Correlation ID"
+    },
+    {
+      "name":"timestamp",
+      "type":"long",
+      "default":"",
+      "doc":"Timestamp when the event was created."
+    },
+    {
+      "name":"originatorReplicaId",
+      "type":"string",
+      "default":"",
+      "doc":"Identifier of the service replica that generated the event"
+    }
+  ]
+}

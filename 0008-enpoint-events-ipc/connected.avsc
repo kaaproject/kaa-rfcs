@@ -1,0 +1,38 @@
+{
+  "namespace":"org.kaaproject.ecskp.event.gen",
+  "type":"record",
+  "name":"ConnectEventMessage",
+  "doc":"Event of connect message of client.",
+  "fields":[
+    {
+      "name":"endpointId",
+      "type":"string",
+      "default":"",
+      "doc":"Endpoint ID"
+    },
+    {
+      "name":"appVersionName",
+      "type":"string",
+      "default":"",
+      "doc":"the endpoint’s current application version name."
+    },
+    {
+      "name":"correlationId",
+      "type":"string",
+      "default":"",
+      "doc":"Correlation ID"
+    },
+    {
+      "name":"timestamp",
+      "type":"long",
+      "default":"",
+      "doc":"Timestamp when the event was created."
+    },
+    {
+      "name":"originatorReplicaId",
+      "type":"string",
+      "default":"",
+      "doc":"Identifier of the service replica that generated the event"
+    }
+  ]
+}
