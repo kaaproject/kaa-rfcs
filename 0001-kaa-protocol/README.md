@@ -1,5 +1,5 @@
 ---
-name: Kaa Protocol
+name: Kaa protocol
 shortname: 1/KP
 status: draft
 editor: Alexey Shmalko <ashmalko@cybervisiontech.com>
@@ -31,7 +31,7 @@ contributors: Alexey Gamov <agamov@cybervisiontech.com>, Andrew Kokhanovskyi <ak
   - [Security](#security)
 
 ## Introduction
-This document describes general requirements, principles, design, and guidelines for **Kaa Protocol** (KP) version 1.
+This document describes general requirements, principles, design, and guidelines for **Kaa protocol** (KP) version 1.
 KP is a standard protocol designed to connect client applications and endpoints (colloquially — devices) to a Kaa server.
 
 ## Language
