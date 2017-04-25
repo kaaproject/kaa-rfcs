@@ -1,42 +1,49 @@
 {
-  "namespace": "org.kaaproject.ipc.event.gen.v1.endpoint.connectivity",
+  "namespace": "org.kaaproject.ipc.event.gen.v1.endpoint.lifecycle",
   "type": "record",
-  "name": "EndpointConnectedEvent",
-  "doc": "Endpoint connected event message.",
+  "name": "AppVerUpdatedEvent",
+  "doc": "Endpoint's application version updated event message.",
   "fields": [
     {
       "name": "correlationId",
       "type": "string",
-      "default": "",
+      "default":"",
       "doc": "Message tracing ID primarily used for tracking the message processing across services."
     },
     {
       "name": "timestamp",
       "type": "long",
+      "default":-1,
       "doc": "Unix time in milliseconds when the message was created."
     },
     {
       "name": "timeout",
       "type": "long",
-      "default": -1,
+      "default":-1,
       "doc": "The amount of milliseconds since timestamp when the message expires at the originating entity."
     },
     {
       "name": "endpointId",
       "type": "string",
-      "default": "",
-      "doc": "The endpoint identifier"
+      "doc": "The endpoint identifier."
     },
     {
       "name": "appVersionName",
       "type": "string",
-      "default": "",
-      "doc": "Unique name of the application version that the endpoint identified by the endpointID belongs to."
+      "doc": "The new application version name the endpoint registered in."
+    },
+    {
+      "name": "previousAppVersionName",
+      "type": "string",
+      "doc": "The previous application version name the endpoint was registered in."
     },
     {
       "name": "originatorReplicaId",
-      "type": "string",
-      "default": "",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
       "doc": "Identifier of the service replica that generated the event."
     }
   ]

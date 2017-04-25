@@ -1,8 +1,8 @@
 {
-  "namespace": "org.kaaproject.ipc.event.gen.v1.endpoint.connectivity",
+  "namespace": "org.kaaproject.ipc.event.gen.v1.endpoint.config",
   "type": "record",
-  "name": "EndpointConnectedEvent",
-  "doc": "Endpoint connected event message.",
+  "name": "ConfigUpdated",
+  "doc": "The endpoint configuration processed event message. Published when endpoint send the confirmation that it applied the configuration.",
   "fields": [
     {
       "name": "correlationId",
@@ -25,18 +25,27 @@
       "name": "endpointId",
       "type": "string",
       "default": "",
-      "doc": "The endpoint identifier"
+      "doc": "The endpoint identifier."
     },
     {
       "name": "appVersionName",
       "type": "string",
       "default": "",
-      "doc": "Unique name of the application version that the endpoint identified by the endpointID belongs to."
+      "doc": "The application version name the endpoint registered in."
+    },
+    {
+      "name": "configId",
+      "type": "string",
+      "default": "",
+      "doc": "The unique identifier of applied configuration. This identifier changes on every endpoint config update."
     },
     {
       "name": "originatorReplicaId",
-      "type": "string",
-      "default": "",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
       "doc": "Identifier of the service replica that generated the event."
     }
   ]
