@@ -44,7 +44,7 @@ NATS subject format:
 
 `kaa.v1.events.{originator-service-instance-name}.endpoint.connectivity.connected`
 
-The Avro schema for the NATS message payload can be found ([here](./connected.avsc)).
+The Avro schema for the NATS message payload can be found [here](./connected.avsc).
 ### Endpoint disconnected
 The `{event-type}` is `disconnected`.
 
@@ -54,7 +54,7 @@ NATS subject format:
 
 `kaa.v1.events.{originator-service-instance-name}.endpoint.connectivity.disconnected`
 
-The Avro schema for the NATS message payload can be found ([here](./disconnected.avsc)).
+The Avro schema for the NATS message payload can be found [here](./disconnected.avsc).
 
 The endpoint disconnected event may contain a mutiple endpoint IDs in _endpointIds_ field because endpoint disconnected event can be published when the client (see [Client vs endpoint](/0001-kaa-protocol#client-vs-endpoint)) disconnected. And the client session may be associated with multiple endpoints.
 
@@ -70,7 +70,7 @@ NATS subject format:
 
 `kaa.v1.events.{originator-service-instance-name}.endpoint.lifecycle.registered`
 
-The Avro schema for the NATS message payload can be found ([here](./registered.avsc)).
+The Avro schema for the NATS message payload can be found [here](./registered.avsc).
 
 ### Endpoint updated application version
 
@@ -82,7 +82,7 @@ NATS subject format:
 
 `kaa.v1.events.{originator-service-instance-name}.endpoint.lifecycle.appversion-updated`
 
-The Avro schema for the NATS message payload can be found ([here](./app-version-updated.avsc)).
+The Avro schema for the NATS message payload can be found [here](./app-version-updated.avsc).
 
 ## Metadata events
 The `{event-group}` is `metadata`.
@@ -96,7 +96,7 @@ NATS subject format:
 
 `kaa.v1.events.{originator-service-instance-name}.endpoint.metadata.updated`
 
-The Avro schema for the NATS message payload can be found ([here](./metadata-updated.avsc)).
+The Avro schema for the NATS message payload can be found [here](./metadata-updated.avsc).
 
 ## Configuration events
 The `{event-group}` is `config`.
@@ -110,7 +110,7 @@ NATS subject format:
 
 `kaa.v1.events.{originator-service-instance-name}.endpoint.config.new-available`
 
-The Avro schema for the NATS message payload can be found ([here](./new-config-available.avsc)).
+The Avro schema for the NATS message payload can be found [here](./new-config-available.avsc).
 ### Endpoint applied the configuration
 
 The `{event-type}` is `updated`.
@@ -121,6 +121,6 @@ NATS subject format:
 
 `kaa.v1.events.{originator-service-instance-name}.endpoint.config.updated`
 
-The Avro schema for the NATS message payload can be found ([here](./config-updated.avsc)).
+The Avro schema for the NATS message payload can be found [here](./config-updated.avsc).
 
 
