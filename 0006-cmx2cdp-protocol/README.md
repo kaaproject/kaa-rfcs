@@ -5,6 +5,19 @@ status: draft
 editor: Andrew Pasika<apasika@cybervisiontech.com>
 ---
 
+- [Introduction](#introduction)
+- [Language](#language)
+- [Requirements and constraints](#requirements-and-constraints)
+- [Use cases](#use-cases)
+  - [UC1](#uc1)
+  - [UC2](#uc2)
+- [Design](#Design)
+  - [Configuration pull](#configuration-pull)
+    - [Subject structure](#subject-structure)
+    - [Targeted message types](#targeted-message-types)
+  - [Configuration push](#configuration-push)
+    - [Subject structure](#subject-structure)
+
 ## Introduction
 
 CMX to CDP protocol (CMX2CDP) is an extension of [3/Messaging IPC][3/MIPC] protocol.
