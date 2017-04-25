@@ -9,7 +9,6 @@ contributors: Alexey Gamov<agamov@cybervisiontech.com>
 - [Introduction](#introduction)
 - [Language](#language)
 - [Requirements and constraints](#requirements-and-constraints)
-  - [Problems and possible solutions](#problems-and-possible-solutions)
 - [Use cases](#use-cases)
   - [UC1: individually authenticated device](#uc1-individually-authenticated-device)
   - [UC2: mass production device](#uc2-mass-production-device)
