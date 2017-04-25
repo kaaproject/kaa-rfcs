@@ -1,6 +1,6 @@
 ---
 name: Endpoint events IPC
-shortname: 8/ENDPOINT_EVENTS
+shortname: 9/ENDPOINT_EVENTS
 status: draft
 editor: Volodymyr Tkhir <vtkhir@cybervisiontech.com>
 ---
