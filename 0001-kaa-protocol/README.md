@@ -2,8 +2,8 @@
 name: Kaa protocol
 shortname: 1/KP
 status: draft
-editor: Alexey Shmalko <ashmalko@cybervisiontech.com>
-contributors: Alexey Gamov <agamov@cybervisiontech.com>, Andrew Kokhanovskyi <akokhanovskyi@cybervisiontech.com>
+editor: Alexey Shmalko<ashmalko@cybervisiontech.com>
+contributors: Alexey Gamov<agamov@cybervisiontech.com>, Andrew Kokhanovskyi<akokhanovskyi@cybervisiontech.com>
 ---
 
 - [Introduction](#introduction)

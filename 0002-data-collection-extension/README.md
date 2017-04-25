@@ -2,8 +2,8 @@
 name: Data Collection protocol
 shortname: 2/DCX
 status: draft
-editor: Alexey Shmalko <ashmalko@cybervisiontech.com>
-contributors: Alexey Gamov <agamov@cybervisiontech.com>
+editor: Alexey Shmalko<ashmalko@cybervisiontech.com>
+contributors: Alexey Gamov<agamov@cybervisiontech.com>
 ---
 
 - [Introduction](#introduction)
