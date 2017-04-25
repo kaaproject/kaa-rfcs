@@ -91,7 +91,7 @@ There are two types of targeted messages:
 
 - `correlationId` (string, required): refer to [3/Messaging IPC][3/MIPC] RFC for description.<!--TODO-->
 - `timestamp` (number, required): message creation timestamp.
-- `timeout` (number, required): amount of time that the message remains actual — from timestamp to termination.
+- `timeout` (number, required): amount of time (starting from the timestamp) before the message gets ignored.
 - `endpointMessageId` (string, required): unique identifier of original endpoint message.
 - `appVersionName` (string, required): application version to which the endpoint configuration is applicable.
 - `endpointId` (string, required): unique identifier of endpoint to which the configuration is applicable.
@@ -116,7 +116,7 @@ Example:
 
 - `correlationId` (string, required): refer to [3/Messaging IPC][3/MIPC] RFC for description.<!--TODO-->
 - `timestamp` (number, required): message creation timestamp.
-- `timeout` (number, required): amount of time that the message remains actual — from timestamp to termination.
+- `timeout` (number, required): amount of time (starting from the timestamp) before the message gets ignored.
 - `endpointMessageId` (string, required): unique identifier of original endpoint message.
 - `appVersionName` (string, required): application version to which the endpoint configuration is applicable.
 - `endpointId` (string, required): unique identifier of endpoint to which the configuration is applicable.
