@@ -29,9 +29,9 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 The following terms and definitions are used in this RFC.
 
-- **CMX**: Configuration Management service.
-- **CDP**: Configuration Data Provider service.
-- **CMX2CDP**: name of the protocol used in communication between CMX and any CDP implementation.
+- **CMX**: any configuration management implementation.
+- **CDP**: any configuration data provider implementation.
+- **CMX2CDP**: name of the protocol used in communication between CMX and CDP.
 
 ## Requirements and constraints
 
