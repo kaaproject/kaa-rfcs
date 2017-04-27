@@ -2,7 +2,7 @@
 name: CMX to CDP protocol
 shortname: 6/CMX2CDP
 status: draft
-editor: Andrew Pasika<apasika@cybervisiontech.com>
+editor: Andrew Pasika <apasika@cybervisiontech.com>
 ---
 
 - [Introduction](#introduction)
@@ -22,7 +22,7 @@ editor: Andrew Pasika<apasika@cybervisiontech.com>
 
 CMX to CDP protocol (CMX2CDP) is an extension of [3/Messaging IPC][3/MIPC] protocol.
 
-CMX2CDP is designed to communicate endpoint configurations from [Configuration Data Provider service (CDP)]()<!--TODO--> to [Configuration Management service (CMX)]()<!--TODO-->.
+CMX2CDP is designed to communicate endpoint configurations from implementations that provide configuration data to implementations that manage configuration data.
 
 ## Language
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).
@@ -87,7 +87,7 @@ There are two types of targeted messages:
 - `ConfigRequest` message is sent by CMX.
 - `ConfigResponse` message is sent by CDP.
 
-`ConfigResponse` message structure:
+`ConfigRequest` message structure:
 
 - `correlationId` (string, required): refer to [3/Messaging IPC][3/MIPC] RFC for description.<!--TODO-->
 - `timestamp` (number, required): message creation timestamp.
