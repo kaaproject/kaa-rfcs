@@ -1,6 +1,6 @@
 ---
 name: Endpoint events IPC
-shortname: 9/ENDPOINT_EVENTS
+shortname: 9/EPEIPC
 status: draft
 editor: Volodymyr Tkhir <vtkhir@cybervisiontech.com>
 ---
@@ -21,9 +21,10 @@ editor: Volodymyr Tkhir <vtkhir@cybervisiontech.com>
 
 ## Introduction
 
-The Endpoint events IPC protocol is a [Broadcast Messaging](/0003-messaging-ipc/README.md#broadcast-messaging) protocol extension.
+The Endpoint events are used to communicate events that occur with endpoints (endpoint is the target entity type in terms of [Broadcast Messaging](/0003-messaging-ipc/README.md#broadcast-messaging)).
 
-Document describes the endpoint events that are published into NATS message broker. The document describes the NATS subject and Avro message format for each message.
+Document describes the endpoint events that are published into NATS message broker.
+The document describes the NATS subject and Avro message format for each message.
 The NATS subject format is:
 
   `kaa.v1.events.{originator-service-instance-name}.endpoint.{event-group}.{event-type}`
@@ -37,7 +38,7 @@ The NATS subject format is:
 ## Connectivity events
 The `{event-group}` is `connectivity`.
 ### Endpoint connected
-Published when endpoint opened the communication session with the Kaa Iot Platform.
+Published when endpoint opened the communication session with the server.
 The `{event-type}` is `connected`.
 
 NATS subject format:
@@ -48,7 +49,7 @@ The Avro schema for the NATS message payload can be found [here](./connected.avs
 ### Endpoint disconnected
 The `{event-type}` is `disconnected`.
 
-Published when communication session with the Kaa Iot Platform has been closed.
+Published when communication session with the server has been closed.
 
 NATS subject format:
 
@@ -56,7 +57,8 @@ NATS subject format:
 
 The Avro schema for the NATS message payload can be found [here](./disconnected.avsc).
 
-The endpoint disconnected event may contain a mutiple endpoint IDs in _endpointIds_ field because endpoint disconnected event can be published when the client (see [Client vs endpoint](/0001-kaa-protocol#client-vs-endpoint)) disconnected. And the client session may be associated with multiple endpoints.
+The endpoint disconnected event may contain a mutiple endpoint IDs in _endpointIds_ field because endpoint disconnected event can be published when the client (see [Client vs endpoint](/0001-kaa-protocol#client-vs-endpoint)) disconnected.
+And the client session may be associated with multiple endpoints.
 
 ## Lifecycle events
 The `{event-group}` is `lifecycle`.
