@@ -49,7 +49,7 @@ The Avro schema for the NATS message payload can be found [here](./connected.avs
 ### Endpoint disconnected
 The `{event-type}` is `disconnected`.
 
-Published when communication session with the server has been closed.
+Published when connectivity to the endpoint is no longer available.
 
 NATS subject format:
 
