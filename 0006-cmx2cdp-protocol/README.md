@@ -1,6 +1,6 @@
 ---
-name: CMX to CDP protocol
-shortname: 6/CMX2CDP
+name: Configuration Data Transport protocol
+shortname: 6/CDT
 status: draft
 editor: Andrew Pasika <apasika@cybervisiontech.com>
 ---
@@ -8,9 +8,6 @@ editor: Andrew Pasika <apasika@cybervisiontech.com>
 - [Introduction](#introduction)
 - [Language](#language)
 - [Requirements and constraints](#requirements-and-constraints)
-- [Use cases](#use-cases)
-  - [UC1](#uc1)
-  - [UC2](#uc2)
 - [Design](#Design)
   - [Configuration pull](#configuration-pull)
     - [Subject structure](#subject-structure)
@@ -20,61 +17,54 @@ editor: Andrew Pasika <apasika@cybervisiontech.com>
 
 ## Introduction
 
-CMX to CDP protocol (CMX2CDP) is an extension of [3/Messaging IPC][3/MIPC] protocol.
+Configuration Data Transport (CDT) protocol is designed to communicate endpoint configuration data between Kaa services.
 
-CMX2CDP is designed to communicate endpoint configurations from implementations that provide configuration data to implementations that manage configuration data.
+In Kaa architecture, some services are designed to manage endpoint configuration in different ways — store it, process it, publish it, etc.
+One of the core features in such context is the ability to store and retrieve endpoint configurations.
+
+For this purpose, the CDT protocol was designed.
+It defines the endpoint configuration data structure so that it's interpreted by all concerned services in the same way.
+
+In CDT lingo, storing an endpoint configuration to a service is called *configuration push*, while retrieving it from a service is called *configuration pull*.
+
+To effectively perform these activities, endpoint configuration data should be communicated in a format recognized by all the concerned services.
+To achieve this, CDT protocol was designed based on the [3/Messaging IPC][3/MIPC] protocol.
 
 ## Language
+
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).
 
 The following terms and definitions are used in this RFC.
 
-- **CMX**: any configuration management implementation.
-- **CDP**: any configuration data provider implementation.
-- **CMX2CDP**: name of the protocol used in communication between CMX and CDP.
+- **Configuration push**: sending an endpoint configuration data to a service for further storage and/or processing.
+- **Configuration pull**: retrieving an endpoint configuration data from a service.
+- **Source service**: any service that initiates a configuration push/pull.
+- **Target service**: any service that a configuration push/pull is initiated towards.
 
 ## Requirements and constraints
 
-CMX2CDP requirements:
+CDT requirements:
 
-- Configuration push: broadcasting events about new configuration availability.
-- Configuration delivery confirmation.
-- Filtering messages by content type and communicating them to different CDP instances.
-- Using HTTP status codes and arbitrary reason phrases to inform about configuration unavailability.
-
-## Use cases
-
-### UC1
-
-Once CDP service accepts new configuration, it publishes an event message containing the configuration data.
-The message is published with a [NATS](http://nats.io/) subject, so all services subscribed to this subject will receive the event message.
-
-CDP also listens to configuration-based events and replies to them accordingly.
-
-### UC2
-
-Once endpoint is connected, it can send a configuration request to CMX which forwards it to specific CDP.
+- Once a new endpoint configuration is pushed to a service, this service must be able to broadcast an event over [NATS](http://nats.io/) about the new configuration availability.
+- The service that pushed a configuration to another service must receive a confirmation that the configuration was successfully pushed.
+- When a service tries to pull an endpoint configuration that does not exist, or in case of other errors during configuration pull, HTTP status codes and arbitrary reason phrases must be used to inform about the errors occurred.
 
 ## Design
 
-There are two messaging approaches used in CMX-CDP communication:
-- [Configuration pull](#configuration-pull)
-- [Configuration push](#configuration-push)
-
 ### Configuration pull
 
-Configuration pull is used when CMX is intended to request particular configuration.
+Configuration pull is used when a service is intended to request particular configuration.
 
 No delivery confirmation is required for configuration pull, as endpoint can detect delivery fail and request configuration again.
 
 #### Subject structure
 
-CMX should send messages using this NATS subject:
+The source service should send messages using this NATS subject:
 ```
 kaa.v1.service.{cdp-service-instance-name}.cmx2cdp.{message-type}
 ```
 
-Also, CMX should include NATS `replyTo` field pointing to CMX replica that will handle the response:
+Also, the source service should include NATS `replyTo` field pointing to the source service replica that will handle the response:
 ```
 kaa.v1.replica.{cmx-service-instance-replica-id}.cmx2cdp.{message-type}
 ```
@@ -84,8 +74,8 @@ For more information, see [3/Messaging IPC][3/MIPC].
 #### Targeted message types
 
 There are two types of targeted messages:
-- `ConfigRequest` message is sent by CMX.
-- `ConfigResponse` message is sent by CDP.
+- `ConfigRequest` message is sent by source service.
+- `ConfigResponse` message is sent by target service.
 
 `ConfigRequest` message structure:
 
@@ -151,11 +141,11 @@ Example:
 Manipulations with endpoint configurations can be done as events.
 Alternatively, the event-based approach can be used as described in [3/Messaging IPC][3/MIPC] RFC.
 
-When an endpoint updates its configuration to a certain version, CMX should broadcast an event about this.
+When an endpoint updates its configuration to a certain version, a source service should broadcast an event about this.
 
 #### Subject structure
 
-CMX and CDP should listen to this subject and send messages to it:
+The source and the target services should listen to this subject and send messages to it:
 ```
 kaa.v1.events.{originator-service-instance-name}.endpoint.config.{event-type}
 ```
@@ -163,14 +153,14 @@ kaa.v1.events.{originator-service-instance-name}.endpoint.config.{event-type}
 For more information, see [3/Messaging IPC][3/MIPC].
 
 There are two types of such messages:
-- `ConfigUpdated` message is initiated by CMX when it receives notification that particular endpoint has updated configuration.
-- `ConfigNewAvailable` message is initiated by CDP when it receives new configuration.
+- `ConfigUpdated` message is initiated by source service when it receives notification that particular endpoint has updated configuration.
+- `ConfigNewAvailable` message is initiated by target service when it receives new configuration.
 
 `ConfigUpdated` message structure:
 
-- `appVersionName` (string, required) - application version to which endpoint configuration is applicable.
-- `endpointId` (string, required) - unique identifier of endpoint to which configuration is applicable.
-- `configId` (string, required) - unique identifier of endpoint configuration.
+- `appVersionName` (string, required): application version to which endpoint configuration is applicable.
+- `endpointId` (string, required): unique identifier of endpoint to which configuration is applicable.
+- `configId` (string, required): unique identifier of endpoint configuration.
 
 Example:
 
