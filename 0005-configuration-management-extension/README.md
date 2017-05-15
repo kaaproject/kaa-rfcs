@@ -256,6 +256,10 @@ When the `<message_format>` is set to `json`, the response payload MUST be a JSO
       "multipleOf": 1.0,
       "description": "ID of the message used to match client response to the request."
     },
+    "configId": {
+      "type": "string",
+      "description": "Identifier of the current configuration."
+    },
     "statusCode": {
       "type": "number",
       "description": "Status code based on HTTP status codes."
@@ -265,7 +269,7 @@ When the `<message_format>` is set to `json`, the response payload MUST be a JSO
       "description": "A human-readable string explaining the cause of an error (if any). In case the request was successful, it is `ok`."
     }
   },
-  "required": [ "id", "statusCode", "reasonPhrase" ],
+  "required": [ "id", "statusCode", "reasonPhrase", "configId"],
   "additionalProperties": false
 }
 ```
@@ -274,6 +278,7 @@ Example:
 ```json
 {
   "id": 42,
+  "configId": "97016dbe8bb4adff8f754ecbf24612f2",
   "statusCode": 200,
   "reasonPhrase": "ok"
 }
