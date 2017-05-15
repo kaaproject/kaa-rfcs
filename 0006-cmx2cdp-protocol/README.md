@@ -23,11 +23,11 @@ In Kaa architecture, some services are designed to manage endpoint configuration
 One of the core features in such context is the ability to store and retrieve endpoint configurations.
 
 For this purpose, the CDT protocol was designed.
-It defines the endpoint configuration data structure so that it's interpreted by all concerned services in the same way.
+It defines the endpoint configuration data structure so that it's interpreted by all involved services in the same way.
 
 In CDT lingo, storing an endpoint configuration to a service is called *configuration push*, while retrieving it from a service is called *configuration pull*.
 
-To effectively perform these activities, endpoint configuration data should be communicated in a format recognized by all the concerned services.
+To effectively perform these activities, endpoint configuration data should be communicated in a format recognized by all the services involved.
 To achieve this, CDT protocol was designed based on the [3/Messaging IPC][3/MIPC] protocol.
 
 ## Language
