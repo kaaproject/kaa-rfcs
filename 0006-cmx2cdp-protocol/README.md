@@ -59,7 +59,7 @@ No delivery confirmation is required for configuration pull, as endpoint can det
 
 #### Subject structure
 
-The source service should send messages using this NATS subject:
+The [source](#language) service should send messages using this NATS subject:
 ```
 kaa.v1.service.{cdp-service-instance-name}.cmx2cdp.{message-type}
 ```
@@ -75,7 +75,7 @@ For more information, see [3/Messaging IPC][3/MIPC].
 
 There are two types of targeted messages:
 - `ConfigRequest` message is sent by source service.
-- `ConfigResponse` message is sent by target service.
+- `ConfigResponse` message is sent by [target](#language) service.
 
 `ConfigRequest` message structure:
 
