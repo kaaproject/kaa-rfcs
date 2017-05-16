@@ -5,8 +5,7 @@
   "type": "object",
   "properties": {
     "id": {
-      "type": "number",
-      "multipleOf": 1.0,
+      "type": "string",
       "description": "ID of the message used to match client response to the request."
     },
     "statusCode": {

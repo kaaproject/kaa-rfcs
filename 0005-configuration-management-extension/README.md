@@ -64,8 +64,7 @@ When the `<message_format>` is set to `json`, the request payload MUST be a JSON
   "type": "object",
   "properties": {
     "id": {
-      "type": "number",
-      "multipleOf": 1.0,
+      "type": "string",
       "description": "ID of the message used to match server response to the request."
     },
     "configId": {
@@ -82,7 +81,7 @@ When the `<message_format>` is set to `json`, the request payload MUST be a JSON
 Example 1:
 ```json
 {
-  "id": 42,
+  "id": "8578d67a",
   "configId": "97016dbe8bb4adff8f754ecbf24612f2"
 }
 ```
@@ -90,7 +89,7 @@ Example 1:
 Example 2:
 ```json
 {
-  "id": 42
+  "id": "8578d67a"
 }
 ```
 
@@ -113,8 +112,7 @@ When the `<message_format>` is set to `json`, the response payload MUST be a JSO
   "type": "object",
   "properties": {
     "id": {
-      "type": "number",
-      "multipleOf": 1.0,
+      "type": "string",
       "description": "ID of the message used to match server response to the request."
     },
     "configId": {
@@ -146,7 +144,7 @@ When the `<message_format>` is set to `json`, the response payload MUST be a JSO
 Example:
 ```json
 {
-  "id": 42,
+  "id": "8578d67a",
   "configId": "97016dbe8bb4adff8f754ecbf24612f2",
   "statusCode": 200,
   "reasonPhrase": "ok",
@@ -162,7 +160,7 @@ Example:
 Example for the case when there is no new configuration data for the endpoint (`configId` matches the most up to date one):
 ```json
 {
-  "id": 42,
+  "id": "8578d67a",
   "configId": "97016dbe8bb4adff8f754ecbf24612f2",
   "statusCode": 304,
   "reasonPhrase": "Not changed"
@@ -203,8 +201,7 @@ When the `<message_format>` is set to `json`, the request payload MUST be a JSON
   "type": "object",
   "properties": {
     "id": {
-      "type": "number",
-      "multipleOf": 1.0,
+      "type": "string",
       "description": "ID of the message used to match client response to the request."
     },
     "configId": {
@@ -223,7 +220,7 @@ When the `<message_format>` is set to `json`, the request payload MUST be a JSON
 Example:
 ```json
 {
-  "id": 42,
+  "id": "8578d67a",
   "configId": "97016dbe8bb4adff8f754ecbf24612f2",
   "config": [
     { "key": "value" },
@@ -252,8 +249,7 @@ When the `<message_format>` is set to `json`, the response payload MUST be a JSO
   "type": "object",
   "properties": {
     "id": {
-      "type": "number",
-      "multipleOf": 1.0,
+      "type": "string",
       "description": "ID of the message used to match client response to the request."
     },
     "statusCode": {
@@ -273,7 +269,7 @@ When the `<message_format>` is set to `json`, the response payload MUST be a JSO
 Example:
 ```json
 {
-  "id": 42,
+  "id": "8578d67a",
   "statusCode": 200,
   "reasonPhrase": "ok"
 }
