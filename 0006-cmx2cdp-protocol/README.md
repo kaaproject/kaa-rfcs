@@ -20,12 +20,12 @@ editor: Andrew Pasika <apasika@cybervisiontech.com>
 Configuration Data Transport (CDT) protocol is designed to communicate endpoint configuration data between Kaa services.
 
 In Kaa architecture, some services are designed to manage endpoint configuration in different ways — store it, process it, publish it, etc.
-One of the core features in such context is the ability to store and retrieve endpoint configurations.
+One of the core features in such context is the ability to send and receive endpoint configurations.
 
-For this purpose, the CDT protocol was designed.
+For this purpose, the CDT protocol is designed.
 It defines the endpoint configuration data structure so that it's interpreted by all involved services in the same way.
 
-In CDT lingo, storing an endpoint configuration to a service is called *configuration push*, while retrieving it from a service is called *configuration pull*.
+In CDT lingo, sending an endpoint configuration to a service is called *configuration push*, while receiving it from a service is called *configuration pull*.
 
 To effectively perform these activities, endpoint configuration data should be communicated in a format recognized by all the services involved.
 To achieve this, CDT protocol was designed based on the [3/Messaging IPC][3/MIPC] protocol.
@@ -36,18 +36,18 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 The following terms and definitions are used in this RFC.
 
-- **Configuration push**: sending an endpoint configuration data to a service for further storage and/or processing.
-- **Configuration pull**: retrieving an endpoint configuration data from a service.
-- **Source service**: any service that initiates a configuration push/pull.
-- **Target service**: any service that a configuration push/pull is initiated towards.
+- **Configuration push**: sending an endpoint configuration data to a service.
+- **Configuration pull**: receiving an endpoint configuration data from a service.
+- **EP configuration provider (provider)**: any service that sends an endpoint configuration to the other service.
+- **EP configuration consumer (consumer)**: any service that receives an endpoint configuration from the other service.
 
 ## Requirements and constraints
 
 CDT requirements:
 
-- Once a new endpoint configuration is pushed to a service, this service must be able to broadcast an event over [NATS](http://nats.io/) about the new configuration availability.
-- The service that pushed a configuration to another service must receive a confirmation that the configuration was successfully pushed.
-- When a service tries to pull an endpoint configuration that does not exist, or in case of other errors during configuration pull, HTTP status codes and arbitrary reason phrases must be used to inform about the errors occurred.
+- Once a new endpoint configuration is pushed, there must be an EP configuration provider broadcasting an event over [NATS](http://nats.io/) about the new configuration availability.
+- The provider must receive a confirmation that the EP configuration was successfully pushed to the consumer.
+- When a consumer tries to pull an endpoint configuration that does not exist, or in case of other errors during configuration pull, HTTP status codes and arbitrary reason phrases must be used to inform about the errors occurred.
 
 ## Design
 
@@ -59,12 +59,12 @@ No delivery confirmation is required for configuration pull, as endpoint can det
 
 #### Subject structure
 
-The [source](#language) service should send messages using this NATS subject:
+The [EP configuration consumer](#language) should send messages using this NATS subject:
 ```
 kaa.v1.service.{cdp-service-instance-name}.cmx2cdp.{message-type}
 ```
 
-Also, the source service should include NATS `replyTo` field pointing to the source service replica that will handle the response:
+Also, the consumer should include NATS `replyTo` field pointing to the consumer service replica that will handle the response:
 ```
 kaa.v1.replica.{cmx-service-instance-replica-id}.cmx2cdp.{message-type}
 ```
@@ -74,8 +74,8 @@ For more information, see [3/Messaging IPC][3/MIPC].
 #### Targeted message types
 
 There are two types of targeted messages:
-- `ConfigRequest` message is sent by source service.
-- `ConfigResponse` message is sent by [target](#language) service.
+- `ConfigRequest` message is sent by EP configuration consumer.
+- `ConfigResponse` message is sent by [EP configuration provider](#language) service.
 
 `ConfigRequest` message structure:
 
@@ -138,14 +138,14 @@ Example:
 
 ### Configuration push
 
-Manipulations with endpoint configurations can be done as events.
+Pushing a notification from provider to consumer can be designed as an event.
 Alternatively, the event-based approach can be used as described in [3/Messaging IPC][3/MIPC] RFC.
 
-When an endpoint updates its configuration to a certain version, a source service should broadcast an event about this.
+When an endpoint updates its configuration to a certain version, an EP configuration provider should broadcast an event about this.
 
 #### Subject structure
 
-The source and the target services should listen to this subject and send messages to it:
+Both the EP configuration provider and consumer should listen to this subject and send messages to it:
 ```
 kaa.v1.events.{originator-service-instance-name}.endpoint.config.{event-type}
 ```
@@ -153,8 +153,8 @@ kaa.v1.events.{originator-service-instance-name}.endpoint.config.{event-type}
 For more information, see [3/Messaging IPC][3/MIPC].
 
 There are two types of such messages:
-- `ConfigUpdated` message is initiated by source service when it receives notification that particular endpoint has updated configuration.
-- `ConfigNewAvailable` message is initiated by target service when it receives new configuration.
+- `ConfigUpdated` message is initiated by EP configuration provider when it receives notification that particular endpoint has updated configuration.
+- `ConfigNewAvailable` message is initiated by EP configuration consumer when it receives new configuration.
 
 `ConfigUpdated` message structure:
 
