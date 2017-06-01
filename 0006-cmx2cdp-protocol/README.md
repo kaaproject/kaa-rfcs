@@ -107,7 +107,7 @@ _"config-response"_ message structure:
 - `statusCode` (number, required) - status code that holds meaningful information about the result of inbound message processing.
 - `reasonPhrase` (string, required) - status code that holds meaningful information about the result of inbound message processing.
 - `content` (byte[], optional) - content with configuration data.
-- `isApplied` (boolean, required) - shows if client has latest configuration (true if he does).
+- `applied` (boolean, required) - shows if client has latest configuration (true if he does).
 Example:
 
 ```json
@@ -125,7 +125,7 @@ Example:
   "content": {
     "bytes": "d2FpdXJoM2pmbmxzZGtjdjg3eTg3b3cz"
   },
-  "isApplied": true
+  "applied": true
 }
 ```
 
