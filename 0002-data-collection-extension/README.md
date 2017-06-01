@@ -24,7 +24,7 @@ contributors: Alexey Gamov <agamov@cybervisiontech.com>
 ## Introduction
 Data Collection protocol is an endpoint-aware extension of [Kaa protocol](/0001-kaa-protocol/README.md).
 
-It is designed to collect data from endpoints and transfer it to other services/extensions for storage and/or processing.
+It is designed to collect data from endpoints and transfer it to services/extensions for storage and/or processing.
 
 ## Language
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).
@@ -66,22 +66,22 @@ To reduce network usage, all records are uploaded in *batches*.
 All records in a batch are processed as one record and have a single response status.
 
 ### No timestamp handling
-Due to the fact that different applications might need timestamps in different formats and precision, Data Collection extension does not provide any special handling for timestamps.
+Due to the fact that different applications might need timestamps in different formats and precision, Data Collection protocol does not provide any special handling for timestamps.
 There is no special field for a timestamp — it is the responsibility of higher layers to interpret any field as a timestamp.
 
-Recommended solution: save server timestamp upon receiving a network message and pass it along the parsed data, so the upper layers can use that timestamp if needed.
+Recommended fallback solution for cases when there is no timestamp: save server timestamp upon receiving a network message and pass it along the parsed data, so the upper layers can use that timestamp if needed.
 
 ### Request/response
-The extension uses client-initiated request/response pattern defined in [1/KP](/0001-kaa-protocol).
+2/DCX uses client-initiated request/response pattern defined in [1/KP](/0001-kaa-protocol/#requestresponse-pattern).
 A response is sent if a bucket requires processing confirmation.
-
-For MQTT, responses MUST be published at `<request_path>/status`.
-Each response MUST be published with the same QoS as the corresponding request.
 
 ### Formats
 #### Schemeless JSON
 ##### Request
-The server SHOULD support uploading arbitrary JSON records as data points to the following resource path:
+
+JSON Schema for requests is defined in the [request.schema.json](./request.schema.json) file.
+
+Since 2/DCX is an endpoint-aware protocol, the server SHOULD support uploading arbitrary JSON records as data points to the following resource path:
 ```
 <endpoint_token>/json
 ```
@@ -125,9 +125,9 @@ In that case, the client MAY omit the `{"entries": }` part.
 ]
 ```
 
-JSON Schema for requests is defined in the [request.schema.json](./request.schema.json) file.
-
 ##### Response
+
+JSON Schema for responses is defined in the [response.schema.json](./response.schema.json) file.
 
 For MQTT, processing confirmation responses are published to the following resource path.
 ```
@@ -138,5 +138,3 @@ A processing confirmation response MUST be a UTF-8 encoded JSON record with the 
 - `id`: a copy of the `id` field from the corresponding request.
 - `status`: a human-readable string explaining the cause of an error (if any).
 If the processing is successful, the value MUST be `"ok"`.
-
-JSON Schema for responses is defined in the [response.schema.json](./response.schema.json) file.
