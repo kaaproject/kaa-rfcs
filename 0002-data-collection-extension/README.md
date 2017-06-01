@@ -86,10 +86,38 @@ Since 2/DCX is an endpoint-aware protocol, the server SHOULD support uploading a
 <endpoint_token>/json
 ```
 
-The payload MUST be a UTF-8 encoded JSON object with the following fields:
-- `id` (optional): ID of the batch.
+The payload MUST be a UTF-8 encoded JSON object with the following structure:
+
+```json
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "2/DCX request schema",
+
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "multipleOf": 1.0
+        },
+        "entries": {
+          "type": "array"
+        }
+      },
+      "required": [ "entries" ],
+      "additionalProperties": false
+    },
+    {
+      "type": "array"
+    }
+  ]
+}
+```
+where:
+- `id` (optional) is the batch ID.
 Should be integer number.
-- `entries` (required): an array of data entries.
+- `entries` (required) is an array of data entries.
 Each entry can be of any JSON type.
 
 Example:
@@ -134,7 +162,28 @@ For MQTT, processing confirmation responses are published to the following resou
 <endpoint_token>/json
 ```
 
-A processing confirmation response MUST be a UTF-8 encoded JSON record with the following fields:
-- `id`: a copy of the `id` field from the corresponding request.
-- `status`: a human-readable string explaining the cause of an error (if any).
+A processing confirmation response MUST be a UTF-8 encoded JSON record with the following structure:
+
+```json
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "2/DCX response schema",
+
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "number",
+      "multipleOf": 1.0
+    },
+    "status": {
+      "type": "string"
+    }
+  },
+  "required": [ "id", "status" ],
+  "additionalProperties": false
+}
+```
+where:
+- `id` is a copy of the `id` field from the corresponding request.
+- `status` is a human-readable string explaining the cause of an error (if any).
 If the processing is successful, the value MUST be `"ok"`.
