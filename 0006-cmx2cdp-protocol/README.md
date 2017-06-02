@@ -1,84 +1,92 @@
 ---
-name: CMX to CDP protocol
-shortname: 6/CMX2CDP
-status: raw
+name: Configuration Data Transport protocol
+shortname: 6/CDT
+status: draft
 editor: Andrew Pasika <apasika@cybervisiontech.com>
 ---
 
+- [Introduction](#introduction)
+- [Language](#language)
+- [Requirements and constraints](#requirements-and-constraints)
+- [Design](#Design)
+  - [Configuration pull](#configuration-pull)
+    - [Subject structure](#subject-structure)
+    - [Targeted message types](#targeted-message-types)
+  - [Configuration push](#configuration-push)
+    - [Subject structure](#subject-structure)
+
 ## Introduction
 
-The CMX2CDP protocol is a [3/Messaging IPC][3/MIPC] protocol extension.
+Configuration Data Transport (CDT) protocol is designed to communicate endpoint configuration data between Kaa services.
 
-CMX2CDP is the protocol designed to communicate endpoint configurations from _configuration data provider_
-implementations to the _configuration management extensions_.
+In Kaa architecture, some services are designed to manage endpoint configuration in different ways — store it, process it, publish it, etc.
+One of the core features in such context is the ability to send and receive endpoint configurations.
+
+For this purpose, the CDT protocol is designed.
+It defines the endpoint configuration data structure so that it's interpreted by all involved services in the same way.
+
+In CDT lingo, sending an endpoint configuration to a service is called *configuration push*, while receiving it from a service is called *configuration pull*.
+
+To effectively perform these activities, endpoint configuration data should be communicated in a format recognized by all the services involved.
+To achieve this, CDT protocol was designed based on the [3/Messaging IPC][3/MIPC] protocol.
+
+## Language
+
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).
+
+The following terms and definitions are used in this RFC.
+
+- **Configuration push**: sending an endpoint configuration data to a service.
+- **Configuration pull**: receiving an endpoint configuration data from a service.
+- **EP configuration provider (provider)**: any service that sends an endpoint configuration to the other service.
+- **EP configuration consumer (consumer)**: any service that receives an endpoint configuration from the other service.
 
 ## Requirements and constraints
-### Problems and possible solutions
 
-1. _Configuration push._
+CDT requirements:
 
-    Solutions:
-    - CDP should broadcast event that new configuration is available.
+- Once a new endpoint configuration is pushed, there must be an EP configuration provider broadcasting an event over [NATS](http://nats.io/) about the new configuration availability.
+- The provider must receive a confirmation that the EP configuration was successfully pushed to the consumer.
+- When a consumer tries to pull an endpoint configuration that does not exist, or in case of other errors during configuration pull, HTTP status codes and arbitrary reason phrases must be used to inform about the errors occurred.
 
-2. _Configuration delivery confirmation after configuration push._
-
-    Solutions:
-    - CMX should broadcast event that particular endpoint has updated its configuration to specific version.
-    >**NOTE:** In case of CMX configuration pull no delivery confirmation is required since endpoint can
-    recognise delivery fail and request its configuration again.
-
-3. _It is possible that there are two CDP instances configured to work with different
-content types and one originator service instance. When originator service publishes config event
-message with certain content type it is consumed by both CDPs._
-
-    Solutions:
-    - CDP should filter messages by their content types.
-
-4. _If CMX asks for endpoint configuration but there is no configuration currently available,
-CDP should somehow inform about it._
-
-    Solutions:
-    - Use HTTP status codes and arbitrary reason phrases.
-
-
-#### Key concept
-
-There are two messaging approaches used in CMX-CDP communication:
-- [Configuration pull](#configuration-pull)
-- [Configuration push](#configuration-push)
+## Design
 
 ### Configuration pull
 
-Is used when CMX is intended to request particular configuration.
+Configuration pull is used when a service is intended to request particular configuration.
+
+No delivery confirmation is required for configuration pull, as endpoint can detect delivery fail and request configuration again.
 
 #### Subject structure
 
-CMX should send message using NATS to the next subject:
+The [EP configuration consumer](#language) should send messages using this NATS subject:
+```
+kaa.v1.service.{cdp-service-instance-name}.cmx2cdp.{message-type}
+```
 
-    kaa.v1.service.{cdp-service-instance-name}.cmx2cdp.{message-type}
+Also, the consumer should include NATS `replyTo` field pointing to the consumer service replica that will handle the response:
+```
+kaa.v1.replica.{cmx-service-instance-replica-id}.cmx2cdp.{message-type}
+```
 
-Also, CMX should include NATS `replyTo` field which points to CMX replica that will handle the response:
+For more information, see [3/Messaging IPC][3/MIPC].
 
-    kaa.v1.replica.{cmx-service-instance-replica-id}.cmx2cdp.{message-type}
+#### Targeted message types
 
-Refer to [3/Messaging IPC][3/MIPC] for explanation of above subject parts.
+There are two types of targeted messages:
+- `ConfigRequest` message is sent by EP configuration consumer.
+- `ConfigResponse` message is sent by [EP configuration provider](#language) service.
 
-#### Targeted message types:
+`ConfigRequest` message structure:
 
-There are next types of such messages:
-- _"config-request"_ message - is sent by CMX.
-- _"config-response"_ message - is sent by CDP.
-
-_"config-request"_ message structure:
-
-- `correlationId` (string, required) - refer to [3/Messaging IPC][3/MIPC] documentation for description.
-- `timestamp` (number, required) - timestamp of the message creation time.
-- `timeout` (number, required) - the amount of time from timestamp that message is actual.
-- `endpointMessageId` (string, required) - unique identifier of original endpoint message.
-- `appVersionName` (string, required) - application version to which endpoint configuration is applicable.
-- `endpointId` (string, required) - unique identifier of endpoint to which configuration is applicable.
-- `configId` (string, optional) - unique identifier of endpoint configuration. If not present, response message will
-hold configuration with latest version.
+- `correlationId` (string, required): refer to [3/Messaging IPC][3/MIPC] RFC for description.<!--TODO-->
+- `timestamp` (number, required): message creation timestamp.
+- `timeout` (number, required): amount of time (starting from the timestamp) before the message gets ignored.
+- `endpointMessageId` (string, required): unique identifier of original endpoint message.
+- `appVersionName` (string, required): application version to which the endpoint configuration is applicable.
+- `endpointId` (string, required): unique identifier of endpoint to which the configuration is applicable.
+- `configId` (string, optional): unique identifier of endpoint configuration.
+If not present, response message will hold the latest version of configuration.
 
 Example:
 
@@ -94,20 +102,21 @@ Example:
 }
 ```
 
-_"config-response"_ message structure:
+`ConfigResponse` message structure:
 
-- `correlationId` (string, required) - see [3/Messaging IPC][3/MIPC] for description.
-- `timestamp` (number, required) - timestamp of the message creation time.
-- `timeout` (number, required) - the amount of time from timestamp that message is actual.
-- `endpointMessageId` (string, required) - unique identifier of original endpoint message.
-- `appVersionName` (string, required) - application version to which endpoint configuration is applicable.
-- `endpointId` (string, required) - endpoint unique identifier to which configuration is applicable.
-- `contentType` (string, required) - content type of configuration, e.g.: json, protobuf.
-- `configId` (string, required) - unique identifier of endpoint configuration.
-- `statusCode` (number, required) - status code that holds meaningful information about the result of inbound message processing.
-- `reasonPhrase` (string, required) - status code that holds meaningful information about the result of inbound message processing.
-- `content` (byte[], optional) - content with configuration data.
-- `applied` (boolean, required) - shows if client has latest configuration (true if he does).
+- `correlationId` (string, required): refer to [3/Messaging IPC][3/MIPC] RFC for description.<!--TODO-->
+- `timestamp` (number, required): message creation timestamp.
+- `timeout` (number, required): amount of time (starting from the timestamp) before the message gets ignored.
+- `endpointMessageId` (string, required): unique identifier of original endpoint message.
+- `appVersionName` (string, required): application version to which the endpoint configuration is applicable.
+- `endpointId` (string, required): unique identifier of endpoint to which the configuration is applicable.
+- `contentType` (string, required): type of configuration content, e.g.: JSON, Protocol Buffer.
+- `configId` (string, required): unique identifier of endpoint configuration.
+- `statusCode` (number, required): status code containing information about the result of inbound message processing.
+- `reasonPhrase` (string, optional): status code containing information about the result of inbound message processing.
+- `content` (byte[], optional): configuration data.
+- `applied` (boolean, required): shows if client has latest configuration (true if it does).
+
 Example:
 
 ```json
@@ -131,28 +140,29 @@ Example:
 
 ### Configuration push
 
-Event-based approach as described in [3/Messaging IPC][3/MIPC] documentation can be used as alternative,
-thus manipulations with endpoint configurations are accepted as events.
+Pushing a notification from provider to consumer can be designed as an event.
+Alternatively, the event-based approach can be used as described in [3/Messaging IPC][3/MIPC] RFC.
+
+When an endpoint updates its configuration to a certain version, an EP configuration provider should broadcast an event about this.
 
 #### Subject structure
 
-CMX and CDP should listen on and send broadcast messages to the next subject:
+Both the EP configuration provider and consumer should listen to this subject and send messages to it:
+```
+kaa.v1.events.{originator-service-instance-name}.endpoint.config.{event-type}
+```
 
-    kaa.v1.events.{originator-service-instance-name}.endpoint.config.{event-type}
+For more information, see [3/Messaging IPC][3/MIPC].
 
-For subject parts explanation refer to [3/Messaging IPC][3/MIPC].
+There are two types of such messages:
+- `ConfigUpdated` message is initiated by EP configuration provider when it receives notification that particular endpoint has updated configuration.
+- `ConfigNewAvailable` message is initiated by EP configuration consumer when it receives new configuration.
 
-There are next types of such messages:
+`ConfigUpdated` message structure:
 
-* _"updated"_ message - is initiated by CMX when it receives notification that particular endpoint has updated
-configuration.
-* _"new-available"_ message - is initiated by CDP when it receives new configuration.
-
-_"updated"_ message structure:
-
-- `appVersionName` (string, required) - application version to which endpoint configuration is applicable.
-- `endpointId` (string, required) - unique identifier of endpoint to which configuration is applicable.
-- `configId` (string, required) - unique identifier of endpoint configuration.
+- `appVersionName` (string, required): application version to which endpoint configuration is applicable.
+- `endpointId` (string, required): unique identifier of endpoint to which configuration is applicable.
+- `configId` (string, required): unique identifier of endpoint configuration.
 
 Example:
 
@@ -167,11 +177,11 @@ Example:
 }
 ```
 
-_"new-available"_ message structure:
+`ConfigNewAvailable` message structure:
 
-- `appVersionName` (string, required) - application version to which endpoint configuration is applicable.
-- `endpointId` (string, required) - endpoint unique identifier to which configuration is applicable.
-- `configId` (string, required) - unique identifier of endpoint configuration.
+- `appVersionName` (string, required): application version to which the endpoint configuration is applicable.
+- `endpointId` (string, required): endpoint unique identifier to which the configuration is applicable.
+- `configId` (string, required): unique identifier of endpoint configuration.
 
 Example:
 
@@ -190,27 +200,6 @@ Example:
 }
 ```
 
-Regardless of specified above broadcast types all other restriction concerning message
-fields are applicable from [3/Messaging IPC][3/MIPC] documentation.
-
-## Use cases
-
-### UC1
-
-Once CDP service accepts new configuration, it publishes event message
-with configuration content on NATS subject and all other services which have previously subscribed to
-this subject receive the message. On the other side, CDP also listens to config-based
-events and replies on them accordingly.
-
-### UC2
-
-Once endpoint was connected it can ask for its configuration initiating request to CMX which
-forwards it to specific CDP.
-
-## Glossary
-
-- CMX - short name for Configuration Management Extension service.
-- CDP - short name for Configuration Data Provider.
-- CMX2CDP - name of the protocol used in communication between CMX and any CDP implementation.
+For more information about message field restrictions, see [3/Messaging IPC][3/MIPC] RFC.
 
 [3/MIPC]: /0003-messaging-ipc/README.md
