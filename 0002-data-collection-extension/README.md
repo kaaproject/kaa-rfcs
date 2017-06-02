@@ -39,14 +39,18 @@ The following terms and definitions are used in this RFC.
 
 Data Collection protocol requirements:
 
-- Asynchronous record processing.
-- QoS levels to confirm message delivery and processing.
-- Separate response messages for processing confirmation.
-- Data type identification: distinct resource paths for different formats, `<format_specifier>` embedded into resource path.
-- Endpoint identification: `<endpoint_token>` embedded into resource path.
-- Minimum network usage: Upload data in batches.
+- Asynchronous record processing to accommodate for long processing times and different orders of processing.
+- Using QoS levels to confirm message delivery and processing.
+- Using separate response messages for processing confirmation.
+This is to avoid conflicting with asynchronous record processing due to MQTT requirement for all PUBACK messages to appear in the same order as received PUBLISH messages.
+For CoAP, this should be supported by [Separate Response (RFC 7252, Section 5.2.2)](https://tools.ietf.org/html/rfc7252#section-5.2.2).
+For MQTT, this should be achieved by publishing a response into the status topic.
+(See [Kaa Protocol](/0001-kaa-protocol/README.md).)
+- Using `<format_specifier>` embedded into resource path to allow server to handle different types and formats of data sent by endpoints.
+- Using `<endpoint_token>` embedded into resource path to allow server to identify the endpoint.
+- Minimum network usage: upload data in batches to accommodate for slow, unstable, or costly traffic.
 A batch is a number of records uploaded in one network packet.
-- Timestamp generation: on the server side, using network packet arrival time as a timestamp if no timestamp is provided by device.
+- Ability to generate timestamp on the server side using network packet arrival time as a timestamp — if no timestamp is provided by device.
 
 ## Use cases
 
