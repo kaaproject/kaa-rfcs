@@ -25,10 +25,10 @@ One of the core features in such context is the ability to send and receive endp
 For this purpose, the CDT protocol is designed.
 It defines the endpoint configuration data structure so that it's interpreted by all involved services in the same way.
 
-In CDT lingo, sending an endpoint configuration to a service is called *configuration push*, while receiving it from a service is called *configuration pull*.
+Sending and receiving configuration data occurs within 2 communication patterns — *configuration push* and *configuration pull*.
+See [Language](#language).
 
-To effectively perform these activities, endpoint configuration data should be communicated in a format recognized by all the services involved.
-To achieve this, CDT protocol was designed based on the [3/Messaging IPC][3/MIPC] protocol.
+Design of the CDT protocol communication with other services is based on the [3/Messaging IPC][3/MIPC] protocol.
 
 ## Language
 
@@ -36,26 +36,26 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 The following terms and definitions are used in this RFC.
 
-- **Configuration push**: sending an endpoint configuration data to a service.
-- **Configuration pull**: receiving an endpoint configuration data from a service.
 - **EP configuration provider (provider)**: any service that sends an endpoint configuration to the other service.
 - **EP configuration consumer (consumer)**: any service that receives an endpoint configuration from the other service.
+- **Configuration push**: a communication pattern where provider broadcasts EP configuration data under a certain topic over the [NATS](http://nats.io/) protocol.
+The broadcasted data will be received by the configuration consumer services that are subscribed to that topic.
+- **Configuration pull**: a communication pattern where consumer requests an EP configuration data from a provider.
 
 ## Requirements and constraints
 
 CDT requirements:
 
-- Once a new endpoint configuration is pushed, there must be an EP configuration provider broadcasting an event over [NATS](http://nats.io/) about the new configuration availability.
-- The provider must receive a confirmation that the EP configuration was successfully pushed to the consumer.
+- In case of a configuration push, the provider must receive a receipt acknowledgement from the consumer.
 - When a consumer tries to pull an endpoint configuration that does not exist, or in case of other errors during configuration pull, HTTP status codes and arbitrary reason phrases must be used to inform about the errors occurred.
 
 ## Design
 
 ### Configuration pull
 
-Configuration pull is used when a service is intended to request particular configuration.
+Configuration pull is used when a service intends to request a particular EP configuration.
 
-No delivery confirmation is required for configuration pull, as endpoint can detect delivery fail and request configuration again.
+No delivery confirmation is required for configuration pull, as endpoint can detect delivery failure and request configuration again.
 
 #### Subject structure
 
@@ -79,7 +79,7 @@ There are two types of targeted messages:
 
 `ConfigRequest` message structure:
 
-- `correlationId` (string, required): refer to [3/Messaging IPC][3/MIPC] RFC for description.<!--TODO-->
+- `correlationId` (string, required): message ID primarily used to track message processing across services.
 - `timestamp` (number, required): message creation timestamp.
 - `timeout` (number, required): amount of time (starting from the timestamp) before the message gets ignored.
 - `endpointMessageId` (string, required): unique identifier of original endpoint message.
@@ -104,7 +104,7 @@ Example:
 
 `ConfigResponse` message structure:
 
-- `correlationId` (string, required): refer to [3/Messaging IPC][3/MIPC] RFC for description.<!--TODO-->
+- `correlationId` (string, required): message ID primarily used to track message processing across services.
 - `timestamp` (number, required): message creation timestamp.
 - `timeout` (number, required): amount of time (starting from the timestamp) before the message gets ignored.
 - `endpointMessageId` (string, required): unique identifier of original endpoint message.
