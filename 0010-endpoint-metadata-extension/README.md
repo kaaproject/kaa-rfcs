@@ -286,7 +286,7 @@ The response payload MUST be a JSON-encoded object with the same [JSON schema](h
 
 Examples:
 
-- Endpoint metadata key-value successfully updated
+- Endpoint metadata key-value pairs successfully updated
 
 ```json
 {
