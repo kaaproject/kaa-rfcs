@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "description": "10/EPMDX get metadata keys response",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "The message identifier used to match server response to the request"
+    },
+    "keys": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "description": "The endpoint metadata key"
+      },
+      "uniqueItems": true,
+      "description": "The set of endpoint metadata keys"
+    },
+    "statusCode": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Status code based on HTTP status codes"
+    },
+    "reasonPhrase": {
+      "type": "string",
+      "minLength": 1,
+      "description": "A human-readable string explaining the cause of an error (if any). `OK` if request was successful"
+    }
+  },
+  "required": [
+    "statusCode",
+    "reasonPhrase"
+  ],
+  "additionalProperties": false
+}

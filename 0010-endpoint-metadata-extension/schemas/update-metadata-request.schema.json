@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "description": "10/EPMDX update metadata request",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "The message identifier used to match server response to the request"
+    },
+    "metadata": {
+      "type": "object",
+      "minProperties": 1,
+      "patternProperties": {
+        "\\S+": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            },
+            {
+              "type": "object"
+            },
+            {
+              "type": "array"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "description": "The endpoint metadata object. The property names of this object are metadata keys and values of these properties are values"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "metadata"
+  ]
+}

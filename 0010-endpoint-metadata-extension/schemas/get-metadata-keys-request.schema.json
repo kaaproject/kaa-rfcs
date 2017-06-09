@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "description": "10/EPMDX get metadata keys request",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "The message identifier used to match server response to the request"
+    }
+  },
+  "additionalProperties": false
+}
