@@ -43,13 +43,7 @@ Metadata key must contain at least one non-whitespace character.
 For example, `longitude`, `street`, `name`, `$address 2` are valid metadata keys.
 No duplicate metadata keys allowed.
 ### Metadata values
-Valid metadata value type is any JSON type:
-- `boolean`
-- `string`
-- `number`
-- `null`
-- `object`
-- `array`
+Valid metadata value type is any JSON type.
 
 Example endpoint metadata:
 
@@ -73,7 +67,7 @@ Example endpoint metadata:
 ### Supported operations
 
 EPMDX protocol must support the following operations:
-- Get metadata key-value pairs (all or for a certain keys)
+- Get metadata key-value pairs (all or for certain keys)
 - Get a list of metadata keys
 - Update metadata key-value pairs (all or partial update)
 - Delete a single metadata key value pair by key name
@@ -110,28 +104,7 @@ The request payload MUST be a JSON-encoded object with the following [JSON schem
       "type": "object",
       "minProperties": 1,
       "patternProperties": {
-        "\\S+": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "number"
-            },
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            },
-            {
-              "type": "object"
-            },
-            {
-              "type": "array"
-            }
-          ]
-        }
+        "\\S+": {}
       },
       "additionalProperties": false,
       "description": "The endpoint metadata object. The property names of this object are metadata keys and values of these properties are values"
@@ -144,7 +117,7 @@ The request payload MUST be a JSON-encoded object with the following [JSON schem
 }
 ```
 
-If there is no `id` JSON property the request payload than server will process the request but will not publish the status response back to client.
+If there is no `id` JSON property in the request payload then server MUST process the request but MUST not publish the status response back to client.
 The server MUST publish the [status response](#full-metadata-update-response) with the `id` property in the payload and processing status fields.
 
 Examples:
@@ -249,7 +222,7 @@ Client MUST send requests with the following extension-specific [resource path](
 The request payload MUST be a JSON-encoded object with the same [JSON schema](http://json-schema.org/) as in [full metadata update request](#full-metadata-update-request).
 In the `metadata` JSON property specify only key-value pairs that need to be updated.
 
-If there is no `id` JSON property the request payload than server will process the request but will not publish the status response back to client.
+If there is no `id` JSON property in the request payload then server MUST process the request but MUST not publish the status response back to client.
 The server MUST publish the [status response](#partial-metadata-update-response) with the `id` property in the payload and processing status fields.
 
 Examples:
@@ -379,28 +352,7 @@ The response payload MUST be a JSON-encoded object with the following [JSON sche
     "metadata": {
       "type": "object",
       "patternProperties": {
-        "\\S+": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "number"
-            },
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            },
-            {
-              "type": "object"
-            },
-            {
-              "type": "array"
-            }
-          ]
-        }
+        "\\S+": {}
       },
       "additionalProperties": false,
       "description": "The endpoint metadata object. The property names of this object are metadata keys and values of these properties are values. May not present on the error status response"
@@ -605,7 +557,7 @@ The request payload MUST be a JSON-encoded object with the following [JSON schem
   "additionalProperties": false
 }
 ```
-If there is no `id` JSON property the request payload than server will process the request but will not publish the status response back to client.
+If there is no `id` JSON property in the request payload then server MUST process the request but MUST not publish the status response back to client.
 The server MUST publish the [status response](#delete-metadata-key-response) with the `id` property in the payload and processing status fields.
 
 Examples:

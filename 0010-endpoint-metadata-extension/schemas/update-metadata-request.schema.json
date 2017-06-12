@@ -11,28 +11,7 @@
       "type": "object",
       "minProperties": 1,
       "patternProperties": {
-        "\\S+": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "number"
-            },
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            },
-            {
-              "type": "object"
-            },
-            {
-              "type": "array"
-            }
-          ]
-        }
+        "\\S+": {}
       },
       "additionalProperties": false,
       "description": "The endpoint metadata object. The property names of this object are metadata keys and values of these properties are values"
