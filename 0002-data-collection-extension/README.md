@@ -10,8 +10,8 @@ contributors: Alexey Gamov <agamov@cybervisiontech.com>
 - [Language](#language)
 - [Requirements and constraints](#requirements-and-constraints)
 - [Use cases](#use-cases)
-  - [UC1: individually authenticated device](#uc1-individually-authenticated-device)
-  - [UC2: mass production device](#uc2-mass-production-device)
+  - [UC1](#uc1)
+  - [UC2](#uc2)
 - [Design](#design)
   - [Batch uploads](#batch-uploads)
   - [No timestamp handling](#no-timestamp-handling)
@@ -54,12 +54,12 @@ A batch is a number of records uploaded in one network packet.
 
 ## Use cases
 
-### UC1: individually authenticated device
+### UC1
 Device shadow.
 The user only wants to know the current status of the endpoint parameters.
 The endpoint updates them periodically.
 
-### UC2: mass production device
+### UC2
 Historical data collection.
 The user wants to store all collected data with timestamps for further processing and for visualizing historical trends.
 
