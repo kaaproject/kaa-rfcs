@@ -10,12 +10,12 @@ contributors: Alexey Gamov <agamov@cybervisiontech.com>
 - [Language](#language)
 - [Requirements and constraints](#requirements-and-constraints)
 - [Use cases](#use-cases)
-  - [UC1: individually authenticated device](#uc1-individually-authenticated-device)
-  - [UC2: mass production device](#uc2-mass-production-device)
-- [Design](#Design)
+  - [UC1](#uc1)
+  - [UC2](#uc2)
+- [Design](#design)
   - [Batch uploads](#batch-uploads)
   - [No timestamp handling](#no-timestamp-handling)
-  - [Request/response](#request-response)
+  - [Request/response](#requestresponse)
   - [Formats](#formats)
     - [Schemeless JSON](#schemeless-json)
       - [Request](#request)
@@ -31,7 +31,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 The following terms and definitions are used in this RFC.
 
-- **Record**: a single data point user is interested in.
+- **Record**: a single data point that user is interested in.
 - **Batch**: a collection of records uploaded within a single transaction.
 - **Processing confirmation**: an acknowledgment designating that the server has finished processing a request.
 
@@ -45,7 +45,7 @@ Data Collection protocol requirements:
 This is to avoid conflicting with asynchronous record processing due to MQTT requirement for all PUBACK messages to appear in the same order as received PUBLISH messages.
 For CoAP, this should be supported by [Separate Response (RFC 7252, Section 5.2.2)](https://tools.ietf.org/html/rfc7252#section-5.2.2).
 For MQTT, this should be achieved by publishing a response into the status topic.
-(See [Kaa Protocol](/0001-kaa-protocol/README.md).)
+See [Kaa Protocol](/0001-kaa-protocol/README.md).
 - Using `<format_specifier>` embedded into resource path to allow server to handle different types and formats of data sent by endpoints.
 - Using `<endpoint_token>` embedded into resource path to allow server to identify the endpoint.
 - Minimum network usage: upload data in batches to accommodate for slow, unstable, or costly traffic.
