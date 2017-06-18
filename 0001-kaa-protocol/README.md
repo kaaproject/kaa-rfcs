@@ -6,40 +6,18 @@ editor: Alexey Shmalko <ashmalko@cybervisiontech.com>
 contributors: Alexey Gamov <agamov@cybervisiontech.com>, Andrew Kokhanovskyi <akokhanovskyi@cybervisiontech.com>
 ---
 
-- [Introduction](#introduction)
-- [Language](#language)
-- [Requirements and constraints](#requirements-and-constraints)
-- [Use cases](#use-cases)
-  - [UC1: individually authenticated device](#uc1-individually-authenticated-device)
-  - [UC2: mass production device](#uc2-mass-production-device)
-  - [UC3: actor gateway](#uc3-actor-gateway)
-  - [UC4: forward proxy](#uc4-forward-proxy)
-- [Design](#design)
-  - [Extensions](#extensions)
-  - [Resource path format](#resource-path-format)
-- [Extension design guidelines](#extension-design-guidelines)
-  - [Payload format specifier](#payload-format-specifier)
-  - [Request/response pattern](#requestresponse-pattern)
-  - [Security](#security)
-- [Open questions](#open-questions)
-  - [Topic name aliases](#topic-name-aliases)
-  - [Status topics](#status-topics)
-  - [Endpoint migration](#endpoint-migration)
-    - [UC1](#uc1)
-    - [UC2](#uc2)
-  - [Reporting errors](#reporting-errors)
-  - [Security](#security)
+<!-- toc -->
 
 ## Introduction
 This document describes general requirements, principles, design, and guidelines for **Kaa protocol** (KP) version 1.
-KP is a standard protocol designed to connect client applications and endpoints (colloquially — devices) to a Kaa server.
+KP is a standard protocol designed to connect client applications and endpoints (colloquially — devices) to a Kaa server.<!-- TODO(ashmalko): we don't call applications as devices, and we specially avoid "device" when we define the protocol. "Device" word is only used for a real physical device. -->
 
 ## Language
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).
 
 The following terms and definitions are used in this RFC.
 
-- **Endpoint**: an entity managed by Kaa platform.
+- **Endpoint**: an entity managed by Kaa platform. <!-- TODO(ashmalko): We need to define this more specifically. There are many entities managed by Kaa, most of which are not endpoints. -->
 Platform users are interested in differentiating all endpoints.
 Endpoints may be either physical or virtual.
 
@@ -98,7 +76,7 @@ Forward proxies between the end device and a server may be chained.
 
 ### Extensions
 Extensions are used to support various platform features offered by the server to the endpoints, such as data collection, configuration management, metadata synchronization, etc.
-To enable data exchange between endpoints and Kaa server extensions, KP itself must be extensible (with *KP extensions*).
+To enable data exchange between endpoints and Kaa server extensions, KP itself must be extensible (with *KP extensions*). <!-- TODO(ashmalko): server extensions is an implementation detail for 1/KP (protocols extensions can be easily implemented within the server core), so the reasoning is a bit vague. -->
 Various extensions may require different formats for the data exchanged over KP.
 Since the data formats for all possible extensions are not known upfront, KP must be agnostic to that and avoid assuming extension payload format.
 
@@ -142,15 +120,80 @@ Thus, the resource paths for them will start with `kp1/<appversion_name>/<extens
 
 The rest of the resource path is extension-specific and is described in other RFCs defining KP protocol extensions.
 
-## Extension design guidelines
-While extensions have all the freedom to define their own resource hierarchies, payload format, and communication template, they all need a set of rules to make them uniform.
-
 Examples of extension-specific paths:
 ```
 /<endpoint_token>/json
 /protobuf/<scheme_id>
 /json/status
 ```
+
+## Request/response pattern
+Many extensions require request/response style communication, which is natively supported by CoAP, but not MQTT.
+The following section describes request/response communication pattern for MQTT and CoAP.
+
+Note that some requests do not require a full response but only a receive acknowledgement.
+In that case, KP over MQTT SHOULD use PUBLISH acknowledgement only as defined per MQTT standard.
+
+### Request direction
+For CoAP, server-initiated requests require implementing a server on KP client nodes.
+That also implies there must be an open path from server to client, which may require UDP hole punching.
+
+Given that, server-initiated requests are NOT RECOMMENDED.
+
+### Response path
+For CoAP, request and response semantics are carried in CoAP messages.
+
+MQTT does not have a request/response notion, so a separate MQTT topic is introduced to differentiate responses.
+
+Responses over MQTT MUST be published to the topic constructed by appending `/status` suffix to the request topic.
+
+For example, request sent to `<endpoint_token>/json` has the following response topic: `<endpoint_token>/json/status`.
+
+### Response QoS level
+CoAP standard requires that response has same or higher QoS level (NON, CON) as the corresponding request.
+
+For MQTT, response MUST be published with the same or higher QoS level as the corresponding request.
+
+The response is RECOMMENDED to have same QoS level as the corresponding request.
+
+### Request ID
+CoAP message has a built-in Message ID which is used to match responses to requests.
+
+MQTT PUBLISH packet includes a Packet Identifier.
+Though, Packet Identifiers are not stable; that is, when a PUBLISH packet is re-transmitted by MQTT broker or MQTT gateway, the Packet Identifier may be changed.
+Thus, MQTT Packet Identifiers are not suitable for matching responses to requests.
+
+KP over MQTT MUST NOT use Packet Identifiers to match responses to requests.
+
+KP over MQTT SHOULD embed Request ID within the message payload.
+
+#### MQTT JSON-specific recommendations
+KP can not make assumptions about payload format, thus it cannot define the format for passing Request IDs.
+
+Nevertheless, this section defines the recommended location for Request ID within the JSON payload.
+
+KP over MQTT request that have JSON format SHOULD be a JSON object that include an `id` field. `id` field is Request ID and SHOULD be a 16-bit unsigned integer.
+
+`id` field SHOULD be optional. When `id` field is absent, the response MUST NOT be sent.
+
+### Response fields
+CoAP response message includes Message ID and response code.
+When response is an error and has no Content-Format option, the payload is a brief human-readable diagnostic message, explaining the error situation ([RFC 7252, 5.5.2][coap-reason-phrase]).
+The message is similar to the Reason-Phrase on an HTTP status line.
+
+MQTT does not provide any support for these fields so they should be transfered in response message payload.
+
+[coap-reason-phrase]: https://tools.ietf.org/html/rfc7252#section-5.5.2
+
+### MQTT JSON-specific recommendations
+For KP over MQTT when response format is JSON, the response SHOULD be a JSON object that includes the following fields:
+
+- `id` which matches ID of the corresponding request.
+- `statusCode` which indicates the response code. <!-- TODO(ashmalko): rename to `responseCode`? -->
+- `reasonPhrase` which contains a short human-readable diagnostics message. <!-- TODO(ashmalko): make it optional? -->
+
+## Extension design guidelines
+While extensions have all the freedom to define their own resource hierarchies, payload format, and communication template, they all need a set of rules to make them uniform.
 
 ### Payload format specifier
 Extensions may support multiple payload formats.
@@ -160,14 +203,6 @@ For example, use `/json` for JSON-formatted payload, and `/protobuf/<scheme_id>`
 
 <!--TODO: CoAP has Content-Format option for that. It already has json and cbor, but not protobuf.-->
 
-### Request/response pattern
-Many extensions require request/response style communication, which is natively supported by CoAP, but not MQTT.
-To overcome this, a separate topic (resource path) is introduced for responses over MQTT.
-
-Responses over MQTT MUST be published to the topic constructed by appending `/status` suffix to the request topic.
-This applies to both server and client responses.
-
-Response MUST be published with the same QoS level as the corresponding request.
 
 ### Security
 We separate *client authentication* and *endpoint identification*.
