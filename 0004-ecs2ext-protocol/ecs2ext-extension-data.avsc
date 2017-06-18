@@ -1,0 +1,76 @@
+{
+  "type": "record",
+  "name": "ExtensionData",
+  "namespace": "org.kaaproject.ipc.ecs2ext.gen.v1",
+  "doc": "ExtensionData message carries extension-originated messages destined for clients to ECS",
+  "fields": [
+    {
+      "name": "correlationId",
+      "type": "string",
+      "doc": "Message tracing ID primarily used for tracking the message processing across services."
+    },
+    {
+      "name": "timestamp",
+      "type": "long",
+      "doc": "Unix time in milliseconds when the message was created."
+    },
+    {
+      "name": "timeout",
+      "type": "long",
+      "default": -1,
+      "doc": "The amount of milliseconds since timestamp when the message expires at the originating entity."
+    },
+    {
+      "name": "appVersionName",
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": "",
+      "doc": "Unique name of the application version that the endpoint identified by the endpointID belongs to. Null for endpoint-unaware extensions."
+    },
+    {
+      "name": "extensionInstanceName",
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": "",
+      "doc": "Unique name of the extension instance that originated the message."
+    },
+    {
+      "name": "endpointId",
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": "",
+      "doc": "Unique endpoint ID. Null for endpoint-unaware extensions."
+    },
+    {
+      "name": "path",
+      "type": [
+        "string",
+        "null"
+      ],
+      "doc": "Action path field that is used to determine the message handling function and the payload format. Null if extension responding with error status code with no need to publish message to client"
+    },
+    {
+      "name": "payload",
+      "type": [
+        "bytes",
+        "null"
+      ],
+      "doc": "Serialized message content. Can be null in status-only messages."
+    },
+    {
+      "name": "statusCode",
+      "type": [
+        "int",
+        "null"
+      ],
+      "default": 200,
+      "doc": "Message processing status code. Can be null in requests."
+    }
+  ]
+}

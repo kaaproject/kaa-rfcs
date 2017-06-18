@@ -9,6 +9,10 @@
       "multipleOf": 1.0,
       "description": "ID of the message used to match client response to the request."
     },
+    "configId": {
+      "type": "string",
+      "description": "Identifier of the current configuration."
+    },
     "statusCode": {
       "type": "number",
       "description": "Status code based on HTTP status codes."
@@ -18,6 +22,6 @@
       "description": "A human-readable string explaining the cause of an error (if any). In case the request was successful, it is `ok`."
     }
   },
-  "required": [ "id", "statusCode", "reasonPhrase" ],
+  "required": [ "id", "statusCode", "reasonPhrase", "configId"],
   "additionalProperties": false
 }

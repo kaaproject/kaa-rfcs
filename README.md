@@ -14,6 +14,7 @@ RFCs can be in raw, draft, stable, deprecated, or retired status.
 | [6/CMX2CDP](0006-cmx2cdp-protocol/README.md)               | CMX to CDP protocol                         | Raw    |
 | [7/CMX](0007-configuration-management-extension/README.md) | Configuration Management Extension          | Raw    |
 | [8/KPSR](0008-security-recommendations/README.md)          | KP Security Recommendations                 | Raw    |
+| [9/EPEIPC](0009-endpoint-events-ipc/README.md)             | Endpoint events IPC                         | Draft  |
 
 # Change process
 

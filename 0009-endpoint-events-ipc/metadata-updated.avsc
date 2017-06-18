@@ -1,0 +1,69 @@
+{
+  "namespace": "org.kaaproject.ipc.event.gen.v1.endpoint.config",
+  "type": "record",
+  "name": "EndpointMetadataUpdatedEvent",
+  "doc": "The endpoint metadata updated event message.",
+  "fields": [
+    {
+      "name": "correlationId",
+      "type": "string",
+      "default": "",
+      "doc": "Message tracing ID primarily used for tracking the message processing across services."
+    },
+    {
+      "name": "timestamp",
+      "type": "long",
+      "doc": "Unix time in milliseconds when the message was created."
+    },
+    {
+      "name": "timeout",
+      "type": "long",
+      "default": -1,
+      "doc": "The amount of milliseconds since timestamp when the message expires at the originating entity."
+    },
+    {
+      "name": "endpointId",
+      "type": "string",
+      "doc": "The endpoint identifier."
+    },
+    {
+      "name": "appVersionName",
+      "type": "string",
+      "default": "",
+      "doc": "The application version name the endpoint registered in."
+    },
+    {
+      "name": "removed",
+      "type": {
+        "type": "array",
+        "items": "string"
+      },
+      "doc": "The set to metadata keys that was removed."
+    },
+    {
+      "name": "added",
+      "type": {
+        "type": "array",
+        "items": "string"
+      },
+      "doc": "The set to metadata keys that was added."
+    },
+    {
+      "name": "updated",
+      "type": {
+        "type": "array",
+        "items": "string"
+      },
+      "doc": "The set to metadata keys that was updated."
+    },
+    {
+      "name": "originatorReplicaId",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Identifier of the service replica that generated the event."
+    }
+  ]
+}

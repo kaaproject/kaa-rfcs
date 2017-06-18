@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema#",
-  "title": "2/DCX request scheme",
+  "title": "2/DCX request schema",
 
   "oneOf": [
     {
