@@ -32,7 +32,9 @@ editor: Volodymyr Tkhir <vtkhir@cybervisiontech.com>
 
 The Endpoint Metadata Extension (EPMDX) protocol is an endpoint-aware [Kaa Protocol](/0001-kaa-protocol/README.md) extension.
 
-It is intended to manage endpoint metadata.
+The Endpoint Metadata Extension is intended to manage endpoint's metadata.
+The metadata provides information about the endpoint and is a collection of key-value pairs.
+Example endpoint's metadata keys are `name`, `description`, `location`, `vendor`, `device model`, `firmware version` etc.
 
 ## Requirements and constraints
 
@@ -76,8 +78,36 @@ EPMDX protocol must support the following operations:
 
 ### Full metadata update
 
-Create or update endpoint metadata operation.
-In case of update the provided metadata will override all existing metadata key-value pairs.
+Update endpoint metadata operation.
+The metadata payload represents the new state on metadata key-values.
+For example, the endpoint's metadata before this operation looks like:
+
+```json
+{
+  "name": "Device 1",
+  "description": "The first sensor",
+  "location":{
+    "latitude":27.664827,
+    "longitude":-81.515754
+  }
+}
+```
+
+The request payload:
+
+```json
+{
+  "name": "Device 1",
+  "location":{
+    "latitude":27.112167,
+    "longitude":-81.023434
+  },
+  "vendorId": 2
+}
+```
+
+As a result a `description` key will be removed, value of `location` key will be updated and value for `vendorId` key will be added.
+
 Use [partial update operation](#partial-metadata-update) to avoid removing an existing values.
 
 #### Full metadata update request
@@ -86,7 +116,7 @@ Client MUST send requests with the following extension-specific [resource path](
 
   `<endpoint_token>/update`
 
-  where `endpoint_token` identifies the endpoint.
+  where `<endpoint_token>` identifies the endpoint.
 
 The request payload MUST be a JSON-encoded object with the following [JSON schema](http://json-schema.org/) ([file](./schemas/update-metadata-request.schema.json)):
 
@@ -104,7 +134,7 @@ The request payload MUST be a JSON-encoded object with the following [JSON schem
       "type": "object",
       "minProperties": 1,
       "patternProperties": {
-        "\\S+": {}
+        "\\S": {}
       },
       "additionalProperties": false,
       "description": "The endpoint metadata object. The property names of this object are metadata keys and values of these properties are values"
@@ -195,21 +225,10 @@ Examples:
   "reasonPhrase":"OK"
 }
 ```
-- Endpoint metadata successfully created
-
-```json
-{
-  "id":42,
-  "statusCode":201,
-  "reasonPhrase":"Created"
-}
-```
 ### Partial metadata update
 
-Create or update endpoint metadata key-value pairs.
-In case of update the provided metadata will override all existing metadata key-value pairs.
-In comparison with [full metadata update operation](#full-metadata-update) this operation will not override all metadata key-value pairs.
-It will only create or update the metadata keys specified in the request.
+Updates only endpoint metadata key-value pairs specified in the request payload.
+In comparison with [full metadata update operation](#full-metadata-update) this request will not remove the existing keys that are not present in the request payload.
 
 #### Partial metadata update request
 
@@ -217,7 +236,7 @@ Client MUST send requests with the following extension-specific [resource path](
 
   `<endpoint_token>/update/keys`
 
-  where `endpoint_token` identifies the endpoint.
+  where `<endpoint_token>` identifies the endpoint.
 
 The request payload MUST be a JSON-encoded object with the same [JSON schema](http://json-schema.org/) as in [full metadata update request](#full-metadata-update-request).
 In the `metadata` JSON property specify only key-value pairs that need to be updated.
@@ -277,7 +296,7 @@ Client MUST send requests with the following extension-specific [resource path](
 
   `<endpoint_token>/get`
 
-  where `endpoint_token` identifies the endpoint.
+  where `<endpoint_token>` identifies the endpoint.
 
 The request payload MUST be a JSON-encoded object with the following [JSON schema](http://json-schema.org/) ([file](./schemas/get-metadata-request.schema.json)):
 
@@ -352,7 +371,7 @@ The response payload MUST be a JSON-encoded object with the following [JSON sche
     "metadata": {
       "type": "object",
       "patternProperties": {
-        "\\S+": {}
+        "\\S": {}
       },
       "additionalProperties": false,
       "description": "The endpoint metadata object. The property names of this object are metadata keys and values of these properties are values. May not present on the error status response"
@@ -414,7 +433,7 @@ Client MUST send requests with the following extension-specific [resource path](
 
   `<endpoint_token>/get/keys`
 
-  where `endpoint_token` identifies the endpoint.
+  where `<endpoint_token>` identifies the endpoint.
 
 The request payload MUST be a JSON-encoded object with the following [JSON schema](http://json-schema.org/) ([file](./schemas/get-metadata-keys-request.schema.json)):
 
@@ -531,7 +550,7 @@ Client MUST send requests with the following extension-specific [resource path](
 
   `<endpoint_token>/delete/key`
 
-  where `endpoint_token` identifies the endpoint.
+  where `<endpoint_token>` identifies the endpoint.
 
 The request payload MUST be a JSON-encoded object with the following [JSON schema](http://json-schema.org/) ([file](./schemas/delete-metadata-key-request.schema.json)):
 
