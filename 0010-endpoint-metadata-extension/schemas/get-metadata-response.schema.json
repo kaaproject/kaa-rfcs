@@ -27,6 +27,7 @@
     }
   },
   "required": [
+    "id",
     "statusCode",
     "reasonPhrase"
   ],

@@ -18,5 +18,6 @@
       "description": "The metadata keys to be returned. Optional, if not specified all metadata keys will be returned"
     }
   },
+  "required": [ "id" ],
   "additionalProperties": false
 }
