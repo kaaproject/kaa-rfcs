@@ -13,7 +13,8 @@ RFCs can be in raw, draft, stable, deprecated, or retired status.
 | [5/CMX](0005-configuration-management-extension/README.md) | Configuration Management Extension protocol | Raw    |
 | [6/CMX2CDP](0006-cmx2cdp-protocol/README.md)               | CMX to CDP protocol                         | Raw    |
 | [7/CMX](0007-configuration-management-extension/README.md) | Configuration Management Extension          | Raw    |
-| [9/EPEIPC](0009-endpoint-events-ipc/README.md)              | Endpoint events IPC                         | Draft  |
+| [9/EPEIPC](0009-endpoint-events-ipc/README.md)             | Endpoint events IPC                         | Draft  |
+| [10/EPMDX](0010-endpoint-metadata-extension/README.md)     | Endpoint Metadata Extension protocol        | Draft  |
 
 # Change process
 

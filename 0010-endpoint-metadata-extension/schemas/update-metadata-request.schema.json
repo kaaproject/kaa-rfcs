@@ -14,7 +14,7 @@
         "\\S": {}
       },
       "additionalProperties": false,
-      "description": "The endpoint metadata object. The property names of this object are metadata keys and values of these properties are values"
+      "description": "The endpoint metadata object. The property names of this object are metadata keys and values of these properties are metadata values"
     }
   },
   "additionalProperties": false,
