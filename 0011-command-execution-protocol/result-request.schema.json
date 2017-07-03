@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "11/CEP result request schema",
+
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "ID of the command."
+    },
+    "statusCode": {
+      "type": "integer",
+      "description": "Status code of the command execution. Based on HTTP status codes."
+    },
+    "reasonPhrase": {
+      "type": "string",
+      "description": "A human-readable string explaining the cause of an error if any."
+    },
+    "payload": {
+      "description": "A command result payload to be interpreted by the caller."
+    }
+  },
+  "required": [
+    "id",
+    "statusCode"
+  ],
+  "additionalProperties": false
+}
