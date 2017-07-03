@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "10/EPMDX delete metadata key response",
+  "description": "10/EPMDX delete metadata keys response",
   "type": "object",
   "properties": {
     "id": {

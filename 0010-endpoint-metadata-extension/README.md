@@ -51,7 +51,7 @@ EPMDX protocol must support the following operations:
 - Get metadata key-value pairs (all or for certain keys)
 - Get a list of metadata keys
 - Update metadata key-value pairs (all or partial update)
-- Delete a single metadata key value pair by key name
+- Delete metadata key-value pairs by key names
 
 ## Design
 
@@ -504,13 +504,13 @@ Examples:
 
 Extension-specific resource path is:
 ```
-/<endpoint_token>/delete/key
+/<endpoint_token>/delete/keys
 ```
 where `<endpoint_token>` identifies the endpoint.
 
 #### Delete metadata key request
 
-The request payload MUST be a JSON-encoded object with the following [JSON schema](http://json-schema.org/) ([file](./schemas/delete-metadata-key-request.schema.json)):
+The request payload MUST be a JSON-encoded object with the following [JSON schema](http://json-schema.org/) ([file](./schemas/delete-metadata-keys-request.schema.json)):
 
 ```json
 {
@@ -522,40 +522,46 @@ The request payload MUST be a JSON-encoded object with the following [JSON schem
       "type": "integer",
       "description": "The message identifier used to match server response to the request"
     },
-    "keyName": {
-      "type": "string",
-      "pattern": "^[a-zA-Z0-9]+$",
-      "description": "The metadata key to be deleted"
+    "keys": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9]+$",
+        "description": "The endpoint metadata key"
+      },
+      "minItems": 1,
+      "uniqueItems": true,
+      "description": "The set of endpoint metadata keys"
     }
   },
   "required": [
-    "keyName"
+    "keys"
   ],
   "additionalProperties": false
 }
 ```
 
 Examples:
-- delete metadata key with message identifier
+- delete metadata keys with message identifier
 
   ```json
   {
     "id": 42,
-    "keyName": "location"
+    "keys": ["location", "areaId"]
   }
   ```
-- delete metadata key without message identifier
+- delete metadata keys without message identifier
 
   ```json
   {
-    "keyName": "location"
+    "keys": ["location", "areaId"]
   }
   ```
 #### Delete metadata key response
 
 The server MUST respond to the metadata get request by publishing the response message according to the [request/response design pattern defined in 1/KP](/0001-kaa-protocol/README.md#requestresponse-pattern).
 
-The response payload MUST be a JSON-encoded object with the following [JSON schema](http://json-schema.org/) ([file](./schemas/delete-metadata-key-response.schema.json)):
+The response payload MUST be a JSON-encoded object with the following [JSON schema](http://json-schema.org/) ([file](./schemas/delete-metadata-keys-response.schema.json)):
 
 ```json
 {
@@ -592,7 +598,7 @@ The response payload MUST be a JSON-encoded object with the following [JSON sche
 
 Examples:
 
-- Endpoint metadata key successfully deleted
+- Endpoint metadata keys successfully deleted
 
   ```json
   {
