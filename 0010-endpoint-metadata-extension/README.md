@@ -13,15 +13,17 @@ The Endpoint Metadata Extension (EPMDX) protocol is an endpoint-aware [Kaa Proto
 
 The Endpoint Metadata Extension is intended to manage endpoint's metadata.
 The metadata provides information about the endpoint and is a collection of key-value pairs.
-Example endpoint's metadata keys are `name`, `description`, `location`, `vendor`, `device model`, `firmware version` etc.
+Example endpoint's metadata keys are `name`, `description`, `location`, `vendor`, `deviceModel`, `firmwareVersion` etc.
 
 ## Requirements and constraints
 
 ### Metadata keys
-EPMDX protocol supports only string type of metadata keys.
-All UTF-8 characters are supported in metadata key names.
-Metadata key must contain at least one non-whitespace character.
-For example, `longitude`, `street`, `name`, `$address 2` are valid metadata keys.
+
+The metadata keys are case-sensitive non-empty alphanumeric strings with no embedded whitespace, i.e., MUST match the following [regular expression](https://en.wikipedia.org/wiki/Regular_expression) pattern:
+
+```
+^[a-zA-Z0-9]+$
+```
 No duplicate metadata keys allowed.
 ### Metadata values
 Valid metadata value type is any JSON type.
@@ -31,8 +33,8 @@ Example endpoint metadata:
 ```json
 {
   "name":"Sensor 1",
-  "OS name":"Linux",
-  "OS version":"4.2.9",
+  "OSName":"Linux",
+  "OSVersion":"4.2.9",
   "cores":2,
   "ssd":true,
   "location":{
@@ -375,8 +377,8 @@ Examples:
     "reasonPhrase":"OK",
     "metadata":{
       "name":"Sensor 1",
-      "OS name":"Linux",
-      "OS version":"4.2.9"
+      "OSName":"Linux",
+      "OSVersion":"4.2.9"
     }
   }
   ```
@@ -500,7 +502,7 @@ Examples:
   }
   ```
 
-### Delete metadata key
+### Delete metadata keys
 
 Extension-specific resource path is:
 ```
@@ -508,14 +510,14 @@ Extension-specific resource path is:
 ```
 where `<endpoint_token>` identifies the endpoint.
 
-#### Delete metadata key request
+#### Delete metadata keys request
 
 The request payload MUST be a JSON-encoded object with the following [JSON schema](http://json-schema.org/) ([file](./schemas/delete-metadata-keys-request.schema.json)):
 
 ```json
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "10/EPMDX delete metadata key request",
+  "description": "10/EPMDX delete metadata keys request",
   "type": "object",
   "properties": {
     "id": {
@@ -557,7 +559,8 @@ Examples:
     "keys": ["location", "areaId"]
   }
   ```
-#### Delete metadata key response
+
+#### Delete metadata keys response
 
 The server MUST respond to the metadata get request by publishing the response message according to the [request/response design pattern defined in 1/KP](/0001-kaa-protocol/README.md#requestresponse-pattern).
 
@@ -566,7 +569,7 @@ The response payload MUST be a JSON-encoded object with the following [JSON sche
 ```json
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "10/EPMDX delete metadata key response",
+  "description": "10/EPMDX delete metadata keys response",
   "type": "object",
   "properties": {
     "id": {
