@@ -203,6 +203,7 @@ Examples:
     "reasonPhrase":"OK"
   }
   ```
+
 ### Partial metadata update
 
 Updates only endpoint metadata key-value pairs specified in the request payload.
