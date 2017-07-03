@@ -114,7 +114,7 @@ The request payload MUST be a JSON-encoded object with the following [JSON schem
       "type": "object",
       "minProperties": 1,
       "patternProperties": {
-        "\\S": {}
+        "^[a-zA-Z0-9]+$": {}
       },
       "additionalProperties": false,
       "description": "The endpoint metadata object. The property names of this object are metadata keys and values of these properties are metadata values"
@@ -287,7 +287,7 @@ The request payload MUST be a JSON-encoded object with the following [JSON schem
       "type": "array",
       "items": {
         "type": "string",
-        "minLength": 1,
+        "pattern": "^[a-zA-Z0-9]+$",
         "description": "The metadata key"
       },
       "uniqueItems": true,
@@ -336,7 +336,7 @@ The response payload MUST be a JSON-encoded object with the following [JSON sche
     "metadata": {
       "type": "object",
       "patternProperties": {
-        "\\S": {}
+        "^[a-zA-Z0-9]+$": {}
       },
       "additionalProperties": false,
       "description": "The endpoint metadata object. The property names of this object are metadata keys and values of these properties are values. May not present on the error status response"
@@ -444,7 +444,7 @@ The response payload MUST be a JSON-encoded object with the following [JSON sche
       "type": "array",
       "items": {
         "type": "string",
-        "minLength": 1,
+        "pattern": "^[a-zA-Z0-9]+$",
         "description": "The endpoint metadata key"
       },
       "uniqueItems": true,
@@ -524,7 +524,7 @@ The request payload MUST be a JSON-encoded object with the following [JSON schem
     },
     "keyName": {
       "type": "string",
-      "minLength": 1,
+      "pattern": "^[a-zA-Z0-9]+$",
       "description": "The metadata key to be deleted"
     }
   },
