@@ -157,7 +157,7 @@ Examples:
 
 #### Full metadata update response
 
-The server MUST respond to the metadata get request by publishing the response message according to the [request/response design pattern defined in 1/KP](/0001-kaa-protocol/README.md#requestresponse-pattern).
+The server MUST respond to the metadata update request by publishing the response message according to the [request/response design pattern defined in 1/KP](/0001-kaa-protocol/README.md#requestresponse-pattern).
 
 The response payload MUST be a JSON-encoded object with the following [JSON schema](http://json-schema.org/) ([file](./schemas/update-metadata-response.schema.json)):
 
@@ -247,7 +247,7 @@ Examples:
 
 #### Partial metadata update response
 
-The server MUST respond to the metadata get request by publishing the response message according to the [request/response design pattern defined in 1/KP](/0001-kaa-protocol/README.md#requestresponse-pattern).
+The server MUST respond to the metadata update request by publishing the response message according to the [request/response design pattern defined in 1/KP](/0001-kaa-protocol/README.md#requestresponse-pattern).
 
 The response payload MUST be a JSON-encoded object with the same [JSON schema](http://json-schema.org/) as in [full metadata update request](#full-metadata-update-response).
 
@@ -562,7 +562,7 @@ Examples:
 
 #### Delete metadata keys response
 
-The server MUST respond to the metadata get request by publishing the response message according to the [request/response design pattern defined in 1/KP](/0001-kaa-protocol/README.md#requestresponse-pattern).
+The server MUST respond to the metadata keys delete request by publishing the response message according to the [request/response design pattern defined in 1/KP](/0001-kaa-protocol/README.md#requestresponse-pattern).
 
 The response payload MUST be a JSON-encoded object with the following [JSON schema](http://json-schema.org/) ([file](./schemas/delete-metadata-keys-response.schema.json)):
 
