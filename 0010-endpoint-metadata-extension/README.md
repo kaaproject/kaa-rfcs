@@ -2,12 +2,13 @@
 name: Endpoint Metadata Extension
 shortname: 10/EPMDX
 status: draft
-editor: Volodymyr Tkhir <vtkhir@cybervisiontech.com>
+editor: Volodymyr Tkhir <vtkhir@kaaiot.com>
+contributors: Alexey Shmalko <ashmalko@kaaiot.com>
 ---
 
 <!-- toc -->
 
-## Introduction
+# Introduction
 
 The Endpoint Metadata Extension (EPMDX) protocol is an endpoint-aware [Kaa Protocol](/0001-kaa-protocol/README.md) extension.
 
@@ -15,18 +16,37 @@ The Endpoint Metadata Extension is intended to manage endpoint's metadata.
 The metadata provides information about the endpoint and is a collection of key-value pairs.
 Example endpoint's metadata keys are `name`, `description`, `location`, `vendor`, `deviceModel`, `firmwareVersion` etc.
 
-## Requirements and constraints
+# Language
 
-### Metadata keys
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).
 
-The metadata keys are case-sensitive non-empty alphanumeric strings with no embedded whitespace, i.e., MUST match the following [regular expression](https://en.wikipedia.org/wiki/Regular_expression) pattern:
+The following terms and definitions are used in this RFC.
 
+- **Metadata**: key-value data associated with a specific endpoint.
+
+# Requirements and constraints
+
+EPMDX protocol must support the following operations:
+- Get metadata key-value pairs (all or for individual keys)
+- Get a list of metadata keys
+- Update metadata key-value pairs (all or partial update)
+- Delete metadata fields by key names
+
+# Design
+
+## Metadata keys
+
+The metadata keys MUST be case-sensitive non-empty alphanumeric strings with no embedded whitespace, i.e., MUST match the following [regular expression](https://en.wikipedia.org/wiki/Regular_expression) pattern:
 ```
 ^[a-zA-Z0-9]+$
 ```
-No duplicate metadata keys allowed.
-### Metadata values
-Valid metadata value type is any JSON type.
+
+No duplicate metadata keys are allowed.
+
+This format is the most friendliest identifier format for all possible data stores and all kinds of computer systems in general.
+
+## Metadata values
+Metadata field values may be of any JSON type.
 
 Example endpoint metadata:
 
@@ -47,17 +67,8 @@ Example endpoint metadata:
   ]
 }
 ```
-### Supported operations
 
-EPMDX protocol must support the following operations:
-- Get metadata key-value pairs (all or for certain keys)
-- Get a list of metadata keys
-- Update metadata key-value pairs (all or partial update)
-- Delete metadata key-value pairs by key names
-
-## Design
-
-### Full metadata update
+## Full metadata update
 
 Update endpoint metadata operation.
 
@@ -94,13 +105,13 @@ The request payload:
 }
 ```
 
-As a result a `description` key will be removed, value of `location` key will be updated, and value for `vendorId` key will be added.
+As a result, a `description` key is removed, value of `location` key is updated, and value for `vendorId` key is added.
 
 Use [partial update operation](#partial-metadata-update) to avoid removing existing values.
 
-#### Full metadata update request
+### Full metadata update request
 
-The request payload MUST be a JSON-encoded object with the following [JSON schema](http://json-schema.org/) ([file](./schemas/update-metadata-request.schema.json)):
+The request payload MUST be a UTF-8 encoded JSON object with the [JSON Schema](http://json-schema.org/) defined in  [update-metadata-request.schema.json](./schemas/update-metadata-request.schema.json) file.
 
 ```json
 {
@@ -129,8 +140,8 @@ The request payload MUST be a JSON-encoded object with the following [JSON schem
 }
 ```
 
-If there is no `id` JSON property in the request payload then server MUST process the request but MUST not publish the status response back to client.
-When `id` property is present in request, the server MUST publish the [status response](#full-metadata-update-response) with the `id` property in the payload and processing status fields.
+If there is no `id` JSON property in the request payload then the server MUST process the request but MUST NOT publish the status response back to the client.
+When `id` property is present in a request, the server MUST publish the [status response](#full-metadata-update-response) with the `id` property in the payload and processing status fields.
 
 Examples:
 - update metadata with message identifier
@@ -155,11 +166,11 @@ Examples:
   }
   ```
 
-#### Full metadata update response
+### Full metadata update response
 
 The server MUST respond to the metadata update request by publishing the response message according to the [request/response design pattern defined in 1/KP](/0001-kaa-protocol/README.md#requestresponse-pattern).
 
-The response payload MUST be a JSON-encoded object with the following [JSON schema](http://json-schema.org/) ([file](./schemas/update-metadata-response.schema.json)):
+The response payload MUST be a UTF-8 encoded JSON object with the JSON Schema defined in [update-metadata-response.schema.json](./schemas/update-metadata-response.schema.json) file.
 
 ```json
 {
@@ -206,10 +217,10 @@ Examples:
   }
   ```
 
-### Partial metadata update
+## Partial metadata update
 
-Updates only endpoint metadata key-value pairs specified in the request payload.
-In comparison with [full metadata update operation](#full-metadata-update) this request will not remove the existing keys that are not present in the request payload.
+Updates only endpoint metadata key-value pairs present in the request payload.
+In comparison with [full metadata update operation](#full-metadata-update), this request will not remove the existing keys that are not present in the request payload.
 
 Extension-specific resource path is:
 ```
@@ -217,10 +228,10 @@ Extension-specific resource path is:
 ```
 where `<endpoint_token>` identifies the endpoint.
 
-#### Partial metadata update request
+### Partial metadata update request
 
 The request payload MUST be a JSON-encoded object with the same [JSON schema](http://json-schema.org/) as in [full metadata update request](#full-metadata-update-request).
-In the `metadata` JSON property specify only key-value pairs that need to be updated.
+`metadata` JSON property specifies only key-value pairs that need to be updated.
 
 Examples:
 - update metadata with message identifier
@@ -245,7 +256,7 @@ Examples:
   }
   ```
 
-#### Partial metadata update response
+### Partial metadata update response
 
 The server MUST respond to the metadata update request by publishing the response message according to the [request/response design pattern defined in 1/KP](/0001-kaa-protocol/README.md#requestresponse-pattern).
 
@@ -263,7 +274,7 @@ Examples:
   }
   ```
 
-### Get metadata
+## Get metadata
 
 Extension-specific resource path is:
 ```
@@ -271,9 +282,9 @@ Extension-specific resource path is:
 ```
 where `<endpoint_token>` identifies the endpoint.
 
-#### Get metadata request
+### Get metadata request
 
-The request payload MUST be a JSON-encoded object with the following [JSON schema](http://json-schema.org/) ([file](./schemas/get-metadata-request.schema.json)):
+The request payload MUST be a UTF-8 encoded JSON object with the JSON Schema defined in [get-metadata-request.schema.json](./schemas/get-metadata-request.schema.json) file.
 
 ```json
 {
@@ -321,9 +332,9 @@ Examples:
   }
   ```
 
-#### Get metadata response
+### Get metadata response
 
-The response payload MUST be a JSON-encoded object with the following [JSON schema](http://json-schema.org/) ([file](./schemas/get-metadata-response.schema.json)):
+The response payload MUST be a UTF-8 encoded JSON object with the JSON Schema defined in [get-metadata-response.schema.json](./schemas/get-metadata-response.schema.json) file.
 
 ```json
 {
@@ -392,7 +403,7 @@ Examples:
   }
   ```
 
-### Get metadata keys
+## Get metadata keys
 
 Extension-specific resource path:
 ```
@@ -400,9 +411,9 @@ Extension-specific resource path:
 ```
 where `<endpoint_token>` identifies the endpoint.
 
-#### Get metadata keys request
+### Get metadata keys request
 
-The request payload MUST be a JSON-encoded object with the following [JSON schema](http://json-schema.org/) ([file](./schemas/get-metadata-keys-request.schema.json)):
+The request payload MUST be a UTF-8 encoded JSON object with the JSON Schema defined in [get-metadata-keys-request.schema.json](./schemas/get-metadata-keys-request.schema.json) file.
 
 ```json
 {
@@ -428,9 +439,9 @@ Examples:
   }
   ```
 
-#### Get metadata keys response
+### Get metadata keys response
 
-The response payload MUST be a JSON-encoded object with the following [JSON schema](http://json-schema.org/) ([file](./schemas/get-metadata-keys-response.schema.json)):
+The response payload MUST be a UTF-8 encoded JSON object with the JSON Schema defined in [get-metadata-keys-response.schema.json](./schemas/get-metadata-keys-response.schema.json) file.
 
 ```json
 {
@@ -502,7 +513,7 @@ Examples:
   }
   ```
 
-### Delete metadata keys
+## Delete metadata keys
 
 Extension-specific resource path is:
 ```
@@ -510,9 +521,9 @@ Extension-specific resource path is:
 ```
 where `<endpoint_token>` identifies the endpoint.
 
-#### Delete metadata keys request
+### Delete metadata keys request
 
-The request payload MUST be a JSON-encoded object with the following [JSON schema](http://json-schema.org/) ([file](./schemas/delete-metadata-keys-request.schema.json)):
+The request payload MUST be a UTF-8 encoded JSON object with the JSON Schema defined in [delete-metadata-keys-request.schema.json](./schemas/delete-metadata-keys-request.schema.json) file.
 
 ```json
 {
@@ -560,11 +571,11 @@ Examples:
   }
   ```
 
-#### Delete metadata keys response
+### Delete metadata keys response
 
 The server MUST respond to the metadata keys delete request by publishing the response message according to the [request/response design pattern defined in 1/KP](/0001-kaa-protocol/README.md#requestresponse-pattern).
 
-The response payload MUST be a JSON-encoded object with the following [JSON schema](http://json-schema.org/) ([file](./schemas/delete-metadata-keys-response.schema.json)):
+The response payload MUST be a UTF-8 encoded JSON object with the JSON Schema defined in [delete-metadata-keys-response.schema.json](./schemas/delete-metadata-keys-response.schema.json) file.
 
 ```json
 {
