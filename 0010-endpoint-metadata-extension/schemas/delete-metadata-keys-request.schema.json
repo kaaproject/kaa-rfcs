@@ -1,26 +1,15 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "description": "10/EPMDX delete metadata keys request",
-  "type": "object",
-  "properties": {
-    "id": {
-      "type": "integer",
-      "description": "The message identifier used to match server response to the request"
-    },
-    "keys": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "pattern": "^[a-zA-Z0-9]+$",
-        "description": "The endpoint metadata key"
-      },
-      "minItems": 1,
-      "uniqueItems": true,
-      "description": "The set of endpoint metadata keys"
-    }
+
+  "type": "array",
+  "items": {
+    "type": "string",
+    "pattern": "^[a-zA-Z0-9]+$",
+    "description": "The endpoint metadata key"
   },
-  "required": [
-    "keys"
-  ],
-  "additionalProperties": false
+  "minItems": 1,
+  "uniqueItems": true,
+
+  "description": "The set of endpoint metadata keys"
 }

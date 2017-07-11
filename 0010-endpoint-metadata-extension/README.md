@@ -117,105 +117,32 @@ The request payload MUST be a UTF-8 encoded JSON object with the [JSON Schema](h
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "description": "10/EPMDX update metadata request",
+
   "type": "object",
-  "properties": {
-    "id": {
-      "type": "integer",
-      "description": "The message identifier used to match server response to the request"
-    },
-    "metadata": {
-      "type": "object",
-      "minProperties": 1,
-      "patternProperties": {
-        "^[a-zA-Z0-9]+$": {}
-      },
-      "additionalProperties": false,
-      "description": "The endpoint metadata object. The property names of this object are metadata keys and values of these properties are metadata values"
-    }
+  "minProperties": 1,
+  "patternProperties": {
+    "^[a-zA-Z0-9]+$": {}
   },
+
   "additionalProperties": false,
-  "required": [
-    "metadata"
-  ]
+
+  "description": "The endpoint metadata object. The property names of this object are metadata keys and values of these properties are metadata values"
 }
 ```
 
-If there is no `id` JSON property in the request payload then the server MUST process the request but MUST NOT publish the status response back to the client.
-When `id` property is present in a request, the server MUST publish the [status response](#full-metadata-update-response) with the `id` property in the payload and processing status fields.
-
-Examples:
-- update metadata with message identifier
-
-  ```json
-  {
-    "id":42,
-    "metadata":{
-      "deviceModel":"example model",
-      "name":"Sensor 1"
-    }
-  }
-  ```
-- update metadata without message identifier
-
-  ```json
-  {
-    "metadata":{
-      "deviceModel":"example model",
-      "name":"Sensor 1"
-    }
-  }
-  ```
+Example:
+```json
+{
+  "deviceModel":"example model",
+  "name":"Sensor 1"
+}
+```
 
 ### Full metadata update response
 
-The server MUST respond to the metadata update request by publishing the response message according to the [request/response design pattern defined in 1/KP](/0001-kaa-protocol/README.md#requestresponse-pattern).
+The server MUST respond to the metadata update according to the [request/response design pattern defined in 1/KP](/0001-kaa-protocol/README.md#requestresponse-pattern).
 
-The response payload MUST be a UTF-8 encoded JSON object with the JSON Schema defined in [update-metadata-response.schema.json](./schemas/update-metadata-response.schema.json) file.
-
-```json
-{
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "10/EPMDX update metadata response",
-  "type": "object",
-  "properties": {
-    "id": {
-      "type": "integer",
-      "description": "The message identifier used to match server response to the request"
-    },
-    "statusCode": {
-      "type": "integer",
-      "minimum": 1,
-      "description": "Status code based on HTTP status codes"
-    },
-    "reasonPhrase": {
-      "type": "string",
-      "minLength": 1,
-      "description": "A human-readable string explaining the cause of an error (if any). `OK` if request was successful"
-    }
-  },
-  "required": [
-    "id",
-    "statusCode",
-    "reasonPhrase"
-  ],
-  "additionalProperties": false
-}
-```
-
-  where
-  - `id` MUST match that in the request
-
-Examples:
-
-- Endpoint metadata successfully updated
-
-  ```json
-  {
-    "id":42,
-    "statusCode":200,
-    "reasonPhrase":"OK"
-  }
-  ```
+The response MUST follow the error response format as defined per 1/KP.
 
 ## Partial metadata update
 
@@ -233,46 +160,19 @@ where `<endpoint_token>` identifies the endpoint.
 The request payload MUST be a JSON-encoded object with the same [JSON schema](http://json-schema.org/) as in [full metadata update request](#full-metadata-update-request).
 `metadata` JSON property specifies only key-value pairs that need to be updated.
 
-Examples:
-- update metadata with message identifier
-
-  ```json
-  {
-    "id":42,
-    "metadata":{
-      "deviceModel":"example model",
-      "name":"Sensor 1"
-    }
-  }
-  ```
-- update metadata without message identifier
-
-  ```json
-  {
-    "metadata":{
-      "deviceModel":"example model",
-      "name":"Sensor 1"
-    }
-  }
-  ```
+Example:
+```json
+{
+  "deviceModel":"example model",
+  "name":"Sensor 1"
+}
+```
 
 ### Partial metadata update response
 
-The server MUST respond to the metadata update request by publishing the response message according to the [request/response design pattern defined in 1/KP](/0001-kaa-protocol/README.md#requestresponse-pattern).
+The server MUST respond to the metadata update according to the [request/response design pattern defined in 1/KP](/0001-kaa-protocol/README.md#requestresponse-pattern).
 
-The response payload MUST be a JSON-encoded object with the same [JSON schema](http://json-schema.org/) as in [full metadata update request](#full-metadata-update-response).
-
-Examples:
-
-- Endpoint metadata key-value pairs successfully updated
-
-  ```json
-  {
-    "id":42,
-    "statusCode":200,
-    "reasonPhrase":"OK"
-  }
-  ```
+The response MUST follow the error response format as defined per 1/KP.
 
 ## Get metadata
 
@@ -292,10 +192,6 @@ The request payload MUST be a UTF-8 encoded JSON object with the JSON Schema def
   "description": "10/EPMDX get metadata request",
   "type": "object",
   "properties": {
-    "id": {
-      "type": "integer",
-      "description": "The message identifier used to match server response to the request"
-    },
     "keys": {
       "type": "array",
       "items": {
@@ -307,24 +203,21 @@ The request payload MUST be a UTF-8 encoded JSON object with the JSON Schema def
       "description": "The metadata keys to be returned. Optional, if not specified all metadata keys will be returned"
     }
   },
-  "requiredProperties": [ "id" ],
   "additionalProperties": false
 }
 ```
 
 Examples:
-- get metadata with message identifier
+- get all metadata
 
   ```json
   {
-    "id": 42
   }
   ```
 - get only certain metadata key-value pairs
 
   ```json
   {
-    "id": 42,
     "keys": [
       "name",
       "location"
@@ -340,42 +233,15 @@ The response payload MUST be a UTF-8 encoded JSON object with the JSON Schema de
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "description": "10/EPMDX get metadata response",
+
   "type": "object",
-  "properties": {
-    "id": {
-      "type": "integer",
-      "description": "The message identifier used to match server response to the request"
-    },
-    "metadata": {
-      "type": "object",
-      "patternProperties": {
-        "^[a-zA-Z0-9]+$": {}
-      },
-      "additionalProperties": false,
-      "description": "The endpoint metadata object. The property names of this object are metadata keys and values of these properties are values. May not present on the error status response"
-    },
-    "statusCode": {
-      "type": "integer",
-      "minimum": 200,
-      "description": "Status code based on HTTP status codes"
-    },
-    "reasonPhrase": {
-      "type": "string",
-      "minLength": 1,
-      "description": "A human-readable string explaining the cause of an error (if any). `OK` if request was successful"
-    }
+  "patternProperties": {
+    "^[a-zA-Z0-9]+$": {}
   },
-  "required": [
-    "id",
-    "statusCode",
-    "reasonPhrase"
-  ],
-  "additionalProperties": false
+  "additionalProperties": false,
+  "description": "The endpoint metadata object. The property names of this object are metadata keys and values of these properties are values."
 }
 ```
-
-  where
-  - `id` MUST match that in the request
 
 Examples:
 
@@ -383,23 +249,9 @@ Examples:
 
   ```json
   {
-    "id":42,
-    "statusCode":200,
-    "reasonPhrase":"OK",
-    "metadata":{
-      "name":"Sensor 1",
-      "OSName":"Linux",
-      "OSVersion":"4.2.9"
-    }
-  }
-  ```
-- No endpoint metadata found
-
-  ```json
-  {
-    "id":42,
-    "statusCode":404,
-    "reasonPhrase":"Endpoint metadata not found"
+    "name":"Sensor 1",
+    "OSName":"Linux",
+    "OSVersion":"4.2.9"
   }
   ```
 
@@ -413,104 +265,39 @@ where `<endpoint_token>` identifies the endpoint.
 
 ### Get metadata keys request
 
-The request payload MUST be a UTF-8 encoded JSON object with the JSON Schema defined in [get-metadata-keys-request.schema.json](./schemas/get-metadata-keys-request.schema.json) file.
-
-```json
-{
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "10/EPMDX get metadata keys request",
-  "type": "object",
-  "properties": {
-    "id": {
-      "type": "integer",
-      "description": "The message identifier used to match server response to the request"
-    }
-  },
-  "required": [ "id" ],
-  "additionalProperties": false
-}
-```
-Examples:
-- get metadata keys with message identifier
-
-  ```json
-  {
-    "id": 42
-  }
-  ```
+The client SHOULD send zero-byte empty payload. The server MUST ignore payload if any.
 
 ### Get metadata keys response
 
-The response payload MUST be a UTF-8 encoded JSON object with the JSON Schema defined in [get-metadata-keys-response.schema.json](./schemas/get-metadata-keys-response.schema.json) file.
+The response payload MUST be a UTF-8 encoded JSON array with the JSON Schema defined in [get-metadata-keys-response.schema.json](./schemas/get-metadata-keys-response.schema.json) file.
 
 ```json
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "description": "10/EPMDX get metadata keys response",
-  "type": "object",
-  "properties": {
-    "id": {
-      "type": "integer",
-      "description": "The message identifier used to match server response to the request"
-    },
-    "keys": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "pattern": "^[a-zA-Z0-9]+$",
-        "description": "The endpoint metadata key"
-      },
-      "uniqueItems": true,
-      "description": "The set of endpoint metadata keys"
-    },
-    "statusCode": {
-      "type": "integer",
-      "minimum": 1,
-      "description": "Status code based on HTTP status codes"
-    },
-    "reasonPhrase": {
-      "type": "string",
-      "minLength": 1,
-      "description": "A human-readable string explaining the cause of an error (if any). `OK` if request was successful"
-    }
+
+  "type": "array",
+  "items": {
+    "type": "string",
+    "pattern": "^[a-zA-Z0-9]+$",
+    "description": "The endpoint metadata key"
   },
-  "required": [
-    "id",
-    "statusCode",
-    "reasonPhrase"
-  ],
-  "additionalProperties": false
+  "uniqueItems": true,
+  "description": "The set of endpoint metadata keys"
 }
-
 ```
-
-  where
-  - `id` MUST match that in the request
 
 Examples:
 
 - Endpoint metadata keys successfully retrieved
 
   ```json
-  {
-    "id":42,
-    "statusCode":200,
-    "reasonPhrase":"OK",
-    "keys":[
-      "name",
-      "location",
-      "deviceModel"
-    ]
-  }
-  ```
-- No endpoint metadata found
+  [
+    "name",
+    "location",
+    "deviceModel"
+  ]
 
-  ```json
-  {
-    "id":42,
-    "statusCode":404,
-    "reasonPhrase":"Endpoint metadata not found"
-  }
   ```
 
 ## Delete metadata keys
@@ -523,110 +310,33 @@ where `<endpoint_token>` identifies the endpoint.
 
 ### Delete metadata keys request
 
-The request payload MUST be a UTF-8 encoded JSON object with the JSON Schema defined in [delete-metadata-keys-request.schema.json](./schemas/delete-metadata-keys-request.schema.json) file.
+The request payload MUST be a UTF-8 encoded JSON array with the JSON Schema defined in [delete-metadata-keys-request.schema.json](./schemas/delete-metadata-keys-request.schema.json) file.
 
 ```json
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "description": "10/EPMDX delete metadata keys request",
-  "type": "object",
-  "properties": {
-    "id": {
-      "type": "integer",
-      "description": "The message identifier used to match server response to the request"
-    },
-    "keys": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "pattern": "^[a-zA-Z0-9]+$",
-        "description": "The endpoint metadata key"
-      },
-      "minItems": 1,
-      "uniqueItems": true,
-      "description": "The set of endpoint metadata keys"
-    }
+
+  "type": "array",
+  "items": {
+    "type": "string",
+    "pattern": "^[a-zA-Z0-9]+$",
+    "description": "The endpoint metadata key"
   },
-  "required": [
-    "keys"
-  ],
-  "additionalProperties": false
+  "minItems": 1,
+  "uniqueItems": true,
+
+  "description": "The set of endpoint metadata keys"
 }
 ```
 
-Examples:
-- delete metadata keys with message identifier
-
-  ```json
-  {
-    "id": 42,
-    "keys": ["location", "areaId"]
-  }
-  ```
-- delete metadata keys without message identifier
-
-  ```json
-  {
-    "keys": ["location", "areaId"]
-  }
-  ```
+Example:
+```json
+["location", "areaId"]
+```
 
 ### Delete metadata keys response
 
-The server MUST respond to the metadata keys delete request by publishing the response message according to the [request/response design pattern defined in 1/KP](/0001-kaa-protocol/README.md#requestresponse-pattern).
+The server MUST respond to the metadata keys delete according to the [request/response design pattern defined in 1/KP](/0001-kaa-protocol/README.md#requestresponse-pattern).
 
-The response payload MUST be a UTF-8 encoded JSON object with the JSON Schema defined in [delete-metadata-keys-response.schema.json](./schemas/delete-metadata-keys-response.schema.json) file.
-
-```json
-{
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "10/EPMDX delete metadata keys response",
-  "type": "object",
-  "properties": {
-    "id": {
-      "type": "integer",
-      "description": "The message identifier used to match server response to the request"
-    },
-    "statusCode": {
-      "type": "integer",
-      "minimum": 200,
-      "description": "Status code based on HTTP status codes"
-    },
-    "reasonPhrase": {
-      "type": "string",
-      "minLength": 1,
-      "description": "A human-readable string explaining the cause of an error (if any). `OK` if request was successful"
-    }
-  },
-  "required": [
-    "id",
-    "statusCode",
-    "reasonPhrase"
-  ],
-  "additionalProperties": false
-}
-```
-
-  where
-  - `id` MUST match that in the request
-
-Examples:
-
-- Endpoint metadata keys successfully deleted
-
-  ```json
-  {
-    "id":42,
-    "statusCode":200,
-    "reasonPhrase":"OK"
-  }
-  ```
-- Endpoint metadata key not found
-
-  ```json
-  {
-    "id":42,
-    "statusCode":404,
-    "reasonPhrase":"Endpoint metadata key not found"
-  }
-  ```
+The response MUST follow the error response format as definer per 1/KP.
