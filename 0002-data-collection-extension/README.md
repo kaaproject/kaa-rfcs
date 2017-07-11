@@ -38,9 +38,7 @@ This is needed for client to guarantee that the data has been processed and to f
     This creates a synchronization point, which conflicts with asynchronous record processing requirement.
   - Use separate response messages for processing confirmation.
 
-    For CoAP, this should be supported by [Separate Response (RFC 7252, Section 5.2.2)](https://tools.ietf.org/html/rfc7252#section-5.2.2).
-
-    For MQTT, this is achieved by publishing a response into the status topic. See request/response pattern defined in 1/KP.
+    This is achieved by request/response pattern as defined per 1/KP.
 
 - Server should handle different types of data.
   Different endpoints may send data in a variety of formats. Server should know the format to parse the payload.
