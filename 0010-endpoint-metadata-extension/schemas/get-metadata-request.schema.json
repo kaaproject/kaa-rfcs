@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "description": "10/EPMDX get metadata request",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "The message identifier used to match server response to the request"
+    },
+    "keys": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9]+$",
+        "description": "The metadata key"
+      },
+      "uniqueItems": true,
+      "description": "The metadata keys to be returned. Optional, if not specified all metadata keys will be returned"
+    }
+  },
+  "required": [ "id" ],
+  "additionalProperties": false
+}
