@@ -10,7 +10,7 @@ editor: Alexey Shmalko <ashmalko@kaaiot.io>
 # Introduction
 Command Execution Protocol is an endpoint-aware 1/KP extension. It is designed to allow command execution on endpoints.
 
-This document describes how commands are delivered to endpoints and how the server is notified of command results. This document does not cover who and how initiates command, and how results are interpreted.
+This document describes how commands are delivered to endpoints and how the server is notified of command execution results. This document does not cover who and how initiates command, and how results are interpreted.
 
 # Language
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).
