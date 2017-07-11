@@ -9,7 +9,5 @@
     "description": "The endpoint metadata key"
   },
   "minItems": 1,
-  "uniqueItems": true,
-
-  "description": "The set of endpoint metadata keys"
+  "uniqueItems": true
 }

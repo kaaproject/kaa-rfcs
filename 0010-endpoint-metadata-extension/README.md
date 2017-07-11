@@ -116,7 +116,7 @@ The request payload MUST be a UTF-8 encoded JSON object with the [JSON Schema](h
 ```json
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "10/EPMDX update metadata request",
+  "description": "10/EPMDX update metadata request. The endpoint metadata object. The property names of this object are metadata keys and values of these properties are metadata values.",
 
   "type": "object",
   "minProperties": 1,
@@ -124,9 +124,7 @@ The request payload MUST be a UTF-8 encoded JSON object with the [JSON Schema](h
     "^[a-zA-Z0-9]+$": {}
   },
 
-  "additionalProperties": false,
-
-  "description": "The endpoint metadata object. The property names of this object are metadata keys and values of these properties are metadata values"
+  "additionalProperties": false
 }
 ```
 
@@ -232,14 +230,13 @@ The response payload MUST be a UTF-8 encoded JSON object with the JSON Schema de
 ```json
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "10/EPMDX get metadata response",
+  "description": "10/EPMDX get metadata response. The endpoint metadata object. The property names of this object are metadata keys and values of these properties are values.",
 
   "type": "object",
   "patternProperties": {
     "^[a-zA-Z0-9]+$": {}
   },
-  "additionalProperties": false,
-  "description": "The endpoint metadata object. The property names of this object are metadata keys and values of these properties are values."
+  "additionalProperties": false
 }
 ```
 
@@ -274,7 +271,7 @@ The response payload MUST be a UTF-8 encoded JSON array with the JSON Schema def
 ```json
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "10/EPMDX get metadata keys response",
+  "description": "10/EPMDX get metadata keys response. The set of endpoint metadata keys.",
 
   "type": "array",
   "items": {
@@ -282,8 +279,7 @@ The response payload MUST be a UTF-8 encoded JSON array with the JSON Schema def
     "pattern": "^[a-zA-Z0-9]+$",
     "description": "The endpoint metadata key"
   },
-  "uniqueItems": true,
-  "description": "The set of endpoint metadata keys"
+  "uniqueItems": true
 }
 ```
 
@@ -324,9 +320,7 @@ The request payload MUST be a UTF-8 encoded JSON array with the JSON Schema defi
     "description": "The endpoint metadata key"
   },
   "minItems": 1,
-  "uniqueItems": true,
-
-  "description": "The set of endpoint metadata keys"
+  "uniqueItems": true
 }
 ```
 

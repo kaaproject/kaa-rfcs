@@ -1,11 +1,10 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "10/EPMDX get metadata response",
+  "description": "10/EPMDX get metadata response. The endpoint metadata object. The property names of this object are metadata keys and values of these properties are values.",
 
   "type": "object",
   "patternProperties": {
     "^[a-zA-Z0-9]+$": {}
   },
-  "additionalProperties": false,
-  "description": "The endpoint metadata object. The property names of this object are metadata keys and values of these properties are values."
+  "additionalProperties": false
 }

@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "10/EPMDX get metadata keys response",
+  "description": "10/EPMDX get metadata keys response. The set of endpoint metadata keys.",
 
   "type": "array",
   "items": {
@@ -8,6 +8,5 @@
     "pattern": "^[a-zA-Z0-9]+$",
     "description": "The endpoint metadata key"
   },
-  "uniqueItems": true,
-  "description": "The set of endpoint metadata keys"
+  "uniqueItems": true
 }
