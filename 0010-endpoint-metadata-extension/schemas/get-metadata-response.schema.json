@@ -1,35 +1,10 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "10/EPMDX get metadata response",
+  "description": "10/EPMDX get metadata response. The endpoint metadata object. The property names of this object are metadata keys and values of these properties are values.",
+
   "type": "object",
-  "properties": {
-    "id": {
-      "type": "integer",
-      "description": "The message identifier used to match server response to the request"
-    },
-    "metadata": {
-      "type": "object",
-      "patternProperties": {
-        "^[a-zA-Z0-9]+$": {}
-      },
-      "additionalProperties": false,
-      "description": "The endpoint metadata object. The property names of this object are metadata keys and values of these properties are values. May not present on the error status response"
-    },
-    "statusCode": {
-      "type": "integer",
-      "minimum": 200,
-      "description": "Status code based on HTTP status codes"
-    },
-    "reasonPhrase": {
-      "type": "string",
-      "minLength": 1,
-      "description": "A human-readable string explaining the cause of an error (if any). `OK` if request was successful"
-    }
+  "patternProperties": {
+    "^[a-zA-Z0-9]+$": {}
   },
-  "required": [
-    "id",
-    "statusCode",
-    "reasonPhrase"
-  ],
   "additionalProperties": false
 }
