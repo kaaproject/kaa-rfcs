@@ -140,66 +140,10 @@ Example:
 
 ### Configuration push
 
-Pushing a notification from provider to consumer can be designed as an event.
-Alternatively, the event-based approach can be used as described in [3/Messaging IPC][3/MIPC] RFC.
+CDP MUST publish broadcast event when new configuration is available and wait for delivery
+confirmation in order to mark configuration as applied.
 
-When an endpoint updates its configuration to a certain version, an EP configuration provider should broadcast an event about this.
-
-#### Subject structure
-
-Both the EP configuration provider and consumer should listen to this subject and send messages to it:
-```
-kaa.v1.events.{originator-service-instance-name}.endpoint.config.{event-type}
-```
-
-For more information, see [3/Messaging IPC][3/MIPC].
-
-There are two types of such messages:
-- `ConfigUpdated` message is initiated by EP configuration provider when it receives notification that particular endpoint has updated configuration.
-- `ConfigNewAvailable` message is initiated by EP configuration consumer when it receives new configuration.
-
-`ConfigUpdated` message structure:
-
-- `appVersionName` (string, required): application version to which endpoint configuration is applicable.
-- `endpointId` (string, required): unique identifier of endpoint to which configuration is applicable.
-- `configId` (string, required): unique identifier of endpoint configuration.
-
-Example:
-
-```json
-{
-  "correlationId": "6fd9b270-2b74-428b-a86f-fee018b932f0",
-  "eventTimestamp": 1490350896332,
-  "originatorReplicaId": "1758dc39-63d2-47d0-9b58-6f617a4e0bba",
-  "appVersionName": "39774993-a426-4092-9e38-02ec213272d0",
-  "endpointId": "b197e391-1d13-403b-83f5-87bdd44888cf",
-  "configId": "76d34f8b-c038-413f-b122-318dce49edd1"
-}
-```
-
-`ConfigNewAvailable` message structure:
-
-- `appVersionName` (string, required): application version to which the endpoint configuration is applicable.
-- `endpointId` (string, required): endpoint unique identifier to which the configuration is applicable.
-- `configId` (string, required): unique identifier of endpoint configuration.
-
-Example:
-
-```json
-{
-  "correlationId": "0fce883f-1104-4da7-8a35-e790ecced6ac",
-  "eventTimestamp": 1490351044418,
-  "originatorReplicaId": "3b823589-d90b-497e-91f8-0209ecaef908",
-  "appVersionName": "39774993-a426-4092-9e38-02ec213272d0",
-  "endpointId": "b197e391-1d13-403b-83f5-87bdd44888cf",
-  "configId": "76d34f8b-c038-413f-b122-318dce49edd1",
-  "contentType": "json",
-  "content": {
-    "bytes": "d2FpdXJoM2pmbmxzZGtjdjg3eTg3b3cz"
-  }
-}
-```
-
-For more information about message field restrictions, see [3/Messaging IPC][3/MIPC] RFC.
+Configuration push is based on configuration events as described in
+[9/Endpoint events IPC](/0009-endpoint-events-ipc/README.md#configuration-events).
 
 [3/MIPC]: /0003-messaging-ipc/README.md
