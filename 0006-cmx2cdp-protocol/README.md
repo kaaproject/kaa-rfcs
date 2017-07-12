@@ -131,7 +131,10 @@ Example:
 
 ### Configuration push
 
-Configuration push is based on configuration events as describe in
+CDP MUST publish broadcast event when new configuration is available and wait for confirmation event 
+that endpoint has received and processed it in order to mark configuration as applied.
+
+Configuration push is based on configuration events as described in
 [9/Endpoint events IPC](/0009-endpoint-events-ipc/README.md#configuration-events).
 
 ## Use cases
