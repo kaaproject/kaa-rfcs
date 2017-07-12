@@ -26,10 +26,10 @@ The following terms and definitions are used in this RFC.
 Data Collection protocol requirements:
 
 - Record processing is asynchronous.
-Processing might require a significant period of time and may be performed simultaneously or in different order.
+Processing might require a significant period of time and may be performed simultaneously or in a different order.
 
 - The client must know if a record has been processed.
-This is needed for client to guarantee that the data has been processed and to free allocated resources.
+This is needed for the client to guarantee that the data has been processed and to free allocated resources.
 
   Possible solutions:
   - Use QoS levels for message delivery confirmation.
@@ -40,8 +40,8 @@ This is needed for client to guarantee that the data has been processed and to f
 
     This is achieved by request/response pattern as defined per 1/KP.
 
-- Server should handle different types of data.
-  Different endpoints may send data in a variety of formats. Server should know the format to parse the payload.
+- The server should handle different types of data.
+  Different endpoints may send data in a variety of formats. The server should know the format to parse the payload.
 
   Solutions:
   - Use `<format_specifier>` embedded into resource path.
@@ -49,8 +49,7 @@ This is needed for client to guarantee that the data has been processed and to f
 - The server should know the endpoint that generates the data.
 
   Solutions:
-  - Using `<endpoint_token>` embedded into resource path.
-    Therefore, 2/DCX is an endpoint-aware extension as defined per 1/KP.
+  - Make 2/DCX an endpoint-aware extension as defined per 1/KP.
 
 - Little network usage.
   Internet connection may be slow, unstable, or costly, so the extension should send as little data as possible.
@@ -91,7 +90,7 @@ Recommended fallback solution for cases when there is no timestamp: save server 
 #### Request
 JSON Schema for requests is defined in the [request.schema.json](./request.schema.json) file.
 
-The server MUST handle requests at the following resourse path:
+The server MUST handle requests at the following resource path:
 ```
 /<endpoint_token>/json
 ```
@@ -120,4 +119,4 @@ Example:
 #### Response
 A processing confirmation response MUST follow the error response format as defined per 1/KP.
 
-Succesful response means the bucket has been sucessfully delivered and processed.
+Successful response means the bucket has been successfully delivered and processed.
