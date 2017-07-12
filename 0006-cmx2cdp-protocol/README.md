@@ -131,7 +131,8 @@ Example:
 
 ### Configuration push
 
-Configuration push is performed as described in [9/Endpoint events IPC](/0009-endpoint-events-ipc/README.md#configuration-events).
+Configuration push is based on configuration events as describe in
+[9/Endpoint events IPC](/0009-endpoint-events-ipc/README.md#configuration-events).
 
 ## Use cases
 
