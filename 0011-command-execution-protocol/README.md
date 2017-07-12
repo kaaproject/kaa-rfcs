@@ -148,7 +148,7 @@ The request is a UTF-8 encoded JSON object with the JSON Schema defined in the [
     },
     "reasonPhrase": {
       "type": "string",
-      "description": "A human-readable string explaining the cause of an error if any."
+      "description": "Intended to give a short textual description of the status code."
     },
     "payload": {
       "description": "A command result payload to be interpreted by the caller."
