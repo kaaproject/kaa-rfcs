@@ -131,67 +131,7 @@ Example:
 
 ### Configuration push
 
-Event-based approach as described in [3/Messaging IPC][3/MIPC] documentation can be used as alternative,
-thus manipulations with endpoint configurations are accepted as events.
-
-#### Subject structure
-
-CMX and CDP should listen on and send broadcast messages to the next subject:
-
-    kaa.v1.events.{originator-service-instance-name}.endpoint.config.{event-type}
-
-For subject parts explanation refer to [3/Messaging IPC][3/MIPC].
-
-There are next types of such messages:
-
-* _"updated"_ message - is initiated by CMX when it receives notification that particular endpoint has updated
-configuration.
-* _"new-available"_ message - is initiated by CDP when it receives new configuration.
-
-_"updated"_ message structure:
-
-- `appVersionName` (string, required) - application version to which endpoint configuration is applicable.
-- `endpointId` (string, required) - unique identifier of endpoint to which configuration is applicable.
-- `configId` (string, required) - unique identifier of endpoint configuration.
-
-Example:
-
-```json
-{
-  "correlationId": "6fd9b270-2b74-428b-a86f-fee018b932f0",
-  "eventTimestamp": 1490350896332,
-  "originatorReplicaId": "1758dc39-63d2-47d0-9b58-6f617a4e0bba",
-  "appVersionName": "39774993-a426-4092-9e38-02ec213272d0",
-  "endpointId": "b197e391-1d13-403b-83f5-87bdd44888cf",
-  "configId": "76d34f8b-c038-413f-b122-318dce49edd1"
-}
-```
-
-_"new-available"_ message structure:
-
-- `appVersionName` (string, required) - application version to which endpoint configuration is applicable.
-- `endpointId` (string, required) - endpoint unique identifier to which configuration is applicable.
-- `configId` (string, required) - unique identifier of endpoint configuration.
-
-Example:
-
-```json
-{
-  "correlationId": "0fce883f-1104-4da7-8a35-e790ecced6ac",
-  "eventTimestamp": 1490351044418,
-  "originatorReplicaId": "3b823589-d90b-497e-91f8-0209ecaef908",
-  "appVersionName": "39774993-a426-4092-9e38-02ec213272d0",
-  "endpointId": "b197e391-1d13-403b-83f5-87bdd44888cf",
-  "configId": "76d34f8b-c038-413f-b122-318dce49edd1",
-  "contentType": "json",
-  "content": {
-    "bytes": "d2FpdXJoM2pmbmxzZGtjdjg3eTg3b3cz"
-  }
-}
-```
-
-Regardless of specified above broadcast types all other restriction concerning message
-fields are applicable from [3/Messaging IPC][3/MIPC] documentation.
+Configuration push is performed as described in [9/Endpoint events IPC][9/EPEIPC].
 
 ## Use cases
 
