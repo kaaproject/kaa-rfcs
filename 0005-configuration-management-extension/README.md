@@ -39,9 +39,9 @@ Client MUST send requests with the following extension-specific [resource path](
   `<endpoint_token>/pull/<message_format>[/<config_format>]`
 
   where:
-  - `endpoint_token` identifies the endpoint;
-  - `message_format` specifies the format of the configuration pull messages' payload, e.g. `json`, `protobuf`, etc.;
-  - `config_format` specifies the format of the configuration body, e.g. `json`, `avro`, etc.
+  - `<endpoint_token>` identifies the endpoint;
+  - `<message_format>` specifies the format of the configuration pull messages' payload, e.g. `json`, `protobuf`, etc.;
+  - `<config_format>` specifies the format of the configuration body, e.g. `json`, `avro`, etc.
   This resource path parameter is optional.
   In case it is not specified, the configuration body format is assumed to match the message format.
   It is RECOMMENDED to omit the `<config_format>` resource path suffix in case the desired configuration format matches the message format.
@@ -101,7 +101,7 @@ The extension-specific resource path part format is:
 
   `<endpoint_token>/pull/<message_format>[/<config_format>]/status`
 
-  where `message_format` and `config_format` (if present) are copied from the request message.
+  where `<message_format>` and `<config_format>` (if present) are copied from the request message.
 
 When the `<message_format>` is set to `json`, the response payload MUST be a JSON-encoded object with the following JSON schema ([file](./config-pull-response.schema.json)):
 
@@ -167,7 +167,7 @@ Example for the case when there is no new configuration data for the endpoint (`
   "statusCode": 304,
   "reasonPhrase": "Not changed"
 }
-``` 
+```
 
 ### Configuration push
 
@@ -178,9 +178,9 @@ Server MUST send requests with the following extension-specific resource path pa
   `<endpoint_token>/push/<message_format>[/<config_format>]`
 
   where:
-  - `endpoint_token` identifies the endpoint;
-  - `message_format` specifies the format of the push configuration messages' payload, e.g. `json`, `protobuf`, etc.;
-  - `config_format` specifies the format of the configuration body, e.g. `json`, `avro`, etc.
+  - `<endpoint_token>` identifies the endpoint;
+  - `<message_format>` specifies the format of the push configuration messages' payload, e.g. `json`, `protobuf`, etc.;
+  - `<config_format>` specifies the format of the configuration body, e.g. `json`, `avro`, etc.
   This resource path parameter is optional.
   In case it is not specified, the configuration body format is assumed to match the message format.
   It is RECOMMENDED to omit the `<config_format>` resource path suffix in case the configuration format matches the message format.
@@ -240,7 +240,7 @@ The extension-specific resource path part format is:
 
   `<endpoint_token>/push/<message_format>[/<config_format>]/status`
 
-  where `message_format` and `config_format` (if present) are copied from the request message.
+  where `<message_format>` and `<config_format>` (if present) are copied from the request message.
 
 When the `<message_format>` is set to `json`, the response payload MUST be a JSON-encoded object with the following JSON schema ([file](./config-push-response.schema.json)):
 

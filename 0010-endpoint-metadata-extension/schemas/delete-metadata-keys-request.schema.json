@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "description": "10/EPMDX delete metadata keys request",
+
+  "type": "array",
+  "items": {
+    "type": "string",
+    "pattern": "^[a-zA-Z0-9]+$",
+    "description": "The endpoint metadata key"
+  },
+  "minItems": 1,
+  "uniqueItems": true
+}

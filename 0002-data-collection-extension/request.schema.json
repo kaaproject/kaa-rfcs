@@ -1,24 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema#",
-  "title": "2/DCX request scheme",
+  "title": "2/DCX request schema",
 
-  "oneOf": [
-    {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "number",
-          "multipleOf": 1.0
-        },
-        "entries": {
-          "type": "array"
-        }
-      },
-      "required": [ "entries" ],
-      "additionalProperties": false
-    },
-    {
-      "type": "array"
-    }
-  ]
+  "type": "array"
 }
