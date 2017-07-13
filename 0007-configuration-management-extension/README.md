@@ -91,7 +91,7 @@ Request payload MUST be a UTF-8 encoded object with the JSON Scheme as defined i
   "properties": {
     "configId": {
       "type": "string",
-      "description": "Identifier of the currently applied configuration. Optional."
+      "description": "Identifier of the currently applied configuration."
     },
     "observe": {
       "type": "boolean",
@@ -100,7 +100,6 @@ Request payload MUST be a UTF-8 encoded object with the JSON Scheme as defined i
   },
   "additionalProperties": false
 }
-
 ```
 
 If `configId` field is missing, the server MUST respond with the current configuration for the given endpoint.
@@ -116,17 +115,24 @@ The server MAY send configurations to the endpoint when no request were done bef
 If the current config matches one specified by `configId` in the request, the server MUST return response with both `configId` and `config` absent.
 
 Examples:
-```json
-{
-  "configId": "97016dbe8bb4adff8f754ecbf24612f2"
-}
-```
-
-```json
-{
-  "observe": true
-}
-```
+- get current configuration only
+  ```json
+  {
+    "observe": false
+  }
+  ```
+- endpoint's current config ID is `97016dbe8bb4adff8f754ecbf24612f2`.
+  ```json
+  {
+    "configId": "97016dbe8bb4adff8f754ecbf24612f2"
+  }
+  ```
+- subscribe to all configuration updates
+  ```json
+  {
+    "observe": true
+  }
+  ```
 
 ### Response
 Response payload MUST be a UTF-8 encoded object with the JSON Scheme as defined in [config-response.schema.json](./config-response.schema.json) file.
@@ -143,7 +149,7 @@ Response payload MUST be a UTF-8 encoded object with the JSON Scheme as defined 
       "description": "Identifier of the current configuration."
     },
     "config": {
-      "description": "Configuration body of an arbitrary type (as set by the request `config_format`)."
+      "description": "Configuration body of an arbitrary type."
     }
   },
   "additionalProperties": false
