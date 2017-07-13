@@ -102,7 +102,7 @@ The Avro schema for the NATS message payload can be found [here](./metadata-upda
 
 ## Configuration events
 The `{event-group}` is `config`.
-### New endpoint configuration available
+### New endpoint configuration is available
 
 The `{event-type}` is `new-available`.
 

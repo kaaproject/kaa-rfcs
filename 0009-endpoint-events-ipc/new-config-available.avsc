@@ -40,6 +40,21 @@
       "doc": "The unique identifier of new configuration. This identifier changes on every endpoint config update."
     },
     {
+      "name": "contentType",
+      "type": "string",
+      "default": "",
+      "doc": "The configuration content type."
+    },
+    {
+      "name": "content",
+      "type": [
+        "null",
+        "bytes"
+      ],
+      "default": null,
+      "doc": "The configuration payload."
+    },
+    {
       "name": "originatorReplicaId",
       "type": [
         "null",
