@@ -117,6 +117,6 @@ Example:
 ```
 
 #### Response
-A processing confirmation response MUST follow the error response format as defined per 1/KP.
+A successful processing confirmation response MUST have zero-length payload.
 
 Successful response means the bucket has been successfully delivered and processed.
