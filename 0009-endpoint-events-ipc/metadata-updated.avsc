@@ -51,8 +51,8 @@
     {
       "name": "updated",
       "type": {
-         "type": "map",
-         "values": "string"
+        "type": "map",
+        "values": "string"
       },
       "doc": "The map of metadata keys to the JSON of old and new values that was updated."
     },
