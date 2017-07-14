@@ -5,6 +5,11 @@
   "doc": "ExtensionData message carries extension-originated messages destined for clients to ECS",
   "fields": [
     {
+      "name": "requestId",
+      "type": "int",
+      "doc": "Request ID primarily used for tracking the message from client side."
+    },
+    {
       "name": "correlationId",
       "type": "string",
       "doc": "Message tracing ID primarily used for tracking the message processing across services."
@@ -71,6 +76,15 @@
       ],
       "default": 200,
       "doc": "Message processing status code. Can be null in requests."
+    },
+    {
+      "name": "reasonPhrase",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": "OK",
+      "doc": "Is intended to give a short textual description of the Status-Code."
     }
   ]
 }
