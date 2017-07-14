@@ -2,13 +2,8 @@
   "type": "record",
   "name": "ExtensionData",
   "namespace": "org.kaaproject.ipc.ecs2ext.gen.v1",
-  "doc": "ExtensionData message carries extension-originated messages destined for clients to ECS",
+  "doc": "Extension-originated messages intended for clients of ECS",
   "fields": [
-    {
-      "name": "requestId",
-      "type": "int",
-      "doc": "Request ID primarily used for tracking the message from client side."
-    },
     {
       "name": "correlationId",
       "type": "string",
@@ -27,12 +22,8 @@
     },
     {
       "name": "appVersionName",
-      "type": [
-        "string",
-        "null"
-      ],
-      "default": "",
-      "doc": "Unique name of the application version that the endpoint identified by the endpointID belongs to. Null for endpoint-unaware extensions."
+      "type": "string",
+      "doc": "Application version name the request is made to."
     },
     {
       "name": "extensionInstanceName",
@@ -40,7 +31,6 @@
         "string",
         "null"
       ],
-      "default": "",
       "doc": "Unique name of the extension instance that originated the message."
     },
     {
@@ -49,16 +39,20 @@
         "string",
         "null"
       ],
-      "default": "",
       "doc": "Unique endpoint ID. Null for endpoint-unaware extensions."
     },
     {
-      "name": "path",
+      "name": "resourcePath",
+      "type": "string",
+      "doc": "Action path field that is used to determine the message handling function and the payload format."
+    },
+    {
+      "name": "requestId",
       "type": [
-        "string",
+        "int",
         "null"
       ],
-      "doc": "Action path field that is used to determine the message handling function and the payload format. Null if extension responding with error status code with no need to publish message to client"
+      "doc": "Request ID used by client to match responses."
     },
     {
       "name": "payload",
@@ -70,12 +64,9 @@
     },
     {
       "name": "statusCode",
-      "type": [
-        "int",
-        "null"
-      ],
+      "type": "int",
       "default": 200,
-      "doc": "Message processing status code. Can be null in requests."
+      "doc": "Message processing status code."
     },
     {
       "name": "reasonPhrase",
@@ -83,8 +74,8 @@
         "null",
         "string"
       ],
-      "default": "OK",
-      "doc": "Is intended to give a short textual description of the Status-Code."
+      "default": null,
+      "doc": "Is intended to give a short textual description of the statusCode."
     }
   ]
 }

@@ -2,17 +2,12 @@
   "type": "record",
   "name": "ClientData",
   "namespace": "org.kaaproject.ipc.ecs2ext.gen.v1",
-  "doc": "ClientData message carries client-originated messages from ECS to extensions",
+  "doc": "Client-originated messages from ECS to extensions",
   "fields": [
-    {
-      "name": "requestId",
-      "type": "int",
-      "doc": "Request ID primarily used for tracking the message from client side."
-    },
     {
       "name": "correlationId",
       "type": "string",
-      "doc": "Message tracing ID primarily used for tracking the message processing across services."
+      "doc": "Message tracing ID used for tracking the message processing across services."
     },
     {
       "name": "timestamp",
@@ -27,12 +22,8 @@
     },
     {
       "name": "appVersionName",
-      "type": [
-        "string",
-        "null"
-      ],
-      "default": "",
-      "doc": "Unique name of the application version that the endpoint identified by the endpointID belongs to. Null for endpoint-unaware extensions."
+      "type": "string",
+      "doc": "Application version name the request is made to."
     },
     {
       "name": "endpointId",
@@ -40,20 +31,24 @@
         "string",
         "null"
       ],
-      "default": "",
-      "doc": "Unique endpoint ID. Null for endpoint-unaware extensions."
+      "doc": "Endpoint ID. Null for endpoint-unaware extensions."
     },
     {
-      "name": "path",
+      "name": "resourcePath",
       "type": "string",
-      "doc": "Action path field that is used to determine the message handling function and the payload format."
+      "doc": "Resource path that is used to determine the message handling function and the payload format."
+    },
+    {
+      "name": "requestId",
+      "type": [
+        "int",
+        "null"
+      ],
+      "doc": "Request ID used by endpoint to match responses."
     },
     {
       "name": "payload",
-      "type": [
-        "bytes",
-        "null"
-      ],
+      "type": "bytes",
       "doc": "Serialized message content."
     }
   ]
