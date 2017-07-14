@@ -5,6 +5,11 @@
   "doc": "ClientData message carries client-originated messages from ECS to extensions",
   "fields": [
     {
+      "name": "requestId",
+      "type": "int",
+      "doc": "Request ID primarily used for tracking the message from client side."
+    },
+    {
       "name": "correlationId",
       "type": "string",
       "doc": "Message tracing ID primarily used for tracking the message processing across services."
@@ -50,15 +55,6 @@
         "null"
       ],
       "doc": "Serialized message content. Can be null in status-only messages."
-    },
-    {
-      "name": "statusCode",
-      "type": [
-        "int",
-        "null"
-      ],
-      "default": 200,
-      "doc": "Message processing status code. Can be null in requests."
     }
   ]
 }
