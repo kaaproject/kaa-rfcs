@@ -45,6 +45,11 @@ The NATS message payload is an Avro object with the following schema ([file](./e
   "doc": "ClientData message carries client-originated messages from ECS to extensions",
   "fields": [
     {
+      "name": "requestId",
+      "type": "int",
+      "doc": "Request ID primarily used for tracking the message from client side."
+    },
+    {
       "name": "correlationId",
       "type": "string",
       "doc": "Message tracing ID primarily used for tracking the message processing across services."
@@ -90,72 +95,10 @@ The NATS message payload is an Avro object with the following schema ([file](./e
         "null"
       ],
       "doc": "Serialized message content. Can be null in status-only messages."
-    },
-    {
-      "name": "statusCode",
-      "type": [
-        "int",
-        "null"
-      ],
-      "default": 200,
-      "doc": "Message processing status code. Can be null in requests."
     }
   ]
 }
 ```
-
-Example of a ClientData message with payload:
-```json
-{
-  "correlationId" : "1",
-  "timestamp" : 1490262793349,
-  "timeout" : 3600000,
-  "appVersionName" : "humidity-sensor-v3",
-  "endpointId" : {
-    "string" : "7ad263ec-3347-4c7d-af89-50c67061367a"
-  },
-  "path" : "/push/json",
-  "payload" : {
-    "bytes" : "ewogICJpZCI6IDQyLAogICJlbnRyaWVzIjogWwogICAgeyAiaHVtaWRpdHkiOiA4OCB9CiAgXQp9"
-  },
-  "status" : null
-}
-```
-
-Example of a ClientData message with payload and status:
-```json
-{
-  "correlationId" : "1",
-  "timestamp" : 1490262793349,
-  "timeout" : 3600000,
-  "appVersionName" : "humidity-sensor-v3",
-  "endpointId" : {
-    "string" : "7ad263ec-3347-4c7d-af89-50c67061367a"
-  },
-  "path" : "/push/json",
-  "payload" : {
-    "bytes" : "ewogICJpZCI6IDQyLAogICJlbnRyaWVzIjogWwogICAgeyAiaHVtaWRpdHkiOiA4OCB9CiAgXQp9"
-  },
-  "status" : 200
-}
-```
-
-Example of a ClientData status message:
-```json
-{
-  "correlationId" : "1",
-  "timestamp" : 1490262793349,
-  "timeout" : 3600000,
-  "appVersionName" : "humidity-sensor-v3",
-  "endpointId" : {
-    "string" : "7ad263ec-3347-4c7d-af89-50c67061367a"
-  },
-  "path" : "/push/json",
-  "payload" : null,
-  "status" : 200
-}
-```
-
 ### Extension data transfer to clients
 
 ExtensionData messages are used by extension services for transferring data to ECS services.
@@ -178,6 +121,11 @@ The NATS message payload is an Avro object with the following schema ([file](./e
   "namespace": "org.kaaproject.ipc.ecs2ext.gen.v1",
   "doc": "ExtensionData message carries extension-originated messages destined for clients to ECS",
   "fields": [
+    {
+      "name": "requestId",
+      "type": "int",
+      "doc": "Request ID primarily used for tracking the message from client side."
+    },
     {
       "name": "correlationId",
       "type": "string",
@@ -245,14 +193,24 @@ The NATS message payload is an Avro object with the following schema ([file](./e
       ],
       "default": 200,
       "doc": "Message processing status code. Can be null in requests."
+    },
+    {
+      "name": "reasonPhrase",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": "OK",
+      "doc": "Is intended to give a short textual description of the Status-Code."
     }
   ]
 }
 ```
 
-Example of an ExtensionData message with payload:
+Example of an ExtensionData message:
 ```json
 {
+  "requestId": 42,
   "correlationId" : "1",
   "timestamp" : 1490262793349,
   "timeout" : 3600000,
@@ -265,30 +223,10 @@ Example of an ExtensionData message with payload:
   "payload" : {
     "bytes" : "ewogICJzYW1wbGluZyIgOiAyMDAKfQ=="
   },
-  "status" : null
+  "status" : 200,
+  "reasonePhrase": "OK"
 }
 ```
-
-Example of an ExtensionData message with payload and status:
-```json
-{
-  "correlationId" : "1",
-  "timestamp" : 1490262793349,
-  "timeout" : 3600000,
-  "extensionInstanceName" : "humidity-sensor-dcx-1",
-  "appVersionName" : "humidity-sensor-v3",
-  "endpointId" : {
-    "string" : "7ad263ec-3347-4c7d-af89-50c67061367a"
-  },
-  "path" : "/push/json/status",
-  "payload" : {
-    "bytes" : "ewogICJpZCI6IDQyLAogICJzdGF0dXMiOiAib2siCn0="
-  },
-  "status" : 200
-}
-```
-
-
 ## Glossary
 
 - _ECS2EXT_ -- name of the protocol used in communication between Endpoint Communication Service and extension service.
