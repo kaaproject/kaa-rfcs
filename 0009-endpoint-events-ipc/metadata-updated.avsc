@@ -33,28 +33,28 @@
       "doc": "The application version name the endpoint registered in."
     },
     {
-      "name": "removed",
-      "type": {
-        "type": "array",
-        "items": "string"
+      "name":"removed",
+      "type":{
+        "type": "map",
+        "values": "string"
       },
-      "doc": "The set to metadata keys that was removed."
+      "doc": "The map of metadata keys to the JSON of old values that was removed."
     },
     {
       "name": "added",
       "type": {
-        "type": "array",
-        "items": "string"
+        "type": "map",
+        "values": "string"
       },
-      "doc": "The set to metadata keys that was added."
+      "doc": "The map of metadata keys to the JSON of new values that was added."
     },
     {
       "name": "updated",
       "type": {
-        "type": "array",
-        "items": "string"
+         "type": "map",
+         "values": "string"
       },
-      "doc": "The set to metadata keys that was updated."
+      "doc": "The set of metadata keys to the JSON of old and new values that was updated."
     },
     {
       "name": "originatorReplicaId",
