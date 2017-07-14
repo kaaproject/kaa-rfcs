@@ -94,11 +94,29 @@ The NATS message payload is an Avro object with the following schema ([file](./e
         "bytes",
         "null"
       ],
-      "doc": "Serialized message content. Can be null in status-only messages."
+      "doc": "Serialized message content."
     }
   ]
 }
 ```
+
+Example of a ClientData message:
+```json
+{
+  "requestId" : 42,
+  "correlationId" : "1",
+  "timestamp" : 1490262793349,
+  "timeout" : 3600000,
+  "appVersionName" : "humidity-sensor-v3",
+  "endpointId" : {
+    "string" : "7ad263ec-3347-4c7d-af89-50c67061367a"
+  },
+  "path" : "/push/json",
+  "payload" : {
+    "bytes" : "ewogICJpZCI6IDQyLAogICJlbnRyaWVzIjogWwogICAgeyAiaHVtaWRpdHkiOiA4OCB9CiAgXQp9"
+  }
+ ``` 
+  
 ### Extension data transfer to clients
 
 ExtensionData messages are used by extension services for transferring data to ECS services.
