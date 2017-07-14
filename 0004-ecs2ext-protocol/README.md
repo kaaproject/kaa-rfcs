@@ -201,7 +201,7 @@ The NATS message payload is an Avro object with the following schema ([file](./e
         "bytes",
         "null"
       ],
-      "doc": "Serialized message content. Can be null in status-only messages."
+      "doc": "Serialized message content."
     },
     {
       "name": "statusCode",
