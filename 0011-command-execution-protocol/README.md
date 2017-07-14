@@ -52,10 +52,12 @@ The command resource is a request/response resource with an observe extension wh
 ```
 where `<command_type>` is a type of the command the endpoint wants to serve.
 
+For MQTT, observe is achieved by publishing multiple responses to the response topic; for CoAP, it is achieved with the `Observe` option defined in [RFC 7641](https://tools.ietf.org/html/rfc7641).
+
 Command type MUST be a non-empty alpha-numeric string identifying the command type to the endpoint.
 
-### Request
-The endpoint requests MUST be a UTF-8 encoded JSON object with the JSON Schema defined in [command-request.schema.json](./command-request.schema.json) file.
+### Command request
+The endpoint command requests MUST be a UTF-8 encoded JSON object with the JSON Schema defined in [command-request.schema.json](./command-request.schema.json) file.
 
 ```json
 {
@@ -81,7 +83,7 @@ The server MAY send commands to the endpoint when no request were done before, o
 
 The server MAY support subscribing to all command types by accepting requests at `/<endpoint_token>/command` resource path. In that case, command representation MUST include `type` property that is a string identifying the command type.
 
-### Response
+### Command response
 The server MUST respond with all outstanding commands of the specified command type.
 
 The response MUST be a UTF-8 encoded array with the schema defined in [command-response.schema.json](./command-response.schema.json) file.
@@ -128,43 +130,46 @@ Result resource is a request/response resource with the following resource path:
 ```
 where `<command_type>` is a type of the command.
 
-### Request
-The request is a UTF-8 encoded JSON object with the JSON Schema defined in the [result-request.schema.json](./result-request.schema.json) file.
+### Result request
+A result request is a UTF-8 encoded JSON array with the JSON Schema defined in the [result-request.schema.json](./result-request.schema.json) file.
 
 ```json
 {
   "$schema": "http://json-schema.org/schema#",
   "title": "11/CEP result request schema",
 
-  "type": "object",
-  "properties": {
-    "id": {
-      "type": "integer",
-      "description": "ID of the command."
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "integer",
+        "description": "ID of the command."
+      },
+      "statusCode": {
+        "type": "integer",
+        "description": "Status code of the command execution. Based on HTTP status codes."
+      },
+      "reasonPhrase": {
+        "type": "string",
+        "description": "Intended to give a short textual description of the status code."
+      },
+      "payload": {
+        "description": "A command result payload to be interpreted by the caller."
+      }
     },
-    "statusCode": {
-      "type": "integer",
-      "description": "Status code of the command execution. Based on HTTP status codes."
-    },
-    "reasonPhrase": {
-      "type": "string",
-      "description": "Intended to give a short textual description of the status code."
-    },
-    "payload": {
-      "description": "A command result payload to be interpreted by the caller."
-    }
-  },
-  "required": [
-    "id",
-    "statusCode"
-  ],
-  "additionalProperties": false
+    "required": [
+      "id",
+      "statusCode"
+    ],
+    "additionalProperties": false
+  }
 }
 ```
 
-The request represents a result of a single command execution.
+A request represents execution results of one or more commands.
 
 Upon reception of a request, the server MUST remove the corresponding command from the list of outstanding commands for the given endpoint.
 
-### Response
-The response is an error response as defined per [1/KP](/0001-kaa-protocol/README.md#error-response-format).
+### Result response
+A result esponse is an error response as defined per [1/KP](/0001-kaa-protocol/README.md#error-response-format).
