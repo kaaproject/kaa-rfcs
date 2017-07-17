@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "11/CEP command request schema",
+
+  "type": "object",
+  "properties": {
+    "observe": {
+      "type": "boolean",
+      "description": "Whether to send upcoming command for this endpoint."
+    }
+  },
+  "additionalProperties": false
+}

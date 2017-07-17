@@ -16,6 +16,7 @@ RFCs can be in raw, draft, stable, deprecated, or retired status.
 | [8/KPSR](0008-security-recommendations/README.md)          | KP Security Recommendations                 | Raw    |
 | [9/EPEIPC](0009-endpoint-events-ipc/README.md)             | Endpoint events IPC                         | Draft  |
 | [10/EPMDX](0010-endpoint-metadata-extension/README.md)     | Endpoint Metadata Extension protocol        | Draft  |
+| [11/CEP](0011-command-execution-protocol/README.md)        | Command Execution Protocol                  | Raw    |
 
 # Change process
 
