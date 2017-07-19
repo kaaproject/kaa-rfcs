@@ -44,12 +44,13 @@
             {
               "name": "oldValue",
               "type": ["null", "string"],
-              "default": null
+              "default": null,
+              "doc": "The JSON value of metadata key that was removed. The value will be null if the appropriate metadata key was associated with a null JSON."
             }
           ]
         }
       },
-      "doc": "The JSON values of metadata keys that was removed. A value will be null if the appropriate metadata key was associated with a null JSON."
+      "doc": "The map of removed metadata keys to their value info."
     },
     {
       "name": "added",
@@ -63,12 +64,13 @@
             {
               "name": "newValue",
               "type": ["null", "string"],
-              "default": null
+              "default": null,
+              "doc": "The JSON value of metadata key that was added. The value will be null if the appropriate metadata key was associated with a null JSON."
             }
           ]
         }
       },
-      "doc": "The JSON values of metadata keys that was added. A value will be null if the appropriate metadata key was associated with a null JSON."
+      "doc": "The map of added metadata keys to their value info."
     },
     {
       "name": "updated",
@@ -82,17 +84,18 @@
             {
               "name": "newValue",
               "type": ["null", "string"],
-              "default": null
+              "default": null,
+              "doc": "The JSON value of metadata key that was added. The value will be null if the appropriate metadata key was associated with a null JSON."
             },
             {
               "name": "oldValue",
               "type": ["null", "string"],
-              "default": null
-            }
+              "default": null,
+              "doc": "The JSON value of metadata key that was removed. The value will be null if the appropriate metadata key was associated with a null JSON."}
           ]
         }
       },
-      "doc": "The JSON values of removed and added metadata keys. A value will be null if the appropriate metadata key was associated with a null JSON."
+      "doc": "The map of updated metadata keys to their old and new values info."
     },
     {
       "name": "originatorReplicaId",
