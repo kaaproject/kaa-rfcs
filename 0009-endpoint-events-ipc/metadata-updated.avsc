@@ -36,25 +36,63 @@
       "name":"removed",
       "type":{
         "type": "map",
-        "values": "string"
+        "values":{
+          "type": "record",
+          "namespace": "org.kaaproject.events.endpoint.lifecycle.gen.v1",
+          "name": "MetadataKeyRemovedDto",
+          "fields": [
+            {
+              "name": "oldValue",
+              "type": ["null", "string"],
+              "default": null
+            }
+          ]
+        }
       },
-      "doc": "The map of metadata keys to the JSON of old values that was removed."
+      "doc": "The map of metadata keys to MetadataKeyRemovedDto with JSON string of old values that was removed."
     },
     {
       "name": "added",
       "type": {
         "type": "map",
-        "values": "string"
+        "values":{
+          "type": "record",
+          "namespace": "org.kaaproject.events.endpoint.lifecycle.gen.v1",
+          "name": "MetadataKeyAddedDto",
+          "fields": [
+            {
+              "name": "newValue",
+              "type": ["null", "string"],
+              "default": null
+            }
+          ]
+        }
       },
-      "doc": "The map of metadata keys to the JSON of new values that was added."
+      "doc": "The map of metadata keys to the MetadataKeyAddedDto with JSON string of old new values that was added."
     },
     {
       "name": "updated",
       "type": {
         "type": "map",
-        "values": "string"
+        "values":{
+          "type": "record",
+          "namespace": "org.kaaproject.events.endpoint.lifecycle.gen.v1",
+          "name": "MetadataKeyUpdatedDto",
+          "fields": [
+            {
+              "name": "newValue",
+              "type": ["null", "string"],
+              "default": null
+            },
+            {
+              "name": "oldValue",
+              "type": ["null", "string"],
+              "default": null
+            }
+          ]
+        }
       },
-      "doc": "The map of metadata keys to the JSON of old and new values that was updated."
+      "doc": "The map of metadata keys to MetadataKeyUpdatedDto with JSON Strings of old and new values that was updated."
     },
     {
       "name": "originatorReplicaId",
