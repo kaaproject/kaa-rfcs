@@ -46,11 +46,10 @@
               "type": ["null", "string"],
               "default": null
             }
-          ],
-          "doc" : "DTO with oldValue JSON string that was removed."
+          ]
         }
       },
-      "doc": "The map of metadata keys to MetadataKeyRemovedDto with JSON string of old values that was removed."
+      "doc": "The JSON values of metadata keys that was removed. A value will be null if the appropriate metadata key was associated with a null JSON."
     },
     {
       "name": "added",
@@ -66,11 +65,10 @@
               "type": ["null", "string"],
               "default": null
             }
-          ],
-          "doc" : "DTO with newValue JSON string that was added."
+          ]
         }
       },
-      "doc": "The map of metadata keys to the MetadataKeyAddedDto with JSON string of old new values that was added."
+      "doc": "The JSON values of metadata keys that was added. A value will be null if the appropriate metadata key was associated with a null JSON."
     },
     {
       "name": "updated",
@@ -91,11 +89,10 @@
               "type": ["null", "string"],
               "default": null
             }
-          ],
-          "doc" : "DTO with oldValue and newValue JSON strings that was updated."
+          ]
         }
       },
-      "doc": "The map of metadata keys to MetadataKeyUpdatedDto with JSON Strings of old and new values that was updated."
+      "doc": "The JSON values of removed and added metadata keys. A value will be null if the appropriate metadata key was associated with a null JSON."
     },
     {
       "name": "originatorReplicaId",
