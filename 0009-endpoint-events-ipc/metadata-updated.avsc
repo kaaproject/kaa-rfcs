@@ -33,28 +33,69 @@
       "doc": "The application version name the endpoint registered in."
     },
     {
-      "name": "removed",
-      "type": {
-        "type": "array",
-        "items": "string"
+      "name":"removed",
+      "type":{
+        "type": "map",
+        "values":{
+          "type": "record",
+          "namespace": "org.kaaproject.events.endpoint.lifecycle.gen.v1",
+          "name": "MetadataKeyRemovedDto",
+          "fields": [
+            {
+              "name": "oldValue",
+              "type": ["null", "string"],
+              "default": null,
+              "doc": "The JSON value of metadata key that was removed. The value will be null if the appropriate metadata key was associated with a null JSON."
+            }
+          ]
+        }
       },
-      "doc": "The set to metadata keys that was removed."
+      "doc": "The map of removed metadata keys to their value info."
     },
     {
       "name": "added",
       "type": {
-        "type": "array",
-        "items": "string"
+        "type": "map",
+        "values":{
+          "type": "record",
+          "namespace": "org.kaaproject.events.endpoint.lifecycle.gen.v1",
+          "name": "MetadataKeyAddedDto",
+          "fields": [
+            {
+              "name": "newValue",
+              "type": ["null", "string"],
+              "default": null,
+              "doc": "The JSON value of metadata key that was added. The value will be null if the appropriate metadata key was associated with a null JSON."
+            }
+          ]
+        }
       },
-      "doc": "The set to metadata keys that was added."
+      "doc": "The map of added metadata keys to their value info."
     },
     {
       "name": "updated",
       "type": {
-        "type": "array",
-        "items": "string"
+        "type": "map",
+        "values":{
+          "type": "record",
+          "namespace": "org.kaaproject.events.endpoint.lifecycle.gen.v1",
+          "name": "MetadataKeyUpdatedDto",
+          "fields": [
+            {
+              "name": "newValue",
+              "type": ["null", "string"],
+              "default": null,
+              "doc": "The JSON value of metadata key that was added. The value will be null if the appropriate metadata key was associated with a null JSON."
+            },
+            {
+              "name": "oldValue",
+              "type": ["null", "string"],
+              "default": null,
+              "doc": "The JSON value of metadata key that was removed. The value will be null if the appropriate metadata key was associated with a null JSON."}
+          ]
+        }
       },
-      "doc": "The set to metadata keys that was updated."
+      "doc": "The map of updated metadata keys to their old and new values info."
     },
     {
       "name": "originatorReplicaId",
