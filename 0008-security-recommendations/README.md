@@ -4,6 +4,9 @@ shortname: 8/KPSR
 status: raw
 editor: Alexey Shmalko <ashmalko@cybervisiontech.com>
 ---
+
+<!-- toc -->
+
 ## Introduction
 This document describes security recommendations for systems using 1/KP. This is only a recommendation and is not mandatory to implement.
 

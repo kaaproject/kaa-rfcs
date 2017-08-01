@@ -5,15 +5,7 @@ status: draft
 editor: Andrew Pasika <apasika@cybervisiontech.com>
 ---
 
-- [Introduction](#introduction)
-- [Language](#language)
-- [Requirements and constraints](#requirements-and-constraints)
-- [Design](#Design)
-  - [Configuration pull](#configuration-pull)
-    - [Subject structure](#subject-structure)
-    - [Targeted message types](#targeted-message-types)
-  - [Configuration push](#configuration-push)
-    - [Subject structure](#subject-structure)
+<!-- toc -->
 
 ## Introduction
 

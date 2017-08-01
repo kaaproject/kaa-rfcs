@@ -5,6 +5,8 @@ status: raw
 editor: Alexey Shmalko <ashmalko@cybervisiontech.com>
 ---
 
+<!-- toc -->
+
 # Introduction
 
 The Configuration Management Extension is a [Kaa Protocol](/0001-kaa-protocol/README.md) extension.
