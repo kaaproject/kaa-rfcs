@@ -6,6 +6,8 @@ editor: Dmitry Sergeev <dsergeev@kaaiot.io>
 contributors: Andrew Kokhanovskyi <akokhanovskyi@kaaiot.io>, Alexey Shmalko <ashmalko@kaaiot.io>
 ---
 
+<!-- toc -->
+
 # Introduction
 ECS2EXT protocol is designed to allow generic implementations of client communication services which are unaware of specific 1/KP extensions.
 The protocol is used for communication between such generic endpoint communication service and various extensions services over NATS.

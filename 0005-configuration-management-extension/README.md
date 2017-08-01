@@ -6,6 +6,8 @@ editor: Dmitry Sergeev <dsergeev@cybervisiontech.com>
 contributors: Andrew Kokhanovskyi <akokhanovskyi@cybervisiontech.com>
 ---
 
+<!-- toc -->
+
 ## Introduction
 
 The Configuration Management Extension (CMX) protocol is an endpoint-aware [Kaa Protocol](/0001-kaa-protocol/README.md) extension.

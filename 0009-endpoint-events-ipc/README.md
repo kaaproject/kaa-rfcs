@@ -5,19 +5,7 @@ status: draft
 editor: Volodymyr Tkhir <vtkhir@cybervisiontech.com>
 ---
 
-* [Introduction](#introduction)
-* [Connectivity events](#connectivity-events)
-  * [Endpoint connected](#endpoint-connected)
-  * [Endpoint disconnected](#endpoint-disconnected)
-* [Lifecycle events](#lifecycle-events)
-  * [Endpoint registered](#endpoint-registered)
-  * [Endpoint updated application version](#endpoint-updated-application-version)
-* [Metadata events](#metadata-events)
-  * [Endpoint metadata updated](#endpoint-metadata-updated)
-* [Configuration events](#configuration-events)
-  * [New endpoint configuration available](#new-endpoint-configuration-available)
-  * [Endpoint applied the configuration](#endpoint-applied-the-configuration)
-
+<!-- toc -->
 
 ## Introduction
 
