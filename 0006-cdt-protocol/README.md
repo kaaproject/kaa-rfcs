@@ -13,7 +13,6 @@ editor: Andrew Pasika <apasika@cybervisiontech.com>
     - [Subject structure](#subject-structure)
     - [Targeted message types](#targeted-message-types)
   - [Configuration push](#configuration-push)
-    - [Subject structure](#subject-structure)
 
 ## Introduction
 
