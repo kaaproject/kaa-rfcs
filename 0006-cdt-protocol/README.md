@@ -123,18 +123,17 @@ Configuration updated message payload MUST be an [Avro-encoded](https://avro.apa
 Example:
 ```json
 {
-  "correlationId": "07d78e95-2c4d-4899-957c-b9e5a3701fbb",
-  "timestamp": 1490303342158,
-  "timeout": -1,
-  "appVersionName": "smartKettleV1",
-  "endpointId": "b197e391-1d13-403b-83f5-87bdd44888cf",
-  "configId": "6046b576591c75fd68ab67f7e4475311",
-  "contentType": "application/json",
-  "content": {
-    "bytes": "d2FpdXJoM2pmbmxzZGtjdjg3eTg3b3cz"
-  }
-}
-```
+    "correlationId":"07d78e95-2c4d-4899-957c-b9e5a3701fbb",
+    "timestamp":1490303342158,
+    "timeout":-1,
+    "appVersionName":"smartKettleV1",
+    "endpointId":"b197e391-1d13-403b-83f5-87bdd44888cf",
+    "configId":"6046b576591c75fd68ab67f7e4475311",
+    "contentType":"application/json",
+    "content":{
+        "bytes":"d2FpdXJoM2pmbmxzZGtjdjg3eTg3b3cz"
+    }
+}```
 
 #### Configuration delivered
 
@@ -207,12 +206,12 @@ Configuration delivered message payload MUST be an [Avro-encoded](https://avro.a
 Example:
 ```json
 {
-  "correlationId": "07d78e95-2c4d-4899-957c-b9e5a3701fbb",
-  "timestamp": 1490303342158,
-  "timeout": -1,
-  "appVersionName": "smartKettleV1",
-  "endpointId": "b197e391-1d13-403b-83f5-87bdd44888cf",
-  "configId": "6046b576591c75fd68ab67f7e4475311"
+    "correlationId":"07d78e95-2c4d-4899-957c-b9e5a3701fbb",
+    "timestamp":1490303342158,
+    "timeout":-1,
+    "appVersionName":"smartKettleV1",
+    "endpointId":"b197e391-1d13-403b-83f5-87bdd44888cf",
+    "configId":"6046b576591c75fd68ab67f7e4475311"
 }
 ```
 
@@ -299,13 +298,13 @@ Example:
 
 ```json
 {
-  "correlationId": "07d78e95-2c4d-4899-957c-b9e5a3701fbb",
-  "timestamp": 1490303342158,
-  "timeout": 3000,
-  "endpointMessageId": 42,
-  "appVersionName": "smartKettleV1",
-  "endpointId": "b197e391-1d13-403b-83f5-87bdd44888cf",
-  "configId": "6046b576591c75fd68ab67f7e4475311"
+    "correlationId":"07d78e95-2c4d-4899-957c-b9e5a3701fbb",
+    "timestamp":1490303342158,
+    "timeout":3000,
+    "endpointMessageId":42,
+    "appVersionName":"smartKettleV1",
+    "endpointId":"b197e391-1d13-403b-83f5-87bdd44888cf",
+    "configId":"6046b576591c75fd68ab67f7e4475311"
 }
 ```
 
@@ -411,20 +410,20 @@ Example:
 
 ```json
 {
-  "correlationId": "07d78e95-2c4d-4899-957c-b9e5a3701fbb",
-  "timestamp": 1490303342158,
-  "timeout": 3000,
-  "endpointMessageId": 42,
-  "appVersionName": "smartKettleV1",
-  "endpointId": "b197e391-1d13-403b-83f5-87bdd44888cf",
-  "configId": "6046b576591c75fd68ab67f7e4475311",
-  "contentType": "application/json",
-  "content": {
-    "bytes": "d2FpdXJoM2pmbmxzZGtjdjg3eTg3b3cz"
-  },
-  "applied": true,
-  "statusCode": 200,
-  "reasonPhrase": "OK"
+    "correlationId":"07d78e95-2c4d-4899-957c-b9e5a3701fbb",
+    "timestamp":1490303342158,
+    "timeout":3000,
+    "endpointMessageId":42,
+    "appVersionName":"smartKettleV1",
+    "endpointId":"b197e391-1d13-403b-83f5-87bdd44888cf",
+    "configId":"6046b576591c75fd68ab67f7e4475311",
+    "contentType":"application/json",
+    "content":{
+        "bytes":"d2FpdXJoM2pmbmxzZGtjdjg3eTg3b3cz"
+    },
+    "applied":true,
+    "statusCode":200,
+    "reasonPhrase":"OK"
 }
 ```
 
