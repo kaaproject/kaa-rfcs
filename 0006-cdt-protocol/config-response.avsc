@@ -1,18 +1,88 @@
-{"namespace": "org.kaaproject.ipc.cmx2cdp.gen.v1",
- "type": "record",
- "name": "ConfigResponse",
- "fields": [
-    {"name": "correlationId", "type": "string", "default":""},
-    {"name": "timestamp", "type": "long"},
-    {"name": "timeout", "type": "long", "default":-1},
-    {"name": "endpointMessageId", "type": "string", "default":""},
-    {"name": "appVersionName", "type": "string", "default": ""},
-    {"name": "endpointId", "type": "string", "default": ""},
-    {"name": "contentType", "type": "string", "default":""},
-    {"name": "configId", "type": "string", "default":""},
-    {"name": "statusCode", "type": "int", "default": 500},
-    {"name": "reasonPhrase", "type": "string", "default":""},
-    {"name": "content", "type": ["null", "bytes"], "default": null},
-    {"name": "applied", "type": "boolean", "default": false}
- ]
+{
+    "namespace":"org.kaaproject.ipc.cmx2cdp.gen.v1",
+    "type":"record",
+    "name":"ConfigResponse",
+    "doc":"EP configuration response message from provider to consumer",
+    "fields":[
+        {
+            "name":"correlationId",
+            "type":"string",
+            "default":"",
+            "doc":"Message ID primarily used to track message processing across services"
+        },
+        {
+            "name":"timestamp",
+            "type":"long",
+            "doc":"Message creation UNIX timestamp in milliseconds"
+        },
+        {
+            "name":"timeout",
+            "type":"long",
+            "default":-1,
+            "doc":"The amount of milliseconds (since the timestamp) until the message expires. Value of -1 is reserved to indicate no expiration."
+        },
+        {
+            "name":"endpointMessageId",
+            "type":[
+                "null",
+                "int"
+            ],
+            "default":null,
+            "doc":"Unique identifier of the original endpoint message. Optional."
+        },
+        {
+            "name":"appVersionName",
+            "type":"string",
+            "default":"",
+            "doc":"Endpoint's application version, for which the configuration is returned"
+        },
+        {
+            "name":"endpointId",
+            "type":"string",
+            "default":"",
+            "doc":"Unique endpoint identifier, for which the configuration is returned"
+        },
+        {
+            "name":"configId",
+            "type":[
+                "null",
+                "string"
+            ],
+            "default":null,
+            "doc":"Unique identifier of the returned configuration. Optional. May be absent in case of an error response, or when the configId in request matches the ID of the current configuration."
+        },
+        {
+            "name":"contentType",
+            "type":"string",
+            "default":"",
+            "doc":"Type of the configuration data, e.g.: application/json, application/x-protobuf, etc."
+        },
+        {
+            "name":"content",
+            "type":[
+                "null",
+                "bytes"
+            ],
+            "default":null,
+            "doc":"Configuration data encoded according to the contentType. Optional. May be absent in case of an error, or when the configId in request matches the ID of the current configuration."
+        },
+        {
+            "name":"applied",
+            "type":"boolean",
+            "default":false,
+            "doc":"Indicates whether the current (returned) configuration ID matches the one previously delivered to the endpoint"
+        },
+        {
+            "name":"statusCode",
+            "type":"int",
+            "default":200,
+            "doc":"HTTP status code of the request processing"
+        },
+        {
+            "name":"reasonPhrase",
+            "type":"string",
+            "default":"",
+            "doc":"Human-readable status reason phrase"
+        }
+    ]
 }

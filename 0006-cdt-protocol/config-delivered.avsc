@@ -1,8 +1,8 @@
 {
     "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.config",
     "type":"record",
-    "name":"ConfigUpdated",
-    "doc":"Broadcast message to indicate that endpoint configuration data got updated.",
+    "name":"ConfigDelivered",
+    "doc":"Broadcast message to indicate that configuration was delivered to an endpoint.",
     "fields":[
         {
             "name":"correlationId",
@@ -25,30 +25,19 @@
             "name":"appVersionName",
             "type":"string",
             "default":"",
-            "doc":"The application version name, for which the configuration was updated"
+            "doc":"The application version name, for which the configuration was delivered"
         },
         {
             "name":"endpointId",
             "type":"string",
             "default":"",
-            "doc":"Unique endpoint identifier, for which the configuration was updated"
+            "doc":"Unique endpoint identifier, for which the configuration was delivered"
         },
         {
             "name":"configId",
             "type":"string",
             "default":"",
-            "doc":"The unique identifier of the new configuration."
-        },
-        {
-            "name":"contentType",
-            "type":"string",
-            "default":"",
-            "doc":"Type of the configuration data, e.g.: application/json, application/x-protobuf, etc."
-        },
-        {
-            "name":"content",
-            "type":"bytes",
-            "doc":"Configuration data encoded according to the contentType. Optional. May be absent in case of an error, or when the configId in request matches the ID of the current configuration."
+            "doc":"The unique identifier of the delivered configuration."
         },
         {
             "name":"originatorReplicaId",

@@ -1,13 +1,55 @@
-{"namespace": "org.kaaproject.ipc.cmx2cdp.gen.v1",
- "type": "record",
- "name": "ConfigRequest",
- "fields": [
-    {"name": "correlationId", "type": "string", "default":""},
-    {"name": "timestamp", "type": "long"},
-    {"name": "timeout", "type": "long", "default":-1},
-    {"name": "endpointMessageId", "type": "string", "default":""},
-    {"name": "appVersionName", "type": "string", "default": ""},
-    {"name": "endpointId", "type": "string", "default": ""},
-    {"name": "configId", "type": "string", "default": ""}
- ]
+{
+    "namespace":"org.kaaproject.ipc.cmx2cdp.gen.v1",
+    "type":"record",
+    "name":"ConfigRequest",
+    "doc":"EP configuration request message from consumer to provider",
+    "fields":[
+        {
+            "name":"correlationId",
+            "type":"string",
+            "default":"",
+            "doc":"Message ID primarily used to track message processing across services"
+        },
+        {
+            "name":"timestamp",
+            "type":"long",
+            "doc":"Message creation UNIX timestamp in milliseconds"
+        },
+        {
+            "name":"timeout",
+            "type":"long",
+            "default":-1,
+            "doc":"The amount of milliseconds (since the timestamp) until the message expires. Value of -1 is reserved to indicate no expiration."
+        },
+        {
+            "name":"endpointMessageId",
+            "type":[
+                "null",
+                "int"
+            ],
+            "default":null,
+            "doc":"Unique identifier of the original endpoint message. Optional."
+        },
+        {
+            "name":"appVersionName",
+            "type":"string",
+            "default":"",
+            "doc":"Endpoint's application version, for which the configuration is requested"
+        },
+        {
+            "name":"endpointId",
+            "type":"string",
+            "default":"",
+            "doc":"Unique endpoint identifier, for which the configuration is requested"
+        },
+        {
+            "name":"configId",
+            "type":[
+                "null",
+                "string"
+            ],
+            "default":null,
+            "doc":"Unique identifier of the endpoint configuration known to the consumer at the time of the request. Optional. If absent, a non-error response MUST hold the latest configuration data."
+        }
+    ]
 }
