@@ -1,0 +1,110 @@
+{
+  "namespace": "org.kaaproject.ipc.event.gen.v1.endpoint.config",
+  "type": "record",
+  "name": "EndpointMetadataUpdatedEvent",
+  "doc": "The endpoint metadata updated event message.",
+  "fields": [
+    {
+      "name": "correlationId",
+      "type": "string",
+      "default": "",
+      "doc": "Message tracing ID primarily used for tracking the message processing across services."
+    },
+    {
+      "name": "timestamp",
+      "type": "long",
+      "doc": "Unix time in milliseconds when the message was created."
+    },
+    {
+      "name": "timeout",
+      "type": "long",
+      "default": -1,
+      "doc": "The amount of milliseconds since timestamp when the message expires at the originating entity."
+    },
+    {
+      "name": "endpointId",
+      "type": "string",
+      "doc": "The endpoint identifier."
+    },
+    {
+      "name": "appVersionName",
+      "type": "string",
+      "default": "",
+      "doc": "The application version name the endpoint registered in."
+    },
+    {
+      "name":"removed",
+      "type":{
+        "type": "map",
+        "values":{
+          "type": "record",
+          "namespace": "org.kaaproject.events.endpoint.lifecycle.gen.v1",
+          "name": "MetadataKeyRemovedDto",
+          "fields": [
+            {
+              "name": "oldValue",
+              "type": ["null", "string"],
+              "default": null,
+              "doc": "The JSON value of metadata key that was removed. The value will be null if the appropriate metadata key was associated with a null JSON."
+            }
+          ]
+        }
+      },
+      "doc": "The map of removed metadata keys to their value info."
+    },
+    {
+      "name": "added",
+      "type": {
+        "type": "map",
+        "values":{
+          "type": "record",
+          "namespace": "org.kaaproject.events.endpoint.lifecycle.gen.v1",
+          "name": "MetadataKeyAddedDto",
+          "fields": [
+            {
+              "name": "newValue",
+              "type": ["null", "string"],
+              "default": null,
+              "doc": "The JSON value of metadata key that was added. The value will be null if the appropriate metadata key was associated with a null JSON."
+            }
+          ]
+        }
+      },
+      "doc": "The map of added metadata keys to their value info."
+    },
+    {
+      "name": "updated",
+      "type": {
+        "type": "map",
+        "values":{
+          "type": "record",
+          "namespace": "org.kaaproject.events.endpoint.lifecycle.gen.v1",
+          "name": "MetadataKeyUpdatedDto",
+          "fields": [
+            {
+              "name": "newValue",
+              "type": ["null", "string"],
+              "default": null,
+              "doc": "The JSON value of metadata key that was added. The value will be null if the appropriate metadata key was associated with a null JSON."
+            },
+            {
+              "name": "oldValue",
+              "type": ["null", "string"],
+              "default": null,
+              "doc": "The JSON value of metadata key that was removed. The value will be null if the appropriate metadata key was associated with a null JSON."}
+          ]
+        }
+      },
+      "doc": "The map of updated metadata keys to their old and new values info."
+    },
+    {
+      "name": "originatorReplicaId",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Identifier of the service replica that generated the event."
+    }
+  ]
+}

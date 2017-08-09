@@ -2,38 +2,42 @@
 name: ECS to extensions protocol
 shortname: 4/ECS2EXT
 status: draft
-editor: Dmitry Sergeev <dsergeev@cybervisiontech.com>
-contributors: Andrew Kokhanovskyi <akokhanovskyi@cybervisiontech.com>
+editor: Dmitry Sergeev <dsergeev@kaaiot.io>
+contributors: Andrew Kokhanovskyi <akokhanovskyi@kaaiot.io>, Alexey Shmalko <ashmalko@kaaiot.io>
 ---
 
-## Introduction
-ECS2EXT is the messaging protocol for communicating between Endpoint Communication Service implementations and the various extension services.
+<!-- toc -->
+
+# Introduction
+ECS2EXT protocol is designed to allow generic implementations of client communication services which are unaware of specific 1/KP extensions.
+The protocol is used for communication between such generic endpoint communication service and various extensions services over NATS.
+
 It is based on the [targeted messaging IPC design](/0003-messaging-ipc/README.md#targeted-messaging).
 
-## Language
+# Language
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).
 
-## Requirements and constraints
-1. The protocol must support transporting client-originated data to extensions and vice versa.
-2. Some extensions may provide multiple message handling functions and payload formats.
-The protocol must support specification of the handling function and payload format to use for processing transported data.
-3. Some extensions require reporting processing status back to clients with or without any payload.
-4. Some extensions require clients to report processing status with or without any payload.
+The following terms and definitions are used in this RFC.
 
-## Design
+- **ECS**: short name for Endpoint Communication Service.
 
-### Client data transfer to extensions
+# Requirements and constraints
+1. The protocol must support encapsulating 1/KP in a way so that client communication service doesn't have to know of all protocol extensions.
+
+# Design
+
+## Client data transfer to extensions
 
 ClientData messages are used by ECS implementations for transferring endpoint-originated data to extension services.
 Non-affinity session messages MUST be published to a [service instance-wide subject](/0003-messaging-ipc/README.md#service-instance-wide-subjects):
 
   `kaa.v1.service.<service-instance-name>.ecs2ext.ClientData`
 
-  where `service-instance-name` is the target extension service instance name.
+  where `<service-instance-name>` is the target extension service instance name.
 
-In case of affinity sessions ClientData message MUST be published to the [service replica-specific subject](/0003-messaging-ipc/README.md#service-replica-specific-subjects) defined by the `replyTo` subject in the previously received message that set up the session affinity.
+In case of affinity sessions, ClientData message MUST be published to the [service replica-specific subject](/0003-messaging-ipc/README.md#service-replica-specific-subjects) defined by the `replyTo` subject in the previously received message that set up the session affinity.
 
-ECS implementations SHOULD also set `replyTo` subject when sending ClientData messages according to the [session affinity](/0003-messaging-ipc/README.md#session-affinity) rules.
+ECS implementations SHOULD set `replyTo` subject when sending ClientData messages according to the [session affinity](/0003-messaging-ipc/README.md#session-affinity) rules.
 
 The NATS message payload is an Avro object with the following schema ([file](./ecs2ext-client-data.avsc)):
 
@@ -42,12 +46,12 @@ The NATS message payload is an Avro object with the following schema ([file](./e
   "type": "record",
   "name": "ClientData",
   "namespace": "org.kaaproject.ipc.ecs2ext.gen.v1",
-  "doc": "ClientData message carries client-originated messages from ECS to extensions",
+  "doc": "Client-originated messages from ECS to extensions",
   "fields": [
     {
       "name": "correlationId",
       "type": "string",
-      "doc": "Message tracing ID primarily used for tracking the message processing across services."
+      "doc": "Message tracing ID used for tracking the message processing across services."
     },
     {
       "name": "timestamp",
@@ -62,12 +66,8 @@ The NATS message payload is an Avro object with the following schema ([file](./e
     },
     {
       "name": "appVersionName",
-      "type": [
-        "string",
-        "null"
-      ],
-      "default": "",
-      "doc": "Unique name of the application version that the endpoint identified by the endpointID belongs to. Null for endpoint-unaware extensions."
+      "type": "string",
+      "doc": "Application version name the request is made to."
     },
     {
       "name": "endpointId",
@@ -75,36 +75,31 @@ The NATS message payload is an Avro object with the following schema ([file](./e
         "string",
         "null"
       ],
-      "default": "",
-      "doc": "Unique endpoint ID. Null for endpoint-unaware extensions."
+      "doc": "Endpoint ID. Null for endpoint-unaware extensions."
     },
     {
-      "name": "path",
+      "name": "resourcePath",
       "type": "string",
-      "doc": "Action path field that is used to determine the message handling function and the payload format."
+      "doc": "Resource path that is used to determine the message handling function and the payload format."
     },
     {
-      "name": "payload",
-      "type": [
-        "bytes",
-        "null"
-      ],
-      "doc": "Serialized message content. Can be null in status-only messages."
-    },
-    {
-      "name": "statusCode",
+      "name": "requestId",
       "type": [
         "int",
         "null"
       ],
-      "default": 200,
-      "doc": "Message processing status code. Can be null in requests."
+      "doc": "Request ID used by endpoint to match responses."
+    },
+    {
+      "name": "payload",
+      "type": "bytes",
+      "doc": "Serialized message content."
     }
   ]
 }
 ```
 
-Example of a ClientData message with payload:
+Example of a ClientData message:
 ```json
 {
   "correlationId" : "1",
@@ -114,49 +109,15 @@ Example of a ClientData message with payload:
   "endpointId" : {
     "string" : "7ad263ec-3347-4c7d-af89-50c67061367a"
   },
-  "path" : "/push/json",
-  "payload" : {
-    "bytes" : "ewogICJpZCI6IDQyLAogICJlbnRyaWVzIjogWwogICAgeyAiaHVtaWRpdHkiOiA4OCB9CiAgXQp9"
+  "resourcePath" : "/push/json",
+  "requestId" : {
+    "int" : 42
   },
-  "status" : null
+  "payload" : "ewogICJpZCI6IDQyLAogICJlbnRyaWVzIjogWwogICAgeyAiaHVtaWRpdHkiOiA4OCB9CiAgXQp9"
 }
-```
-
-Example of a ClientData message with payload and status:
-```json
-{
-  "correlationId" : "1",
-  "timestamp" : 1490262793349,
-  "timeout" : 3600000,
-  "appVersionName" : "humidity-sensor-v3",
-  "endpointId" : {
-    "string" : "7ad263ec-3347-4c7d-af89-50c67061367a"
-  },
-  "path" : "/push/json",
-  "payload" : {
-    "bytes" : "ewogICJpZCI6IDQyLAogICJlbnRyaWVzIjogWwogICAgeyAiaHVtaWRpdHkiOiA4OCB9CiAgXQp9"
-  },
-  "status" : 200
-}
-```
-
-Example of a ClientData status message:
-```json
-{
-  "correlationId" : "1",
-  "timestamp" : 1490262793349,
-  "timeout" : 3600000,
-  "appVersionName" : "humidity-sensor-v3",
-  "endpointId" : {
-    "string" : "7ad263ec-3347-4c7d-af89-50c67061367a"
-  },
-  "path" : "/push/json",
-  "payload" : null,
-  "status" : 200
-}
-```
-
-### Extension data transfer to clients
+ ``` 
+  
+## Extension data transfer to clients
 
 ExtensionData messages are used by extension services for transferring data to ECS services.
 Non-affinity session messages MUST be published to a [service instance-wide subject](/0003-messaging-ipc/README.md#service-instance-wide-subjects):
@@ -176,7 +137,7 @@ The NATS message payload is an Avro object with the following schema ([file](./e
   "type": "record",
   "name": "ExtensionData",
   "namespace": "org.kaaproject.ipc.ecs2ext.gen.v1",
-  "doc": "ExtensionData message carries extension-originated messages destined for clients to ECS",
+  "doc": "Extension-originated messages intended for clients of ECS",
   "fields": [
     {
       "name": "correlationId",
@@ -196,12 +157,8 @@ The NATS message payload is an Avro object with the following schema ([file](./e
     },
     {
       "name": "appVersionName",
-      "type": [
-        "string",
-        "null"
-      ],
-      "default": "",
-      "doc": "Unique name of the application version that the endpoint identified by the endpointID belongs to. Null for endpoint-unaware extensions."
+      "type": "string",
+      "doc": "Application version name the request is made to."
     },
     {
       "name": "extensionInstanceName",
@@ -209,7 +166,6 @@ The NATS message payload is an Avro object with the following schema ([file](./e
         "string",
         "null"
       ],
-      "default": "",
       "doc": "Unique name of the extension instance that originated the message."
     },
     {
@@ -218,16 +174,20 @@ The NATS message payload is an Avro object with the following schema ([file](./e
         "string",
         "null"
       ],
-      "default": "",
       "doc": "Unique endpoint ID. Null for endpoint-unaware extensions."
     },
     {
-      "name": "path",
+      "name": "resourcePath",
+      "type": "string",
+      "doc": "Action path field that is used to determine the message handling function and the payload format."
+    },
+    {
+      "name": "requestId",
       "type": [
-        "string",
+        "int",
         "null"
       ],
-      "doc": "Action path field that is used to determine the message handling function and the payload format. Null if extension responding with error status code with no need to publish message to client"
+      "doc": "Request ID used by client to match responses."
     },
     {
       "name": "payload",
@@ -235,22 +195,28 @@ The NATS message payload is an Avro object with the following schema ([file](./e
         "bytes",
         "null"
       ],
-      "doc": "Serialized message content. Can be null in status-only messages."
+      "doc": "Serialized message content."
     },
     {
       "name": "statusCode",
-      "type": [
-        "int",
-        "null"
-      ],
+      "type": "int",
       "default": 200,
-      "doc": "Message processing status code. Can be null in requests."
+      "doc": "Message processing status code."
+    },
+    {
+      "name": "reasonPhrase",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Is intended to give a short textual description of the statusCode."
     }
   ]
 }
 ```
 
-Example of an ExtensionData message with payload:
+Example of an ExtensionData message:
 ```json
 {
   "correlationId" : "1",
@@ -261,36 +227,14 @@ Example of an ExtensionData message with payload:
   "endpointId" : {
     "string" : "7ad263ec-3347-4c7d-af89-50c67061367a"
   },
-  "path" : "/push/json",
+  "resourcePath" : "/push/json",
+  "requestId": {
+    "int" : 42
+  },
   "payload" : {
     "bytes" : "ewogICJzYW1wbGluZyIgOiAyMDAKfQ=="
   },
-  "status" : null
+  "status" : 200,
+  "reasonPhrase": "OK"
 }
 ```
-
-Example of an ExtensionData message with payload and status:
-```json
-{
-  "correlationId" : "1",
-  "timestamp" : 1490262793349,
-  "timeout" : 3600000,
-  "extensionInstanceName" : "humidity-sensor-dcx-1",
-  "appVersionName" : "humidity-sensor-v3",
-  "endpointId" : {
-    "string" : "7ad263ec-3347-4c7d-af89-50c67061367a"
-  },
-  "path" : "/push/json/status",
-  "payload" : {
-    "bytes" : "ewogICJpZCI6IDQyLAogICJzdGF0dXMiOiAib2siCn0="
-  },
-  "status" : 200
-}
-```
-
-
-## Glossary
-
-- _ECS2EXT_ -- name of the protocol used in communication between Endpoint Communication Service and extension service.
-
-- _ECS_ -- short name for Endpoint Communication Service

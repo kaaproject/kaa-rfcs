@@ -6,6 +6,8 @@ editor: Andrew Kokhanovskyi <akokhanovskyi@cybervisiontech.com>
 contributors: Volodymir Tkhir <vtkhir@cybervisiontech.com>
 ---
 
+<!-- toc -->
+
 ## Introduction
 
 Kaa Banana Beach release uses REST / HTTP API and NATS-based messaging for communication between microservices.

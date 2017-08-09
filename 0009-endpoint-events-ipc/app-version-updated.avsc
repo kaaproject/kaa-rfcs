@@ -1,0 +1,50 @@
+{
+  "namespace": "org.kaaproject.ipc.event.gen.v1.endpoint.lifecycle",
+  "type": "record",
+  "name": "AppVerUpdatedEvent",
+  "doc": "Endpoint's application version updated event message.",
+  "fields": [
+    {
+      "name": "correlationId",
+      "type": "string",
+      "default":"",
+      "doc": "Message tracing ID primarily used for tracking the message processing across services."
+    },
+    {
+      "name": "timestamp",
+      "type": "long",
+      "default":-1,
+      "doc": "Unix time in milliseconds when the message was created."
+    },
+    {
+      "name": "timeout",
+      "type": "long",
+      "default":-1,
+      "doc": "The amount of milliseconds since timestamp when the message expires at the originating entity."
+    },
+    {
+      "name": "endpointId",
+      "type": "string",
+      "doc": "The endpoint identifier."
+    },
+    {
+      "name": "appVersionName",
+      "type": "string",
+      "doc": "The new application version name the endpoint registered in."
+    },
+    {
+      "name": "previousAppVersionName",
+      "type": "string",
+      "doc": "The previous application version name the endpoint was registered in."
+    },
+    {
+      "name": "originatorReplicaId",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Identifier of the service replica that generated the event."
+    }
+  ]
+}

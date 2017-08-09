@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "description": "10/EPMDX update metadata request. The endpoint metadata object. The property names of this object are metadata keys and values of these properties are metadata values.",
+
+  "type": "object",
+  "minProperties": 1,
+  "patternProperties": {
+    "^[a-zA-Z0-9]+$": {}
+  },
+
+  "additionalProperties": false
+}

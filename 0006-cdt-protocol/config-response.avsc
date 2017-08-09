@@ -12,6 +12,7 @@
     {"name": "configId", "type": "string", "default":""},
     {"name": "statusCode", "type": "int", "default": 500},
     {"name": "reasonPhrase", "type": "string", "default":""},
-    {"name": "content", "type": ["null", "bytes"], "default": null}
+    {"name": "content", "type": ["null", "bytes"], "default": null},
+    {"name": "applied", "type": "boolean", "default": false}
  ]
 }
