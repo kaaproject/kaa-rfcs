@@ -387,4 +387,6 @@ Example:
 }
 ```
 
+After receiving a configuration response, consumer MAY broadcast a [Configuration applied event](#Configuration-applied) to indicate that the endpoint applied the configuration.
+
 [3/MIPC]: /0003-messaging-ipc/README.md
