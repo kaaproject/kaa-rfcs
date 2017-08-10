@@ -2,7 +2,7 @@
     "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.config",
     "type":"record",
     "name":"ConfigDelivered",
-    "doc":"Broadcast message to indicate that configuration was delivered to an endpoint.",
+    "doc":"Broadcast message to indicate that configuration was delivered to an endpoint",
     "fields":[
         {
             "name":"correlationId",
@@ -18,26 +18,26 @@
         {
             "name":"timeout",
             "type":"long",
-            "default":-1,
-            "doc":"The amount of milliseconds since the timestamp until the message expires. Value of -1 is reserved to indicate no expiration."
+            "default":0,
+            "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
         },
         {
             "name":"appVersionName",
             "type":"string",
             "default":"",
-            "doc":"The application version name, for which the configuration was delivered"
+            "doc":"Application version name, for which the configuration was delivered"
         },
         {
             "name":"endpointId",
             "type":"string",
             "default":"",
-            "doc":"Unique endpoint identifier, for which the configuration was delivered"
+            "doc":"Endpoint identifier, for which the configuration was delivered"
         },
         {
             "name":"configId",
             "type":"string",
             "default":"",
-            "doc":"The unique identifier of the delivered configuration."
+            "doc":"Identifier of the delivered configuration"
         },
         {
             "name":"originatorReplicaId",
@@ -46,7 +46,7 @@
                 "string"
             ],
             "default":null,
-            "doc":"Identifier of the service replica that generated the event."
+            "doc":"Identifier of the service replica that generated the event"
         }
     ]
 }

@@ -1,5 +1,5 @@
 {
-    "namespace":"org.kaaproject.ipc.cmx2cdp.gen.v1",
+    "namespace":"org.kaaproject.ipc.cdt.gen.v1",
     "type":"record",
     "name":"ConfigRequest",
     "doc":"EP configuration request message from consumer to provider",
@@ -18,8 +18,8 @@
         {
             "name":"timeout",
             "type":"long",
-            "default":-1,
-            "doc":"The amount of milliseconds (since the timestamp) until the message expires. Value of -1 is reserved to indicate no expiration."
+            "default":0,
+            "doc":"Amount of milliseconds (since the timestamp) until the message expires. Value of 0 is reserved to indicate no expiration."
         },
         {
             "name":"endpointMessageId",
@@ -28,7 +28,7 @@
                 "int"
             ],
             "default":null,
-            "doc":"Unique identifier of the original endpoint message. Optional."
+            "doc":"Identifier of the original endpoint message. Optional."
         },
         {
             "name":"appVersionName",
@@ -40,7 +40,7 @@
             "name":"endpointId",
             "type":"string",
             "default":"",
-            "doc":"Unique endpoint identifier, for which the configuration is requested"
+            "doc":"Endpoint identifier, for which the configuration is requested"
         },
         {
             "name":"configId",
@@ -49,7 +49,7 @@
                 "string"
             ],
             "default":null,
-            "doc":"Unique identifier of the endpoint configuration known to the consumer at the time of the request. Optional. If absent, a non-error response MUST hold the latest configuration data."
+            "doc":"Identifier of the endpoint configuration known to the consumer at the time of the request. Optional. If absent, a non-error response MUST hold the latest configuration data."
         }
     ]
 }

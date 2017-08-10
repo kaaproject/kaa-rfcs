@@ -2,7 +2,7 @@
     "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.config",
     "type":"record",
     "name":"ConfigUpdated",
-    "doc":"Broadcast message to indicate that endpoint configuration data got updated.",
+    "doc":"Broadcast message to indicate that endpoint configuration data got updated in the configuration provider service",
     "fields":[
         {
             "name":"correlationId",
@@ -18,26 +18,26 @@
         {
             "name":"timeout",
             "type":"long",
-            "default":-1,
-            "doc":"The amount of milliseconds since the timestamp until the message expires. Value of -1 is reserved to indicate no expiration."
+            "default":0,
+            "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
         },
         {
             "name":"appVersionName",
             "type":"string",
             "default":"",
-            "doc":"The application version name, for which the configuration was updated"
+            "doc":"Application version name, for which the configuration was updated"
         },
         {
             "name":"endpointId",
             "type":"string",
             "default":"",
-            "doc":"Unique endpoint identifier, for which the configuration was updated"
+            "doc":"Endpoint identifier, for which the configuration was updated"
         },
         {
             "name":"configId",
             "type":"string",
             "default":"",
-            "doc":"The unique identifier of the new configuration."
+            "doc":"Identifier of the new configuration"
         },
         {
             "name":"contentType",
@@ -48,7 +48,7 @@
         {
             "name":"content",
             "type":"bytes",
-            "doc":"Configuration data encoded according to the contentType. Optional. May be absent in case of an error, or when the configId in request matches the ID of the current configuration."
+            "doc":"Configuration data encoded according to the contentType"
         },
         {
             "name":"originatorReplicaId",
@@ -57,7 +57,7 @@
                 "string"
             ],
             "default":null,
-            "doc":"Identifier of the service replica that generated the event."
+            "doc":"Identifier of the service replica that generated the event"
         }
     ]
 }

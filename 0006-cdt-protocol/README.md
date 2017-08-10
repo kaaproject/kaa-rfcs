@@ -59,7 +59,7 @@ Configuration updated message payload MUST be an [Avro-encoded](https://avro.apa
     "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.config",
     "type":"record",
     "name":"ConfigUpdated",
-    "doc":"Broadcast message to indicate that endpoint configuration data got updated.",
+    "doc":"Broadcast message to indicate that endpoint configuration data got updated in the configuration provider service",
     "fields":[
         {
             "name":"correlationId",
@@ -75,26 +75,26 @@ Configuration updated message payload MUST be an [Avro-encoded](https://avro.apa
         {
             "name":"timeout",
             "type":"long",
-            "default":-1,
-            "doc":"The amount of milliseconds since the timestamp until the message expires. Value of -1 is reserved to indicate no expiration."
+            "default":0,
+            "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
         },
         {
             "name":"appVersionName",
             "type":"string",
             "default":"",
-            "doc":"The application version name, for which the configuration was updated"
+            "doc":"Application version name, for which the configuration was updated"
         },
         {
             "name":"endpointId",
             "type":"string",
             "default":"",
-            "doc":"Unique endpoint identifier, for which the configuration was updated"
+            "doc":"Endpoint identifier, for which the configuration was updated"
         },
         {
             "name":"configId",
             "type":"string",
             "default":"",
-            "doc":"The unique identifier of the new configuration."
+            "doc":"Identifier of the new configuration"
         },
         {
             "name":"contentType",
@@ -105,7 +105,7 @@ Configuration updated message payload MUST be an [Avro-encoded](https://avro.apa
         {
             "name":"content",
             "type":"bytes",
-            "doc":"Configuration data encoded according to the contentType. Optional. May be absent in case of an error, or when the configId in request matches the ID of the current configuration."
+            "doc":"Configuration data encoded according to the contentType"
         },
         {
             "name":"originatorReplicaId",
@@ -114,7 +114,7 @@ Configuration updated message payload MUST be an [Avro-encoded](https://avro.apa
                 "string"
             ],
             "default":null,
-            "doc":"Identifier of the service replica that generated the event."
+            "doc":"Identifier of the service replica that generated the event"
         }
     ]
 }
@@ -125,7 +125,7 @@ Example:
 {
     "correlationId":"07d78e95-2c4d-4899-957c-b9e5a3701fbb",
     "timestamp":1490303342158,
-    "timeout":-1,
+    "timeout":0,
     "appVersionName":"smartKettleV1",
     "endpointId":"b197e391-1d13-403b-83f5-87bdd44888cf",
     "configId":"6046b576591c75fd68ab67f7e4475311",
@@ -133,7 +133,8 @@ Example:
     "content":{
         "bytes":"d2FpdXJoM2pmbmxzZGtjdjg3eTg3b3cz"
     }
-}```
+}
+```
 
 #### Configuration delivered
 
@@ -153,7 +154,7 @@ Configuration delivered message payload MUST be an [Avro-encoded](https://avro.a
     "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.config",
     "type":"record",
     "name":"ConfigDelivered",
-    "doc":"Broadcast message to indicate that configuration was delivered to an endpoint.",
+    "doc":"Broadcast message to indicate that configuration was delivered to an endpoint",
     "fields":[
         {
             "name":"correlationId",
@@ -169,26 +170,26 @@ Configuration delivered message payload MUST be an [Avro-encoded](https://avro.a
         {
             "name":"timeout",
             "type":"long",
-            "default":-1,
-            "doc":"The amount of milliseconds since the timestamp until the message expires. Value of -1 is reserved to indicate no expiration."
+            "default":0,
+            "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
         },
         {
             "name":"appVersionName",
             "type":"string",
             "default":"",
-            "doc":"The application version name, for which the configuration was delivered"
+            "doc":"Application version name, for which the configuration was delivered"
         },
         {
             "name":"endpointId",
             "type":"string",
             "default":"",
-            "doc":"Unique endpoint identifier, for which the configuration was delivered"
+            "doc":"Endpoint identifier, for which the configuration was delivered"
         },
         {
             "name":"configId",
             "type":"string",
             "default":"",
-            "doc":"The unique identifier of the delivered configuration."
+            "doc":"Identifier of the delivered configuration"
         },
         {
             "name":"originatorReplicaId",
@@ -197,7 +198,7 @@ Configuration delivered message payload MUST be an [Avro-encoded](https://avro.a
                 "string"
             ],
             "default":null,
-            "doc":"Identifier of the service replica that generated the event."
+            "doc":"Identifier of the service replica that generated the event"
         }
     ]
 }
@@ -208,7 +209,7 @@ Example:
 {
     "correlationId":"07d78e95-2c4d-4899-957c-b9e5a3701fbb",
     "timestamp":1490303342158,
-    "timeout":-1,
+    "timeout":0,
     "appVersionName":"smartKettleV1",
     "endpointId":"b197e391-1d13-403b-83f5-87bdd44888cf",
     "configId":"6046b576591c75fd68ab67f7e4475311"
@@ -223,12 +224,12 @@ Configuration request message is a [targeted message](/0003-messaging-ipc/README
 
 The consumer MUST send configuration request messages using the following NATS subject:
 ```
-kaa.v1.service.{provider-service-instance-name}.cmx2cdp.{message-type}
+kaa.v1.service.{provider-service-instance-name}.cdt.request
 ```
 
 The consumer MUST include NATS `replyTo` field pointing to the consumer service replica that will handle the response:
 ```
-kaa.v1.replica.{consumer-service-replica-id}.cmx2cdp.{message-type}
+kaa.v1.replica.{consumer-service-replica-id}.cdt.response
 ```
 
 For more information, see [3/Messaging IPC][3/MIPC].
@@ -238,7 +239,7 @@ Configuration request message payload MUST be an [Avro-encoded](https://avro.apa
 
 ```json
 {
-    "namespace":"org.kaaproject.ipc.cmx2cdp.gen.v1",
+    "namespace":"org.kaaproject.ipc.cdt.gen.v1",
     "type":"record",
     "name":"ConfigRequest",
     "doc":"EP configuration request message from consumer to provider",
@@ -257,8 +258,8 @@ Configuration request message payload MUST be an [Avro-encoded](https://avro.apa
         {
             "name":"timeout",
             "type":"long",
-            "default":-1,
-            "doc":"The amount of milliseconds (since the timestamp) until the message expires. Value of -1 is reserved to indicate no expiration."
+            "default":0,
+            "doc":"Amount of milliseconds (since the timestamp) until the message expires. Value of 0 is reserved to indicate no expiration."
         },
         {
             "name":"endpointMessageId",
@@ -267,7 +268,7 @@ Configuration request message payload MUST be an [Avro-encoded](https://avro.apa
                 "int"
             ],
             "default":null,
-            "doc":"Unique identifier of the original endpoint message. Optional."
+            "doc":"Identifier of the original endpoint message. Optional."
         },
         {
             "name":"appVersionName",
@@ -279,7 +280,7 @@ Configuration request message payload MUST be an [Avro-encoded](https://avro.apa
             "name":"endpointId",
             "type":"string",
             "default":"",
-            "doc":"Unique endpoint identifier, for which the configuration is requested"
+            "doc":"Endpoint identifier, for which the configuration is requested"
         },
         {
             "name":"configId",
@@ -288,7 +289,7 @@ Configuration request message payload MUST be an [Avro-encoded](https://avro.apa
                 "string"
             ],
             "default":null,
-            "doc":"Unique identifier of the endpoint configuration known to the consumer at the time of the request. Optional. If absent, a non-error response MUST hold the latest configuration data."
+            "doc":"Identifier of the endpoint configuration known to the consumer at the time of the request. Optional. If absent, a non-error response MUST hold the latest configuration data."
         }
     ]
 }
@@ -317,7 +318,7 @@ Configuration response message payload MUST be an Avro-encoded object with the f
 
 ```json
 {
-    "namespace":"org.kaaproject.ipc.cmx2cdp.gen.v1",
+    "namespace":"org.kaaproject.ipc.cdt.gen.v1",
     "type":"record",
     "name":"ConfigResponse",
     "doc":"EP configuration response message from provider to consumer",
@@ -336,8 +337,8 @@ Configuration response message payload MUST be an Avro-encoded object with the f
         {
             "name":"timeout",
             "type":"long",
-            "default":-1,
-            "doc":"The amount of milliseconds (since the timestamp) until the message expires. Value of -1 is reserved to indicate no expiration."
+            "default":0,
+            "doc":"Amount of milliseconds (since the timestamp) until the message expires. Value of 0 is reserved to indicate no expiration."
         },
         {
             "name":"endpointMessageId",
@@ -346,7 +347,7 @@ Configuration response message payload MUST be an Avro-encoded object with the f
                 "int"
             ],
             "default":null,
-            "doc":"Unique identifier of the original endpoint message. Optional."
+            "doc":"Identifier of the original endpoint message. Optional."
         },
         {
             "name":"appVersionName",
@@ -358,7 +359,7 @@ Configuration response message payload MUST be an Avro-encoded object with the f
             "name":"endpointId",
             "type":"string",
             "default":"",
-            "doc":"Unique endpoint identifier, for which the configuration is returned"
+            "doc":"Endpoint identifier, for which the configuration is returned"
         },
         {
             "name":"configId",
@@ -367,7 +368,7 @@ Configuration response message payload MUST be an Avro-encoded object with the f
                 "string"
             ],
             "default":null,
-            "doc":"Unique identifier of the returned configuration. Optional. May be absent in case of an error response, or when the configId in request matches the ID of the current configuration."
+            "doc":"Identifier of the returned configuration. Optional. May be absent in case of an error response, or when the configId in request matches the ID of the current configuration."
         },
         {
             "name":"contentType",
