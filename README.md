@@ -7,7 +7,7 @@ RFCs can be in raw, draft, stable, deprecated, or retired status.
 | Shortname                                                  | Name                                        | Status |
 |------------------------------------------------------------|---------------------------------------------|--------|
 | [1/KP](0001-kaa-protocol/README.md)                        | Kaa Protocol                                | Draft  |
-| [2/DCX](0002-data-collection-extension/README.md)          | Data Collection Extension protocol          | Draft  |
+| [2/DCP](0002-data-collection-extension/README.md)          | Data Collection Protocol                    | Draft  |
 | [3/MIPC](0003-messaging-ipc/README.md)                     | Messaging IPC                               | Draft  |
 | [4/ECS2EXT](0004-ecs2ext-protocol/README.md)               | ECS to extensions protocol                  | Draft  |
 | [5/CMX](0005-configuration-management-extension/README.md) | Configuration Management Extension protocol | Raw    |
