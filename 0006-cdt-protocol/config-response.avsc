@@ -67,7 +67,11 @@
         },
         {
             "name":"reasonPhrase",
-            "type":"string",
+            "type":[
+              "null",
+              "string"
+            ],
+            "default":null,
             "doc":"Human-readable status reason phrase"
         }
     ]
