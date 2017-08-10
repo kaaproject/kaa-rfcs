@@ -1,13 +1,59 @@
-{"namespace": "org.kaaproject.ipc.events.gen.v1",
- "type": "record",
- "name": "ConfigUpdated",
- "fields": [
-    {"name": "correlationId", "type": "string", "default":""},
-    {"name": "timestamp", "type": "long", "default":-1},
-    {"name": "timeout", "type": "long", "default":-1},
-    {"name": "originatorReplicaId", "type": "string", "default":""},
-    {"name": "appVersionName", "type": "string", "default": ""},
-    {"name": "endpointId", "type": "string", "default": ""},
-    {"name": "configId", "type": "string", "default":""}
- ]
+{
+    "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.config",
+    "type":"record",
+    "name":"ConfigUpdated",
+    "doc":"Broadcast message to indicate that endpoint configuration data got updated in the configuration provider service",
+    "fields":[
+        {
+            "name":"correlationId",
+            "type":"string",
+            "doc":"Message ID primarily used to track message processing across services"
+        },
+        {
+            "name":"timestamp",
+            "type":"long",
+            "doc":"Message creation UNIX timestamp in milliseconds"
+        },
+        {
+            "name":"timeout",
+            "type":"long",
+            "default":0,
+            "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name":"appVersionName",
+            "type":"string",
+            "doc":"Application version name, for which the configuration was updated"
+        },
+        {
+            "name":"endpointId",
+            "type":"string",
+            "doc":"Endpoint identifier, for which the configuration was updated"
+        },
+        {
+            "name":"configId",
+            "type":"string",
+            "doc":"Identifier of the new configuration"
+        },
+        {
+            "name":"contentType",
+            "type":"string",
+            "default":"application/json",
+            "doc":"Type of the configuration data, e.g.: application/json, application/x-protobuf, etc."
+        },
+        {
+            "name":"content",
+            "type":"bytes",
+            "doc":"Configuration data encoded according to the contentType"
+        },
+        {
+            "name":"originatorReplicaId",
+            "type":[
+                "null",
+                "string"
+            ],
+            "default":null,
+            "doc":"Identifier of the service replica that generated the event"
+        }
+    ]
 }

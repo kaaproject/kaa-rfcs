@@ -87,30 +87,3 @@ NATS subject format:
 `kaa.v1.events.{originator-service-instance-name}.endpoint.metadata.updated`
 
 The Avro schema for the NATS message payload can be found [here](./metadata-updated.avsc).
-
-## Configuration events
-The `{event-group}` is `config`.
-### New endpoint configuration is available
-
-The `{event-type}` is `new-available`.
-
-Published when new configuration is available for the endpoint.
-
-NATS subject format:
-
-`kaa.v1.events.{originator-service-instance-name}.endpoint.config.new-available`
-
-The Avro schema for the NATS message payload can be found [here](./new-config-available.avsc).
-### Endpoint applied the configuration
-
-The `{event-type}` is `updated`.
-
-Published when confirmation received from endpoint that configuration was applied.
-
-NATS subject format:
-
-`kaa.v1.events.{originator-service-instance-name}.endpoint.config.updated`
-
-The Avro schema for the NATS message payload can be found [here](./config-updated.avsc).
-
-
