@@ -262,15 +262,6 @@ Configuration request message payload MUST be an [Avro-encoded](https://avro.apa
             "doc":"Amount of milliseconds (since the timestamp) until the message expires. Value of 0 is reserved to indicate no expiration."
         },
         {
-            "name":"endpointMessageId",
-            "type":[
-                "null",
-                "int"
-            ],
-            "default":null,
-            "doc":"Identifier of the original endpoint message. Optional."
-        },
-        {
             "name":"appVersionName",
             "type":"string",
             "default":"",
@@ -339,15 +330,6 @@ Configuration response message payload MUST be an Avro-encoded object with the f
             "type":"long",
             "default":0,
             "doc":"Amount of milliseconds (since the timestamp) until the message expires. Value of 0 is reserved to indicate no expiration."
-        },
-        {
-            "name":"endpointMessageId",
-            "type":[
-                "null",
-                "int"
-            ],
-            "default":null,
-            "doc":"Identifier of the original endpoint message. Optional."
         },
         {
             "name":"appVersionName",
