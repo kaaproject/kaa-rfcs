@@ -86,7 +86,7 @@ The user wants to store all collected data with timestamps for further processin
 ## Batch uploads
 
 To reduce network usage, data sample are uploaded in *batches*.
-All records in a batch are processed as one record and have a single response status.
+All data samples in a batch are processed together and have a single response status.
 
 
 ## No built-in timestamp handling
