@@ -1,13 +1,12 @@
 {
     "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.config",
     "type":"record",
-    "name":"ConfigDelivered",
-    "doc":"Broadcast message to indicate that configuration was delivered to an endpoint",
+    "name":"ConfigApplied",
+    "doc":"Broadcast message to indicate that endpoint applied the configuration",
     "fields":[
         {
             "name":"correlationId",
             "type":"string",
-            "default":"",
             "doc":"Message ID primarily used to track message processing across services"
         },
         {
@@ -24,20 +23,17 @@
         {
             "name":"appVersionName",
             "type":"string",
-            "default":"",
-            "doc":"Application version name, for which the configuration was delivered"
+            "doc":"Application version name of the endpoint, which applied the configuration"
         },
         {
             "name":"endpointId",
             "type":"string",
-            "default":"",
-            "doc":"Endpoint identifier, for which the configuration was delivered"
+            "doc":"Identifier of the endpoint, which applied the configuration"
         },
         {
             "name":"configId",
             "type":"string",
-            "default":"",
-            "doc":"Identifier of the delivered configuration"
+            "doc":"Identifier of the applied configuration"
         },
         {
             "name":"originatorReplicaId",

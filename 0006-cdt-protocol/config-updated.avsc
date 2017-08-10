@@ -7,7 +7,6 @@
         {
             "name":"correlationId",
             "type":"string",
-            "default":"",
             "doc":"Message ID primarily used to track message processing across services"
         },
         {
@@ -24,25 +23,22 @@
         {
             "name":"appVersionName",
             "type":"string",
-            "default":"",
             "doc":"Application version name, for which the configuration was updated"
         },
         {
             "name":"endpointId",
             "type":"string",
-            "default":"",
             "doc":"Endpoint identifier, for which the configuration was updated"
         },
         {
             "name":"configId",
             "type":"string",
-            "default":"",
             "doc":"Identifier of the new configuration"
         },
         {
             "name":"contentType",
             "type":"string",
-            "default":"",
+            "default":"application/json",
             "doc":"Type of the configuration data, e.g.: application/json, application/x-protobuf, etc."
         },
         {

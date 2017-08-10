@@ -7,7 +7,6 @@
         {
             "name":"correlationId",
             "type":"string",
-            "default":"",
             "doc":"Message ID primarily used to track message processing across services"
         },
         {
@@ -24,13 +23,11 @@
         {
             "name":"appVersionName",
             "type":"string",
-            "default":"",
             "doc":"Endpoint's application version, for which the configuration is requested"
         },
         {
             "name":"endpointId",
             "type":"string",
-            "default":"",
             "doc":"Endpoint identifier, for which the configuration is requested"
         },
         {

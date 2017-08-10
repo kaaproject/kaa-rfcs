@@ -10,10 +10,7 @@ editor: Andrew Pasika <apasika@cybervisiontech.com>
 
 ## Introduction
 
-Configuration Data Transport (CDT) protocol is designed to communicate endpoint configuration data between Kaa services.
-
-Sending and receiving configuration data occurs within 2 communication patterns — *configuration push* and *configuration pull*.
-See [Language](#language).
+Configuration Data Transport (CDT) protocol is designed for communicating endpoint configuration data between Kaa services.
 
 CDT protocol design is based on the [3/Messaging IPC][3/MIPC].
 
@@ -29,13 +26,6 @@ The following terms and definitions are used in this RFC.
 - **Configuration push**: a communication pattern where a provider broadcasts new EP configuration data in an unsolicited manner.
 Consumers may choose to subscribe to the broadcast events and react according to their design.
 - **Configuration pull**: a communication pattern where a consumer explicitly requests EP configuration data from a provider.
-
-
-## Requirements and constraints
-
-- In case of a configuration push, the provider MAY receive a delivery confirmation from a consumer.
-- In case of a configuration pull, the delivery confirmation is OPTIONAL, since the consumer or the target endpoint can detect delivery failure and pull configuration again.
-- HTTP status codes and arbitrary reason phrases MUST be used to inform consumer about any errors that occur in the provider during the configuration pull.
 
 
 ## Design
@@ -64,7 +54,6 @@ Configuration updated message payload MUST be an [Avro-encoded](https://avro.apa
         {
             "name":"correlationId",
             "type":"string",
-            "default":"",
             "doc":"Message ID primarily used to track message processing across services"
         },
         {
@@ -81,25 +70,22 @@ Configuration updated message payload MUST be an [Avro-encoded](https://avro.apa
         {
             "name":"appVersionName",
             "type":"string",
-            "default":"",
             "doc":"Application version name, for which the configuration was updated"
         },
         {
             "name":"endpointId",
             "type":"string",
-            "default":"",
             "doc":"Endpoint identifier, for which the configuration was updated"
         },
         {
             "name":"configId",
             "type":"string",
-            "default":"",
             "doc":"Identifier of the new configuration"
         },
         {
             "name":"contentType",
             "type":"string",
-            "default":"",
+            "default":"application/json",
             "doc":"Type of the configuration data, e.g.: application/json, application/x-protobuf, etc."
         },
         {
@@ -130,36 +116,33 @@ Example:
     "endpointId":"b197e391-1d13-403b-83f5-87bdd44888cf",
     "configId":"6046b576591c75fd68ab67f7e4475311",
     "contentType":"application/json",
-    "content":{
-        "bytes":"d2FpdXJoM2pmbmxzZGtjdjg3eTg3b3cz"
-    }
+    "content":"d2FpdXJoM2pmbmxzZGtjdjg3eTg3b3cz"
 }
 ```
 
-#### Configuration delivered
+#### Configuration applied
 
-Configuration delivered is a broadcast message that consumer MAY publish to indicate that configuration data was delivered to an endpoint.
-Providers MAY subscribe to these messages to keep track of the last delivered to endpoints configurations.
-The message `{event-group}` is `config` and the `{event-type}` is `delivered`.
+Configuration applied is a broadcast message that consumer MAY publish to indicate that endpoint applied the configuration data.
+Providers MAY subscribe to these messages to keep track of the last applied to endpoints configurations.
+The message `{event-group}` is `config` and the `{event-type}` is `applied`.
 
 NATS subject format is:
 ```
-kaa.v1.events.{consumer-service-instance-name}.endpoint.config.delivered
+kaa.v1.events.{consumer-service-instance-name}.endpoint.config.applied
 ```
 
-Configuration delivered message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([file](./config-delivered.avsc)):
+Configuration applied message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([file](./config-applied.avsc)):
 
 ```json
 {
     "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.config",
     "type":"record",
-    "name":"ConfigDelivered",
-    "doc":"Broadcast message to indicate that configuration was delivered to an endpoint",
+    "name":"ConfigApplied",
+    "doc":"Broadcast message to indicate that endpoint applied the configuration",
     "fields":[
         {
             "name":"correlationId",
             "type":"string",
-            "default":"",
             "doc":"Message ID primarily used to track message processing across services"
         },
         {
@@ -176,20 +159,17 @@ Configuration delivered message payload MUST be an [Avro-encoded](https://avro.a
         {
             "name":"appVersionName",
             "type":"string",
-            "default":"",
-            "doc":"Application version name, for which the configuration was delivered"
+            "doc":"Application version name of the endpoint, which applied the configuration"
         },
         {
             "name":"endpointId",
             "type":"string",
-            "default":"",
-            "doc":"Endpoint identifier, for which the configuration was delivered"
+            "doc":"Identifier of the endpoint, which applied the configuration"
         },
         {
             "name":"configId",
             "type":"string",
-            "default":"",
-            "doc":"Identifier of the delivered configuration"
+            "doc":"Identifier of the applied configuration"
         },
         {
             "name":"originatorReplicaId",
@@ -247,7 +227,6 @@ Configuration request message payload MUST be an [Avro-encoded](https://avro.apa
         {
             "name":"correlationId",
             "type":"string",
-            "default":"",
             "doc":"Message ID primarily used to track message processing across services"
         },
         {
@@ -264,13 +243,11 @@ Configuration request message payload MUST be an [Avro-encoded](https://avro.apa
         {
             "name":"appVersionName",
             "type":"string",
-            "default":"",
             "doc":"Endpoint's application version, for which the configuration is requested"
         },
         {
             "name":"endpointId",
             "type":"string",
-            "default":"",
             "doc":"Endpoint identifier, for which the configuration is requested"
         },
         {
@@ -317,7 +294,6 @@ Configuration response message payload MUST be an Avro-encoded object with the f
         {
             "name":"correlationId",
             "type":"string",
-            "default":"",
             "doc":"Message ID primarily used to track message processing across services"
         },
         {
@@ -334,13 +310,11 @@ Configuration response message payload MUST be an Avro-encoded object with the f
         {
             "name":"appVersionName",
             "type":"string",
-            "default":"",
             "doc":"Endpoint's application version, for which the configuration is returned"
         },
         {
             "name":"endpointId",
             "type":"string",
-            "default":"",
             "doc":"Endpoint identifier, for which the configuration is returned"
         },
         {
@@ -355,7 +329,7 @@ Configuration response message payload MUST be an Avro-encoded object with the f
         {
             "name":"contentType",
             "type":"string",
-            "default":"",
+            "default":"application/json",
             "doc":"Type of the configuration data, e.g.: application/json, application/x-protobuf, etc."
         },
         {
@@ -371,18 +345,16 @@ Configuration response message payload MUST be an Avro-encoded object with the f
             "name":"applied",
             "type":"boolean",
             "default":false,
-            "doc":"Indicates whether the current (returned) configuration ID matches the one previously delivered to the endpoint"
+            "doc":"Indicates whether the current (returned) configuration ID matches the one previously applied to the endpoint"
         },
         {
             "name":"statusCode",
             "type":"int",
-            "default":200,
             "doc":"HTTP status code of the request processing"
         },
         {
             "name":"reasonPhrase",
             "type":"string",
-            "default":"",
             "doc":"Human-readable status reason phrase"
         }
     ]
