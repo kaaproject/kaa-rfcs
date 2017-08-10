@@ -42,7 +42,7 @@ NATS subject format is:
 kaa.v1.events.{provider-service-instance-name}.endpoint.config.updated
 ```
 
-Configuration updated message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([file](./config-updated.avsc)):
+Configuration updated message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([config-updated.avsc](./config-updated.avsc)):
 
 ```json
 {
@@ -131,7 +131,7 @@ NATS subject format is:
 kaa.v1.events.{consumer-service-instance-name}.endpoint.config.applied
 ```
 
-Configuration applied message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([file](./config-applied.avsc)):
+Configuration applied message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([config-applied.avsc](./config-applied.avsc)):
 
 ```json
 {
@@ -215,7 +215,7 @@ kaa.v1.replica.{consumer-service-replica-id}.cdt.response
 For more information, see [3/Messaging IPC][3/MIPC].
 
 
-Configuration request message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([file](./config-request.avsc)):
+Configuration request message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([config-request.avsc](./config-request.avsc)):
 
 ```json
 {
@@ -270,7 +270,6 @@ Example:
     "correlationId":"07d78e95-2c4d-4899-957c-b9e5a3701fbb",
     "timestamp":1490303342158,
     "timeout":3000,
-    "endpointMessageId":42,
     "appVersionName":"smartKettleV1",
     "endpointId":"b197e391-1d13-403b-83f5-87bdd44888cf",
     "configId":"6046b576591c75fd68ab67f7e4475311"
@@ -279,10 +278,10 @@ Example:
 
 #### Configuration response
 
-Configuration response message SHOULD be sent by provider in response to a [Configuration request message](#Configuration-request).
+Configuration response message MUST be sent by provider in response to a [Configuration request message](#Configuration-request).
 Provider MUST publish configuration response message to the subject provided in the NATS `replyTo` field of the request.
 
-Configuration response message payload MUST be an Avro-encoded object with the following schema ([file](./config-response.avsc)):
+Configuration response message payload MUST be an Avro-encoded object with the following schema ([config-response.avsc](./config-response.avsc)):
 
 ```json
 {
@@ -354,7 +353,11 @@ Configuration response message payload MUST be an Avro-encoded object with the f
         },
         {
             "name":"reasonPhrase",
-            "type":"string",
+            "type":[
+              "null",
+              "string"
+            ],
+            "default":null,
             "doc":"Human-readable status reason phrase"
         }
     ]
@@ -378,10 +381,10 @@ Example:
     },
     "applied":true,
     "statusCode":200,
-    "reasonPhrase":"OK"
+    "reasonPhrase":{
+        "string":"OK"
+    }
 }
 ```
-
-After receiving a configuration response, consumer MAY broadcast a [Configuration delivered event](#Configuration-delivered) to indicate that the configuration was delivered to the endpoint.
 
 [3/MIPC]: /0003-messaging-ipc/README.md
