@@ -128,7 +128,7 @@ Example:
 
 ```
 
-In its response, the server MUST filter out EP metadata key names, to which the client has no read or write access.
+In its response, the server MUST filter out EP metadata key names, to which the client does not have neither read nor write access.
 Some of the returned keys may only be readable or writable by the client.
 
 
@@ -173,7 +173,7 @@ Examples:
   {
   }
   ```
-  In its response, the server MUST filter out EP metadata keys, to which the client has no read or write access.
+  In its response, the server MUST filter out EP metadata keys, to which the client does not have neither read nor write access.
 
 - get only `name` and `location` metadata key-value pairs:
 
