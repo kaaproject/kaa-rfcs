@@ -99,12 +99,14 @@ Recommended fallback solution for cases when there is no timestamp: save server 
 
 ## Request/response
 
-2/DCX uses client-initiated request/response pattern defined in [1/KP](/0001-kaa-protocol/#requestresponse-pattern).
+2/DCX follows client-initiated request/response pattern defined in [1/KP](/0001-kaa-protocol/#requestresponse-pattern).
 
+
+## Data collection
 
 ### Request
 
-The client MUST send data collection requests to the following extension-specific Resource Path:
+The client MUST send data collection requests to the following extension-specific resource path:
 ```
 /<endpoint_token>/json
 ```
