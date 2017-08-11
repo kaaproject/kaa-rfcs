@@ -1,5 +1,6 @@
 {
-  "$schema": "http://json-schema.org/schema#",
-  "title": "2/DCP request schema",
-  "type": "array"
+    "$schema":"http://json-schema.org/schema#",
+    "title":"2/DCP request schema",
+
+    "type":"array"
 }
