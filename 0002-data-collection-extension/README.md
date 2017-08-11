@@ -109,12 +109,13 @@ The client MUST send data collection requests to the following extension-specifi
 /<endpoint_token>/json
 ```
 
-The request payload MUST be a UTF-8 encoded JSON object with the following [JSON schema](http://json-schema.org/) ([request.schema.json](./request.schema.json))
+The request payload MUST be a UTF-8 encoded JSON object with the following [JSON schema](http://json-schema.org/) ([request.schema.json](./request.schema.json)):
 ```json
 {
-  "$schema": "http://json-schema.org/schema#",
-  "title": "2/DCX request schema",
-  "type": "array"
+    "$schema":"http://json-schema.org/schema#",
+    "title":"2/DCP request schema",
+
+    "type":"array"
 }
 ```
 where each element of the array represents a single data sample.
@@ -123,9 +124,15 @@ Data samples can be of any valid JSON type.
 Example:
 ```json
 [
-  { "key": "value" },
-  15,
-  [ "an", "array", 13 ]
+    {
+        "key":"value"
+    },
+    15,
+    [
+        "an",
+        "array",
+        13
+    ]
 ]
 ```
 
