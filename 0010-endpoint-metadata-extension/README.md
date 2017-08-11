@@ -128,7 +128,7 @@ Example:
 
 ```
 
-In its response, the server MAY filter out EP metadata key names, to which the client has no read or write access.
+In its response, the server MUST filter out EP metadata key names, to which the client has no read or write access.
 Some of the returned keys may only be readable or writable by the client.
 
 
@@ -173,6 +173,7 @@ Examples:
   {
   }
   ```
+  In its response, the server MUST filter out EP metadata keys, to which the client has no read or write access.
 
 - get only `name` and `location` metadata key-value pairs:
 
@@ -187,6 +188,9 @@ Examples:
 
 Client MAY send a get metadata request with a zero-byte empty payload.
 In such event, server MUST process the request as if no metadata key names were specified in the request.
+
+The server MUST NOT return the metadata keys that are not readable by the client.
+In case the client explicitly requests a restricted EP metadata key, the server MUST return an error.
 
 
 #### Get metadata response
@@ -366,6 +370,9 @@ Example:
     "areaId"
 ]
 ```
+
+The server MUST NOT delete the metadata keys that are not writable by the client.
+In case the client requests to delete a restricted EP metadata key, the server MUST return an error.
 
 
 #### Delete metadata keys response
