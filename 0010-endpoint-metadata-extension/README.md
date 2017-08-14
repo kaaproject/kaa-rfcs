@@ -81,14 +81,14 @@ where `name`, `OSName`, `OSVersion`, `cores`, `ssd`, `location`, and `supportedF
 
 ## Request/response
 
-10/EPMP uses client-initiated request/response pattern defined in [1/KP](/0001-kaa-protocol/#requestresponse-pattern).
+10/EPMP follows client-initiated request/response pattern defined in [1/KP](/0001-kaa-protocol/#requestresponse-pattern).
 
 
 ### Get metadata keys
 
 #### Get metadata keys request
 
-To retrieve the list of EP metadata keys, client MUST send requests to the following extension-specific Resource Path:
+To retrieve the list of EP metadata keys, client MUST send requests to the following extension-specific resource path:
 ```
 /<endpoint_token>/get/keys
 ```
@@ -136,7 +136,7 @@ Some of the returned keys may only be readable or writable by the client.
 
 #### Get metadata request
 
-To retrieve complete or partial EP metadata, client MUST send requests to the following extension-specific Resource Path:
+To retrieve complete or partial EP metadata, client MUST send requests to the following extension-specific resource path:
 ```
 /<endpoint_token>/get
 ```
@@ -229,7 +229,7 @@ Example:
 
 Full metadata update request overwrites the EP metadata in server with a new set of key-values received from client.
 
-To update the EP metadata, client MUST send requests to the following extension-specific Resource Path:
+To update the EP metadata, client MUST send requests to the following extension-specific resource path:
 ```
 /<endpoint_token>/update
 ```
@@ -309,7 +309,7 @@ A successful processing confirmation response MUST have zero-length payload.
 Partial metadata update request updates or creates only endpoint metadata key-value pairs present in the request payload.
 Compared with the [full metadata update](#full-metadata-update), this request does not remove the existing EP metadata keys that are not present in the request payload.
 
-To perform a partial update of the EP metadata, client MUST send requests to the following extension-specific Resource Path:
+To perform a partial update of the EP metadata, client MUST send requests to the following extension-specific resource path:
 ```
 /<endpoint_token>/update/keys
 ```
@@ -336,7 +336,7 @@ A successful processing confirmation response MUST have zero-length payload.
 
 ### Delete metadata keys
 
-To delete EP metadata keys, client MUST send requests to the following extension-specific Resource Path:
+To delete EP metadata keys, client MUST send requests to the following extension-specific resource path:
 ```
 /<endpoint_token>/delete/keys
 ```
