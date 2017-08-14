@@ -126,7 +126,7 @@ The request payload MUST be a UTF-8 encoded JSON object with the following [JSON
 
 If `configId` field is missing, server MUST respond with the current configuration for the given endpoint.
 
-If `configId` field is present, server MUST send new configuration only if `configId` differs from the identifier of the current endpoint configuration.
+If `configId` field is present, server MUST send new configuration only if it differs from the identifier of the configuration, currently assigned to that endpoint.
 
 If `observe` field is present and is `true`, server MUST send new configuration to the endpoint whenever configuration changes.
 

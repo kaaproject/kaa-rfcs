@@ -99,7 +99,7 @@ Recommended fallback solution for cases when there is no timestamp: save server 
 
 ## Request/response
 
-2/DCX follows client-initiated request/response pattern defined in [1/KP](/0001-kaa-protocol/#requestresponse-pattern).
+2/DCP follows client-initiated request/response pattern defined in [1/KP](/0001-kaa-protocol/#requestresponse-pattern).
 
 
 ## Data collection
