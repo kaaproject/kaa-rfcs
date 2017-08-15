@@ -1,0 +1,80 @@
+{
+    "namespace":"org.kaaproject.ipc.ecs2ext.gen.v1",
+    "name":"ExtensionData",
+    "type":"record",
+    "doc":"Extension-originated messages intended for clients of ECS",
+    "fields":[
+        {
+            "name":"correlationId",
+            "type":"string",
+            "doc":"Message ID primarily used to track message processing across services"
+        },
+        {
+            "name":"timestamp",
+            "type":"long",
+            "doc":"Message creation UNIX timestamp in milliseconds"
+        },
+        {
+            "name":"timeout",
+            "type":"long",
+            "default":0,
+            "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name":"appVersionName",
+            "type":"string",
+            "doc":"Application version name the data is sent for"
+        },
+        {
+            "name":"extensionInstanceName",
+            "type":[
+                "string",
+                "null"
+            ],
+            "doc":"Name of the extension instance that originated the message"
+        },
+        {
+            "name":"endpointId",
+            "type":[
+                "string",
+                "null"
+            ],
+            "doc":"Identifier of the endpoint, to which the data is sent. Null for endpoint-unaware extensions."
+        },
+        {
+            "name":"resourcePath",
+            "type":"string",
+            "doc":"Resource path used for determining the message handling function and the payload format"
+        },
+        {
+            "name":"requestId",
+            "type":[
+                "int",
+                "null"
+            ],
+            "doc":"Request ID used by endpoint to match messages. Optional."
+        },
+        {
+            "name":"payload",
+            "type":[
+                "bytes",
+                "null"
+            ],
+            "doc":"Serialized message content"
+        },
+        {
+            "name":"statusCode",
+            "type":"int",
+            "doc":"HTTP status code of the request processing"
+        },
+        {
+            "name":"reasonPhrase",
+            "type":[
+                "null",
+                "string"
+            ],
+            "default":null,
+            "doc":"Human-readable status reason phrase"
+        }
+    ]
+}

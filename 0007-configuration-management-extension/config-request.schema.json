@@ -1,17 +1,17 @@
 {
-  "$schema": "http://json-schema.org/schema#",
-  "title": "7/CMX config request schema",
+    "$schema":"http://json-schema.org/schema#",
+    "title":"7/CMP configuration request schema",
 
-  "type": "object",
-  "properties": {
-    "configId": {
-      "type": "string",
-      "description": "Identifier of the currently applied configuration."
+    "type":"object",
+    "properties":{
+        "configId":{
+            "type":"string",
+            "description":"Identifier of the currently applied configuration"
+        },
+        "observe":{
+            "type":"boolean",
+            "description":"Whether the endpoint is interested in observing its configuration"
+        }
     },
-    "observe": {
-      "type": "boolean",
-      "description": "Whether the endpoint is interested in observing its configuration."
-    }
-  },
-  "additionalProperties": false
+    "additionalProperties":false
 }

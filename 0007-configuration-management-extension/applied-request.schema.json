@@ -1,23 +1,25 @@
 {
-  "$schema": "http://json-schema.org/schema#",
-  "title": "7/CMX applied request schema",
+    "$schema":"http://json-schema.org/schema#",
+    "title":"7/CMX applied configuration request schema",
 
-  "type": "object",
-  "properties": {
-    "configId": {
-      "type": "string",
-      "description": "Identifier of the applied configuration."
+    "type":"object",
+    "properties":{
+        "configId":{
+            "type":"string",
+            "description":"Identifier of the applied configuration"
+        },
+        "statusCode":{
+            "type":"number",
+            "description":"Status code based on HTTP status codes",
+            "default":200
+        },
+        "reasonPhrase":{
+            "type":"string",
+            "description":"Human-readable string explaining the cause of an error (if any)"
+        }
     },
-    "statusCode": {
-      "type": "number",
-      "description": "Status code based on HTTP status codes.",
-      "default": 200
-    },
-    "reasonPhrase": {
-      "type": "string",
-      "description": "A human-readable string explaining the cause of an error (if any)."
-    }
-  },
-  "required": [ "configId" ],
-  "additionalProperties": false
+    "required":[
+        "configId"
+    ],
+    "additionalProperties":false
 }
