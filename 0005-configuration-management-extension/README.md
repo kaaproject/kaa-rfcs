@@ -1,7 +1,7 @@
 ---
 name: Configuration Management Extension
 shortname: 5/CMX
-status: raw
+status: deleted
 editor: Dmitry Sergeev <dsergeev@cybervisiontech.com>
 contributors: Andrew Kokhanovskyi <akokhanovskyi@cybervisiontech.com>
 ---
