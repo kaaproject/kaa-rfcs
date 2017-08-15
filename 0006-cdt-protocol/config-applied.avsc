@@ -1,8 +1,8 @@
 {
-    "namespace":"org.kaaproject.ipc.cdt.gen.v1",
+    "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.config",
     "type":"record",
-    "name":"ConfigRequest",
-    "doc":"EP configuration request message from consumer to provider",
+    "name":"ConfigApplied",
+    "doc":"Broadcast message to indicate that endpoint applied the configuration",
     "fields":[
         {
             "name":"correlationId",
@@ -18,26 +18,31 @@
             "name":"timeout",
             "type":"long",
             "default":0,
-            "doc":"Amount of milliseconds (since the timestamp) until the message expires. Value of 0 is reserved to indicate no expiration."
+            "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
         },
         {
             "name":"appVersionName",
             "type":"string",
-            "doc":"Endpoint's application version, for which the configuration is requested"
+            "doc":"Application version name of the endpoint, which applied the configuration"
         },
         {
             "name":"endpointId",
             "type":"string",
-            "doc":"Endpoint identifier, for which the configuration is requested"
+            "doc":"Identifier of the endpoint, which applied the configuration"
         },
         {
             "name":"configId",
+            "type":"string",
+            "doc":"Identifier of the applied configuration"
+        },
+        {
+            "name":"originatorReplicaId",
             "type":[
                 "null",
                 "string"
             ],
             "default":null,
-            "doc":"Identifier of the endpoint configuration known to the consumer at the time of the request. Optional. If absent, a non-error response MUST hold the latest configuration data."
+            "doc":"Identifier of the service replica that generated the event"
         }
     ]
 }

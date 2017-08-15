@@ -1,0 +1,16 @@
+{
+    "$schema":"http://json-schema.org/schema#",
+    "title":"7/CMP configuration response schema",
+
+    "type":"object",
+    "properties":{
+        "configId":{
+            "type":"string",
+            "description":"Identifier of the current configuration"
+        },
+        "config":{
+            "description":"Configuration body of an arbitrary type"
+        }
+    },
+    "additionalProperties":false
+}

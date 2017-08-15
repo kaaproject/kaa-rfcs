@@ -7,20 +7,13 @@ editor: Andrew Pasika <apasika@cybervisiontech.com>
 
 <!-- toc -->
 
+
 ## Introduction
 
-Configuration Data Transport (CDT) protocol is designed to communicate endpoint configuration data between Kaa services.
+Configuration Data Transport (CDT) protocol is designed for communicating endpoint configuration data between Kaa services.
 
-In Kaa architecture, some services are designed to manage endpoint configuration in different ways — store it, process it, publish it, etc.
-One of the core features in such context is the ability to send and receive endpoint configurations.
+CDT protocol design is based on the [3/Messaging IPC][3/MIPC].
 
-For this purpose, the CDT protocol is designed.
-It defines the endpoint configuration data structure so that it's interpreted by all involved services in the same way.
-
-Sending and receiving configuration data occurs within 2 communication patterns — *configuration push* and *configuration pull*.
-See [Language](#language).
-
-Design of the CDT protocol communication with other services is based on the [3/Messaging IPC][3/MIPC] protocol.
 
 ## Language
 
@@ -28,114 +21,372 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 The following terms and definitions are used in this RFC.
 
-- **EP configuration provider (provider)**: any service that sends an endpoint configuration to the other service.
-- **EP configuration consumer (consumer)**: any service that receives an endpoint configuration from the other service.
-- **Configuration push**: a communication pattern where provider broadcasts EP configuration data under a certain topic over the [NATS](http://nats.io/) protocol.
-The broadcasted data will be received by the configuration consumer services that are subscribed to that topic.
-- **Configuration pull**: a communication pattern where consumer requests an EP configuration data from a provider.
+- **EP configuration data provider (provider)**: any service that sends endpoint configuration data to other service(s).
+- **EP configuration data consumer (consumer)**: any service that receives endpoint configurations from other service(s).
+- **Configuration push**: a communication pattern where a provider broadcasts new EP configuration data in an unsolicited manner.
+Consumers may choose to subscribe to the broadcast events and react according to their design.
+- **Configuration pull**: a communication pattern where a consumer explicitly requests EP configuration data from a provider.
 
-## Requirements and constraints
-
-CDT requirements:
-
-- In case of a configuration push, the provider must receive a receipt acknowledgement from the consumer.
-- When a consumer tries to pull an endpoint configuration that does not exist, or in case of other errors during configuration pull, HTTP status codes and arbitrary reason phrases must be used to inform about the errors occurred.
 
 ## Design
 
+### Configuration push
+
+#### Configuration updated
+
+Configuration updated is a [broadcast message](/0003-messaging-ipc/README.md#Broadcast-messaging) published by provider to indicate that configuration data for an endpoint got updated.
+The message `{event-group}` is `config` and the `{event-type}` is `updated`.
+
+NATS subject format is:
+```
+kaa.v1.events.{provider-service-instance-name}.endpoint.config.updated
+```
+
+Configuration updated message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([config-updated.avsc](./config-updated.avsc)):
+
+```json
+{
+    "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.config",
+    "type":"record",
+    "name":"ConfigUpdated",
+    "doc":"Broadcast message to indicate that endpoint configuration data got updated in the configuration provider service",
+    "fields":[
+        {
+            "name":"correlationId",
+            "type":"string",
+            "doc":"Message ID primarily used to track message processing across services"
+        },
+        {
+            "name":"timestamp",
+            "type":"long",
+            "doc":"Message creation UNIX timestamp in milliseconds"
+        },
+        {
+            "name":"timeout",
+            "type":"long",
+            "default":0,
+            "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name":"appVersionName",
+            "type":"string",
+            "doc":"Application version name, for which the configuration was updated"
+        },
+        {
+            "name":"endpointId",
+            "type":"string",
+            "doc":"Endpoint identifier, for which the configuration was updated"
+        },
+        {
+            "name":"configId",
+            "type":"string",
+            "doc":"Identifier of the new configuration"
+        },
+        {
+            "name":"contentType",
+            "type":"string",
+            "default":"application/json",
+            "doc":"Type of the configuration data, e.g.: application/json, application/x-protobuf, etc."
+        },
+        {
+            "name":"content",
+            "type":"bytes",
+            "doc":"Configuration data encoded according to the contentType"
+        },
+        {
+            "name":"originatorReplicaId",
+            "type":[
+                "null",
+                "string"
+            ],
+            "default":null,
+            "doc":"Identifier of the service replica that generated the event"
+        }
+    ]
+}
+```
+
+Example:
+```json
+{
+    "correlationId":"07d78e95-2c4d-4899-957c-b9e5a3701fbb",
+    "timestamp":1490303342158,
+    "timeout":0,
+    "appVersionName":"smartKettleV1",
+    "endpointId":"b197e391-1d13-403b-83f5-87bdd44888cf",
+    "configId":"6046b576591c75fd68ab67f7e4475311",
+    "contentType":"application/json",
+    "content":"d2FpdXJoM2pmbmxzZGtjdjg3eTg3b3cz"
+}
+```
+
+#### Configuration applied
+
+Configuration applied is a broadcast message that consumer MAY publish to indicate that endpoint applied the configuration data.
+Providers MAY subscribe to these messages to keep track of the last applied to endpoints configurations.
+The message `{event-group}` is `config` and the `{event-type}` is `applied`.
+
+NATS subject format is:
+```
+kaa.v1.events.{consumer-service-instance-name}.endpoint.config.applied
+```
+
+Configuration applied message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([config-applied.avsc](./config-applied.avsc)):
+
+```json
+{
+    "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.config",
+    "type":"record",
+    "name":"ConfigApplied",
+    "doc":"Broadcast message to indicate that endpoint applied the configuration",
+    "fields":[
+        {
+            "name":"correlationId",
+            "type":"string",
+            "doc":"Message ID primarily used to track message processing across services"
+        },
+        {
+            "name":"timestamp",
+            "type":"long",
+            "doc":"Message creation UNIX timestamp in milliseconds"
+        },
+        {
+            "name":"timeout",
+            "type":"long",
+            "default":0,
+            "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name":"appVersionName",
+            "type":"string",
+            "doc":"Application version name of the endpoint, which applied the configuration"
+        },
+        {
+            "name":"endpointId",
+            "type":"string",
+            "doc":"Identifier of the endpoint, which applied the configuration"
+        },
+        {
+            "name":"configId",
+            "type":"string",
+            "doc":"Identifier of the applied configuration"
+        },
+        {
+            "name":"originatorReplicaId",
+            "type":[
+                "null",
+                "string"
+            ],
+            "default":null,
+            "doc":"Identifier of the service replica that generated the event"
+        }
+    ]
+}
+```
+
+Example:
+```json
+{
+    "correlationId":"07d78e95-2c4d-4899-957c-b9e5a3701fbb",
+    "timestamp":1490303342158,
+    "timeout":0,
+    "appVersionName":"smartKettleV1",
+    "endpointId":"b197e391-1d13-403b-83f5-87bdd44888cf",
+    "configId":"6046b576591c75fd68ab67f7e4475311"
+}
+```
+
 ### Configuration pull
 
-Configuration pull is used when a service intends to request a particular EP configuration.
+#### Configuration request
 
-No delivery confirmation is required for configuration pull, as endpoint can detect delivery failure and request configuration again.
+Configuration request message is a [targeted message](/0003-messaging-ipc/README.md#Targeted-messaging) that is sent by consumer to provider to request the EP configuration.
 
-#### Subject structure
-
-The [EP configuration consumer](#language) should send messages using this NATS subject:
+The consumer MUST send configuration request messages using the following NATS subject:
 ```
-kaa.v1.service.{cdp-service-instance-name}.cmx2cdp.{message-type}
+kaa.v1.service.{provider-service-instance-name}.cdt.request
 ```
 
-Also, the consumer should include NATS `replyTo` field pointing to the consumer service replica that will handle the response:
+The consumer MUST include NATS `replyTo` field pointing to the consumer service replica that will handle the response:
 ```
-kaa.v1.replica.{cmx-service-instance-replica-id}.cmx2cdp.{message-type}
+kaa.v1.replica.{consumer-service-replica-id}.cdt.response
 ```
 
 For more information, see [3/Messaging IPC][3/MIPC].
 
-#### Targeted message types
 
-There are two types of targeted messages:
-- `ConfigRequest` message is sent by EP configuration consumer.
-- `ConfigResponse` message is sent by [EP configuration provider](#language) service.
+Configuration request message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([config-request.avsc](./config-request.avsc)):
 
-`ConfigRequest` message structure:
-
-- `correlationId` (string, required): message ID primarily used to track message processing across services.
-- `timestamp` (number, required): message creation timestamp.
-- `timeout` (number, required): amount of time (starting from the timestamp) before the message gets ignored.
-- `endpointMessageId` (string, required): unique identifier of original endpoint message.
-- `appVersionName` (string, required): application version to which the endpoint configuration is applicable.
-- `endpointId` (string, required): unique identifier of endpoint to which the configuration is applicable.
-- `configId` (string, optional): unique identifier of endpoint configuration.
-If not present, response message will hold the latest version of configuration.
+```json
+{
+    "namespace":"org.kaaproject.ipc.cdt.gen.v1",
+    "type":"record",
+    "name":"ConfigRequest",
+    "doc":"EP configuration request message from consumer to provider",
+    "fields":[
+        {
+            "name":"correlationId",
+            "type":"string",
+            "doc":"Message ID primarily used to track message processing across services"
+        },
+        {
+            "name":"timestamp",
+            "type":"long",
+            "doc":"Message creation UNIX timestamp in milliseconds"
+        },
+        {
+            "name":"timeout",
+            "type":"long",
+            "default":0,
+            "doc":"Amount of milliseconds (since the timestamp) until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name":"appVersionName",
+            "type":"string",
+            "doc":"Endpoint's application version, for which the configuration is requested"
+        },
+        {
+            "name":"endpointId",
+            "type":"string",
+            "doc":"Endpoint identifier, for which the configuration is requested"
+        },
+        {
+            "name":"configId",
+            "type":[
+                "null",
+                "string"
+            ],
+            "default":null,
+            "doc":"Identifier of the endpoint configuration known to the consumer at the time of the request. Optional. If absent, a non-error response MUST hold the latest configuration data."
+        }
+    ]
+}
+```
 
 Example:
 
 ```json
 {
-  "correlationId": "07d78e95-2c4d-4899-957c-b9e5a3701fbb",
-  "timestamp": 1490303342158,
-  "timeout": 3000,
-  "endpointMessageId": "6b73cd7c-1de5-4c4e-bbad-b7eda079ccbd",
-  "appVersionName": "39774993-a426-4092-9e38-02ec213272d0",
-  "endpointId": "b197e391-1d13-403b-83f5-87bdd44888cf",
-  "configId": "76d34f8b-c038-413f-b122-318dce49edd1"
+    "correlationId":"07d78e95-2c4d-4899-957c-b9e5a3701fbb",
+    "timestamp":1490303342158,
+    "timeout":3000,
+    "appVersionName":"smartKettleV1",
+    "endpointId":"b197e391-1d13-403b-83f5-87bdd44888cf",
+    "configId":"6046b576591c75fd68ab67f7e4475311"
 }
 ```
 
-`ConfigResponse` message structure:
+#### Configuration response
 
-- `correlationId` (string, required): message ID primarily used to track message processing across services.
-- `timestamp` (number, required): message creation timestamp.
-- `timeout` (number, required): amount of time (starting from the timestamp) before the message gets ignored.
-- `endpointMessageId` (string, required): unique identifier of original endpoint message.
-- `appVersionName` (string, required): application version to which the endpoint configuration is applicable.
-- `endpointId` (string, required): unique identifier of endpoint to which the configuration is applicable.
-- `contentType` (string, required): type of configuration content, e.g.: JSON, Protocol Buffer.
-- `configId` (string, required): unique identifier of endpoint configuration.
-- `statusCode` (number, required): status code containing information about the result of inbound message processing.
-- `reasonPhrase` (string, optional): status code containing information about the result of inbound message processing.
-- `content` (byte[], optional): configuration data.
-- `applied` (boolean, required): shows if client has latest configuration (true if it does).
+Configuration response message MUST be sent by provider in response to a [Configuration request message](#Configuration-request).
+Provider MUST publish configuration response message to the subject provided in the NATS `replyTo` field of the request.
+
+Configuration response message payload MUST be an Avro-encoded object with the following schema ([config-response.avsc](./config-response.avsc)):
+
+```json
+{
+    "namespace":"org.kaaproject.ipc.cdt.gen.v1",
+    "type":"record",
+    "name":"ConfigResponse",
+    "doc":"EP configuration response message from provider to consumer",
+    "fields":[
+        {
+            "name":"correlationId",
+            "type":"string",
+            "doc":"Message ID primarily used to track message processing across services"
+        },
+        {
+            "name":"timestamp",
+            "type":"long",
+            "doc":"Message creation UNIX timestamp in milliseconds"
+        },
+        {
+            "name":"timeout",
+            "type":"long",
+            "default":0,
+            "doc":"Amount of milliseconds (since the timestamp) until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name":"appVersionName",
+            "type":"string",
+            "doc":"Endpoint's application version, for which the configuration is returned"
+        },
+        {
+            "name":"endpointId",
+            "type":"string",
+            "doc":"Endpoint identifier, for which the configuration is returned"
+        },
+        {
+            "name":"configId",
+            "type":[
+                "null",
+                "string"
+            ],
+            "default":null,
+            "doc":"Identifier of the returned configuration. Optional. May be absent in case of an error response, or when the configId in request matches the ID of the current configuration."
+        },
+        {
+            "name":"contentType",
+            "type":"string",
+            "default":"application/json",
+            "doc":"Type of the configuration data, e.g.: application/json, application/x-protobuf, etc."
+        },
+        {
+            "name":"content",
+            "type":[
+                "null",
+                "bytes"
+            ],
+            "default":null,
+            "doc":"Configuration data encoded according to the contentType. Optional. May be absent in case of an error, or when the configId in request matches the ID of the current configuration."
+        },
+        {
+            "name":"applied",
+            "type":"boolean",
+            "default":false,
+            "doc":"Indicates whether the current (returned) configuration ID matches the one previously applied to the endpoint"
+        },
+        {
+            "name":"statusCode",
+            "type":"int",
+            "doc":"HTTP status code of the request processing"
+        },
+        {
+            "name":"reasonPhrase",
+            "type":[
+              "null",
+              "string"
+            ],
+            "default":null,
+            "doc":"Human-readable status reason phrase"
+        }
+    ]
+}
+```
 
 Example:
 
 ```json
 {
-  "correlationId": "07d78e95-2c4d-4899-957c-b9e5a3701fbb",
-  "timestamp": 1490303342158,
-  "timeout": 3000,
-  "endpointMessageId": "6b73cd7c-1de5-4c4e-bbad-b7eda079ccbd",
-  "appVersionName": "39774993-a426-4092-9e38-02ec213272d0",
-  "endpointId": "b197e391-1d13-403b-83f5-87bdd44888cf",
-  "contentType": "json",
-  "configId": "76d34f8b-c038-413f-b122-318dce49edd1",
-  "statusCode": 200,
-  "reasonPhrase": "OK",
-  "content": {
-    "bytes": "d2FpdXJoM2pmbmxzZGtjdjg3eTg3b3cz"
-  },
-  "applied": true
+    "correlationId":"07d78e95-2c4d-4899-957c-b9e5a3701fbb",
+    "timestamp":1490303342158,
+    "timeout":3000,
+    "endpointMessageId":42,
+    "appVersionName":"smartKettleV1",
+    "endpointId":"b197e391-1d13-403b-83f5-87bdd44888cf",
+    "configId":"6046b576591c75fd68ab67f7e4475311",
+    "contentType":"application/json",
+    "content":{
+        "bytes":"d2FpdXJoM2pmbmxzZGtjdjg3eTg3b3cz"
+    },
+    "applied":true,
+    "statusCode":200,
+    "reasonPhrase":{
+        "string":"OK"
+    }
 }
 ```
 
-### Configuration push
-
-CDP MUST publish broadcast event when new configuration is available and wait for delivery
-confirmation in order to mark configuration as applied.
-
-Configuration push is based on configuration events as described in
-[9/Endpoint events IPC](/0009-endpoint-events-ipc/README.md#configuration-events).
+After receiving a configuration response, consumer MAY broadcast a [Configuration applied event](#Configuration-applied) to indicate that the endpoint applied the configuration.
 
 [3/MIPC]: /0003-messaging-ipc/README.md
