@@ -15,7 +15,7 @@ Extension Service Protocol (ESP) is a simple, generic inter-service protocol for
 ESP helps abstracting out extension services from transport protocol stacks implemented in the communication services.
 On the other hand, since Kaa extension services may significantly differ in their messaging patterns or the payload structure, ESP is designed to be unaware of these specifics.
 
-ESP is based on the [targeted messaging IPC design](/0003-messaging-ipc/README.md#targeted-messaging).
+ESP is based on the [targeted messaging IPC design](/0003/README.md#targeted-messaging).
 
 
 # Language
@@ -34,16 +34,16 @@ The following terms and definitions are used in this RFC.
 ## Client data transfer to extension services
 
 ClientData messages are used by communications services for transferring client-originated data to extension services.
-Non-affinity session messages MUST be published to a [service instance-wide subject](/0003-messaging-ipc/README.md#service-instance-wide-subjects):
+Non-affinity session messages MUST be published to a [service instance-wide subject](/0003/README.md#service-instance-wide-subjects):
 
 ```
 kaa.v1.service.<service-instance-name>.esp.ClientData
 ```
 where `<service-instance-name>` is the target extension service instance name.
 
-In case of affinity sessions, ClientData message MUST be published to the [service replica-specific subject](/0003-messaging-ipc/README.md#service-replica-specific-subjects) defined by the `replyTo` subject in the previously received message that set up the session affinity.
+In case of affinity sessions, ClientData message MUST be published to the [service replica-specific subject](/0003/README.md#service-replica-specific-subjects) defined by the `replyTo` subject in the previously received message that set up the session affinity.
 
-Communication services implementations SHOULD set `replyTo` subject when sending ClientData messages according to the [session affinity](/0003-messaging-ipc/README.md#session-affinity) rules.
+Communication services implementations SHOULD set `replyTo` subject when sending ClientData messages according to the [session affinity](/0003/README.md#session-affinity) rules.
 
 The NATS message payload is an Avro object with the following schema ([client-data.avsc](./client-data.avsc)):
 
@@ -127,16 +127,16 @@ Example:
 ## Extension data transfer to clients
 
 ExtensionData messages are used by extension services for sending data to clients via communication services.
-Non-affinity session messages MUST be published to a [service instance-wide subject](/0003-messaging-ipc/README.md#service-instance-wide-subjects):
+Non-affinity session messages MUST be published to a [service instance-wide subject](/0003/README.md#service-instance-wide-subjects):
 
 ```
 kaa.v1.service.<service-instance-name>.esp.ExtensionData
 ```
 where `service-instance-name` is the target communications service instance name.
 
-In case of affinity sessions ExtensionData message MUST be published to the [service replica-specific subject](/0003-messaging-ipc/README.md#service-replica-specific-subjects) defined by the `replyTo` subject in the previously received message that set up the session affinity.
+In case of affinity sessions ExtensionData message MUST be published to the [service replica-specific subject](/0003/README.md#service-replica-specific-subjects) defined by the `replyTo` subject in the previously received message that set up the session affinity.
 
-Extensions MAY also set `replyTo` subject when sending ExtensionData messages according to the [session affinity](/0003-messaging-ipc/README.md#session-affinity) rules.
+Extensions MAY also set `replyTo` subject when sending ExtensionData messages according to the [session affinity](/0003/README.md#session-affinity) rules.
 
 The NATS message payload is an Avro object with the following schema ([extension-data.avsc](./extension-data.avsc)):
 

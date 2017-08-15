@@ -10,7 +10,7 @@ contributors: Andrew Kokhanovskyi <akokhanovskyi@cybervisiontech.com>
 
 ## Introduction
 
-The Configuration Management Extension (CMX) protocol is an endpoint-aware [Kaa Protocol](/0001-kaa-protocol/README.md) extension.
+The Configuration Management Extension (CMX) protocol is an endpoint-aware [Kaa Protocol](/0001/README.md) extension.
 
 It is intended to manage endpoint configuration distribution.
 
@@ -36,7 +36,7 @@ Support for any other formats is OPTIONAL.
 
 #### Configuration pull request
 
-Client MUST send requests with the following extension-specific [resource path](/0001-kaa-protocol/README.md#resource-path-format) part in order to receive the configuration:
+Client MUST send requests with the following extension-specific [resource path](/0001/README.md#resource-path-format) part in order to receive the configuration:
 
   `<endpoint_token>/pull/<message_format>[/<config_format>]`
 
@@ -98,7 +98,7 @@ Example 2:
 
 #### Configuration pull response
 
-The server MUST respond to the configuration pull request by publishing the response message according to the [request/response design pattern defined in 1/KP](/0001-kaa-protocol/README.md#requestresponse-pattern).
+The server MUST respond to the configuration pull request by publishing the response message according to the [request/response design pattern defined in 1/KP](/0001/README.md#requestresponse-pattern).
 The extension-specific resource path part format is:
 
   `<endpoint_token>/pull/<message_format>[/<config_format>]/status`
@@ -237,7 +237,7 @@ Example:
 
 #### Configuration push response
 
-The client MUST respond to the configuration push request by publishing the response message according to the [request/response design pattern defined in 1/KP](/0001-kaa-protocol/README.md#requestresponse-pattern).
+The client MUST respond to the configuration push request by publishing the response message according to the [request/response design pattern defined in 1/KP](/0001/README.md#requestresponse-pattern).
 The extension-specific resource path part format is:
 
   `<endpoint_token>/push/<message_format>[/<config_format>]/status`

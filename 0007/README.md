@@ -11,7 +11,7 @@ contributors: Andrew Kokhanovskyi <ak@kaaiot.io>
 
 # Introduction
 
-The Configuration Management Protocol (CMP) is a [Kaa Protocol](/0001-kaa-protocol/README.md) extension.
+The Configuration Management Protocol (CMP) is a [Kaa Protocol](/0001/README.md) extension.
 
 CMP is intended to manage endpoint configuration distribution.
 
@@ -84,7 +84,7 @@ If an endpoint does not have a configuration assigned, its configuration is `nul
 ## Request/response
 
 <!-- TODO: move observe extension to 1/KP -->
-7/CMP follows client-initiated request/response pattern defined in [1/KP](/0001-kaa-protocol/#requestresponse-pattern) with observe extension.
+7/CMP follows client-initiated request/response pattern defined in [1/KP](/0001/README.md#requestresponse-pattern) with observe extension.
 For MQTT, this is achieved by publishing multiple responses to the response topic; for CoAP, it is achieved with the `Observe` option defined in [RFC 7641](https://tools.ietf.org/html/rfc7641).
 
 

@@ -172,4 +172,4 @@ A request represents execution results of one or more commands.
 Upon reception of a request, the server MUST remove the corresponding command from the list of outstanding commands for the given endpoint.
 
 ### Result response
-A result response is an error response as defined per [1/KP](/0001-kaa-protocol/README.md#error-response-format).
+A result response is an error response as defined per [1/KP](/0001/README.md#error-response-format).

@@ -4,19 +4,19 @@ Kaa RFCs define integration protocols, APIs, and general designs for the Kaa IoT
 
 RFCs can be in raw, draft, stable, deprecated, or retired status.
 
-| Shortname                                                  | Name                                        | Status |
-|------------------------------------------------------------|---------------------------------------------|--------|
-| [1/KP](0001-kaa-protocol/README.md)                        | Kaa Protocol                                | Draft  |
-| [2/DCP](0002-data-collection-extension/README.md)          | Data Collection Protocol                    | Draft  |
-| [3/MIPC](0003-messaging-ipc/README.md)                     | Messaging IPC                               | Draft  |
-| [4/ESP](0004-ecs2ext-protocol/README.md)                   | Extension service protocol                  | Draft  |
-| [5/CMX](0005-configuration-management-extension/README.md) | Configuration Management Extension protocol | Deleted |
-| [6/CMX2CDP](0006-cdt-protocol/README.md)                   | CMX to CDP protocol                         | Draft  |
-| [7/CMP](0007-configuration-management-extension/README.md) | Configuration Management Protocol           | Raw    |
-| [8/KPSR](0008-security-recommendations/README.md)          | KP Security Recommendations                 | Raw    |
-| [9/EPEIPC](0009-endpoint-events-ipc/README.md)             | Endpoint events IPC                         | Draft  |
-| [10/EPMP](0010-endpoint-metadata-extension/README.md)      | Endpoint Metadata Protocol                  | Draft  |
-| [11/CEP](0011-command-execution-protocol/README.md)        | Command Execution Protocol                  | Raw    |
+| Shortname                      | Name                                        | Status  |
+|--------------------------------|---------------------------------------------|---------|
+| [1/KP](0001/README.md)         | Kaa Protocol                                | Draft   |
+| [2/DCP](0002/README.md)        | Data Collection Protocol                    | Draft   |
+| [3/MIPC](0003/README.md)       | Messaging IPC                               | Draft   |
+| [4/ESP](0004/README.md)        | Extension Service Protocol                  | Draft   |
+| [5/CMX](0005/README.md)        | Configuration Management Extension protocol | Deleted |
+| [6/CDT](0006/README.md)        | Configuration Data Transport protocol       | Draft   |
+| [7/CMP](0007/README.md)        | Configuration Management Protocol           | Raw     |
+| [8/KPSR](0008/README.md)       | KP Security Recommendations                 | Raw     |
+| [9/EPEIPC](0009/README.md)     | Endpoint events IPC                         | Draft   |
+| [10/EPMP](0010/README.md)      | Endpoint Metadata Protocol                  | Draft   |
+| [11/CEP](0011/README.md)       | Command Execution Protocol                  | Raw     |
 
 # Change process
 
