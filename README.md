@@ -10,7 +10,7 @@ RFCs can be in raw, draft, stable, deprecated, or retired status.
 | [2/DCX](0002-data-collection-extension/README.md)          | Data Collection Extension protocol          | Draft  |
 | [3/MIPC](0003-messaging-ipc/README.md)                     | Messaging IPC                               | Draft  |
 | [4/ECS2EXT](0004-ecs2ext-protocol/README.md)               | ECS to extensions protocol                  | Draft  |
-| [5/CMX](0005-configuration-management-extension/README.md) | Configuration Management Extension protocol | Raw    |
+| [5/CMX](0005-configuration-management-extension/README.md) | Configuration Management Extension protocol | Deleted |
 | [6/CMX2CDP](0006-cdt-protocol/README.md)                   | CMX to CDP protocol                         | Draft  |
 | [7/CMX](0007-configuration-management-extension/README.md) | Configuration Management Extension          | Raw    |
 | [8/KPSR](0008-security-recommendations/README.md)          | KP Security Recommendations                 | Raw    |
