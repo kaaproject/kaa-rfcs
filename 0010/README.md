@@ -11,7 +11,7 @@ contributors: Alexey Shmalko <ashmalko@kaaiot.com>
 
 # Introduction
 
-The Endpoint Metadata Protocol (EPMP) is an endpoint-aware [Kaa Protocol](/0001-kaa-protocol/README.md) extension.
+The Endpoint Metadata Protocol (EPMP) is an endpoint-aware [Kaa Protocol](/0001/README.md) extension.
 
 EPMP is intended to manage endpoint's metadata.
 The endpoint metadata contains information about the endpoint and is a collection of key-value pairs.
@@ -81,7 +81,7 @@ where `name`, `OSName`, `OSVersion`, `cores`, `ssd`, `location`, and `supportedF
 
 ## Request/response
 
-10/EPMP follows client-initiated request/response pattern defined in [1/KP](/0001-kaa-protocol/#requestresponse-pattern).
+10/EPMP follows client-initiated request/response pattern defined in [1/KP](/0001/#requestresponse-pattern).
 
 
 ### Get metadata keys

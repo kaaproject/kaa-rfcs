@@ -9,7 +9,7 @@ editor: Volodymyr Tkhir <vtkhir@cybervisiontech.com>
 
 ## Introduction
 
-The Endpoint events are used to communicate events that occur with endpoints (endpoint is the target entity type in terms of [Broadcast Messaging](/0003-messaging-ipc/README.md#broadcast-messaging)).
+The Endpoint events are used to communicate events that occur with endpoints (endpoint is the target entity type in terms of [Broadcast Messaging](/0003/README.md#broadcast-messaging)).
 
 Document describes the endpoint events that are published into NATS message broker.
 The document describes the NATS subject and Avro message format for each message.
@@ -45,7 +45,7 @@ NATS subject format:
 
 The Avro schema for the NATS message payload can be found [here](./disconnected.avsc).
 
-The endpoint disconnected event may contain a mutiple endpoint IDs in _endpointIds_ field because endpoint disconnected event can be published when the client (see [Client vs endpoint](/0001-kaa-protocol#client-vs-endpoint)) disconnected.
+The endpoint disconnected event may contain a mutiple endpoint IDs in _endpointIds_ field because endpoint disconnected event can be published when the client (see [Client vs endpoint](/0001/README.md#client-vs-endpoint)) disconnected.
 And the client session may be associated with multiple endpoints.
 
 ## Lifecycle events

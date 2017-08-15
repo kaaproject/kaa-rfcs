@@ -11,7 +11,7 @@ contributors: Alexey Gamov <agamov@cybervisiontech.com>
 
 # Introduction
 
-Data Collection protocol is an endpoint-aware extension of [Kaa protocol](/0001-kaa-protocol/README.md).
+Data Collection protocol is an endpoint-aware extension of [Kaa protocol](/0001/README.md).
 
 It is designed to collect data from endpoints and transfer it to extension services for storage and/or processing.
 
@@ -99,7 +99,7 @@ Recommended fallback solution for cases when there is no timestamp: save server 
 
 ## Request/response
 
-2/DCP follows client-initiated request/response pattern defined in [1/KP](/0001-kaa-protocol/#requestresponse-pattern).
+2/DCP follows client-initiated request/response pattern defined in [1/KP](/0001/README.md#requestresponse-pattern).
 
 
 ## Data collection

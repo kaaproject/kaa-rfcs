@@ -34,7 +34,7 @@ Consumers may choose to subscribe to the broadcast events and react according to
 
 #### Configuration updated
 
-Configuration updated is a [broadcast message](/0003-messaging-ipc/README.md#Broadcast-messaging) published by provider to indicate that configuration data for an endpoint got updated.
+Configuration updated is a [broadcast message](/0003/README.md#Broadcast-messaging) published by provider to indicate that configuration data for an endpoint got updated.
 The message `{event-group}` is `config` and the `{event-type}` is `updated`.
 
 NATS subject format is:
@@ -200,7 +200,7 @@ Example:
 
 #### Configuration request
 
-Configuration request message is a [targeted message](/0003-messaging-ipc/README.md#Targeted-messaging) that is sent by consumer to provider to request the EP configuration.
+Configuration request message is a [targeted message](/0003/README.md#Targeted-messaging) that is sent by consumer to provider to request the EP configuration.
 
 The consumer MUST send configuration request messages using the following NATS subject:
 ```
@@ -389,4 +389,4 @@ Example:
 
 After receiving a configuration response, consumer MAY broadcast a [Configuration applied event](#Configuration-applied) to indicate that the endpoint applied the configuration.
 
-[3/MIPC]: /0003-messaging-ipc/README.md
+[3/MIPC]: /0003/README.md
