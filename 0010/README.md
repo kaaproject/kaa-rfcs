@@ -81,7 +81,7 @@ where `name`, `OSName`, `OSVersion`, `cores`, `ssd`, `location`, and `supportedF
 
 ## Request/response
 
-10/EPMP follows client-initiated request/response pattern defined in [1/KP](/0001/#requestresponse-pattern).
+10/EPMP follows client-initiated request/response pattern defined in [1/KP](/0001/README.md#requestresponse-pattern).
 
 
 ### Get metadata keys
