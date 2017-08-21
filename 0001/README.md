@@ -128,7 +128,7 @@ Having a predefined prefix helps routing all KP-related traffic through MQTT bro
 `<extension_instance_name>` is a name that uniquely identifies an extension instance within an application.
 
 Extension-specific resource path part for endpoint-aware extensions MUST start with the [endpoint token](#language).
-Thus, the resource paths for them starts with `kp1/<appversion_name>/<extension_instance_name>/<endpoint_token>`.
+Thus, the resource path for them starts with `kp1/<appversion_name>/<extension_instance_name>/<endpoint_token>`.
 
 The rest of the resource path is extension-specific and is described in other RFCs that define KP protocol extensions.
 
