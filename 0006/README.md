@@ -1,6 +1,6 @@
 ---
 name: Configuration Data Transport Protocol
-shortname: 6/CDT
+shortname: 6/CDTP
 status: draft
 editor: Andrew Pasika <apasika@cybervisiontech.com>
 ---
@@ -10,9 +10,9 @@ editor: Andrew Pasika <apasika@cybervisiontech.com>
 
 ## Introduction
 
-Configuration Data Transport Protocol (CDT) is designed to communicate endpoint configuration data between Kaa services.
+Configuration Data Transport Protocol (CDTP) is designed to communicate endpoint configuration data between Kaa services.
 
-CDT protocol design is based on the [3/Messaging IPC][3/MIPC].
+CDTP design is based on the [3/Messaging IPC][3/MIPC].
 
 
 ## Language
@@ -204,12 +204,12 @@ Configuration request message is a [targeted message](/0003/README.md#Targeted-m
 
 The consumer MUST send configuration request messages using the following NATS subject:
 ```
-kaa.v1.service.{provider-service-instance-name}.cdt.request
+kaa.v1.service.{provider-service-instance-name}.cdtp.request
 ```
 
 The consumer MUST include NATS `replyTo` field pointing to the consumer service replica that will handle the response:
 ```
-kaa.v1.replica.{consumer-service-replica-id}.cdt.response
+kaa.v1.replica.{consumer-service-replica-id}.cdtp.response
 ```
 
 For more information, see [3/Messaging IPC][3/MIPC].
@@ -219,7 +219,7 @@ For more information, see [3/Messaging IPC][3/MIPC].
 
 ```json
 {
-    "namespace":"org.kaaproject.ipc.cdt.gen.v1",
+    "namespace":"org.kaaproject.ipc.cdtp.gen.v1",
     "type":"record",
     "name":"ConfigRequest",
     "doc":"EP configuration request message from consumer to provider",
@@ -285,7 +285,7 @@ Provider MUST publish configuration response message to the subject provided in 
 
 ```json
 {
-    "namespace":"org.kaaproject.ipc.cdt.gen.v1",
+    "namespace":"org.kaaproject.ipc.cdtp.gen.v1",
     "type":"record",
     "name":"ConfigResponse",
     "doc":"EP configuration response message from provider to consumer",
