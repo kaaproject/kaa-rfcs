@@ -1,5 +1,5 @@
 ---
-name: Configuration Data Transport protocol
+name: Configuration Data Transport Protocol
 shortname: 6/CDT
 status: draft
 editor: Andrew Pasika <apasika@cybervisiontech.com>
@@ -10,7 +10,7 @@ editor: Andrew Pasika <apasika@cybervisiontech.com>
 
 ## Introduction
 
-Configuration Data Transport (CDT) protocol is designed for communicating endpoint configuration data between Kaa services.
+Configuration Data Transport Protocol (CDT) is designed to communicate endpoint configuration data between Kaa services.
 
 CDT protocol design is based on the [3/Messaging IPC][3/MIPC].
 
@@ -34,15 +34,15 @@ Consumers may choose to subscribe to the broadcast events and react according to
 
 #### Configuration updated
 
-Configuration updated is a [broadcast message](/0003/README.md#Broadcast-messaging) published by provider to indicate that configuration data for an endpoint got updated.
+*Configuration updated* is a [broadcast message](/0003/README.md#Broadcast-messaging) published by provider to indicate that configuration data for an endpoint has been updated.
 The message `{event-group}` is `config` and the `{event-type}` is `updated`.
 
-NATS subject format is:
+NATS subject format:
 ```
 kaa.v1.events.{provider-service-instance-name}.endpoint.config.updated
 ```
 
-Configuration updated message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([config-updated.avsc](./config-updated.avsc)):
+*Configuration updated* message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([config-updated.avsc](./config-updated.avsc)):
 
 ```json
 {
@@ -122,16 +122,16 @@ Example:
 
 #### Configuration applied
 
-Configuration applied is a broadcast message that consumer MAY publish to indicate that endpoint applied the configuration data.
-Providers MAY subscribe to these messages to keep track of the last applied to endpoints configurations.
+*Configuration applied* is a broadcast message that consumer MAY publish to indicate that an endpoint applied the configuration data.
+Providers MAY subscribe to these messages to keep track of the configurations that were last applied to the endpoints.
 The message `{event-group}` is `config` and the `{event-type}` is `applied`.
 
-NATS subject format is:
+NATS subject format:
 ```
 kaa.v1.events.{consumer-service-instance-name}.endpoint.config.applied
 ```
 
-Configuration applied message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([config-applied.avsc](./config-applied.avsc)):
+*Configuration applied* message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([config-applied.avsc](./config-applied.avsc)):
 
 ```json
 {
@@ -200,7 +200,7 @@ Example:
 
 #### Configuration request
 
-Configuration request message is a [targeted message](/0003/README.md#Targeted-messaging) that is sent by consumer to provider to request the EP configuration.
+Configuration request message is a [targeted message](/0003/README.md#Targeted-messaging) that consumer sends to provider to request the EP configuration.
 
 The consumer MUST send configuration request messages using the following NATS subject:
 ```
@@ -215,7 +215,7 @@ kaa.v1.replica.{consumer-service-replica-id}.cdt.response
 For more information, see [3/Messaging IPC][3/MIPC].
 
 
-Configuration request message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([config-request.avsc](./config-request.avsc)):
+*Configuration request* message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([config-request.avsc](./config-request.avsc)):
 
 ```json
 {
@@ -278,10 +278,10 @@ Example:
 
 #### Configuration response
 
-Configuration response message MUST be sent by provider in response to a [Configuration request message](#Configuration-request).
+*Configuration response* message MUST be sent by provider in response to a [Configuration request message](#configuration-request).
 Provider MUST publish configuration response message to the subject provided in the NATS `replyTo` field of the request.
 
-Configuration response message payload MUST be an Avro-encoded object with the following schema ([config-response.avsc](./config-response.avsc)):
+*Configuration response* message payload MUST be an Avro-encoded object with the following schema ([config-response.avsc](./config-response.avsc)):
 
 ```json
 {
@@ -387,6 +387,6 @@ Example:
 }
 ```
 
-After receiving a configuration response, consumer MAY broadcast a [Configuration applied event](#Configuration-applied) to indicate that the endpoint applied the configuration.
+After receiving a configuration response, consumer MAY broadcast a [*configuration applied* event](#configuration-applied) to indicate that the endpoint applied the configuration.
 
 [3/MIPC]: /0003/README.md
