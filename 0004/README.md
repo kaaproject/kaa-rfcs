@@ -11,7 +11,7 @@ contributors: Andrew Kokhanovskyi <akokhanovskyi@kaaiot.io>, Alexey Shmalko <ash
 
 # Introduction
 
-Extension Service Protocol (ESP) is a simple, generic inter-service protocol for Kaa extension services to receive application layer data from and send to clients via the communication services.
+Extension Service Protocol (ESP) is a simple, generic inter-service protocol for Kaa extension services to receive application layer data from and send to clients through the communication services.
 ESP helps abstracting out extension services from transport protocol stacks implemented in the communication services.
 On the other hand, since Kaa extension services may significantly differ in their messaging patterns or the payload structure, ESP is designed to be unaware of these specifics.
 
@@ -24,26 +24,26 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 The following terms and definitions are used in this RFC.
 
-- **Communications service**: service that implements the transport protocol stack for communicating with Kaa clients.
+- **Communication service**: service that implements the transport protocol stack to communicate with Kaa clients.
 
-- **Extension service**: service that implements the application layer data exchange with Kaa clients.
+- **Extension service**: service that implements the application layer to exchange data with Kaa clients.
 
 
 # Design
 
 ## Client data transfer to extension services
 
-ClientData messages are used by communications services for transferring client-originated data to extension services.
+`ClientData` messages are used by communication services to transfer client-originated data to extension services.
 Non-affinity session messages MUST be published to a [service instance-wide subject](/0003/README.md#service-instance-wide-subjects):
 
 ```
 kaa.v1.service.<service-instance-name>.esp.ClientData
 ```
-where `<service-instance-name>` is the target extension service instance name.
+where `<service-instance-name>` is the instance name of the target extension service.
 
-In case of affinity sessions, ClientData message MUST be published to the [service replica-specific subject](/0003/README.md#service-replica-specific-subjects) defined by the `replyTo` subject in the previously received message that set up the session affinity.
+In case of affinity sessions, `ClientData` message MUST be published to the [service replica-specific subject](/0003/README.md#service-replica-specific-subjects) defined by the `replyTo` subject in the previously received message that set up the session affinity.
 
-Communication services implementations SHOULD set `replyTo` subject when sending ClientData messages according to the [session affinity](/0003/README.md#session-affinity) rules.
+Implementations of communication services SHOULD set `replyTo` subject when sending `ClientData` messages according to the [session affinity](/0003/README.md#session-affinity) rules.
 
 The NATS message payload is an Avro object with the following schema ([client-data.avsc](./client-data.avsc)):
 
@@ -126,17 +126,17 @@ Example:
 
 ## Extension data transfer to clients
 
-ExtensionData messages are used by extension services for sending data to clients via communication services.
+`ExtensionData` messages are used by extension services to send data to clients through communication services.
 Non-affinity session messages MUST be published to a [service instance-wide subject](/0003/README.md#service-instance-wide-subjects):
 
 ```
 kaa.v1.service.<service-instance-name>.esp.ExtensionData
 ```
-where `service-instance-name` is the target communications service instance name.
+where `service-instance-name` is the instance name of the target communication service.
 
-In case of affinity sessions ExtensionData message MUST be published to the [service replica-specific subject](/0003/README.md#service-replica-specific-subjects) defined by the `replyTo` subject in the previously received message that set up the session affinity.
+In case of affinity sessions, `ExtensionData` message MUST be published to the [service replica-specific subject](/0003/README.md#service-replica-specific-subjects) defined by the `replyTo` subject in the previously received message that set up the session affinity.
 
-Extensions MAY also set `replyTo` subject when sending ExtensionData messages according to the [session affinity](/0003/README.md#session-affinity) rules.
+Extensions MAY also set `replyTo` subject when sending `ExtensionData` messages according to the [session affinity](/0003/README.md#session-affinity) rules.
 
 The NATS message payload is an Avro object with the following schema ([extension-data.avsc](./extension-data.avsc)):
 
