@@ -13,9 +13,9 @@ contributors: Alexey Shmalko <ashmalko@kaaiot.com>
 
 The Endpoint Metadata Protocol (EPMP) is an endpoint-aware [Kaa Protocol](/0001/README.md) extension.
 
-EPMP is intended to manage endpoint's metadata.
-The endpoint metadata contains information about the endpoint and is a collection of key-value pairs.
-Example endpoint's metadata keys are `name`, `description`, `location`, `vendor`, `deviceModel`, `firmwareVersion`, etc.
+EPMP is intended to manage endpoint metadata.
+Endpoint metadata contains information about the endpoint and is a collection of key-value pairs.
+Examples of endpoint metadata keys: `name`, `description`, `location`, `vendor`, `deviceModel`, `firmwareVersion`, etc.
 
 
 # Language
@@ -29,12 +29,12 @@ The following terms and definitions are used in this RFC.
 
 # Requirements and constraints
 
-- Client MUST be able to retrieve the list of EP metadata keys available in the server.
+- Client MUST be able to retrieve the list of EP metadata keys available on the server.
 - Client MUST be able to retrieve complete or partial EP metadata from the server.
-In case of a partial request client SHOULD specify metadata keys it is interested in receiving.
-- Client MUST be able to completely or partially update the EP metadata.
+In case of a partial request, client SHOULD specify the metadata keys it wants to receive.
+- Client MUST be able to completely or partially update EP metadata.
 - Client MUST be able to delete EP metadata fields by their key names from the server.
-- Server MAY restrict client read and/or write access to some or all EP metadata keys.
+- Server MAY restrict access for client to read and/or write to some or all EP metadata keys.
 In case of a client's read or write request to restricted EP metadata keys, server MUST respond with an error.
 
 
@@ -42,7 +42,7 @@ In case of a client's read or write request to restricted EP metadata keys, serv
 
 ## Metadata keys
 
-Metadata keys MUST be case-sensitive non-empty alphanumeric strings with no whitespace, i.e., MUST match the following [regular expression](https://en.wikipedia.org/wiki/Regular_expression) pattern: `^[a-zA-Z0-9]+$`.
+Metadata keys MUST be case-sensitive non-empty alphanumeric strings with no whitespace, which means they MUST match the following [regular expression](https://en.wikipedia.org/wiki/Regular_expression) pattern: `^[a-zA-Z0-9]+$`.
 
 No duplicate metadata keys are allowed.
 
@@ -128,7 +128,7 @@ Example:
 
 ```
 
-In its response, the server MUST filter out EP metadata key names, to which the client does not have neither read nor write access.
+In response, the server MUST filter out EP metadata key names to which the client does not have neither read nor write access.
 Some of the returned keys may only be readable or writable by the client.
 
 
@@ -166,8 +166,8 @@ The request payload MUST be a UTF-8 encoded JSON object with the following JSON 
 }
 ```
 
-Examples:
-- get all metadata:
+Examples below.
+- Get all metadata:
 
   ```json
   {
@@ -175,7 +175,7 @@ Examples:
   ```
   In its response, the server MUST filter out EP metadata keys, to which the client does not have neither read nor write access.
 
-- get only `name` and `location` metadata key-value pairs:
+- Get only `name` and `location` metadata key-value pairs:
 
   ```json
   {
@@ -227,7 +227,7 @@ Example:
 
 #### Full metadata update request
 
-Full metadata update request overwrites the EP metadata in server with a new set of key-values received from client.
+Completing a full metadata update request will overwrite the EP metadata on server with a new set of key-values received from client.
 
 To update the EP metadata, client MUST send requests to the following extension-specific resource path:
 ```
@@ -265,12 +265,12 @@ The request payload is the desired new state of the EP metadata in [JSON object 
 When processing a full metadata update request, the server MUST:
 - create keys that were not present in the server
 - update key values that were already present in the server
-- remove keys that were present in the server, but absent in the request payload.
+- remove keys that were present in the server but absent in the request payload.
   To avoid removing the existing key-values, use [partial update operation](#partial-metadata-update).
 The server MUST NOT modify or delete the metadata keys that are not writable by the client.
 In case the client requests to create or update a restricted EP metadata key, the server MUST return an error.
 
-For example, the EP metadata before the update looks like:
+For example, EP metadata before the update looks like this:
 ```json
 {
     "name":"Device 1",
@@ -294,7 +294,7 @@ The request payload:
 }
 ```
 
-As a result, value of the `location` key must be updated, value of the `vendorId` key must be added, and the `description` key must be removed in the server.
+As a result, value of the `location` key must be updated, value of the `vendorId` key must be added, and the `description` key must be deleted on the server.
 
 
 #### Full metadata update response
@@ -306,7 +306,7 @@ A successful processing confirmation response MUST have zero-length payload.
 
 #### Partial metadata update request
 
-Partial metadata update request updates or creates only endpoint metadata key-value pairs present in the request payload.
+Completing a partial metadata update request will update or create only the endpoint metadata key-value pairs present in the request payload.
 Compared with the [full metadata update](#full-metadata-update), this request does not remove the existing EP metadata keys that are not present in the request payload.
 
 To perform a partial update of the EP metadata, client MUST send requests to the following extension-specific resource path:
