@@ -1,5 +1,5 @@
 {
-    "namespace":"org.kaaproject.ipc.cdt.gen.v1",
+    "namespace":"org.kaaproject.ipc.cdtp.gen.v1",
     "type":"record",
     "name":"ConfigResponse",
     "doc":"EP configuration response message from provider to consumer",
