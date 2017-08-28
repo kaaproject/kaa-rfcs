@@ -1,5 +1,5 @@
 ---
-name: Data Collection protocol
+name: Data Collection Protocol
 shortname: 2/DCP
 status: draft
 editor: Alexey Shmalko <ashmalko@cybervisiontech.com>
@@ -11,7 +11,7 @@ contributors: Alexey Gamov <agamov@cybervisiontech.com>
 
 # Introduction
 
-Data Collection protocol is an endpoint-aware extension of [Kaa protocol](/0001/README.md).
+Data Collection Protocol is an endpoint-aware extension of [Kaa Protocol](/0001/README.md).
 
 It is designed to collect data from endpoints and transfer it to extension services for storage and/or processing.
 
@@ -33,18 +33,18 @@ The following terms and definitions are used in this RFC.
 Processing data samples might require a significant period of time and may be performed simultaneously or in a different order than sent.
 
 - The client may need to know if a data sample has been processed.
-This is needed for the client to guarantee that the data has been processed and to free allocated resources.
+This way the client can guarantee that the data has been processed and to free allocated resources.
 
   Possible solutions:
   - Use QoS levels for message delivery confirmation.
   - Use QoS levels for message processing confirmation.
-    MQTT requires all PUBACK messages appear in the same order as received PUBLISH messages.
+    MQTT requires all PUBACK messages to appear in the same order as received PUBLISH messages.
     This creates a synchronization point, which conflicts with asynchronous processing requirement.
   - Use separate response messages for processing confirmation.
-    This is achieved by request/response pattern as defined per 1/KP.
+    This is achieved by using request/response pattern as defined in 1/KP.
 
 - The server should be able to handle different data formats.
-  Different endpoints may send data in a variety of formats. The server should know the format to parse the payload.
+  Different endpoints may send data in a variety of formats. The server should recognize the format of the payload to parse it.
 
   Solutions:
   - Use `<format_specifier>` embedded into the resource path.
@@ -52,13 +52,13 @@ This is needed for the client to guarantee that the data has been processed and 
 - The server should know the endpoint that generates the data.
 
   Solutions:
-  - Make 2/DCP an endpoint-aware extension as defined per 1/KP.
+  - Make 2/DCP an endpoint-aware extension as defined in 1/KP.
 
 - Minimize network usage.
   Internet connection may be slow, unstable, or costly, so the extension should send as little data as possible.
 
   Solutions:
-  - Upload data in [batches](#Language).
+  - Upload data in [batches](#language).
 
 - Device may not be able to generate timestamps.
 
@@ -77,7 +77,7 @@ The endpoint updates them periodically.
 
 ## UC2: Historical data collection
 
-The user wants to store all collected data with timestamps for further processing and for visualizing historical trends.
+The user wants to store all collected data, including timestamps, for further processing and for visualizing historical trends.
 
 
 # Design
@@ -85,13 +85,13 @@ The user wants to store all collected data with timestamps for further processin
 
 ## Batch uploads
 
-To reduce network usage, data sample are uploaded in *batches*.
+To reduce network usage, data sample are uploaded in batches.
 All data samples in a batch are processed together and have a single response status.
 
 
 ## No built-in timestamp handling
 
-Due to the fact that different applications might need timestamps in different formats and precision, Data Collection protocol does not provide any special handling for timestamps.
+Due to the fact that different applications might need timestamps in different formats and precision, Data Collection Protocol does not provide any special handling for timestamps.
 There is no special field for a timestamp — it is the responsibility of higher layers to interpret any field as a timestamp.
 
 Recommended fallback solution for cases when there is no timestamp: save server timestamp upon receiving a network message and pass it along with the parsed data, so the upper layers can use that timestamp if needed.
@@ -143,4 +143,4 @@ Example:
 
 A successful processing confirmation response MUST have zero-length payload.
 
-A successful response indicates the bucket was successfully delivered and processed.
+A successful response indicates the batch was successfully delivered and processed.

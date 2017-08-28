@@ -23,35 +23,32 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 # Requirements and constraints
 
-## Problems and possible solutions
+- Server should know if configuration was applied by endpoint. <!-- TODO: why? add more reasoning -->
 
-1. _Server should know if configuration was applied by endpoint._ <!-- TODO: why? add more reasoning -->
-
-    Possible solutions:
-    - Client sends a reply to the new configuration provided by the server.
-      This means the server initiates a request.
-      That does not work well for HTTP, CoAP, and other protocols that only support client-initiated requests, and is not recommended by 1/KP.
-
+  Possible solutions:
+  - Client sends a reply upon receiving new configuration from the server.
+    This means the server initiates a request.
+    That does not work well for HTTP, CoAP, and other protocols that only support client-initiated requests, and is not recommended by 1/KP.
   - Introduce `/applied` resource, so client sends an additional request once configuration is applied.
 
-2. _Endpoint might only be interested in a part of the general configuration._
+- Endpoint might only require a specific part of the configuration, not all of it.
 
-    Possible solutions:
-    - Allow subscribing to a part of configuration. (e.g., using [JSONPath](http://goessner.net/articles/JsonPath/), or JSON Pointer defined in [RFC 6901](https://tools.ietf.org/html/rfc6901).)
+  Solutions:
+  - Allow subscribing to a part of configuration, e.g. using [JSONPath](http://goessner.net/articles/JsonPath/) or JSON Pointer defined in [RFC 6901](https://tools.ietf.org/html/rfc6901).
 
-3. _Difference between subsequent configurations might be small, so sending the whole configuration is inefficient._
+- Difference between subsequent configurations might be small, so sending the whole configuration is inefficient.
 
-    Possible solutions:
-    - Send only updates. (e.g., using JSON Patch format, defined in [RFC 6902](https://tools.ietf.org/html/rfc6902).)
+  Solutions:
+  - Send only updates, e.g. using JSON Patch format defined in [RFC 6902](https://tools.ietf.org/html/rfc6902).
 
-4. _Endpoint can actively reject configuration._
+- Endpoint can actively reject configuration.
 
-    Examples are:
-    - endpoint is unable to process configuration.
-    - configuration is ill-formatted, or pre-conditions are not met.
+  Examples are:
+  - Endpoint is unable to process configuration.
+  - Eonfiguration is ill-formatted, or pre-conditions are not met.
 
-    Possible solutions:
-    - Send a status result of the configuration application (either success or failure) back to server.
+  Solutions:
+  - Send back to server a status result of the attempt to apply configuration (success or failure).
 
 
 # Use cases
@@ -65,14 +62,14 @@ Endpoint should be able to receive its latest configuration from server by reque
 ## UC2: Configuration push
 
 Configuration delivery is initiated by server.
-Endpoint should receive latest configuration when it connects to server if this configuration was not applied yet.
+Endpoint should receive latest configuration when it connects to server, if this configuration is not applied yet.
 
 
 # Design
 
 ## Configuration identifier
 
-Configuration identifier is an opaque string, which uniquely identifies the configuration.
+Configuration identifier is an opaque string that uniquely identifies the configuration.
 Client SHOULD NOT assume the nature of identifiers.
 
 
@@ -88,10 +85,9 @@ If an endpoint does not have a configuration assigned, its configuration is `nul
 For MQTT, this is achieved by publishing multiple responses to the response topic; for CoAP, it is achieved with the `Observe` option defined in [RFC 7641](https://tools.ietf.org/html/rfc7641).
 
 
-
 ## Configuration resource
 
-Configuration resource is used by endpoints for subscribing and receiving the latest configuration from server.
+Configuration resource is used by endpoints to subscribe to and receive the latest configuration from server.
 
 The configuration resource is a request/response resource with an observe extension which resides at the following extension-specific resource path:
 ```
@@ -126,30 +122,30 @@ The request payload MUST be a UTF-8 encoded JSON object with the following [JSON
 
 If `configId` field is missing, server MUST respond with the current configuration for the given endpoint.
 
-If `configId` field is present, server MUST send new configuration only if it differs from the identifier of the configuration, currently assigned to that endpoint.
+If `configId` field is present, server MUST send new configuration only if it differs from the identifier of the configuration currently assigned to that endpoint.
 
 If `observe` field is present and is `true`, server MUST send new configuration to the endpoint whenever configuration changes.
 
 If `observe` field is present and is `false`, server MUST NOT send new configurations to the endpoint without a further explicit request.
 
-Server MAY send configurations to the endpoint when no request were done before, or `observe` was not present in a request.
+Server MAY send configurations to the endpoint if no request has yet been made or if `observe` was not present in a request.
 
 If the current configuration matches one specified by `configId` in the request, the server MUST return response with both `configId` and `config` absent.
 
-Request payload examples:
-- get current configuration only
+Below are request payload examples.
+- Get current configuration only:
   ```json
   {
     "observe":false
   }
   ```
-- endpoint's current configuration ID is `97016dbe8bb4adff8f754ecbf24612f2`
+- Endpoint's current configuration ID is `97016dbe8bb4adff8f754ecbf24612f2`:
   ```json
   {
     "configId": "97016dbe8bb4adff8f754ecbf24612f2"
   }
   ```
-- subscribe to all future configuration updates
+- Subscribe to all future configuration updates:
   ```json
   {
     "observe": true
@@ -183,16 +179,16 @@ The server response payload MUST be a UTF-8 encoded object with the following JS
 `configId` and `config` MUST come in a pair.
 If `configId` and `config` are absent in the response, that means configuration has not changed.
 
-If endpoint successfully applies provided configuration, it SHOULD notify the server via the `/applied` resource.
+If endpoint successfully applies provided configuration, it SHOULD notify the server through the `/applied` resource.
 
-Response payload examples:
-- configuration hasn't changed
+Below are response payload examples.
+- Configuration hasn't changed:
   ```json
   {
   }
   ```
 
-- new configuration
+- New configuration:
   ```json
   {
       "configId":"97016dbe8bb4adff8f754ecbf24612f2",
@@ -247,20 +243,20 @@ The request payload MUST be a UTF-8 encoded JSON object with the following JSON 
 }
 ```
 
-A request means the endpoint has received the given configuration and tried to apply it.
+A request means the endpoint has received the provided configuration and tried to apply it.
 
-`statusCode` represents a result of appliyng the configuration (either success or failure).
-If the result is a failure, `reasonPhrase` SHOULD include a reason of the failure.
+`statusCode` represents a result of appliyng the configuration (success or failure).
+If the result is a failure, `reasonPhrase` SHOULD include a reason for the failure.
 
-Examples:
-- configuration successfully applied:
+Examples below.
+- Configuration successfully applied:
   ```json
   {
       "configId":"97016dbe8bb4adff8f754ecbf24612f2"
   }
   ```
 
-- configuration is rejected
+- Configuration rejected:
   ```json
   {
       "configId": "97016dbe8bb4adff8f754ecbf24612f2",
