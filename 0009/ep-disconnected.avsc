@@ -1,6 +1,6 @@
 {
     "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.connectivity",
-    "name":"EndpointDisconnectedEvent",
+    "name":"DisconnectedEvent",
     "type":"record",
     "doc":"Endpoint(s) disconnected event message",
     "fields":[

@@ -60,7 +60,7 @@ The NATS message payload is an Avro object with the following schema ([connected
 ```json
 {
     "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.connectivity",
-    "name":"EndpointConnectedEvent",
+    "name":"ConnectedEvent",
     "type":"record",
     "doc":"Endpoint connected event message",
     "fields":[
@@ -118,7 +118,7 @@ The NATS message payload is an Avro object with the following schema ([ep-discon
 ```json
 {
     "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.connectivity",
-    "name":"EndpointDisconnectedEvent",
+    "name":"DisconnectedEvent",
     "type":"record",
     "doc":"Endpoint(s) disconnected event message",
     "fields":[
@@ -303,7 +303,7 @@ The NATS message payload is an Avro object with the following schema ([ep-unregi
 ```json
 {
     "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.lifecycle",
-    "name":"EndpointUnregisteredEvent",
+    "name":"UnregisteredEvent",
     "type":"record",
     "doc":"Endpoint unregistered event message",
     "fields":[

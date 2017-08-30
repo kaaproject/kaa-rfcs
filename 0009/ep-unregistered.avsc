@@ -1,6 +1,6 @@
 {
     "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.lifecycle",
-    "name":"EndpointUnregisteredEvent",
+    "name":"UnregisteredEvent",
     "type":"record",
     "doc":"Endpoint unregistered event message",
     "fields":[

@@ -1,6 +1,6 @@
 {
     "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.connectivity",
-    "name":"EndpointConnectedEvent",
+    "name":"ConnectedEvent",
     "type":"record",
     "doc":"Endpoint connected event message",
     "fields":[
