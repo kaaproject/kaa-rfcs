@@ -1,6 +1,6 @@
 ---
-name: Inter-Service Message Passing Guidelines
-shortname: 3/ISMPG
+name: Inter-Service Messaging
+shortname: 3/ISM
 status: draft
 editor: Andrew Kokhanovskyi <ak@kaaiot.io>
 contributors: Volodymir Tkhir <vtkhir@kaaiot.io>
@@ -11,7 +11,7 @@ contributors: Volodymir Tkhir <vtkhir@kaaiot.io>
 
 ## Introduction
 
-This document defines the general design recommendations for the NATS-based inter-service message passing protocols for Kaa Banana Beach.
+This document defines the general design recommendations for the NATS-based inter-service messaging protocols for Kaa Banana Beach.
 
 NATS-based messaging is classified into two categories:
 
