@@ -166,7 +166,7 @@ However, Packet Identifiers are not stable.
 This means, when a PUBLISH packet is re-transmitted by MQTT broker or MQTT gateway, the Packet Identifier may be changed.
 Thus, MQTT Packet Identifiers are not suitable for matching responses to requests.
 
-KP MUST NOT use Packet Identifiers over MQTT to match responses to requests.
+KP, when running over MQTT, MUST NOT use Packet Identifiers to match responses to requests.
 
 KP cannot make assumptions about payload format, thus it cannot define the format for passing Request IDs within message payload.
 Thus, Request IDs are embedded within MQTT topic name.
