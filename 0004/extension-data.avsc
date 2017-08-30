@@ -1,5 +1,5 @@
 {
-    "namespace":"org.kaaproject.ipc.ecs2ext.gen.v1",
+    "namespace":"org.kaaproject.ipc.esp.gen.v1",
     "name":"ExtensionData",
     "type":"record",
     "doc":"Extension-originated messages intended for clients of ECS",

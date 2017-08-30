@@ -142,7 +142,7 @@ The NATS message payload is an Avro object with the following schema ([extension
 
 ```json
 {
-    "namespace":"org.kaaproject.ipc.ecs2ext.gen.v1",
+    "namespace":"org.kaaproject.ipc.esp.gen.v1",
     "name":"ExtensionData",
     "type":"record",
     "doc":"Extension-originated messages intended for clients of ECS",
