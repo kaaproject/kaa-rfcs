@@ -139,4 +139,4 @@ In cases when it is desired that the response is delivered to the same service r
 - `{message-type}` is the expected type of response message.
 
 Whenever the NATS `replyTo` subject is set in a request message, the recipients SHOULD use that subject to respond with messages of a matching message type.
-In cases when the recipient service needs to respond with a different message type, it SHOULD substitute the last token in the `replyTo` subject according to that message type.
+In cases when the recipient service needs to respond with a different message type, it SHOULD substitute the last section in the `replyTo` subject with the corresponding message type.
