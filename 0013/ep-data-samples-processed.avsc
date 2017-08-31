@@ -1,0 +1,43 @@
+{
+    "namespace":"org.kaaproject.ipc.drp.gen.v1",
+    "name":"EndpointDataSampleProcessed",
+    "type":"record",
+    "doc": "Message from data receiver to indicate the result of processing endpoint data",
+    "fields":[
+        {
+            "name":"correlationId",
+            "type":"string",
+            "doc":"Message ID primarily used to track message processing across services"
+        },
+        {
+            "name":"timestamp",
+            "type":"long",
+            "doc":"Message creation UNIX timestamp in milliseconds"
+        },
+        {
+            "name":"timeout",
+            "type":"long",
+            "default":0,
+            "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name":"receiverServiceInstanceName",
+            "type":"string",
+            "doc":"Service instance name of the data receiver that originated the message"
+        },
+        {
+            "name":"statusCode",
+            "type":"int",
+            "doc":"HTTP status code of the request processing"
+        },
+        {
+            "name":"reasonPhrase",
+            "type":[
+              "null",
+              "string"
+            ],
+            "default":null,
+            "doc":"Human-readable status reason phrase"
+        }
+    ]
+}
