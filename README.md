@@ -8,7 +8,7 @@ RFCs can be in raw, draft, stable, deprecated, or retired status.
 |--------------------------------|---------------------------------------------|---------|
 | [1/KP](0001/README.md)         | Kaa Protocol                                | Draft   |
 | [2/DCP](0002/README.md)        | Data Collection Protocol                    | Draft   |
-| [3/MIPC](0003/README.md)       | Messaging IPC                               | Draft   |
+| [3/ISM](0003/README.md)        | Inter-Service Messaging                     | Draft   |
 | [4/ESP](0004/README.md)        | Extension Service Protocol                  | Draft   |
 | [5/CMX](0005/README.md)        | Configuration Management Extension Protocol | Deleted |
 | [6/CDTP](0006/README.md)       | Configuration Data Transport Protocol       | Draft   |
