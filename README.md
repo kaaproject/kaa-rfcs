@@ -17,6 +17,7 @@ RFCs can be in raw, draft, stable, deprecated, or retired status.
 | [9/EPEIPC](0009/README.md)     | Endpoint Events IPC                         | Draft   |
 | [10/EPMP](0010/README.md)      | Endpoint Metadata Protocol                  | Draft   |
 | [11/CEP](0011/README.md)       | Command Execution Protocol                  | Raw     |
+| [13/DRP](0013/README.md)       | Data Receiver Protocol                      | Draft   |
 
 # Change process
 
