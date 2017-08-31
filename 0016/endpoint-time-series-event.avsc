@@ -1,5 +1,5 @@
 {
-    "namespace":"org.kaaproject.ipc.collector2ts.gen.v1",
+    "namespace":"org.kaaproject.ipc.tsrp.gen.v1",
     "name":"TimeSeriesEvent",
     "type":"record",
     "fields":[
@@ -50,6 +50,15 @@
                             "doc":"Data point UNIX timestamp in milliseconds"
                         },
                         {
+                            "name":"contentType",
+                            "type":[
+                                "string",
+                                "null"
+                            ],
+                            "default":"null",
+                            "doc":"Type of the value in case of a composite type"
+                        },
+                        {
                             "name":"value",
                             "type":[
                                 "boolean",
@@ -58,24 +67,29 @@
                                 "float",
                                 "double",
                                 "string",
-                                "bytes"
+                                "bytes",
+                                "null"
                             ],
                             "doc":"Data point value, can be any primitive or composite type. In case of a composite type, value should be encoded into string or bytes."
                         },
                         {
                             "name":"tags",
-                            "doc":"Array of endpoint time series data points",
+                            "doc":"Map of data point tags with tag names represented as map keys",
                             "type":{
-                                "type":"array",
-                                "items":{
+                                "type":"map",
+                                "values":{
                                     "namespace":"org.kaaproject.ipc.collector2ts.gen.v1",
-                                    "name":"DataPointTag",
+                                    "name":"DataPointTagValue",
                                     "type":"record",
                                     "fields":[
                                         {
-                                            "name":"name",
-                                            "type":"string",
-                                            "doc":"Data point tag name"
+                                            "name":"contentType",
+                                            "type":[
+                                                "string",
+                                                "null"
+                                            ],
+                                            "default":"null",
+                                            "doc":"Type of the value in case of a composite type"
                                         },
                                         {
                                             "name":"value",
@@ -86,7 +100,8 @@
                                                 "float",
                                                 "double",
                                                 "string",
-                                                "bytes"
+                                                "bytes",
+                                                "null"
                                             ],
                                             "doc":"Data point tag value, can be any primitive or composite type. In case of a composite type, value should be encoded into string or bytes."
                                         }
