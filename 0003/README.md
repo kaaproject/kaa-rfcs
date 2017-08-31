@@ -11,7 +11,7 @@ contributors: Volodymir Tkhir <vtkhir@kaaiot.io>
 
 ## Introduction
 
-This document defines the general design recommendations for the NATS-based inter-service messaging protocols for Kaa Banana Beach.
+This document defines the general design recommendations for the [NATS-based](https://nats.io/) inter-service messaging protocols for the Kaa platform.
 
 NATS-based messaging is classified into two categories:
 
@@ -38,7 +38,7 @@ Service instance-wide subjects are common for all service instance replicas.
 Depending on the load balancing strategy, service instance replicas MAY subscribe in a queue group.
 In such case the queue name SHOULD match the service instance identifier.
 
-For exchanging service instance-wide messages, services SHOULD use the following message subjects format:
+For exchanging service instance-wide messages, services MUST use the following message subjects format:
 ```
 kaa.v1.service.{service-instance-name}.{protocol-name}.{message-type}
 ```
@@ -53,7 +53,7 @@ where:
 
 Service replica-specific subjects are unique for each service instance replica.
 
-For exchanging service replica-specific messages, services SHOULD use the following message subjects format:
+For exchanging service replica-specific messages, services MUST use the following message subjects format:
 ```
 kaa.v1.replica.{service-instance-replica-id}.{protocol-name}.{message-type}
 ```
@@ -81,7 +81,7 @@ This field SHOULD be logged according to the (Kaa logging standards)[<!--TODO-->
 
 ### NATS subjects format
 
-For broadcasting messages, services SHOULD use the following message subjects format:
+For broadcasting messages, services MUST use the following message subjects format:
 ```
 kaa.v1.events.{originator-service-instance-name}.{target-entity-type}.{event-group}.{event-type}
 ```
@@ -139,4 +139,4 @@ In cases when it is desired that the response is delivered to the same service r
 - `{message-type}` is the expected type of response message.
 
 Whenever the NATS `replyTo` subject is set in a request message, the recipients SHOULD use that subject to respond with messages of a matching message type.
-In cases when the recipient service needs to respond with a different message type, it SHOULD substitute the last token in the `replyTo` subject accordingly.
+In cases when the recipient service needs to respond with a different message type, it SHOULD substitute the last token in the `replyTo` subject according to that message type.
