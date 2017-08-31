@@ -38,7 +38,7 @@ kaa.v1.events.<transmitter-service-instance-name>.endpoint.data-collection.data-
 ```
 where `<transmitter-service-instance-name>` is the instance name of the transmitter service.
 
-In case a receiver expects a processing result message from receivers, it MUST set `replyTo` NATS subject in the broadcast message according to the [session affinity design](/0003/README.md#session-affinity).
+In case a transmitter expects a processing result message from receivers, it MUST set `replyTo` NATS subject in the broadcast message according to the [session affinity design](/0003/README.md#session-affinity).
 
 The NATS message payload is an Avro object with the following schema ([ep-data-samples-event.avsc](./ep-data-samples-event.avsc)):
 
