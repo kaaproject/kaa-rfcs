@@ -119,7 +119,7 @@ Example:
     "requestId":{
         "int":42
     },
-    "payload":"ewogICJpZCI6IDQyLAogICJlbnRyaWVzIjogWwogICAgeyAiaHVtaWRpdHkiOiA4OCB9CiAgXQp9"
+    "payload":"Ww0KICB7ICJodW1pZGl0eSI6IDg4IH0NCl0="
 }
  ``` 
 
@@ -241,7 +241,7 @@ Example:
     "payload":{
         "bytes":"ewogICJzYW1wbGluZyIgOiAyMDAKfQ=="
     },
-    "status":200,
+    "statusCode":200,
     "reasonPhrase":"OK"
 }
 ```
