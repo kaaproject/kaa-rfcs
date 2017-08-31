@@ -1,7 +1,7 @@
 {
     "namespace":"org.kaaproject.ipc.drp.gen.v1",
-    "type":"record",
     "name":"EndpointDataSamplesEvent",
+    "type":"record",
     "doc": "Broadcast event with endpoint data samples to data receivers",
     "fields":[
         {
@@ -27,10 +27,7 @@
         },
         {
             "name":"endpointId",
-            "type":[
-                "string",
-                "null"
-            ],
+            "type":"string",
             "doc":"Identifier of the endpoint that originated the data samples. Null for endpoint-unaware extensions."
         },
         {
@@ -43,10 +40,7 @@
             "name":"dataSamples",
             "type":{
                 "type":"array",
-                "items":"bytes",
-                "default":[
-
-                ]
+                "items":"bytes"
             },
             "doc":"Array of endpoint data samples encoded according to the content type"
         }

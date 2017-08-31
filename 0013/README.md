@@ -45,8 +45,8 @@ The NATS message payload is an Avro object with the following schema ([ep-data-s
 ```json
 {
     "namespace":"org.kaaproject.ipc.drp.gen.v1",
-    "type":"record",
     "name":"EndpointDataSamplesEvent",
+    "type":"record",
     "doc": "Broadcast event with endpoint data samples to data receivers",
     "fields":[
         {
@@ -72,11 +72,8 @@ The NATS message payload is an Avro object with the following schema ([ep-data-s
         },
         {
             "name":"endpointId",
-            "type":[
-                "string",
-                "null"
-            ],
-            "doc":"Identifier of the endpoint that originated the data samples. Null for endpoint-unaware extensions."
+            "type":"string",
+            "doc":"Identifier of the endpoint that originated the data samples"
         },
         {
             "name":"contentType",
@@ -88,10 +85,7 @@ The NATS message payload is an Avro object with the following schema ([ep-data-s
             "name":"dataSamples",
             "type":{
                 "type":"array",
-                "items":"bytes",
-                "default":[
-
-                ]
+                "items":"bytes"
             },
             "doc":"Array of endpoint data samples encoded according to the content type"
         }
@@ -106,9 +100,7 @@ Example:
     "timestamp":1490262793349,
     "timeout":3600000,
     "appVersionName":"humidity-sensor-v3",
-    "endpointId":{
-        "string":"7ad263ec-3347-4c7d-af89-50c67061367a"
-    },
+    "endpointId":"7ad263ec-3347-4c7d-af89-50c67061367a",
     "contentType":"application/json",
     "dataSamples":[
         "eyAiaHVtaWRpdHkiOiA4OCB9"
