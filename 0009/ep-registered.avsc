@@ -27,10 +27,7 @@
         },
         {
             "name":"endpointId",
-            "type":[
-                "string",
-                "null"
-            ],
+            "type":"string",
             "doc":"Identifier of the endpoint that registered with the server"
         },
         {

@@ -11,7 +11,7 @@ contributors: Andrew Kokhanovskyi <ak@kaaiot.io>
 
 ## Introduction
 
-Endpoint events is a method for Kaa services to communicate events that occur with endpoints.
+Endpoint events is a method for Kaa services to communicate events that occur to endpoints.
 The events are defined as [broadcast messages](/0003/README.md#broadcast-messaging) with `endpoint` target entity type.
 This document describes the NATS subject and Avro message format for each event message.
 
@@ -28,20 +28,20 @@ The following terms and definitions are used in this RFC.
 
 ## NATS subject format
 
-Originators MUST use the following NATS subject format for endpoint events:
+Originators MUST publish endpoint events to the following NATS subjects:
 ```
 kaa.v1.events.{originator-service-instance-name}.endpoint.{event-group}.{event-type}
 ```
 
 where:
 - `{originator-service-instance-name}` - name of the originator service instance. Allows listeners to subscribe to events from a specific originator.
-- `{event-group}` - a logical group of events. For example, connectivity, lifecycle, configuration, metadata, etc.
-- `{event-type}` - specific event type. For example, endpoint connectivity event types could be connected, disconnected, dormant, awake, etc.
+- `{event-group}` - a logical group of events. For example, connectivity, lifecycle, etc.
+- `{event-type}` - specific event type. For example, endpoint connectivity event types could be `connected`, `disconnected`, `dormant`, `awake`, etc.
 
 
 ## Connectivity events
 
-Connectivity events are for notifying listeners about the communication session status transitions between an endpoint and server.
+Connectivity events are used for notifying listeners about the communication session status transitions between an endpoint and server.
 The `{event-group}` is `connectivity`.
 
 
@@ -87,10 +87,7 @@ The NATS message payload is an Avro object with the following schema ([connected
         },
         {
             "name":"endpointId",
-            "type":[
-                "string",
-                "null"
-            ],
+            "type":"string",
             "doc":"Identifier of the endpoint that connected to the server"
         },
         {
@@ -170,7 +167,7 @@ The `{event-group}` is `lifecycle`.
 ### Endpoint registered
 
 The `{event-type}` is `registered`.
-Published when an endpoint is registered for the first time in the system.
+Published when an endpoint first registers in the system.
 
 Originators MUST use the following NATS subject format for endpoint registered events:
 ```
@@ -209,10 +206,7 @@ The NATS message payload is an Avro object with the following schema ([ep-regist
         },
         {
             "name":"endpointId",
-            "type":[
-                "string",
-                "null"
-            ],
+            "type":"string",
             "doc":"Identifier of the endpoint that registered with the server"
         },
         {
@@ -272,10 +266,7 @@ The NATS message payload is an Avro object with the following schema ([ep-appver
         },
         {
             "name":"endpointId",
-            "type":[
-                "string",
-                "null"
-            ],
+            "type":"string",
             "doc":"Identifier of the endpoint that registered with the server"
         },
         {
@@ -330,10 +321,7 @@ The NATS message payload is an Avro object with the following schema ([ep-unregi
         },
         {
             "name":"endpointId",
-            "type":[
-                "string",
-                "null"
-            ],
+            "type":"string",
             "doc":"Identifier of the endpoint that unregistered from the server"
         },
         {
