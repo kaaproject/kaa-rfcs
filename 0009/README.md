@@ -81,14 +81,29 @@ The NATS message payload is an Avro object with the following schema ([connected
             "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
         },
         {
-            "name":"appVersionName",
-            "type":"string",
-            "doc":"Application version name the endpoint connected with"
-        },
-        {
-            "name":"endpointId",
-            "type":"string",
-            "doc":"Identifier of the endpoint that connected to the server"
+            "name":"connectedEndpoints",
+            "doc":"List of endpoints that got connected to the server",
+            "type":{
+                "type":"array",
+                "items":{
+                    "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.connectivity",
+                    "name":"ConnectedEndpoint",
+                    "type":"record",
+                    "doc":"Endpoint that got connected to the server",
+                    "fields":[
+                        {
+                            "name":"appVersionName",
+                            "type":"string",
+                            "doc":"Application version name the endpoint connected with"
+                        },
+                        {
+                            "name":"endpointId",
+                            "type":"string",
+                            "doc":"Endpoint identifier"
+                        }
+                    ]
+                }
+            }
         },
         {
             "name":"originatorReplicaId",
@@ -140,10 +155,7 @@ The NATS message payload is an Avro object with the following schema ([ep-discon
             "doc":"Identifiers of the endpoint(s) that got disconnected from the server",
             "type":{
                 "type":"array",
-                "items":"string",
-                "default":[
-
-                ]
+                "items":"string"
             }
         },
         {

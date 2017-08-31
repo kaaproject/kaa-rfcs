@@ -25,10 +25,7 @@
             "doc":"Identifiers of the endpoint(s) that got disconnected from the server",
             "type":{
                 "type":"array",
-                "items":"string",
-                "default":[
-
-                ]
+                "items":"string"
             }
         },
         {
