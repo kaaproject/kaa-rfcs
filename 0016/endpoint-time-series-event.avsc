@@ -1,55 +1,102 @@
 {
     "namespace":"org.kaaproject.ipc.collector2ts.gen.v1",
-    "type":"record",
     "name":"TimeSeriesEvent",
+    "type":"record",
     "fields":[
         {
             "name":"correlationId",
             "type":"string",
-            "default":"",
-            "doc":"Message tracing ID primarily used for tracking the message processing across services."
-        },
-        {
-            "name":"batchId",
-            "type":[
-                "null",
-                "int"
-            ],
-            "default":null,
-            "doc":"Unique ID of the collection of records uploaded within a single request."
+            "doc":"Message ID primarily used to track message processing across services"
         },
         {
             "name":"timestamp",
             "type":"long",
-            "default":-1,
-            "doc":"Unix time in milliseconds when the message was created."
+            "doc":"Message creation UNIX timestamp in milliseconds"
         },
         {
             "name":"timeout",
             "type":"long",
-            "default":-1,
-            "doc":"The amount of milliseconds since timestamp when the message expires at the originating entity."
+            "default":0,
+            "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
         },
         {
             "name":"appVersionName",
             "type":"string",
-            "default":"",
-            "doc":"Unique name of the application version that the endpoint identified by the endpointID belongs to."
+            "doc":"Application version name the data is sent for"
         },
         {
             "name":"endpointId",
             "type":"string",
-            "default":"",
-            "doc":"Unique endpoint ID."
+            "doc":"Identifier of the endpoint that data points belong to"
         },
         {
             "name":"timeSeriesName",
-            "type":"string"
+            "type":"string",
+            "doc":"Name of the time series that data points belong to"
         },
         {
-            "name":"payload",
-            "type":"string",
-            "doc":"Serialized message content."
+            "name":"dataPoints",
+            "doc":"Array of endpoint time series data points",
+            "type":{
+                "type":"array",
+                "items":{
+                    "namespace":"org.kaaproject.ipc.collector2ts.gen.v1",
+                    "name":"DataPoint",
+                    "type":"record",
+                    "fields":[
+                        {
+                            "name":"timestamp",
+                            "type":"long",
+                            "doc":"Data point UNIX timestamp in milliseconds"
+                        },
+                        {
+                            "name":"value",
+                            "type":[
+                                "boolean",
+                                "int",
+                                "long",
+                                "float",
+                                "double",
+                                "string",
+                                "bytes"
+                            ],
+                            "doc":"Data point value, can be any primitive or composite type. In case of a composite type, value should be encoded into string or bytes."
+                        },
+                        {
+                            "name":"tags",
+                            "doc":"Array of endpoint time series data points",
+                            "type":{
+                                "type":"array",
+                                "items":{
+                                    "namespace":"org.kaaproject.ipc.collector2ts.gen.v1",
+                                    "name":"DataPointTag",
+                                    "type":"record",
+                                    "fields":[
+                                        {
+                                            "name":"name",
+                                            "type":"string",
+                                            "doc":"Data point tag name"
+                                        },
+                                        {
+                                            "name":"value",
+                                            "type":[
+                                                "boolean",
+                                                "int",
+                                                "long",
+                                                "float",
+                                                "double",
+                                                "string",
+                                                "bytes"
+                                            ],
+                                            "doc":"Data point tag value, can be any primitive or composite type. In case of a composite type, value should be encoded into string or bytes."
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
         }
     ]
 }
