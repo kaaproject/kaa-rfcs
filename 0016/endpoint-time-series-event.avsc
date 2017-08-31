@@ -1,0 +1,55 @@
+{
+    "namespace":"org.kaaproject.ipc.collector2ts.gen.v1",
+    "type":"record",
+    "name":"TimeSeriesEvent",
+    "fields":[
+        {
+            "name":"correlationId",
+            "type":"string",
+            "default":"",
+            "doc":"Message tracing ID primarily used for tracking the message processing across services."
+        },
+        {
+            "name":"batchId",
+            "type":[
+                "null",
+                "int"
+            ],
+            "default":null,
+            "doc":"Unique ID of the collection of records uploaded within a single request."
+        },
+        {
+            "name":"timestamp",
+            "type":"long",
+            "default":-1,
+            "doc":"Unix time in milliseconds when the message was created."
+        },
+        {
+            "name":"timeout",
+            "type":"long",
+            "default":-1,
+            "doc":"The amount of milliseconds since timestamp when the message expires at the originating entity."
+        },
+        {
+            "name":"appVersionName",
+            "type":"string",
+            "default":"",
+            "doc":"Unique name of the application version that the endpoint identified by the endpointID belongs to."
+        },
+        {
+            "name":"endpointId",
+            "type":"string",
+            "default":"",
+            "doc":"Unique endpoint ID."
+        },
+        {
+            "name":"timeSeriesName",
+            "type":"string"
+        },
+        {
+            "name":"payload",
+            "type":"string",
+            "doc":"Serialized message content."
+        }
+    ]
+}
