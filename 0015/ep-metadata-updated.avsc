@@ -1,6 +1,6 @@
 {
-    "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.config",
-    "name":"EndpointMetadataUpdatedEvent",
+    "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.metadata",
+    "name":"MetadataUpdatedEvent",
     "type":"record",
     "doc":"Endpoint metadata updated event message",
     "fields":[
@@ -33,48 +33,24 @@
         {
             "name":"removed",
             "type":{
-                "namespace":"org.kaaproject.events.endpoint.lifecycle.gen.v1",
-                "name":"MetadataKeyRemovedDto",
                 "type":"map",
-                "values":{
-                    "type":"record",
-                    "fields":[
-                        {
-                            "name":"oldValue",
-                            "type":[
-                                "null",
-                                "string"
-                            ],
-                            "default":null,
-                            "doc":"The JSON value of metadata key that was removed. The value will be null if the appropriate metadata key was associated with a null JSON."
-                        }
-                    ]
-                }
+                "values":[
+                    "null",
+                    "string"
+                ]
             },
-            "doc":"Map of removed metadata keys to their value info."
+            "doc":"Map of removed metadata key names to their former values. Value null is used to represent a null JSON."
         },
         {
             "name":"added",
             "type":{
                 "type":"map",
-                "values":{
-                    "type":"record",
-                    "namespace":"org.kaaproject.events.endpoint.lifecycle.gen.v1",
-                    "name":"MetadataKeyAddedDto",
-                    "fields":[
-                        {
-                            "name":"newValue",
-                            "type":[
-                                "null",
-                                "string"
-                            ],
-                            "default":null,
-                            "doc":"The JSON value of metadata key that was added. The value will be null if the appropriate metadata key was associated with a null JSON."
-                        }
-                    ]
-                }
+                "values":[
+                    "null",
+                    "string"
+                ]
             },
-            "doc":"The map of added metadata keys to their value info."
+            "doc":"Map of added metadata key names to their values. Value null is used to represent a null JSON."
         },
         {
             "name":"updated",
@@ -82,7 +58,7 @@
                 "type":"map",
                 "values":{
                     "type":"record",
-                    "namespace":"org.kaaproject.events.endpoint.lifecycle.gen.v1",
+                    "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.metadata",
                     "name":"MetadataKeyUpdatedDto",
                     "fields":[
                         {
@@ -91,8 +67,7 @@
                                 "null",
                                 "string"
                             ],
-                            "default":null,
-                            "doc":"The JSON value of metadata key that was added. The value will be null if the appropriate metadata key was associated with a null JSON."
+                            "doc":"New JSON value of the updated metadata key. Value null is used to represent a null JSON."
                         },
                         {
                             "name":"oldValue",
@@ -100,13 +75,12 @@
                                 "null",
                                 "string"
                             ],
-                            "default":null,
-                            "doc":"The JSON value of metadata key that was removed. The value will be null if the appropriate metadata key was associated with a null JSON."
+                            "doc":"Former JSON value of the updated metadata key. Value null is used to represent a null JSON."
                         }
                     ]
                 }
             },
-            "doc":"The map of updated metadata keys to their old and new values info."
+            "doc":"Map of updated metadata key names to their old and new values"
         },
         {
             "name":"originatorReplicaId",
