@@ -1,8 +1,8 @@
 {
-    "namespace":"org.kaaproject.ipc.dstp.gen.v1",
-    "name":"DataSamplesProcessed",
+    "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.lifecycle",
+    "name":"UnregisteredEvent",
     "type":"record",
-    "doc": "Message from data receiver to indicate the result of processing endpoint data samples event",
+    "doc":"Endpoint unregistered event message",
     "fields":[
         {
             "name":"correlationId",
@@ -21,23 +21,19 @@
             "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
         },
         {
-            "name":"receiverServiceInstanceName",
+            "name":"appVersionName",
             "type":"string",
-            "doc":"Service instance name of the data receiver that originated the message"
+            "doc":"Application version name the endpoint unregistered from"
         },
         {
-            "name":"statusCode",
-            "type":"int",
-            "doc":"HTTP status code of the request processing"
+            "name":"endpointId",
+            "type":"string",
+            "doc":"Identifier of the endpoint that unregistered from the server"
         },
         {
-            "name":"reasonPhrase",
-            "type":[
-              "null",
-              "string"
-            ],
-            "default":null,
-            "doc":"Human-readable status reason phrase"
+            "name":"originatorReplicaId",
+            "type":"string",
+            "doc":"Identifier of the service replica that generated the event"
         }
     ]
 }

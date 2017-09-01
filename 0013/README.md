@@ -1,6 +1,6 @@
 ---
-name: Data Receiver Protocol
-shortname: 13/DRP
+name: Data Samples Transmission Protocol
+shortname: 13/DSTP
 status: draft
 editor: Andrew Kokhanovskyi <ak@kaaiot.io>
 ---
@@ -10,9 +10,9 @@ editor: Andrew Kokhanovskyi <ak@kaaiot.io>
 
 # Introduction
 
-Data Receiver Protocol (DRP) is designed to communicate endpoint data samples from transmitter to receiver services in the Kaa platform.
+Data Samples Transmission Protocol (DSTP) is designed to communicate endpoint data samples from transmitter to receiver services in the Kaa platform.
 
-DRP complies with the [Inter-Service Messaging](/0003/README.md) guidelines.
+DSTP complies with the [Inter-Service Messaging](/0003/README.md) guidelines.
 
 
 # Language
@@ -21,7 +21,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 The following terms and definitions are used in this RFC.
 
-- **Endpoint data sample**: block of endpoint-related data of arbitrary structure.
+- **Endpoint data sample (data sample)**: block of endpoint-related data of arbitrary structure.
 
 - **Data transmitter service (transmitter)**: service that sends endpoint data samples.
 
@@ -37,6 +37,7 @@ In order to send endpoint data samples to receivers, transmitters MUST [broadcas
 kaa.v1.events.<transmitter-service-instance-name>.endpoint.data-collection.data-received
 ```
 where `<transmitter-service-instance-name>` is the instance name of the transmitter service.
+Allows listeners to subscribe to events from a specific transmitter.
 
 In case a transmitter expects a processing result message from receivers, it MUST set `replyTo` NATS subject in the broadcast message according to the [session affinity design](/0003/README.md#session-affinity).
 
@@ -44,8 +45,8 @@ The NATS message payload is an Avro object with the following schema ([ep-data-s
 
 ```json
 {
-    "namespace":"org.kaaproject.ipc.drp.gen.v1",
-    "name":"EndpointDataSamplesEvent",
+    "namespace":"org.kaaproject.ipc.dstp.gen.v1",
+    "name":"DataSamplesEvent",
     "type":"record",
     "doc": "Broadcast event with endpoint data samples to data receivers",
     "fields":[
@@ -116,8 +117,8 @@ In case a `replyTo` subject is set in the endpoint data samples message, receive
 The NATS message payload is an Avro object with the following schema ([ep-data-samples-processed.avsc](./ep-data-samples-processed.avsc)):
 ```json
 {
-    "namespace":"org.kaaproject.ipc.drp.gen.v1",
-    "name":"EndpointDataSampleProcessed",
+    "namespace":"org.kaaproject.ipc.dstp.gen.v1",
+    "name":"DataSamplesProcessed",
     "type":"record",
     "doc": "Message from data receiver to indicate the result of processing endpoint data",
     "fields":[

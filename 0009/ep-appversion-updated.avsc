@@ -1,8 +1,8 @@
 {
-    "namespace":"org.kaaproject.ipc.dstp.gen.v1",
-    "name":"DataSamplesEvent",
+    "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.lifecycle",
+    "name":"AppVersionUpdatedEvent",
     "type":"record",
-    "doc": "Broadcast event with endpoint data samples to data receivers",
+    "doc":"Endpoint's application version updated event message",
     "fields":[
         {
             "name":"correlationId",
@@ -23,26 +23,22 @@
         {
             "name":"appVersionName",
             "type":"string",
-            "doc":"Application version name the data samples are sent for"
+            "doc":"Application version name the endpoint updated to"
+        },
+        {
+            "name":"previousAppVersionName",
+            "type":"string",
+            "doc":"The previous application version name the endpoint was registered in"
         },
         {
             "name":"endpointId",
             "type":"string",
-            "doc":"Identifier of the endpoint that originated the data samples. Null for endpoint-unaware extensions."
+            "doc":"Identifier of the endpoint that registered with the server"
         },
         {
-            "name":"contentType",
+            "name":"originatorReplicaId",
             "type":"string",
-            "default":"application/json",
-            "doc":"Type of the data samples payload, e.g.: application/json, application/x-protobuf, etc."
-        },
-        {
-            "name":"dataSamples",
-            "type":{
-                "type":"array",
-                "items":"bytes"
-            },
-            "doc":"Array of endpoint data samples encoded according to the content type"
+            "doc":"Identifier of the service replica that generated the event"
         }
     ]
 }

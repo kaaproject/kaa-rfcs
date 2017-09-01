@@ -1,0 +1,37 @@
+{
+    "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.connectivity",
+    "name":"DisconnectedEvent",
+    "type":"record",
+    "doc":"Endpoints disconnected event message",
+    "fields":[
+        {
+            "name":"correlationId",
+            "type":"string",
+            "doc":"Message ID primarily used to track message processing across services"
+        },
+        {
+            "name":"timestamp",
+            "type":"long",
+            "doc":"Message creation UNIX timestamp in milliseconds"
+        },
+        {
+            "name":"timeout",
+            "type":"long",
+            "default":0,
+            "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name":"endpointIds",
+            "doc":"List of identifiers of endpoints that got disconnected from the server",
+            "type":{
+                "type":"array",
+                "items":"string"
+            }
+        },
+        {
+            "name":"originatorReplicaId",
+            "type":"string",
+            "doc":"Identifier of the service replica that generated the event"
+        }
+    ]
+}
