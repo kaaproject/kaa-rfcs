@@ -37,6 +37,7 @@ In order to send endpoint data samples to receivers, transmitters MUST [broadcas
 kaa.v1.events.<transmitter-service-instance-name>.endpoint.data-collection.data-received
 ```
 where `<transmitter-service-instance-name>` is the instance name of the transmitter service.
+Allows listeners to subscribe to events from a specific transmitter.
 
 In case a transmitter expects a processing result message from receivers, it MUST set `replyTo` NATS subject in the broadcast message according to the [session affinity design](/0003/README.md#session-affinity).
 
