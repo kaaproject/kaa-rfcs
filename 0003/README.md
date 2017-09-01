@@ -81,7 +81,7 @@ This field SHOULD be logged according to the (Kaa logging standards)[<!--TODO-->
 
 ### NATS subjects format
 
-For broadcasting messages, services MUST use the following message subjects format:
+For broadcasting messages, services MUST use the following prefix for message subjects format:
 ```
 kaa.v1.events.{originator-service-instance-name}.{target-entity-type}.{event-group}.{event-type}
 ```
@@ -99,6 +99,8 @@ For example, for endpoint event groups can be connectivity, lifecycle, token (fo
 
 - `{event-type}` - specific event type.
 For example, EP connectivity events the types will be connected, disconnected, dormant, awake, etc.
+
+Extra subject tokens MAY be appended to the defined above prefix in specific protocol implementations.
 
 
 ### Broadcast message common fields

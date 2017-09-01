@@ -1,8 +1,8 @@
 {
-    "namespace":"org.kaaproject.ipc.drp.gen.v1",
-    "name":"EndpointDataSampleProcessed",
+    "namespace":"org.kaaproject.ipc.dstp.gen.v1",
+    "name":"DataSamplesProcessed",
     "type":"record",
-    "doc": "Message from data receiver to indicate the result of processing endpoint data",
+    "doc": "Message from data receiver to indicate the result of processing endpoint data samples event",
     "fields":[
         {
             "name":"correlationId",

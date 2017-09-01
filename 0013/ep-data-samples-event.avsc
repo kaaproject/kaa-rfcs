@@ -1,6 +1,6 @@
 {
-    "namespace":"org.kaaproject.ipc.drp.gen.v1",
-    "name":"EndpointDataSamplesEvent",
+    "namespace":"org.kaaproject.ipc.dstp.gen.v1",
+    "name":"DataSamplesEvent",
     "type":"record",
     "doc": "Broadcast event with endpoint data samples to data receivers",
     "fields":[

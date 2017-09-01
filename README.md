@@ -17,7 +17,8 @@ RFCs can be in raw, draft, stable, deprecated, or retired status.
 | [9/ELCE](0009/README.md)       | Endpoint Lifecycle and Connectivity Events  | Draft   |
 | [10/EPMP](0010/README.md)      | Endpoint Metadata Protocol                  | Draft   |
 | [11/CEP](0011/README.md)       | Command Execution Protocol                  | Raw     |
-| [13/DRP](0013/README.md)       | Data Receiver Protocol                      | Draft   |
+| [13/DSTP](0013/README.md)      | Data Samples Transmission Protocol          | Draft   |
+| [14/TSTP](0014/README.md)      | Time Series Transmission Protocol           | Draft   |
 
 # Change process
 
