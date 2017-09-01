@@ -19,6 +19,7 @@ RFCs can be in raw, draft, stable, deprecated, or retired status.
 | [11/CEP](0011/README.md)       | Command Execution Protocol                  | Raw     |
 | [13/DSTP](0013/README.md)      | Data Samples Transmission Protocol          | Draft   |
 | [14/TSTP](0014/README.md)      | Time Series Transmission Protocol           | Draft   |
+| [15/EME](0015/README.md)       | Endpoint Metadata Events                    | Draft   |
 
 # Change process
 
