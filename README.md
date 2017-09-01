@@ -14,7 +14,7 @@ RFCs can be in raw, draft, stable, deprecated, or retired status.
 | [6/CDTP](0006/README.md)       | Configuration Data Transport Protocol       | Draft   |
 | [7/CMP](0007/README.md)        | Configuration Management Protocol           | Raw     |
 | [8/KPSR](0008/README.md)       | KP Security Recommendations                 | Raw     |
-| [9/EPEIPC](0009/README.md)     | Endpoint Events IPC                         | Draft   |
+| [9/ELCE](0009/README.md)       | Endpoint Lifecycle and Connectivity Events  | Draft   |
 | [10/EPMP](0010/README.md)      | Endpoint Metadata Protocol                  | Draft   |
 | [11/CEP](0011/README.md)       | Command Execution Protocol                  | Raw     |
 | [13/DRP](0013/README.md)       | Data Receiver Protocol                      | Draft   |
