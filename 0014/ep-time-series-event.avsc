@@ -1,5 +1,5 @@
 {
-    "namespace":"org.kaaproject.ipc.tsrp.gen.v1",
+    "namespace":"org.kaaproject.ipc.tstp.gen.v1",
     "name":"TimeSeriesEvent",
     "type":"record",
     "fields":[
@@ -40,7 +40,7 @@
             "type":{
                 "type":"array",
                 "items":{
-                    "namespace":"org.kaaproject.ipc.collector2ts.gen.v1",
+                    "namespace":"org.kaaproject.ipc.tstp.gen.v1",
                     "name":"DataPoint",
                     "type":"record",
                     "fields":[
@@ -78,7 +78,7 @@
                             "type":{
                                 "type":"map",
                                 "values":{
-                                    "namespace":"org.kaaproject.ipc.collector2ts.gen.v1",
+                                    "namespace":"org.kaaproject.ipc.tstp.gen.v1",
                                     "name":"DataPointTagValue",
                                     "type":"record",
                                     "fields":[

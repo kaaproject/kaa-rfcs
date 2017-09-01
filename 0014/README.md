@@ -1,5 +1,5 @@
 ---
-name: Time Series Receiver Protocol
+name: Time Series Transmission Protocol
 shortname: 16/TSRP
 status: draft
 editor: Andrew Kokhanovskyi <ak@kaaiot.io>
@@ -10,9 +10,9 @@ editor: Andrew Kokhanovskyi <ak@kaaiot.io>
 
 # Introduction
 
-Time Series Receiver Protocol (TSRP) is designed to communicate endpoint data samples from transmitter to receiver services in the Kaa platform.
+Time Series Transmission Protocol (TSTP) is designed to communicate endpoint time series data from transmitter to receiver services in the Kaa platform.
 
-TSRP complies with the [Inter-Service Messaging](/0003/README.md) guidelines.
+TSTP complies with the [Inter-Service Messaging](/0003/README.md) guidelines.
 
 
 # Language
@@ -44,11 +44,11 @@ where:
 - `<transmitter-service-instance-name>` is the instance name of the transmitter service. Allows listeners to subscribe to events from a specific transmitter.
 - `<time-series-name>` - name of the time series the transmitted data points belong to.
 
-The NATS message payload is an Avro object with the following schema ([endpoint-time-series-event.avsc](./endpoint-time-series-event.avsc)):
+The NATS message payload is an Avro object with the following schema ([ep-time-series-event.avsc](./ep-time-series-event.avsc)):
 
 ```json
 {
-    "namespace":"org.kaaproject.ipc.tsrp.gen.v1",
+    "namespace":"org.kaaproject.ipc.tstp.gen.v1",
     "name":"TimeSeriesEvent",
     "type":"record",
     "fields":[
@@ -89,7 +89,7 @@ The NATS message payload is an Avro object with the following schema ([endpoint-
             "type":{
                 "type":"array",
                 "items":{
-                    "namespace":"org.kaaproject.ipc.collector2ts.gen.v1",
+                    "namespace":"org.kaaproject.ipc.tstp.gen.v1",
                     "name":"DataPoint",
                     "type":"record",
                     "fields":[
@@ -127,7 +127,7 @@ The NATS message payload is an Avro object with the following schema ([endpoint-
                             "type":{
                                 "type":"map",
                                 "values":{
-                                    "namespace":"org.kaaproject.ipc.collector2ts.gen.v1",
+                                    "namespace":"org.kaaproject.ipc.tstp.gen.v1",
                                     "name":"DataPointTagValue",
                                     "type":"record",
                                     "fields":[
