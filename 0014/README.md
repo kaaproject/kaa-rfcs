@@ -41,7 +41,8 @@ kaa.v1.events.<transmitter-service-instance-name>.endpoint.data-collection.time-
 ```
 
 where:
-- `<transmitter-service-instance-name>` is the instance name of the transmitter service. Allows listeners to subscribe to events from a specific transmitter.
+- `<transmitter-service-instance-name>` is the instance name of the transmitter service.
+This allows listeners to subscribe to events from a specific transmitter.
 - `<time-series-name>` - name of the time series the transmitted data points belong to.
 
 The NATS message payload is an Avro object with the following schema ([ep-time-series-event.avsc](./ep-time-series-event.avsc)):
