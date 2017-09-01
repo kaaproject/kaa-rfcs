@@ -2,7 +2,7 @@
     "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.connectivity",
     "name":"ConnectedEvent",
     "type":"record",
-    "doc":"Endpoint connected event message",
+    "doc":"Endpoints connected event message",
     "fields":[
         {
             "name":"correlationId",

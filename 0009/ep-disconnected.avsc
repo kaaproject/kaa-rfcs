@@ -2,7 +2,7 @@
     "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.connectivity",
     "name":"DisconnectedEvent",
     "type":"record",
-    "doc":"Endpoint(s) disconnected event message",
+    "doc":"Endpoints disconnected event message",
     "fields":[
         {
             "name":"correlationId",
@@ -22,7 +22,7 @@
         },
         {
             "name":"endpointIds",
-            "doc":"Identifiers of the endpoint(s) that got disconnected from the server",
+            "doc":"List of identifiers of endpoints that got disconnected from the server",
             "type":{
                 "type":"array",
                 "items":"string"

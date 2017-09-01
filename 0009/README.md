@@ -55,14 +55,14 @@ Originators MUST use the following NATS subject format for endpoint connected ev
 kaa.v1.events.{originator-service-instance-name}.endpoint.connectivity.connected
 ```
 
-The NATS message payload is an Avro object with the following schema ([connected.avsc](./connected.avsc)):
+The NATS message payload is an Avro object with the following schema ([ep-connected.avsc](./ep-connected.avsc)):
 
 ```json
 {
     "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.connectivity",
     "name":"ConnectedEvent",
     "type":"record",
-    "doc":"Endpoint connected event message",
+    "doc":"Endpoints connected event message",
     "fields":[
         {
             "name":"correlationId",
@@ -132,7 +132,7 @@ The NATS message payload is an Avro object with the following schema ([ep-discon
     "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.connectivity",
     "name":"DisconnectedEvent",
     "type":"record",
-    "doc":"Endpoint(s) disconnected event message",
+    "doc":"Endpoints disconnected event message",
     "fields":[
         {
             "name":"correlationId",
@@ -152,7 +152,7 @@ The NATS message payload is an Avro object with the following schema ([ep-discon
         },
         {
             "name":"endpointIds",
-            "doc":"Identifiers of the endpoint(s) that got disconnected from the server",
+            "doc":"List of identifiers of endpoints that got disconnected from the server",
             "type":{
                 "type":"array",
                 "items":"string"
