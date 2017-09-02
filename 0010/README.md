@@ -42,7 +42,7 @@ In case of a client's read or write request to restricted EP metadata keys, serv
 
 ## Metadata keys
 
-Metadata keys MUST be case-sensitive non-empty alphanumeric strings with no whitespace, which means they MUST match the following [regular expression](https://en.wikipedia.org/wiki/Regular_expression) pattern: `^[a-zA-Z0-9]+$`.
+Metadata keys MUST be case-sensitive non-empty alphanumeric strings with no whitespace and can contain underscore symbol which means they MUST match the following [regular expression](https://en.wikipedia.org/wiki/Regular_expression) pattern: `^[a-zA-Z0-9_]+$`.
 
 No duplicate metadata keys are allowed.
 
@@ -110,7 +110,7 @@ The server response payload MUST be a UTF-8 encoded JSON array with the the foll
     "type":"array",
     "items":{
         "type":"string",
-        "pattern":"^[a-zA-Z0-9]+$",
+        "pattern":"^[a-zA-Z0-9_]+$",
         "description":"Endpoint metadata key name"
     },
     "uniqueItems":true
@@ -155,7 +155,7 @@ The request payload MUST be a UTF-8 encoded JSON object with the following JSON 
             "type":"array",
             "items":{
                 "type":"string",
-                "pattern":"^[a-zA-Z0-9]+$",
+                "pattern":"^[a-zA-Z0-9_]+$",
                 "description":"Endpoint metadata key name"
             },
             "uniqueItems":true,
@@ -205,7 +205,7 @@ The payload MUST be a UTF-8 encoded JSON object with the following JSON Schema (
 
     "type":"object",
     "patternProperties":{
-        "^[a-zA-Z0-9]+$":{
+        "^[a-zA-Z0-9_]+$":{
 
         }
     },
@@ -245,7 +245,7 @@ The request payload MUST be a UTF-8 encoded JSON object with the following JSON 
     "type":"object",
     "minProperties":1,
     "patternProperties":{
-        "^[a-zA-Z0-9]+$":{
+        "^[a-zA-Z0-9_]+$":{
 
         }
     },
@@ -355,7 +355,7 @@ The request payload MUST be a UTF-8 encoded JSON object with the following JSON 
     "type":"array",
     "items":{
         "type":"string",
-        "pattern":"^[a-zA-Z0-9]+$",
+        "pattern":"^[a-zA-Z0-9_]+$",
         "description":"Endpoint metadata key name"
     },
     "minItems":1,
