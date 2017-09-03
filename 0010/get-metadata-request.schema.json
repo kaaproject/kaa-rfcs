@@ -8,7 +8,7 @@
             "type":"array",
             "items":{
                 "type":"string",
-                "pattern":"^[a-zA-Z0-9]+$",
+                "pattern":"^[a-zA-Z0-9_]+$",
                 "description":"Endpoint metadata key name"
             },
             "uniqueItems":true,
