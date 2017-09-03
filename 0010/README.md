@@ -42,11 +42,17 @@ In case of a client's read or write request to restricted EP metadata keys, serv
 
 ## Metadata keys
 
-Metadata keys MUST be case-sensitive non-empty alphanumeric strings with no whitespace and can contain underscore symbols which means they MUST match the following [regular expression](https://en.wikipedia.org/wiki/Regular_expression) pattern: `^[a-zA-Z0-9_]+$`.
+Metadata keys MUST meet the following requirements:
+- non-empty strings;
+- case-sensitive alphanumeric characters are permitted;
+- underscore symbols are permitted;
+- whitespace is not permitted.
 
-No duplicate metadata keys are allowed.
+Thus, metadata keys MUST match the following [regular expression](https://en.wikipedia.org/wiki/Regular_expression) pattern: `^[a-zA-Z0-9_]+$`.
 
 The restrictions to the key format are dictated by the considerations of compatibility with various data stores and computer systems in general.
+
+Metadata keys associated with a single endpoint MUST be unique.
 
 
 ## Metadata values
