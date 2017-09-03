@@ -41,7 +41,7 @@ Allows listeners to subscribe to events from a specific transmitter.
 
 In case a transmitter expects a processing result message from receivers, it MUST set `replyTo` NATS subject in the broadcast message according to the [session affinity design](/0003/README.md#session-affinity).
 
-The NATS message payload is an Avro object with the following schema ([ep-data-samples-event.avsc](./ep-data-samples-event.avsc)):
+The NATS message payload is an Avro object with the following schema ([0013-ep-data-samples-event.avsc](./0013-ep-data-samples-event.avsc)):
 
 ```json
 {
@@ -114,7 +114,7 @@ Example:
 
 In case a `replyTo` subject is set in the endpoint data samples message, receivers MUST respond to that subject with a `EndpointDataSampleProcessed` message according to the [session affinity design](/0003/README.md#session-affinity).
 
-The NATS message payload is an Avro object with the following schema ([ep-data-samples-processed.avsc](./ep-data-samples-processed.avsc)):
+The NATS message payload is an Avro object with the following schema ([0013-ep-data-samples-processed.avsc](./0013-ep-data-samples-processed.avsc)):
 ```json
 {
     "namespace":"org.kaaproject.ipc.dstp.gen.v1",

@@ -111,7 +111,7 @@ The client MUST send data collection requests to the following extension-specifi
 /<endpoint_token>/json
 ```
 
-The request payload MUST be a UTF-8 encoded JSON object with the following [JSON schema](http://json-schema.org/) ([request.schema.json](./request.schema.json)):
+The request payload MUST be a UTF-8 encoded JSON object with the following [JSON schema](http://json-schema.org/) ([0002-request.schema.json](./0002-request.schema.json)):
 ```json
 {
     "$schema":"http://json-schema.org/schema#",

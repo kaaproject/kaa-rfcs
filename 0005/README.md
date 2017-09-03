@@ -56,7 +56,7 @@ Example configuration pull request extension-specific resource path parts:
 This document only defines the `json` message and configuration formats.
 More formats may be specified in separate RFCs.
 
-When the `<message_format>` is set to `json`, the request payload MUST be a JSON-encoded object with the following [JSON schema](http://json-schema.org/) ([file](./config-pull-request.schema.json)):
+When the `<message_format>` is set to `json`, the request payload MUST be a JSON-encoded object with the following [JSON schema](http://json-schema.org/) ([0005-config-pull-request.schema.json](./0005-config-pull-request.schema.json)):
 
 ```json
 {
@@ -105,7 +105,7 @@ The extension-specific resource path part format is:
 
   where `<message_format>` and `<config_format>` (if present) are copied from the request message.
 
-When the `<message_format>` is set to `json`, the response payload MUST be a JSON-encoded object with the following JSON schema ([file](./config-pull-response.schema.json)):
+When the `<message_format>` is set to `json`, the response payload MUST be a JSON-encoded object with the following JSON schema ([0005-config-pull-response.schema.json](./0005-config-pull-response.schema.json)):
 
 ```json
 {
@@ -195,7 +195,7 @@ Example configuration push request extension-specific resource path parts:
 This document only defines the `json` message and configuration formats.
 More formats may be specified in separate RFCs.
 
-When the `<message_format>` is set to `json`, the request payload MUST be a JSON-encoded object with the following JSON schema ([file](./config-push-request.schema.json)):
+When the `<message_format>` is set to `json`, the request payload MUST be a JSON-encoded object with the following JSON schema ([0005-config-push-request.schema.json](./0005-config-push-request.schema.json)):
 
 ```json
 {
@@ -244,7 +244,7 @@ The extension-specific resource path part format is:
 
   where `<message_format>` and `<config_format>` (if present) are copied from the request message.
 
-When the `<message_format>` is set to `json`, the response payload MUST be a JSON-encoded object with the following JSON schema ([file](./config-push-response.schema.json)):
+When the `<message_format>` is set to `json`, the response payload MUST be a JSON-encoded object with the following JSON schema ([0005-config-push-response.schema.json](./0005-config-push-response.schema.json)):
 
 ```json
 {

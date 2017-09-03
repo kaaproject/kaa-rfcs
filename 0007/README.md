@@ -98,7 +98,7 @@ The configuration resource is a request/response resource with an observe extens
 
 The client SHOULD send configuration resource requests to the configuration resource path.
 
-The request payload MUST be a UTF-8 encoded JSON object with the following [JSON schema](http://json-schema.org/) ([config-request.schema.json](./config-request.schema.json)):
+The request payload MUST be a UTF-8 encoded JSON object with the following [JSON schema](http://json-schema.org/) ([0007-config-request.schema.json](./0007-config-request.schema.json)):
 
 ```json
 {
@@ -155,7 +155,7 @@ Below are request payload examples.
 
 ### Configuration resource response
 
-The server response payload MUST be a UTF-8 encoded object with the following JSON Schema ([config-response.schema.json](./config-response.schema.json)):
+The server response payload MUST be a UTF-8 encoded object with the following JSON Schema ([0007-config-response.schema.json](./0007-config-response.schema.json)):
 
 ```json
 {
@@ -213,7 +213,7 @@ The applied resource is a request/response resource with the following resource 
 
 ### Applied configuration request
 
-The request payload MUST be a UTF-8 encoded JSON object with the following JSON Schema ([applied-request.schema.json](./applied-request.schema.json)):
+The request payload MUST be a UTF-8 encoded JSON object with the following JSON Schema ([0007-applied-request.schema.json](./0007-applied-request.schema.json)):
 
 ```json
 {

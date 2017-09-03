@@ -35,7 +35,7 @@ kaa.v1.events.{originator-service-instance-name}.endpoint.metadata.updated
 where `{originator-service-instance-name}` - name of the originator service instance.
 It allows listeners to subscribe to events from a specific originator.
 
-The NATS message payload is an Avro object with the following schema ([ep-metadata-updated.avsc](./ep-metadata-updated.avsc)):
+The NATS message payload is an Avro object with the following schema ([0015-ep-metadata-updated.avsc](./0015-ep-metadata-updated.avsc)):
 ```json
 {
     "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.metadata",

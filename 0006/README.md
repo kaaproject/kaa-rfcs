@@ -42,7 +42,7 @@ NATS subject format:
 kaa.v1.events.{provider-service-instance-name}.endpoint.config.updated
 ```
 
-*Configuration updated* message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([config-updated.avsc](./config-updated.avsc)):
+*Configuration updated* message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([0006-config-updated.avsc](./0006-config-updated.avsc)):
 
 ```json
 {
@@ -131,7 +131,7 @@ NATS subject format:
 kaa.v1.events.{consumer-service-instance-name}.endpoint.config.applied
 ```
 
-*Configuration applied* message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([config-applied.avsc](./config-applied.avsc)):
+*Configuration applied* message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([0006-config-applied.avsc](./0006-config-applied.avsc)):
 
 ```json
 {
@@ -215,7 +215,7 @@ kaa.v1.replica.{consumer-service-replica-id}.cdtp.response
 For more information, see [3/Messaging IPC][3/MIPC].
 
 
-*Configuration request* message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([config-request.avsc](./config-request.avsc)):
+*Configuration request* message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([0006-config-request.avsc](./0006-config-request.avsc)):
 
 ```json
 {
@@ -281,7 +281,7 @@ Example:
 *Configuration response* message MUST be sent by provider in response to a [Configuration request message](#configuration-request).
 Provider MUST publish configuration response message to the subject provided in the NATS `replyTo` field of the request.
 
-*Configuration response* message payload MUST be an Avro-encoded object with the following schema ([config-response.avsc](./config-response.avsc)):
+*Configuration response* message payload MUST be an Avro-encoded object with the following schema ([0006-config-response.avsc](./0006-config-response.avsc)):
 
 ```json
 {

@@ -45,7 +45,7 @@ In case of affinity sessions, `ClientData` message MUST be published to the [ser
 
 Implementations of communication services SHOULD set `replyTo` subject when sending `ClientData` messages according to the [session affinity](/0003/README.md#session-affinity) rules.
 
-The NATS message payload is an Avro object with the following schema ([client-data.avsc](./client-data.avsc)):
+The NATS message payload is an Avro object with the following schema ([0004-client-data.avsc](./0004-client-data.avsc)):
 
 ```json
 {
@@ -138,7 +138,7 @@ In case of affinity sessions, `ExtensionData` message MUST be published to the [
 
 Extensions MAY also set `replyTo` subject when sending `ExtensionData` messages according to the [session affinity](/0003/README.md#session-affinity) rules.
 
-The NATS message payload is an Avro object with the following schema ([extension-data.avsc](./extension-data.avsc)):
+The NATS message payload is an Avro object with the following schema ([0004-extension-data.avsc](./0004-extension-data.avsc)):
 
 ```json
 {
