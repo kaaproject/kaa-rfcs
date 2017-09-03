@@ -106,7 +106,7 @@ The server MUST ignore payload if any.
 
 #### Get metadata keys response
 
-The server response payload MUST be a UTF-8 encoded JSON array with the the following [JSON schema](http://json-schema.org/) ([get-metadata-keys-response.schema.json](./get-metadata-keys-response.schema.json)):
+The server response payload MUST be a UTF-8 encoded JSON array with the the following [JSON schema](http://json-schema.org/) ([0010-get-metadata-keys-response.schema.json](./0010-get-metadata-keys-response.schema.json)):
 
 ```json
 {
@@ -148,7 +148,7 @@ To retrieve complete or partial EP metadata, client MUST send requests to the fo
 ```
 where `<endpoint_token>` identifies the endpoint.
 
-The request payload MUST be a UTF-8 encoded JSON object with the following JSON Schema ([get-metadata-request.schema.json](./get-metadata-request.schema.json)):
+The request payload MUST be a UTF-8 encoded JSON object with the following JSON Schema ([0010-get-metadata-request.schema.json](./0010-get-metadata-request.schema.json)):
 
 ```json
 {
@@ -202,7 +202,7 @@ In case the client explicitly requests a restricted EP metadata key, the server 
 #### Get metadata response
 
 The server response payload is a set of EP metadata key-value pairs in [JSON object representation](#JSON-object-representation).
-The payload MUST be a UTF-8 encoded JSON object with the following JSON Schema ([get-metadata-response.schema.json](./get-metadata-response.schema.json)):
+The payload MUST be a UTF-8 encoded JSON object with the following JSON Schema ([0010-get-metadata-response.schema.json](./0010-get-metadata-response.schema.json)):
 
 ```json
 {
@@ -241,7 +241,7 @@ To update the EP metadata, client MUST send requests to the following extension-
 ```
 where `<endpoint_token>` identifies the endpoint.
 
-The request payload MUST be a UTF-8 encoded JSON object with the following JSON Schema ([update-metadata-request.schema.json](./update-metadata-request.schema.json)):
+The request payload MUST be a UTF-8 encoded JSON object with the following JSON Schema ([0010-update-metadata-request.schema.json](./0010-update-metadata-request.schema.json)):
 
 ```json
 {
@@ -351,7 +351,7 @@ where `<endpoint_token>` identifies the endpoint.
 
 #### Delete metadata keys request
 
-The request payload MUST be a UTF-8 encoded JSON object with the following JSON Schema ([delete-metadata-keys-request.schema.json](./delete-metadata-keys-request.schema.json)):
+The request payload MUST be a UTF-8 encoded JSON object with the following JSON Schema ([0010-delete-metadata-keys-request.schema.json](./0010-delete-metadata-keys-request.schema.json)):
 
 ```json
 {

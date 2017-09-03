@@ -57,7 +57,7 @@ For MQTT, observe is achieved by publishing multiple responses to the response t
 Command type MUST be a non-empty alpha-numeric string identifying the command type to the endpoint.
 
 ### Command request
-The endpoint command requests MUST be a UTF-8 encoded JSON object with the JSON Schema defined in [command-request.schema.json](./command-request.schema.json) file.
+The endpoint command requests MUST be a UTF-8 encoded JSON object with the JSON Schema defined in [0011-command-request.schema.json](./0011-command-request.schema.json) file.
 
 ```json
 {
@@ -86,7 +86,7 @@ The server MAY support subscribing to all command types by accepting requests at
 ### Command response
 The server MUST respond with all outstanding commands of the specified command type.
 
-The response MUST be a UTF-8 encoded array with the schema defined in [command-response.schema.json](./command-response.schema.json) file.
+The response MUST be a UTF-8 encoded array with the schema defined in [0011-command-response.schema.json](./0011-command-response.schema.json) file.
 
 ```json
 {
@@ -131,7 +131,7 @@ Result resource is a request/response resource with the following resource path:
 where `<command_type>` is a type of the command.
 
 ### Result request
-A result request is a UTF-8 encoded JSON array with the JSON Schema defined in the [result-request.schema.json](./result-request.schema.json) file.
+A result request is a UTF-8 encoded JSON array with the JSON Schema defined in the [0011-result-request.schema.json](./0011-result-request.schema.json) file.
 
 ```json
 {

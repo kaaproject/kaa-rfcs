@@ -195,7 +195,7 @@ For example, request sent to `<endpoint_token>/json/42` has the following succes
 
 ### Error response format
 
-Error responses published over MQTT MUST be UTF-8 encoded JSON object with the following [JSON schema](http://json-schema.org/) ([error-response.schema.json](./error-response.schema.json)):
+Error responses published over MQTT MUST be UTF-8 encoded JSON object with the following [JSON schema](http://json-schema.org/) ([0001-error-response.schema.json](./0001-error-response.schema.json)):
 
 ```json
 {

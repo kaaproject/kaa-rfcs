@@ -186,7 +186,7 @@ Originators MUST use the following NATS subject format for endpoint registered e
 kaa.v1.events.{originator-service-instance-name}.endpoint.lifecycle.registered
 ```
 
-The NATS message payload is an Avro object with the following schema ([ep-registered.avsc](./ep-registered.avsc)):
+The NATS message payload is an Avro object with the following schema ([0009-ep-registered.avsc](./0009-ep-registered.avsc)):
 
 ```json
 {
@@ -241,7 +241,7 @@ Originators MUST use the following NATS subject format for endpoint events:
 
 `kaa.v1.events.{originator-service-instance-name}.endpoint.lifecycle.appversion-updated`
 
-The NATS message payload is an Avro object with the following schema ([ep-appversion-updated.avsc](./ep-appversion-updated.avsc)):
+The NATS message payload is an Avro object with the following schema ([0009-ep-appversion-updated.avsc](./0009-ep-appversion-updated.avsc)):
 
 ```json
 {
@@ -301,7 +301,7 @@ Originators MUST use the following NATS subject format for endpoint unregistered
 kaa.v1.events.{originator-service-instance-name}.endpoint.lifecycle.unregistered
 ```
 
-The NATS message payload is an Avro object with the following schema ([ep-unregistered.avsc](./ep-unregistered.avsc)):
+The NATS message payload is an Avro object with the following schema ([0009-ep-unregistered.avsc](./0009-ep-unregistered.avsc)):
 
 ```json
 {
