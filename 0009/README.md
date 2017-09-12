@@ -81,28 +81,11 @@ The NATS message payload is an Avro object with the following schema ([ep-connec
             "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
         },
         {
-            "name":"connectedEndpoints",
-            "doc":"List of endpoints that got connected to the server",
+            "name":"endpoints",
+            "doc":"Connected endpoints' IDs map to their application version names",
             "type":{
-                "type":"array",
-                "items":{
-                    "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.connectivity",
-                    "name":"ConnectedEndpoint",
-                    "type":"record",
-                    "doc":"Endpoint that got connected to the server",
-                    "fields":[
-                        {
-                            "name":"appVersionName",
-                            "type":"string",
-                            "doc":"Application version name the endpoint connected with"
-                        },
-                        {
-                            "name":"endpointId",
-                            "type":"string",
-                            "doc":"Endpoint identifier"
-                        }
-                    ]
-                }
+                "type":"map",
+                "values":"string"
             }
         },
         {
@@ -151,11 +134,11 @@ The NATS message payload is an Avro object with the following schema ([ep-discon
             "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
         },
         {
-            "name":"endpointIds",
-            "doc":"List of identifiers of endpoints that got disconnected from the server",
+            "name":"endpoints",
+            "doc":"Disconnected endpoints' IDs map to their application version names",
             "type":{
-                "type":"array",
-                "items":"string"
+                "type":"map",
+                "values":"string"
             }
         },
         {
