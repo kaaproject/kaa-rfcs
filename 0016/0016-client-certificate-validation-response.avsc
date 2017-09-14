@@ -1,8 +1,8 @@
 {
     "namespace":"org.kaaproject.ipc.ecap.gen.v1",
-    "name":"ClientUsernamePasswordValidationResponse",
+    "name":"ClientCertificateValidationResponse",
     "type":"record",
-    "doc":"Client username/password combination validation response message",
+    "doc":"Client certificate validation response message",
     "fields":[
         {
             "name":"correlationId",
@@ -26,7 +26,7 @@
                 "string",
                 "null"
             ],
-            "doc":"ID of the client resolved by provided username/password combination"
+            "doc":"ID of the client resolved by provided certificate"
         },
         {
             "name":"statusCode",

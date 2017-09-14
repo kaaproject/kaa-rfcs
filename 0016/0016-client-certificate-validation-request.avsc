@@ -1,8 +1,8 @@
 {
     "namespace":"org.kaaproject.ipc.ecap.gen.v1",
-    "name":"ClientUsernamePasswordValidationResponse",
+    "name":"ClientCertificateValidationRequest",
     "type":"record",
-    "doc":"Client username/password combination validation response message",
+    "doc":"Client certificate validation request message",
     "fields":[
         {
             "name":"correlationId",
@@ -21,26 +21,14 @@
             "doc":"Amount of milliseconds (since the timestamp) until the message expires. Value of 0 is reserved to indicate no expiration."
         },
         {
-            "name":"clientId",
-            "type":[
-                "string",
-                "null"
-            ],
-            "doc":"ID of the client resolved by provided username/password combination"
+            "name":"issuer",
+            "type":"string",
+            "doc":"Issuer field of the client's certificate"
         },
         {
-            "name":"statusCode",
-            "type":"int",
-            "doc":"HTTP status code of the request processing"
-        },
-        {
-            "name":"reasonPhrase",
-            "type":[
-              "null",
-              "string"
-            ],
-            "default":null,
-            "doc":"Human-readable status reason phrase"
+            "name":"serialNumber",
+            "type":"string",
+            "doc":"Serial number of the client's certificate"
         }
     ]
 }
