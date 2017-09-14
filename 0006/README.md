@@ -2,7 +2,7 @@
 name: Configuration Data Transport Protocol
 shortname: 6/CDTP
 status: draft
-editor: Andrew Pasika <apasika@cybervisiontech.com>
+editor: Andrew Pasika <apasika@kaaiot.io>
 ---
 
 <!-- toc -->
@@ -12,7 +12,7 @@ editor: Andrew Pasika <apasika@cybervisiontech.com>
 
 Configuration Data Transport Protocol (CDTP) is designed to communicate endpoint configuration data between Kaa services.
 
-CDTP design is based on the [3/Messaging IPC][3/MIPC].
+CDTP complies with the [Inter-Service Messaging](/0003/README.md) guidelines.
 
 
 ## Language

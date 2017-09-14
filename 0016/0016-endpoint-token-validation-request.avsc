@@ -1,7 +1,7 @@
 {
     "namespace":"org.kaaproject.ipc.ecap.gen.v1",
-    "type":"record",
     "name":"EndpointTokenValidationRequest",
+    "type":"record",
     "doc":"EP token validation request message",
     "fields":[
         {

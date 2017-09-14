@@ -1,8 +1,8 @@
 {
     "namespace":"org.kaaproject.ipc.ecap.gen.v1",
-    "name":"EndpointTokenValidationResponse",
+    "name":"ClientLoginPassValidationResponse",
     "type":"record",
-    "doc":"EP token validation response message",
+    "doc":"Client credential validation response message",
     "fields":[
         {
             "name":"correlationId",
@@ -21,12 +21,12 @@
             "doc":"Amount of milliseconds (since the timestamp) until the message expires. Value of 0 is reserved to indicate no expiration."
         },
         {
-            "name":"endpointId",
+            "name":"clientId",
             "type":[
                 "string",
                 "null"
             ],
-            "doc":"Identifier of the endpoint resolved by the provided token. May be null in case token is not found."
+            "default":null
         },
         {
             "name":"statusCode",
