@@ -26,7 +26,7 @@
                 "string",
                 "null"
             ],
-            "doc":"ID of the client resolved by provided certificate"
+            "doc":"ID of the client resolved by provided certificate fields. May be null in case certificate is not found."
         },
         {
             "name":"statusCode",

@@ -207,7 +207,8 @@ The consumer MUST send configuration request messages using the following NATS s
 kaa.v1.service.{provider-service-instance-name}.cdtp.request
 ```
 
-The consumer MUST include NATS `replyTo` field pointing to the consumer service replica that will handle the response:
+The consumer MUST include NATS `replyTo` field to handle the response.
+It is RECOMMENDED to follow the subject format described in [3/ISM session affinity section](/0003/README.md#session-affinity):
 ```
 kaa.v1.replica.{consumer-service-replica-id}.cdtp.response
 ```

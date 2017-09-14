@@ -28,7 +28,7 @@
         {
             "name":"token",
             "type":"string",
-            "doc":"Endpoint token to be validated"
+            "doc":"Endpoint token to validate"
         }
     ]
 }
