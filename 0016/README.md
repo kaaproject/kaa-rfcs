@@ -44,7 +44,7 @@ kaa.v1.service.{provider-service-instance-name}.ecap.ep-token-request
 The consumer MUST include NATS `replyTo` field to handle the response.
 It is RECOMMENDED to follow the subject format described in [3/ISM session affinity section](/0003/README.md#session-affinity):
 ```
-kaa.v1.service.{consumer-service-instance-name}.ecap.ep-token-response
+kaa.v1.service.{consumer-service-replica-id}.ecap.ep-token-response
 ```
 
 Endpoint token validation request message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([0016-endpoint-token-validation-request.avsc](./0016-endpoint-token-validation-request.avsc)):
@@ -146,7 +146,7 @@ Endpoint token validation response message payload MUST be an Avro-encoded objec
 #### Endpoint token revocation event
 
 Provider MUST publish *endpoint token revoked event* whenever one or more previously valid endpoint tokens become unusable for endpoint identification.
-On receipt of this event consumers SHOULD take immediate measures for terminating active endpoint communication sessions where listed tokens are used for endpoint identification.
+On receipt of this event consumers MUST take immediate measures for terminating active endpoint communication sessions where listed tokens are used for endpoint identification.
 
 Endpoint token revoked event is a [broadcast message](/0003/README.md#broadcast-messaging) with `endpoint` target entity type, `token` event group, and `revoked` event type.
 
@@ -155,7 +155,7 @@ Providers MUST use the following NATS subject format for endpoint token revoked 
 kaa.v1.events.{originator-service-instance-name}.endpoint.token.revoked
 ```
 
-Endpoint token revoked event message payload MUST an Avro object with the following schema ([0016-endpoint-token-revoked.avsc](./0016-endpoint-token-revoked.avsc)):
+Endpoint token revoked event message payload MUST be an Avro-encoded object with the following schema ([0016-endpoint-token-revoked.avsc](./0016-endpoint-token-revoked.avsc)):
 
 ```json
 {
@@ -218,7 +218,7 @@ kaa.v1.service.{provider-service-instance-name}.ecap.client-username-password-re
 The consumer MUST include NATS `replyTo` field to handle the response.
 It is RECOMMENDED to follow the subject format described in [3/ISM session affinity section](/0003/README.md#session-affinity):
 ```
-kaa.v1.service.{consumer-service-instance-name}.ecap.client-username-password-response
+kaa.v1.service.{consumer-service-replica-id}.ecap.client-username-password-response
 ```
 
 Client username and password validation request message payload MUST be an Avro-encoded object with the following schema ([0016-client-username-password-validation-request.avsc](./0016-client-username-password-validation-request.avsc)):
@@ -269,7 +269,7 @@ Client username and password validation request message payload MUST be an Avro-
 
 #### Client username and password validation response
 
-*Client username and password validation response* message MUST be sent by provider in response to an [client username and password validation request message](#client-username-and-password-validation-request).
+*Client username and password validation response* message MUST be sent by provider in response to a [client username and password validation request message](#client-username-and-password-validation-request).
 Provider MUST publish client username and password validation response message to the subject provided in the NATS `replyTo` field of the request.
 
 Client username and password validation response message payload MUST be an Avro-encoded object with the following schema ([0016-client-username-password-validation-response.avsc](./0016-client-username-password-validation-response.avsc)):
@@ -328,6 +328,8 @@ Client username and password validation response message payload MUST be an Avro
 #### Client certificate validation request
 
 *Client certificate validation request* message is a targeted message that consumer sends to provider to make sure that the client is allowed to connect and to resolve the client ID.
+Provider does not perform standard certificate verification (signature, authority, expiration, etc.).
+Consumer MUST perform such verification prior to sending a client certificate validation request to provider.
 
 The consumer MUST send client certificate validation request messages using the following NATS subject:
 ```
@@ -337,7 +339,7 @@ kaa.v1.service.{provider-service-instance-name}.ecap.client-certificate-request
 The consumer MUST include NATS `replyTo` field to handle the response.
 It is RECOMMENDED to follow the subject format described in [3/ISM session affinity section](/0003/README.md#session-affinity):
 ```
-kaa.v1.service.{consumer-service-instance-name}.ecap.client-certificate-response
+kaa.v1.service.{consumer-service-replica-id}.ecap.client-certificate-response
 ```
 
 Client certificate validation request message payload MUST be an Avro-encoded object with the following schema ([0016-client-certificate-validation-request.avsc](./0016-client-certificate-validation-request.avsc)):
@@ -439,7 +441,7 @@ Client certificate validation response message payload MUST be an Avro-encoded o
 ### Client credential revocation event
 
 Provider MUST publish *client credential revoked event* whenever previously valid client credential becomes unusable for client authentication.
-On receipt of this event consumers SHOULD take immediate measures for terminating active communication sessions with the specified client.
+On receipt of this event consumers MUST take immediate measures for terminating active communication sessions with the specified client.
 
 Client credential revoked event is a [broadcast message](/0003/README.md#broadcast-messaging) with `client` target entity type, `credential` event group, and `revoked` event type.
 
@@ -448,7 +450,7 @@ Providers MUST use the following NATS subject format for client credential revok
 kaa.v1.events.{originator-service-instance-name}.client.credential.revoked
 ```
 
-Client credential revoked event message payload MUST an Avro object with the following schema ([0016-client-credential-revoked.avsc](./0016-client-credential-revoked.avsc)):
+Client credential revoked event message payload MUST be an Avro-encoded object with the following schema ([0016-client-credential-revoked.avsc](./0016-client-credential-revoked.avsc)):
 
 ```json
 {
