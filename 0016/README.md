@@ -44,7 +44,7 @@ kaa.v1.service.{provider-service-instance-name}.ecap.ep-token-request
 The consumer MUST include NATS `replyTo` field to handle the response.
 It is RECOMMENDED to follow the subject format described in [3/ISM session affinity section](/0003/README.md#session-affinity):
 ```
-kaa.v1.service.{consumer-service-replica-id}.ecap.ep-token-response
+kaa.v1.replica.{consumer-service-replica-id}.ecap.ep-token-response
 ```
 
 Endpoint token validation request message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([0016-endpoint-token-validation-request.avsc](./0016-endpoint-token-validation-request.avsc)):
@@ -218,7 +218,7 @@ kaa.v1.service.{provider-service-instance-name}.ecap.client-username-password-re
 The consumer MUST include NATS `replyTo` field to handle the response.
 It is RECOMMENDED to follow the subject format described in [3/ISM session affinity section](/0003/README.md#session-affinity):
 ```
-kaa.v1.service.{consumer-service-replica-id}.ecap.client-username-password-response
+kaa.v1.replica.{consumer-service-replica-id}.ecap.client-username-password-response
 ```
 
 Client username and password validation request message payload MUST be an Avro-encoded object with the following schema ([0016-client-username-password-validation-request.avsc](./0016-client-username-password-validation-request.avsc)):
@@ -339,7 +339,7 @@ kaa.v1.service.{provider-service-instance-name}.ecap.client-certificate-request
 The consumer MUST include NATS `replyTo` field to handle the response.
 It is RECOMMENDED to follow the subject format described in [3/ISM session affinity section](/0003/README.md#session-affinity):
 ```
-kaa.v1.service.{consumer-service-replica-id}.ecap.client-certificate-response
+kaa.v1.replica.{consumer-service-replica-id}.ecap.client-certificate-response
 ```
 
 Client certificate validation request message payload MUST be an Avro-encoded object with the following schema ([0016-client-certificate-validation-request.avsc](./0016-client-certificate-validation-request.avsc)):
