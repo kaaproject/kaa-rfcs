@@ -2,7 +2,7 @@
 name: Configuration Data Transport Protocol
 shortname: 6/CDTP
 status: draft
-editor: Andrew Pasika <apasika@cybervisiontech.com>
+editor: Andrew Pasika <apasika@kaaiot.io>
 ---
 
 <!-- toc -->
@@ -12,7 +12,7 @@ editor: Andrew Pasika <apasika@cybervisiontech.com>
 
 Configuration Data Transport Protocol (CDTP) is designed to communicate endpoint configuration data between Kaa services.
 
-CDTP design is based on the [3/Messaging IPC][3/MIPC].
+CDTP complies with the [Inter-Service Messaging](/0003/README.md) guidelines.
 
 
 ## Language
@@ -207,7 +207,8 @@ The consumer MUST send configuration request messages using the following NATS s
 kaa.v1.service.{provider-service-instance-name}.cdtp.request
 ```
 
-The consumer MUST include NATS `replyTo` field pointing to the consumer service replica that will handle the response:
+The consumer MUST include NATS `replyTo` field to handle the response.
+It is RECOMMENDED to follow the subject format described in [3/ISM session affinity section](/0003/README.md#session-affinity):
 ```
 kaa.v1.replica.{consumer-service-replica-id}.cdtp.response
 ```
