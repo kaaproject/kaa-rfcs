@@ -1,5 +1,5 @@
 ---
-name: Data Samples Transmission Protocol
+name: Data Sample Transmission Protocol
 shortname: 13/DSTP
 status: draft
 editor: Andrew Kokhanovskyi <ak@kaaiot.io>
@@ -10,7 +10,7 @@ editor: Andrew Kokhanovskyi <ak@kaaiot.io>
 
 # Introduction
 
-Data Samples Transmission Protocol (DSTP) is designed to communicate endpoint data samples from transmitter to receiver services in the Kaa platform.
+Data Sample Transmission Protocol (DSTP) is designed to communicate endpoint data samples from transmitter to receiver services in the Kaa platform.
 
 DSTP complies with the [Inter-Service Messaging](/0003/README.md) guidelines.
 
@@ -30,7 +30,7 @@ The following terms and definitions are used in this RFC.
 
 # Design
 
-## Endpoint data samples transmission to receivers
+## Endpoint data sample transmission to receivers
 
 In order to send endpoint data samples to receivers, transmitters MUST [broadcast](/0003/README.md#broadcast-messaging) `EndpointDataSamplesEvent` messages to the following NATS subject:
 ```
@@ -80,7 +80,7 @@ The NATS message payload is an Avro object with the following schema ([0013-ep-d
             "name":"contentType",
             "type":"string",
             "default":"application/json",
-            "doc":"Type of the data samples payload, e.g.: application/json, application/x-protobuf, etc."
+            "doc":"Type of the data sample payload, e.g.: application/json, application/x-protobuf, etc."
         },
         {
             "name":"dataSamples",
@@ -112,7 +112,7 @@ Example:
 
 ## Endpoint data response from receivers
 
-In case a `replyTo` subject is set in the endpoint data samples message, receivers MUST respond to that subject with a `EndpointDataSampleProcessed` message according to the [session affinity design](/0003/README.md#session-affinity).
+In case a `replyTo` subject is set in the endpoint data sample message, receivers MUST respond to that subject with a `EndpointDataSampleProcessed` message according to the [session affinity design](/0003/README.md#session-affinity).
 
 The NATS message payload is an Avro object with the following schema ([0013-ep-data-samples-processed.avsc](./0013-ep-data-samples-processed.avsc)):
 ```json
