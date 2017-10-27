@@ -1,6 +1,6 @@
 ---
 name: Time Series Transmission Protocol
-shortname: 16/TSRP
+shortname: 14/TSRP
 status: draft
 editor: Andrew Kokhanovskyi <ak@kaaiot.io>
 ---
