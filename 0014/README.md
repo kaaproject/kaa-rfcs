@@ -35,7 +35,7 @@ Data point value and tags value can be of arbitrary primitive or composite data 
 
 ## Time series data transmission to receivers
 
-In order to send endpoint data samples to receivers, transmitters MUST [broadcast](/0003/README.md#broadcast-messaging) endpoint time series events to the following NATS subjects:
+In order to send endpoint data points to receivers, transmitters MUST [broadcast](/0003/README.md#broadcast-messaging) endpoint time series events to the following NATS subjects:
 ```
 kaa.v1.events.<transmitter-service-instance-name>.endpoint.data-collection.time-series-received.<time-series-name>
 ```
