@@ -2,7 +2,7 @@
     "namespace":"org.kaaproject.ipc.cip.gen.v1",
     "type":"record",
     "name":"CommandInvocationRequest",
-    "doc":"Command execution request message.",
+    "doc":"Command invocation request message.",
     "fields":[
         {
             "name":"correlationId",
