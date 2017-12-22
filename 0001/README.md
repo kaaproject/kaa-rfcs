@@ -3,7 +3,7 @@ name: Kaa Protocol
 shortname: 1/KP
 status: draft
 editor: Alexey Shmalko <ashmalko@kaaiot.io>
-contributors: Alexey Gamov <agamov@kaaiot.io>, Andrew Kokhanovskyi <ak@kaaiot.io>
+contributors: Alexey Gamov <agamov@cybervisiontech.com>, Andrew Kokhanovskyi <ak@kaaiot.io>
 ---
 
 <!-- toc -->
