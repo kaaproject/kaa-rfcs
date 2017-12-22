@@ -1,0 +1,67 @@
+{
+    "namespace":"org.kaaproject.ipc.cip.gen.v1",
+    "type":"record",
+    "name":"CommandInvocationResult",
+    "doc":"Command invocation result message.",
+    "fields":[
+        {
+            "name":"correlationId",
+            "type":"string",
+            "doc":"Message ID that is used for message processing tracking across services."
+        },
+        {
+            "name":"timestamp",
+            "type":"long",
+            "doc":"Message creation UNIX timestamp in milliseconds."
+        },
+        {
+            "name":"timeout",
+            "type":"long",
+            "default":0,
+            "doc":"Amount of milliseconds (since the timestamp) until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name":"appVersionName",
+            "type":"string",
+            "doc":"Endpoint's application version, for which the configuration is requested"
+        },
+        {
+            "name":"endpointId",
+            "type":"string",
+            "doc":"Endpoint identifier, for which the configuration is requested"
+        },
+        {
+            "name":"commandId",
+            "type":"int",
+            "doc":"Unique command ID that is used for command correlation."
+        },
+        {
+            "name":"commandType",
+            "type":"string",
+            "doc":"Command type."
+        },
+        {
+            "name":"statusCode",
+            "type":"int",
+            "doc":"Command execution status code. Based on HTTP status codes."
+        },
+        {
+            "name":"reasonPhrase",
+            "type":[
+              "null",
+              "string"
+            ],
+            "default":null,
+            "doc":"Human-readable reason phrase."
+        },
+        {
+            "name":"payload",
+            "type":[
+              "null",
+              "bytes"
+            ],
+            "default":null,
+            "doc":"A command result payload to be interpreted by the command caller."
+        }
+    ]
+}
