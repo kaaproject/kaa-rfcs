@@ -2,7 +2,7 @@
 name: Data Collection Protocol
 shortname: 2/DCP
 status: draft
-editor: Alexey Shmalko <ashmalko@cybervisiontech.com>
+editor: Alexey Shmalko <ashmalko@kaaiot.io>
 contributors: Alexey Gamov <agamov@cybervisiontech.com>
 ---
 
