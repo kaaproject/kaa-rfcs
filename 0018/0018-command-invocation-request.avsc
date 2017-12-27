@@ -21,24 +21,19 @@
             "doc":"Amount of milliseconds (since the timestamp) until the message expires. Value of 0 is reserved to indicate no expiration."
         },
         {
-            "name":"appVersionName",
-            "type":"string",
-            "doc":"Endpoint's application version, for which the configuration is requested"
-        },
-        {
             "name":"endpointId",
             "type":"string",
-            "doc":"Endpoint identifier, for which the configuration is requested"
-        },
-        {
-            "name":"commandId",
-            "type":"int",
-            "doc":"Unique command ID that is used for command correlation."
+            "doc":"Identifier of the endpoint the command is invoked against."
         },
         {
             "name":"commandType",
             "type":"string",
             "doc":"Command type."
+        },
+        {
+            "name":"commandId",
+            "type":"int",
+            "doc":"Unique command ID that is used for command correlation. (endpointId, commandType, commandId) tuple uniquely identifies a command instance."
         },
         {
             "name":"payload",

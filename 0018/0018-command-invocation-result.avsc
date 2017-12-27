@@ -23,22 +23,22 @@
         {
             "name":"appVersionName",
             "type":"string",
-            "doc":"Endpoint's application version, for which the configuration is requested"
+            "doc":"Application version of the endpoint that responded."
         },
         {
             "name":"endpointId",
             "type":"string",
-            "doc":"Endpoint identifier, for which the configuration is requested"
-        },
-        {
-            "name":"commandId",
-            "type":"int",
-            "doc":"Unique command ID that is used for command correlation."
+            "doc":"Identified of the endpoint the command was invoked against."
         },
         {
             "name":"commandType",
             "type":"string",
             "doc":"Command type."
+        },
+        {
+            "name":"commandId",
+            "type":"int",
+            "doc":"Unique command ID that is used for command correlation."
         },
         {
             "name":"statusCode",

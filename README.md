@@ -21,6 +21,7 @@ RFCs can be in raw, draft, stable, deprecated, or retired status.
 | [14/TSTP](0014/README.md)      | Time Series Transmission Protocol           | Draft   |
 | [15/EME](0015/README.md)       | Endpoint Metadata Events                    | Draft   |
 | [16/ECAP](0016/README.md)      | Endpoint and Client Authentication Protocol | Draft   |
+| [18/CIP](0018/README.md)       | Command Invocation Protocol                 | Raw     |
 
 # Change process
 
