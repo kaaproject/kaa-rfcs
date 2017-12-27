@@ -22,8 +22,11 @@
         },
         {
             "name":"appVersionName",
-            "type":"string",
-            "doc":"Application version name the data is sent for"
+            "type":[
+                "string",
+                "null"
+            ],
+            "doc":"Application version name the data is sent for. Optional."
         },
         {
             "name":"endpointId",
