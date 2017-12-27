@@ -109,8 +109,7 @@ Example:
    "commandType":"measurement",
    "commandId":284,
    "payload":{  
-      "temperature":true,
-      "humidity":false
+      "bytes":"{\"temperature\":true,\"humidity\":false}"
    }
 }
 ```
@@ -204,26 +203,11 @@ Example:
    "commandType":"measurement",
    "commandId":284,
    "statusCode":200,
-   "reasonPhrase":"OK",
+   "reasonPhrase":{  
+      "string":"OK"
+   },
    "payload":{  
-      "temperature":24
+      "bytes":"{\"temperature\":24}"
    }
 }
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
