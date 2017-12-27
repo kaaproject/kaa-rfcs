@@ -1,0 +1,48 @@
+{
+    "namespace":"org.kaaproject.ipc.cip.gen.v1",
+    "type":"record",
+    "name":"CommandInvocationRequest",
+    "doc":"Command invocation request message.",
+    "fields":[
+        {
+            "name":"correlationId",
+            "type":"string",
+            "doc":"Message ID that is used for message processing tracking across services."
+        },
+        {
+            "name":"timestamp",
+            "type":"long",
+            "doc":"Message creation UNIX timestamp in milliseconds."
+        },
+        {
+            "name":"timeout",
+            "type":"long",
+            "default":0,
+            "doc":"Amount of milliseconds (since the timestamp) until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name":"endpointId",
+            "type":"string",
+            "doc":"Identifier of the endpoint the command is invoked against."
+        },
+        {
+            "name":"commandType",
+            "type":"string",
+            "doc":"Command type."
+        },
+        {
+            "name":"commandId",
+            "type":"int",
+            "doc":"Unique command ID that is used for command correlation. (endpointId, commandType, commandId) tuple uniquely identifies a command instance."
+        },
+        {
+            "name":"payload",
+            "type":[
+              "null",
+              "bytes"
+            ],
+            "default":null,
+            "doc":"The command payload to be interpreted by endpoint."
+        }
+    ]
+}
