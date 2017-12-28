@@ -1,6 +1,6 @@
 ---
 name: Command Invocation Protocol
-shortname: 18/CIP
+shortname: 12/CIP
 status: draft
 editor: Andrew Pasika <apasika@kaaiot.io>
 ---
@@ -45,7 +45,7 @@ kaa.v1.replica.{consumer-service-replica-id}.cip.command-result
 For more information, see [3/Messaging IPC](/0003/README.md).
 
 
-*Command invocation request* message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([0018-command-invocation-request.avsc](./0018-command-invocation-request.avsc)):
+*Command invocation request* message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([0012-command-invocation-request.avsc](./0012-command-invocation-request.avsc)):
 
 ```json
 {
@@ -101,14 +101,14 @@ For more information, see [3/Messaging IPC](/0003/README.md).
 Example:
 
 ```json
-{  
+{
    "correlationId":"07d78e95-2c4d-4899-957c-b9e5a3701fbb",
    "timestamp":1514372799674,
    "timeout":0,
    "endpointId":"b197e391-1d13-403b-83f5-87bdd44888cf",
    "commandType":"measurement",
    "commandId":284,
-   "payload":{  
+   "payload":{
       "bytes":"{\"temperature\":true,\"humidity\":false}"
    }
 }
@@ -119,7 +119,7 @@ Example:
 *Command invocation result* message MUST be sent by invocation agent in response to a [Command invocation request](#command-invocation-request).
 Agent MUST publish command invocation result message to the subject provided in the NATS `replyTo` field of the request.
 
-*Command invocation result* message payload MUST be an Avro-encoded object with the following schema ([0018-command-invocation-result.avsc](./0018-command-invocation-result.avsc)):
+*Command invocation result* message payload MUST be an Avro-encoded object with the following schema ([0012-command-invocation-result.avsc](./0012-command-invocation-result.avsc)):
 
 ```json
 {
@@ -194,7 +194,7 @@ Agent MUST publish command invocation result message to the subject provided in 
 Example:
 
 ```json
-{  
+{
    "correlationId":"07d78e95-2c4d-4899-957c-b9e5a3701fbb",
    "timestamp":1514381235893,
    "timeout":0,
@@ -203,10 +203,10 @@ Example:
    "commandType":"measurement",
    "commandId":284,
    "statusCode":200,
-   "reasonPhrase":{  
+   "reasonPhrase":{
       "string":"OK"
    },
-   "payload":{  
+   "payload":{
       "bytes":"{\"temperature\":24}"
    }
 }
