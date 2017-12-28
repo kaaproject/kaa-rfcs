@@ -12,7 +12,7 @@ RFCs can be in raw, draft, stable, deprecated, or retired status.
 | [4/ESP](0004/README.md)        | Extension Service Protocol                  | Draft   |
 | [5/CMX](0005/README.md)        | Configuration Management Extension Protocol | Deleted |
 | [6/CDTP](0006/README.md)       | Configuration Data Transport Protocol       | Draft   |
-| [7/CMP](0007/README.md)        | Configuration Management Protocol           | Raw     |
+| [7/CMP](0007/README.md)        | Configuration Management Protocol           | Draft   |
 | [8/KPSR](0008/README.md)       | KP Security Recommendations                 | Raw     |
 | [9/ELCE](0009/README.md)       | Endpoint Lifecycle and Connectivity Events  | Draft   |
 | [10/EPMP](0010/README.md)      | Endpoint Metadata Protocol                  | Draft   |

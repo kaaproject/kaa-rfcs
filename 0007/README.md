@@ -1,7 +1,7 @@
 ---
 name: Configuration Management Protocol
 shortname: 7/CMP
-status: raw
+status: draft
 editor: Alexey Shmalko <ashmalko@kaaiot.io>
 contributors: Andrew Kokhanovskyi <ak@kaaiot.io>
 ---
