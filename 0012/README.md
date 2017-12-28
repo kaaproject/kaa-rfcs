@@ -1,7 +1,7 @@
 ---
 name: Command Invocation Protocol
 shortname: 12/CIP
-status: draft
+status: raw
 editor: Andrew Pasika <apasika@kaaiot.io>
 ---
 
