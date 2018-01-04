@@ -26,7 +26,7 @@
                 "string",
                 "null"
             ],
-            "doc":"Application version name the data is sent for. Optional."
+            "doc":"Application version name the data is sent for. Null in case of the extension does not know about application version endpoint belongs to."
         },
         {
             "name":"extensionInstanceName",
