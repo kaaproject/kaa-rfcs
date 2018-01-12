@@ -63,7 +63,7 @@ _Note: in general, all communicating parties should be authenticated (server, cl
 
 The whole system is secure when all the three properties are maintained for both links.
 
-Note also that not all properties might be required for a system at the same time, e. g. if the data can be safely disclosed in a system, it might not require confidentiality.
+Note also that not all properties might be required for a system at the same time, e.g., if the data can be safely disclosed in a system, it might not require confidentiality.
 However, authenticity usually requires data integrity, and often relies on confidentiality to be effective.
 
 # Possible solutions
