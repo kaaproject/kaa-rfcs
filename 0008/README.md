@@ -29,7 +29,7 @@ server -- clients -- end devices
 All data flows between the server and the end devices through clients.
 
 As you see, there are two links involved: server-client and client-device.
-These links are logical (e.g. if the client acts as an end device and produces data on its own, then there is no physical link).
+These links are logical (e.g., if the client acts as an end device and produces data on its own, then there is no physical link).
 
 ## Proxy model
 There can be multiple clients between the server and the end devices, each acting as a proxy:
@@ -84,7 +84,7 @@ Confidentiality:
 
 Integrity:
 
-- Message Authentication Code (MAC), e.g. HMAC (provided by TLS)
+- Message Authentication Code (MAC), e.g., HMAC (provided by TLS)
 - payload signatures with server/client key
 
 Authenticity:
@@ -93,7 +93,7 @@ Authenticity:
 - MQTT username/password (this does not authenticate the server)
 
 _Note: when using certificates for client authentication, it is recommended that separate certificates are issued for each client instance to limit the effect of compromising the private key.
-Unfortunately, that is not always possible (e.g. mass production device); in that case, it is recommended that some unique client identifier is passed using MQTT username/password and whitelists are used.
+Unfortunately, that is not always possible (e.g., mass production device); in that case, it is recommended that some unique client identifier is passed using MQTT username/password and whitelists are used.
 This, however, still does not provide good security and is merely an identification technique, especially in case when unique client identifier does not have enough entropy.
 In any case, when a key is compromised, it must be revoked as soon as possible._
 
@@ -101,7 +101,7 @@ In any case, when a key is compromised, it must be revoked as soon as possible._
 The Client-Device link usually runs a different protocol than 1/KP, so responsibility of maintaining confidentiality, integrity, and authenticity can be delegated to the client.
 
 _Note: it can only be delegated when the client itself is trusted.
-hat usually requires integrity and authenticity of Server-Client link._
+That usually requires integrity and authenticity of Server-Client link._
 
 If Client-Device link is running 1/KP, the Server-Client link protection techniques can be used (replacing server with client, and client with device).
 See the Server-Client section above for details.
@@ -138,7 +138,7 @@ It commuticates with the server directly using 1/KP over MQTT.
 It that case, the client-device link is local, and therefore should not be protected.
 
 It is recommended that server-client link is protected with bi-directional TLS to provide authenticity, confidentiality, and integrity.
-An out-of-band registration process can be used, e.g. a user must register on a website and provide their public key.
+An out-of-band registration process can be used, e.g., a user must register on a website and provide their public key.
 
 In case when issuing certificates for every client is not viable, the next recommended solution is using unidirectional TLS to provide server authenticity, confidentiality, and integrity, and MQTT username/password for user authentication.
 
