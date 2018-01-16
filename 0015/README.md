@@ -32,7 +32,7 @@ Originators MUST publish endpoint events to the following NATS subjects:
 ```
 kaa.v1.events.{originator-service-instance-name}.endpoint.metadata.updated
 ```
-where `{originator-service-instance-name}` - name of the originator service instance.
+where `{originator-service-instance-name}` is the name of the originator service instance.
 It allows listeners to subscribe to events from a specific originator.
 
 The NATS message payload is an Avro object with the following schema ([0015-ep-metadata-updated.avsc](./0015-ep-metadata-updated.avsc)):

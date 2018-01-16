@@ -8,14 +8,14 @@ editor: Andrew Pasika <apasika@kaaiot.io>
 <!-- toc -->
 
 
-## Introduction
+# Introduction
 
 Configuration Data Transport Protocol (CDTP) is designed to communicate endpoint configuration data between Kaa services.
 
 CDTP complies with the [Inter-Service Messaging](/0003/README.md) guidelines.
 
 
-## Language
+# Language
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).
 
@@ -28,11 +28,11 @@ Consumers may choose to subscribe to the broadcast events and react according to
 - **Configuration pull**: a communication pattern where a consumer explicitly requests EP configuration data from a provider.
 
 
-## Design
+# Design
 
-### Configuration push
+## Configuration push
 
-#### Configuration updated
+### Configuration updated
 
 *Configuration updated* is a [broadcast message](/0003/README.md#broadcast-messaging) published by provider to indicate that configuration data for an endpoint has been updated.
 The message `{event-group}` is `config` and the `{event-type}` is `updated`.
@@ -120,7 +120,8 @@ Example:
 }
 ```
 
-#### Configuration applied
+
+### Configuration applied
 
 *Configuration applied* is a broadcast message that consumer MAY publish to indicate that an endpoint applied the configuration data.
 Providers MAY subscribe to these messages to keep track of the configurations that were last applied to the endpoints.
@@ -196,9 +197,10 @@ Example:
 }
 ```
 
-### Configuration pull
 
-#### Configuration request
+## Configuration pull
+
+### Configuration request
 
 Configuration request message is a [targeted message](/0003/README.md#targeted-messaging) that consumer sends to provider to request the EP configuration.
 
@@ -277,7 +279,8 @@ Example:
 }
 ```
 
-#### Configuration response
+
+### Configuration response
 
 *Configuration response* message MUST be sent by provider in response to a [Configuration request message](#configuration-request).
 Provider MUST publish configuration response message to the subject provided in the NATS `replyTo` field of the request.

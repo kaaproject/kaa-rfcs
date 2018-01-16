@@ -8,17 +8,20 @@ contributors: Andrew Kokhanovskyi <akokhanovskyi@cybervisiontech.com>
 
 <!-- toc -->
 
-## Introduction
+
+# Introduction
 
 The Configuration Management Extension (CMX) protocol is an endpoint-aware [Kaa Protocol](/0001/README.md) extension.
 
 It is intended to manage endpoint configuration distribution.
 
-## Language
+
+# Language
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).
 
-## Requirements and constraints
+
+# Requirements and constraints
 
 - CMX protocol must support client-initiated configuration data pull.
 Compliant endpoints should be able to receive the latest configuration by request.
@@ -30,11 +33,12 @@ Compliant endpoints should be able to receive the latest configuration data when
 - CMX protocol implementations MUST support JSON-structured configuration data transfer.
 Support for any other formats is OPTIONAL.
 
-## Design
 
-### Configuration pull
+# Design
 
-#### Configuration pull request
+## Configuration pull
+
+### Configuration pull request
 
 Client MUST send requests with the following extension-specific [resource path](/0001/README.md#resource-path-format) part in order to receive the configuration:
 
@@ -42,8 +46,8 @@ Client MUST send requests with the following extension-specific [resource path](
 
   where:
   - `<endpoint_token>` identifies the endpoint;
-  - `<message_format>` specifies the format of the configuration pull messages' payload, e.g. `json`, `protobuf`, etc.;
-  - `<config_format>` specifies the format of the configuration body, e.g. `json`, `avro`, etc.
+  - `<message_format>` specifies the format of the configuration pull messages' payload, e.g., `json`, `protobuf`, etc.;
+  - `<config_format>` specifies the format of the configuration body, e.g., `json`, `avro`, etc.
   This resource path parameter is optional.
   In case it is not specified, the configuration body format is assumed to match the message format.
   It is RECOMMENDED to omit the `<config_format>` resource path suffix in case the desired configuration format matches the message format.
@@ -96,7 +100,8 @@ Example 2:
 }
 ```
 
-#### Configuration pull response
+
+### Configuration pull response
 
 The server MUST respond to the configuration pull request by publishing the response message according to the [request/response design pattern defined in 1/KP](/0001/README.md#requestresponse-pattern).
 The extension-specific resource path part format is:
@@ -171,9 +176,10 @@ Example for the case when there is no new configuration data for the endpoint (`
 }
 ```
 
-### Configuration push
 
-#### Configuration push request
+## Configuration push
+
+### Configuration push request
 
 Server MUST send requests with the following extension-specific resource path part in order to push the configuration to the clients:
 
@@ -181,8 +187,8 @@ Server MUST send requests with the following extension-specific resource path pa
 
   where:
   - `<endpoint_token>` identifies the endpoint;
-  - `<message_format>` specifies the format of the push configuration messages' payload, e.g. `json`, `protobuf`, etc.;
-  - `<config_format>` specifies the format of the configuration body, e.g. `json`, `avro`, etc.
+  - `<message_format>` specifies the format of the push configuration messages' payload, e.g., `json`, `protobuf`, etc.;
+  - `<config_format>` specifies the format of the configuration body, e.g., `json`, `avro`, etc.
   This resource path parameter is optional.
   In case it is not specified, the configuration body format is assumed to match the message format.
   It is RECOMMENDED to omit the `<config_format>` resource path suffix in case the configuration format matches the message format.
@@ -235,7 +241,8 @@ Example:
 }
 ```
 
-#### Configuration push response
+
+### Configuration push response
 
 The client MUST respond to the configuration push request by publishing the response message according to the [request/response design pattern defined in 1/KP](/0001/README.md#requestresponse-pattern).
 The extension-specific resource path part format is:

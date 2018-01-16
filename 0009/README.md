@@ -9,14 +9,14 @@ contributors: Andrew Kokhanovskyi <ak@kaaiot.io>
 <!-- toc -->
 
 
-## Introduction
+# Introduction
 
 Endpoint events is a method for Kaa services to communicate events that occur to endpoints.
 The events are defined as [broadcast messages](/0003/README.md#broadcast-messaging) with `endpoint` target entity type.
 This document describes the NATS subject and Avro message format for each event message.
 
 
-## Language
+# Language
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).
 
@@ -26,7 +26,7 @@ The following terms and definitions are used in this RFC.
 - **Event listener (listener)**: service that subscribes to endpoint events.
 
 
-## NATS subject format
+# NATS subject format
 
 Originators MUST publish endpoint events to the following NATS subjects:
 ```
@@ -34,18 +34,18 @@ kaa.v1.events.{originator-service-instance-name}.endpoint.{event-group}.{event-t
 ```
 
 where:
-- `{originator-service-instance-name}` - name of the originator service instance. Allows listeners to subscribe to events from a specific originator.
-- `{event-group}` - a logical group of events. For example, connectivity, lifecycle, etc.
-- `{event-type}` - specific event type. For example, endpoint connectivity event types could be `connected`, `disconnected`, `dormant`, `awake`, etc.
+- `{originator-service-instance-name}` is the name of the originator service instance. Allows listeners to subscribe to events from a specific originator.
+- `{event-group}` is a logical group of events. For example, connectivity, lifecycle, etc.
+- `{event-type}` is a specific event type. For example, endpoint connectivity event types could be `connected`, `disconnected`, `dormant`, `awake`, etc.
 
 
-## Connectivity events
+# Connectivity events
 
 Connectivity events are used for notifying listeners about the communication session status transitions between an endpoint and server.
 The `{event-group}` is `connectivity`.
 
 
-### Endpoint connected
+## Endpoint connected
 
 Endpoint connected event is published when endpoint opens a communication session with server.
 The `{event-type}` is `connected`.
@@ -98,7 +98,7 @@ The NATS message payload is an Avro object with the following schema ([ep-connec
 ```
 
 
-### Endpoint disconnected
+## Endpoint disconnected
 
 Endpoint disconnected event is published when endpoint communication session with server becomes unavailable because of a disconnect, timeout, or other reasons.
 The `{event-type}` is `disconnected`.
@@ -153,13 +153,13 @@ The NATS message payload is an Avro object with the following schema ([ep-discon
 When originating service handles a disconnect of a client communication session, associated with multiple endpoints (see [Client vs endpoint](/0001/README.md#client-vs-endpoint)), it SHOULD publish an endpoint disconnected event with all endpoint IDs instead of publishing a separate event for every endpoint.
 
 
-## Lifecycle events
+# Lifecycle events
 
 Lifecycle events are for notifying listeners about the endpoint events such as the initial registration, appversion update, and removal.
 The `{event-group}` is `lifecycle`.
 
 
-### Endpoint registered
+## Endpoint registered
 
 The `{event-type}` is `registered`.
 Published when an endpoint first registers in the system.
@@ -214,7 +214,7 @@ The NATS message payload is an Avro object with the following schema ([0009-ep-r
 ```
 
 
-### Endpoint application version updated
+## Endpoint application version updated
 
 The `{event-type}` is `appversion-updated`.
 
@@ -274,7 +274,7 @@ The NATS message payload is an Avro object with the following schema ([0009-ep-a
 ```
 
 
-### Endpoint unregistered
+## Endpoint unregistered
 
 The `{event-type}` is `unregistered`.
 Published when an endpoint is unregistered from the system.
