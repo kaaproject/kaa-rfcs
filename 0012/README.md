@@ -8,14 +8,14 @@ editor: Andrew Pasika <apasika@kaaiot.io>
 <!-- toc -->
 
 
-## Introduction
+# Introduction
 
 Command Invocation Protocol (CIP) is designed to communicate endpoint command data between Kaa services.
 
 CIP complies with the [Inter-Service Messaging](/0003/README.md) guidelines.
 
 
-## Language
+# Language
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).
 
@@ -25,9 +25,9 @@ The following terms and definitions are used in this RFC.
 - **Command invocation agent (agent)**: any service that receives endpoint command data from other service(s).
 
 
-## Design
+# Design
 
-### Command invocation request
+## Command invocation request
 
 *Command invocation request* is a [targeted message](/0003/README.md#targeted-messaging) published by command invocation caller that wants to invoke command on specific endpoint.
 
@@ -43,7 +43,6 @@ kaa.v1.replica.{consumer-service-replica-id}.cip.command-result
 ```
 
 For more information, see [3/Messaging IPC](/0003/README.md).
-
 
 *Command invocation request* message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([0012-command-invocation-request.avsc](./0012-command-invocation-request.avsc)):
 
@@ -114,7 +113,8 @@ Example:
 }
 ```
 
-### Command invocation result
+
+## Command invocation result
 
 *Command invocation result* message MUST be sent by invocation agent in response to a [Command invocation request](#command-invocation-request).
 Agent MUST publish command invocation result message to the subject provided in the NATS `replyTo` field of the request.

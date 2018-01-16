@@ -202,6 +202,7 @@ Endpoint token revoked event message payload MUST be an Avro-encoded object with
 }
 ```
 
+
 ## Client authentication
 
 ### Client authentication by username and password

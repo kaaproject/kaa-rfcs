@@ -82,7 +82,6 @@ The user wants to store all collected data, including timestamps, for further pr
 
 # Design
 
-
 ## Batch uploads
 
 To reduce network usage, data sample are uploaded in batches.
