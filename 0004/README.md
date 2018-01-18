@@ -165,8 +165,11 @@ The NATS message payload is an Avro object with the following schema ([0004-exte
         },
         {
             "name":"appVersionName",
-            "type":"string",
-            "doc":"Application version name the data is sent for"
+            "type":[
+                "string",
+                "null"
+            ],
+            "doc":"Application version name the data is sent for. Null in case the extension does not know application version the endpoint belongs to. MUST NOT be null for endpoint-unaware extensions."
         },
         {
             "name":"extensionInstanceName",
