@@ -25,7 +25,6 @@ RFCs can be in raw, draft, stable, deprecated, or retired status.
 | [17/SCP](0017/README.md)       | Service Configuration Protocol              |         |
 | [18/EFE](0018/README.md)       | Endpoint Filter Events                      | Draft   |
 
-
 # Change process
 
 Kaa RFCs are developed in compliance with the [C4](https://rfc.zeromq.org/spec:42/C4/) and [COSS](https://rfc.unprotocols.org/spec:2/COSS/) specifications.
