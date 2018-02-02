@@ -27,7 +27,7 @@ The following terms and definitions are used in this RFC.
 
 # NATS subject format
 
-Originators MUST publish endpoint filter events to the following NATS subjects:
+Originators MUST publish endpoint filter events to the following NATS subject:
 ```
 kaa.v1.events.{originator-service-instance-name}.endpoint-filter.{event-group}.{event-type}
 ```
