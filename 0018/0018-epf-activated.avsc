@@ -26,17 +26,17 @@
             "doc":"Identifier of the service replica that generated the event"
         },
         {
-            "name":"id",
+            "name":"filterId",
             "type":"string",
             "doc":"Identifier of the endpoint filter"
         },
         {
             "name":"applicationName",
             "type":"string",
-            "doc":"Application name the endpoint registered with"
+            "doc":"Application name"
         },
         {
-            "name":"name",
+            "name":"filterName",
             "type":[
               "null",
               "string"

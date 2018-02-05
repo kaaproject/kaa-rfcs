@@ -26,22 +26,22 @@
             "doc":"Identifier of the service replica that generated the event"
         },
         {
-            "name":"id",
+            "name":"filterId",
             "type":"string",
             "doc":"Identifier of the endpoint filter"
         },
         {
             "name":"applicationName",
             "type":"string",
-            "doc":"Application name the endpoint registered with"
+            "doc":"Application name"
         },
         {
             "name":"appVersionName",
             "type":"string",
-            "doc":"Application version name the endpoint registered with"
+            "doc":"Application version name the endpoint matched"
         },
         {
-            "name":"name",
+            "name":"filterName",
             "type":[
               "null",
               "string"
@@ -51,7 +51,7 @@
         {
             "name":"endpointId",
             "type":"string",
-            "doc":"Identifier of the endpoint that registered with the server"
+            "doc":"Identifier of the endpoint that matched against the filter"
         }
     ]
 }

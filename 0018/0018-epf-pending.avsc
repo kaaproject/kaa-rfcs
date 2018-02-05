@@ -1,8 +1,8 @@
 {
     "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.filter",
-    "name":"EndpointUnmatchedFilterEvent",
+    "name":"EndpointFilterPendingEvent",
     "type":"record",
-    "doc":"Endpoint unmatched filter event message",
+    "doc":"Endpoint filter pending event message",
     "fields":[
         {
             "name":"timestamp",
@@ -36,22 +36,12 @@
             "doc":"Application name"
         },
         {
-            "name":"appVersionName",
-            "type":"string",
-            "doc":"Application version name the endpoint matched"
-        },
-        {
             "name":"filterName",
             "type":[
               "null",
               "string"
             ],
             "doc":"Endpoint filter name, unique in scope of application"
-        },
-        {
-            "name":"endpointId",
-            "type":"string",
-            "doc":"Identifier of the endpoint that matched against the filter"
         }
     ]
 }

@@ -19,11 +19,6 @@ This document describes the NATS subject and Avro message format for each endpoi
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).
 
-The following terms and definitions are used in this RFC.
-
-- **Event originator (originator)**: service that broadcasts endpoint filter events.
-- **Event listener (listener)**: service that subscribes to endpoint filter events.
-
 
 # NATS subject format
 
@@ -82,17 +77,17 @@ The NATS message payload is an Avro object with the following schema ([0018-epf-
             "doc":"Identifier of the service replica that generated the event"
         },
         {
-            "name":"id",
+            "name":"filterId",
             "type":"string",
             "doc":"Identifier of the endpoint filter"
         },
         {
             "name":"applicationName",
             "type":"string",
-            "doc":"Application name the endpoint registered with"
+            "doc":"Application name"
         },
         {
-            "name":"name",
+            "name":"filterName",
             "type":[
               "null",
               "string"
@@ -104,24 +99,28 @@ The NATS message payload is an Avro object with the following schema ([0018-epf-
 ```
 
 
-## Endpoint filter deactivated(pending)
+## Endpoint filter pending
 
-Endpoint filter deactivated event is published when endpoint filter status changed from `active` to `pending`.
-The `{event-type}` is `deactivated`.
+Endpoint filter pending event is published when:
 
-Originators MUST use the following NATS subject format for endpoint filter deactivated events:
+- endpoint filter created.
+- endpoint filter status changed from `active` to `pending`.
+
+The `{event-type}` is `pending`.
+
+Originators MUST use the following NATS subject format for endpoint filter pending events:
 ```
-kaa.v1.events.{originator-service-instance-name}.endpoint-filter.{endpoint-filter-id}.deactivated
+kaa.v1.events.{originator-service-instance-name}.endpoint-filter.{endpoint-filter-id}.pending
 ```
 
-The NATS message payload is an Avro object with the following schema ([0018-epf-deactivated.avsc](./0018-epf-deactivated.avsc)):
+The NATS message payload is an Avro object with the following schema ([0018-epf-pending.avsc](./0018-epf-pending.avsc)):
 
 ```json
 {
     "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.filter",
     "name":"EndpointFilterPendingEvent",
     "type":"record",
-    "doc":"Endpoint filter deactivated event message",
+    "doc":"Endpoint filter pending event message",
     "fields":[
         {
             "name":"timestamp",
@@ -145,17 +144,17 @@ The NATS message payload is an Avro object with the following schema ([0018-epf-
             "doc":"Identifier of the service replica that generated the event"
         },
         {
-            "name":"id",
+            "name":"filterId",
             "type":"string",
             "doc":"Identifier of the endpoint filter"
         },
         {
             "name":"applicationName",
             "type":"string",
-            "doc":"Application name the endpoint registered with"
+            "doc":"Application name"
         },
         {
-            "name":"name",
+            "name":"filterName",
             "type":[
               "null",
               "string"
@@ -171,12 +170,12 @@ The NATS message payload is an Avro object with the following schema ([0018-epf-
 
 Endpoint matched filter event is published when:
 
-- New endpoint registered and matches existing filter.
+- New endpoint registers and matches existing filter.
 - Application version or metadata of endpoint was updated and endpoint now matches to filter.
 
 The `{event-type}` is `ep-matched`.
 
-Originators MUST use the following NATS subject format for endpoint filter deactivated events:
+Originators MUST use the following NATS subject format for endpoint matched filter events:
 ```
 kaa.v1.events.{originator-service-instance-name}.endpoint-filter.{endpoint-filter-id}.ep-matched
 ```
@@ -212,22 +211,22 @@ The NATS message payload is an Avro object with the following schema ([0018-epf-
             "doc":"Identifier of the service replica that generated the event"
         },
         {
-            "name":"id",
+            "name":"filterId",
             "type":"string",
             "doc":"Identifier of the endpoint filter"
         },
         {
             "name":"applicationName",
             "type":"string",
-            "doc":"Application name the endpoint registered with"
+            "doc":"Application name"
         },
         {
             "name":"appVersionName",
             "type":"string",
-            "doc":"Application version name the endpoint registered with"
+            "doc":"Application version name the endpoint matched"
         },
         {
-            "name":"name",
+            "name":"filterName",
             "type":[
               "null",
               "string"
@@ -237,7 +236,7 @@ The NATS message payload is an Avro object with the following schema ([0018-epf-
         {
             "name":"endpointId",
             "type":"string",
-            "doc":"Identifier of the endpoint that registered with the server"
+            "doc":"Identifier of the endpoint that matched against the filter"
         }
     ]
 }
@@ -253,7 +252,7 @@ Endpoint unmatched filter event is published when:
 
 The `{event-type}` is `ep-unmatched`.
 
-Originators MUST use the following NATS subject format for endpoint filter deactivated events:
+Originators MUST use the following NATS subject format for endpoint unmatched filter events:
 ```
 kaa.v1.events.{originator-service-instance-name}.endpoint-filter.{endpoint-filter-id}.ep-unmatched
 ```
@@ -289,22 +288,22 @@ The NATS message payload is an Avro object with the following schema ([0018-epf-
             "doc":"Identifier of the service replica that generated the event"
         },
         {
-            "name":"id",
+            "name":"filterId",
             "type":"string",
             "doc":"Identifier of the endpoint filter"
         },
         {
             "name":"applicationName",
             "type":"string",
-            "doc":"Application name the endpoint registered with"
+            "doc":"Application name"
         },
         {
             "name":"appVersionName",
             "type":"string",
-            "doc":"Application version name the endpoint registered with"
+            "doc":"Application version name the endpoint matched"
         },
         {
-            "name":"name",
+            "name":"filterName",
             "type":[
               "null",
               "string"
@@ -314,7 +313,7 @@ The NATS message payload is an Avro object with the following schema ([0018-epf-
         {
             "name":"endpointId",
             "type":"string",
-            "doc":"Identifier of the endpoint that registered with the server"
+            "doc":"Identifier of the endpoint that matched against the filter"
         }
     ]
 }
