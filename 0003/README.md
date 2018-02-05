@@ -27,6 +27,11 @@ Multiple service instances may subscribe to a broadcast event feed to receive me
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).
 
+The following terms and definitions are used in this RFC.
+
+- **Event originator (originator)**: service that broadcasts endpoint filter events.
+- **Event listener (listener)**: service that subscribes to endpoint filter events.
+
 
 # Targeted messaging
 

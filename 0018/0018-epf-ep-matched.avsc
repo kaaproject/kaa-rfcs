@@ -1,0 +1,57 @@
+{
+    "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.filter",
+    "name":"EndpointMatchedFilterEvent",
+    "type":"record",
+    "doc":"Endpoint matched filter event message",
+    "fields":[
+        {
+            "name":"timestamp",
+            "type":"long",
+            "doc":"Message creation UNIX timestamp in milliseconds"
+        },
+        {
+            "name":"timeout",
+            "type":"long",
+            "default":0,
+            "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name":"correlationId",
+            "type":"string",
+            "doc":"Message ID primarily used to track message processing across services"
+        },
+        {
+            "name":"originatorReplicaId",
+            "type":"string",
+            "doc":"Identifier of the service replica that generated the event"
+        },
+        {
+            "name":"filterId",
+            "type":"string",
+            "doc":"Identifier of the endpoint filter"
+        },
+        {
+            "name":"applicationName",
+            "type":"string",
+            "doc":"Application name"
+        },
+        {
+            "name":"appVersionName",
+            "type":"string",
+            "doc":"Application version name the endpoint matched"
+        },
+        {
+            "name":"filterName",
+            "type":[
+              "null",
+              "string"
+            ],
+            "doc":"Endpoint filter name, unique in scope of application"
+        },
+        {
+            "name":"endpointId",
+            "type":"string",
+            "doc":"Identifier of the endpoint that matched against the filter"
+        }
+    ]
+}
