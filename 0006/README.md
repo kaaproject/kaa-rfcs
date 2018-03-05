@@ -21,11 +21,11 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 The following terms and definitions are used in this RFC.
 
-- **EP configuration data provider (provider)**: any service that sends endpoint configuration data to other service(s).
-- **EP configuration data consumer (consumer)**: any service that receives endpoint configurations from other service(s).
-- **Configuration push**: a communication pattern where a provider broadcasts new EP configuration data in an unsolicited manner.
-Consumers may choose to subscribe to the broadcast events and react according to their design.
-- **Configuration pull**: a communication pattern where a consumer explicitly requests EP configuration data from a provider.
+- **EP configuration data provider (configuration provider)**: any service that sends endpoint configuration data to other service(s).
+- **EP configuration data consumer (configuration consumer)**: any service that receives endpoint configurations from other service(s).
+- **Configuration push**: a communication pattern where a configuration provider broadcasts new EP configuration data in an unsolicited manner.
+Configuration consumers may choose to subscribe to the broadcast events and react according to their design.
+- **Configuration pull**: a communication pattern where a configuration consumer explicitly requests EP configuration data from a configuration provider.
 
 
 # Design
@@ -34,12 +34,12 @@ Consumers may choose to subscribe to the broadcast events and react according to
 
 ### Configuration updated
 
-*Configuration updated* is a [broadcast message](/0003/README.md#broadcast-messaging) published by provider to indicate that configuration data for an endpoint has been updated.
+*Configuration updated* is a [broadcast message](/0003/README.md#broadcast-messaging) published by configuration provider to indicate that configuration data for an endpoint has been updated.
 The message `{event-group}` is `config` and the `{event-type}` is `updated`.
 
 NATS subject format:
 ```
-kaa.v1.events.{provider-service-instance-name}.endpoint.config.updated
+kaa.v1.events.{configuration-provider-service-instance-name}.endpoint.config.updated
 ```
 
 *Configuration updated* message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([0006-config-updated.avsc](./0006-config-updated.avsc)):
@@ -123,13 +123,13 @@ Example:
 
 ### Configuration applied
 
-*Configuration applied* is a broadcast message that consumer MAY publish to indicate that an endpoint applied the configuration data.
-Providers MAY subscribe to these messages to keep track of the configurations that were last applied to the endpoints.
+*Configuration applied* is a broadcast message that configuration consumer MAY publish to indicate that an endpoint applied the configuration data.
+Configuration providers MAY subscribe to these messages to keep track of the configurations that were last applied to the endpoints.
 The message `{event-group}` is `config` and the `{event-type}` is `applied`.
 
 NATS subject format:
 ```
-kaa.v1.events.{consumer-service-instance-name}.endpoint.config.applied
+kaa.v1.events.{configuration-consumer-service-instance-name}.endpoint.config.applied
 ```
 
 *Configuration applied* message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([0006-config-applied.avsc](./0006-config-applied.avsc)):
@@ -202,17 +202,17 @@ Example:
 
 ### Configuration request
 
-Configuration request message is a [targeted message](/0003/README.md#targeted-messaging) that consumer sends to provider to request the EP configuration.
+Configuration request message is a [targeted message](/0003/README.md#targeted-messaging) that configuration consumer sends to configuration provider to request the EP configuration.
 
-The consumer MUST send configuration request messages using the following NATS subject:
+The configuration consumer MUST send configuration request messages using the following NATS subject:
 ```
-kaa.v1.service.{provider-service-instance-name}.cdtp.request
+kaa.v1.service.{configuration-provider-service-instance-name}.cdtp.request
 ```
 
-The consumer MUST include NATS `replyTo` field to handle the response.
+The configuration consumer MUST include NATS `replyTo` field to handle the response.
 It is RECOMMENDED to follow the subject format described in [3/ISM session affinity section](/0003/README.md#session-affinity):
 ```
-kaa.v1.replica.{consumer-service-replica-id}.cdtp.response
+kaa.v1.replica.{configuration-consumer-service-replica-id}.cdtp.response
 ```
 
 For more information, see [3/Messaging IPC][3/MIPC].
@@ -260,7 +260,7 @@ For more information, see [3/Messaging IPC][3/MIPC].
                 "string"
             ],
             "default":null,
-            "doc":"Identifier of the endpoint configuration known to the consumer at the time of the request. Optional. If absent, a non-error response MUST hold the latest configuration data."
+            "doc":"Identifier of the endpoint configuration known to the configuration consumer at the time of the request. Optional. If absent, a non-error response MUST hold the latest configuration data."
         }
     ]
 }
@@ -282,8 +282,8 @@ Example:
 
 ### Configuration response
 
-*Configuration response* message MUST be sent by provider in response to a [Configuration request message](#configuration-request).
-Provider MUST publish configuration response message to the subject provided in the NATS `replyTo` field of the request.
+*Configuration response* message MUST be sent by configuration provider in response to a [Configuration request message](#configuration-request).
+Configuration provider MUST publish configuration response message to the subject provided in the NATS `replyTo` field of the request.
 
 *Configuration response* message payload MUST be an Avro-encoded object with the following schema ([0006-config-response.avsc](./0006-config-response.avsc)):
 
@@ -391,6 +391,6 @@ Example:
 }
 ```
 
-After receiving a configuration response, consumer MAY broadcast a [*configuration applied* event](#configuration-applied) to indicate that the endpoint applied the configuration.
+After receiving a configuration response, configuration consumer MAY broadcast a [*configuration applied* event](#configuration-applied) to indicate that the endpoint applied the configuration.
 
 [3/MIPC]: /0003/README.md
