@@ -45,7 +45,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
   Examples are:
   - Endpoint is unable to process configuration.
-  - Eonfiguration is ill-formatted, or pre-conditions are not met.
+  - Configuration is ill-formatted, or pre-conditions are not met.
 
   Solutions:
   - Send back to server a status result of the attempt to apply configuration (success or failure).
