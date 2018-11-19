@@ -166,6 +166,69 @@ The NATS message payload is an Avro object with the following schema ([0018-epf-
 ```
 
 
+## Endpoint filter deleted
+
+Endpoint filter deleted event is published when endpoint filter was deleted.
+The `{event-type}` is `deleted`.
+
+Originators MUST use the following NATS subject format for endpoint filter deleted events:
+```
+kaa.v1.events.{originator-service-instance-name}.endpoint-filter.{endpoint-filter-id}.deleted
+```
+
+The NATS message payload is an Avro object with the following schema ([0018-epf-deleted.avsc](./0018-epf-deleted.avsc)):
+
+```json
+{
+    "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.filter",
+    "name":"EndpointFilterDeletedEvent",
+    "type":"record",
+    "doc":"Endpoint filter deleted event message",
+    "fields":[
+        {
+            "name":"timestamp",
+            "type":"long",
+            "doc":"Message creation UNIX timestamp in milliseconds"
+        },
+        {
+            "name":"timeout",
+            "type":"long",
+            "default":0,
+            "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name":"correlationId",
+            "type":"string",
+            "doc":"Message ID primarily used to track message processing across services"
+        },
+        {
+            "name":"originatorReplicaId",
+            "type":"string",
+            "doc":"Identifier of the service replica that generated the event"
+        },
+        {
+            "name":"filterId",
+            "type":"string",
+            "doc":"Identifier of the endpoint filter"
+        },
+        {
+            "name":"applicationName",
+            "type":"string",
+            "doc":"Application name"
+        },
+        {
+            "name":"filterName",
+            "type":[
+              "null",
+              "string"
+            ],
+            "doc":"Endpoint filter name, unique in scope of application"
+        }
+    ]
+}
+```
+
+
 ## Endpoint matched filter
 
 Endpoint matched filter event is published when:
