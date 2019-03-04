@@ -12,15 +12,18 @@ RFCs can be in raw, draft, stable, deprecated, or retired status.
 | [4/ESP](0004/README.md)        | Extension Service Protocol                  | Draft   |
 | [5/CMX](0005/README.md)        | Configuration Management Extension Protocol | Deleted |
 | [6/CDTP](0006/README.md)       | Configuration Data Transport Protocol       | Draft   |
-| [7/CMP](0007/README.md)        | Configuration Management Protocol           | Raw     |
+| [7/CMP](0007/README.md)        | Configuration Management Protocol           | Draft   |
 | [8/KPSR](0008/README.md)       | KP Security Recommendations                 | Raw     |
 | [9/ELCE](0009/README.md)       | Endpoint Lifecycle and Connectivity Events  | Draft   |
 | [10/EPMP](0010/README.md)      | Endpoint Metadata Protocol                  | Draft   |
 | [11/CEP](0011/README.md)       | Command Execution Protocol                  | Raw     |
+| [12/CIP](0012/README.md)       | Command Invocation Protocol                 | Raw     |
 | [13/DSTP](0013/README.md)      | Data Samples Transmission Protocol          | Draft   |
 | [14/TSTP](0014/README.md)      | Time Series Transmission Protocol           | Draft   |
 | [15/EME](0015/README.md)       | Endpoint Metadata Events                    | Draft   |
 | [16/ECAP](0016/README.md)      | Endpoint and Client Authentication Protocol | Draft   |
+| [17/SCP](0017/README.md)       | Service Configuration Protocol              |         |
+| [18/EFE](0018/README.md)       | Endpoint Filter Events                      | Draft   |
 
 # Change process
 

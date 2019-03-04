@@ -1,7 +1,7 @@
 ---
 name: Configuration Management Protocol
 shortname: 7/CMP
-status: raw
+status: draft
 editor: Alexey Shmalko <ashmalko@kaaiot.io>
 contributors: Andrew Kokhanovskyi <ak@kaaiot.io>
 ---
@@ -34,18 +34,18 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 - Endpoint might only require a specific part of the configuration, not all of it.
 
   Solutions:
-  - Allow subscribing to a part of configuration, e.g. using [JSONPath](http://goessner.net/articles/JsonPath/) or JSON Pointer defined in [RFC 6901](https://tools.ietf.org/html/rfc6901).
+  - Allow subscribing to a part of configuration, e.g., using [JSONPath](http://goessner.net/articles/JsonPath/) or JSON Pointer defined in [RFC 6901](https://tools.ietf.org/html/rfc6901).
 
 - Difference between subsequent configurations might be small, so sending the whole configuration is inefficient.
 
   Solutions:
-  - Send only updates, e.g. using JSON Patch format defined in [RFC 6902](https://tools.ietf.org/html/rfc6902).
+  - Send only updates, e.g., using JSON Patch format defined in [RFC 6902](https://tools.ietf.org/html/rfc6902).
 
 - Endpoint can actively reject configuration.
 
   Examples are:
   - Endpoint is unable to process configuration.
-  - Eonfiguration is ill-formatted, or pre-conditions are not met.
+  - Configuration is ill-formatted, or pre-conditions are not met.
 
   Solutions:
   - Send back to server a status result of the attempt to apply configuration (success or failure).
@@ -93,6 +93,7 @@ The configuration resource is a request/response resource with an observe extens
 ```
 /<endpoint_token>/config/json
 ```
+
 
 ### Configuration resource request
 
@@ -210,6 +211,7 @@ The applied resource is a request/response resource with the following resource 
 ```
 /<endpoint_token>/applied/json
 ```
+
 
 ### Applied configuration request
 

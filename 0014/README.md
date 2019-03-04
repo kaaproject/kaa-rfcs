@@ -1,6 +1,6 @@
 ---
 name: Time Series Transmission Protocol
-shortname: 16/TSRP
+shortname: 14/TSTP
 status: draft
 editor: Andrew Kokhanovskyi <ak@kaaiot.io>
 ---
@@ -35,15 +35,15 @@ Data point value and tags value can be of arbitrary primitive or composite data 
 
 ## Time series data transmission to receivers
 
-In order to send endpoint data samples to receivers, transmitters MUST [broadcast](/0003/README.md#broadcast-messaging) endpoint time series events to the following NATS subjects:
+In order to send endpoint data points to receivers, transmitters MUST [broadcast](/0003/README.md#broadcast-messaging) endpoint time series events to the following NATS subjects:
 ```
-kaa.v1.events.<transmitter-service-instance-name>.endpoint.data-collection.time-series-received.<time-series-name>
+kaa.v1.events.<transmitter-service-instance-name>.endpoint.data-collection.data-points-received.<time-series-name>
 ```
 
 where:
 - `<transmitter-service-instance-name>` is the instance name of the transmitter service.
 This allows listeners to subscribe to events from a specific transmitter.
-- `<time-series-name>` - name of the time series the transmitted data points belong to.
+- `<time-series-name>` is the name of the time series the transmitted data points belong to.
 
 The NATS message payload is an Avro object with the following schema ([0014-ep-time-series-event.avsc](./0014-ep-time-series-event.avsc)):
 

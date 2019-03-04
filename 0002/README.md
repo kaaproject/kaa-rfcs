@@ -2,7 +2,7 @@
 name: Data Collection Protocol
 shortname: 2/DCP
 status: draft
-editor: Alexey Shmalko <ashmalko@cybervisiontech.com>
+editor: Alexey Shmalko <ashmalko@kaaiot.io>
 contributors: Alexey Gamov <agamov@cybervisiontech.com>
 ---
 
@@ -81,7 +81,6 @@ The user wants to store all collected data, including timestamps, for further pr
 
 
 # Design
-
 
 ## Batch uploads
 

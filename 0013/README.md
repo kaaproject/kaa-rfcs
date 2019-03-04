@@ -34,7 +34,7 @@ The following terms and definitions are used in this RFC.
 
 In order to send endpoint data samples to receivers, transmitters MUST [broadcast](/0003/README.md#broadcast-messaging) `EndpointDataSamplesEvent` messages to the following NATS subject:
 ```
-kaa.v1.events.<transmitter-service-instance-name>.endpoint.data-collection.data-received
+kaa.v1.events.<transmitter-service-instance-name>.endpoint.data-collection.data-samples-received
 ```
 where `<transmitter-service-instance-name>` is the instance name of the transmitter service.
 Allows listeners to subscribe to events from a specific transmitter.

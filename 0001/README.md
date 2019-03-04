@@ -3,19 +3,19 @@ name: Kaa Protocol
 shortname: 1/KP
 status: draft
 editor: Alexey Shmalko <ashmalko@kaaiot.io>
-contributors: Alexey Gamov <agamov@kaaiot.io>, Andrew Kokhanovskyi <ak@kaaiot.io>
+contributors: Alexey Gamov <agamov@cybervisiontech.com>, Andrew Kokhanovskyi <ak@kaaiot.io>
 ---
 
 <!-- toc -->
 
 
-## Introduction
+# Introduction
 
 This document describes general requirements, principles, design, and guidelines for Kaa Protocol (KP) version 1.
 KP is a standard protocol designed to connect client applications and endpoints to a Kaa server.
 
 
-## Language
+# Language
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).
 
@@ -37,7 +37,7 @@ An extension implements a function-specific communication pattern (protocol) and
 Examples of extension protocols are [Data Collection Protocol](/0002/README.md), [Configuration Management Protocol](/0007/README.md), [Endpoint Metadata Protocol](0010/README.md), etc.
 
 
-## Requirements and constraints
+# Requirements and constraints
 
 - Asynchronous messaging.
 - Encrypted and unencrypted channels.
@@ -51,39 +51,39 @@ Compatibility with MQTT/MQTT-SN gateways.
 KP should enable connecting clients to a server without using an SDK and with minimum custom implementation.
 
 
-## Use cases
+# Use cases
 
 KP is designed to accommodate for the following key use cases and combinations thereof.
 
 
-### UC1: Individually authenticated device
+## UC1: Individually authenticated device
 
 Every device has an individual set of credentials that it uses to authenticate with the server.
 Credentials may be loaded into device at the factory or set by the device user.
 
 
-### UC2: Mass production device
+## UC2: Mass production device
 
 All devices share the same firmware, and there are no per-device unique credentials that can be loaded.
-However, they have distinct embedded hardware identifiers (e.g. MAC addresses).
+However, they have distinct embedded hardware identifiers, e.g., MAC addresses.
 
 
-### UC3: Actor gateway
+## UC3: Actor gateway
 
 Multiple constrained devices communicate with a server through a gateway.
 Gateway is a client that uses KP to communicate with the server and represent the end devices.
 On the other hand, end devices use a custom (proprietary) protocol to communicate with the gateway.
 
 
-### UC4: Forward proxy
+## UC4: Forward proxy
 
 One or more devices communicate to a server by using KP and connecting through a forward proxy.
 Forward proxies between the end device and a server may be chained.
 
 
-## Design
+# Design
 
-### Extensions
+## Extensions
 
 Extensions are used to support various platform features offered by the server to the clients/endpoints, such as data collection, configuration management, metadata synchronization, etc.
 In order to allow implementing new extension-specific communication patterns (protocols), KP itself must be extensible.
@@ -102,7 +102,7 @@ For example, there may be several instances of Data Collection Extension that ar
 *Extension instance names* are used in Kaa to distinguish *extension instances*.
 
 
-### Resource path format
+## Resource path format
 
 Both MQTT and CoAP support some kind of a *Resource Path*: MQTT has hierarchical topic names and CoAP has URI-Path.
 In KP they are used to differentiate types of requests and responses.
@@ -140,7 +140,7 @@ Examples of extension-specific Resource Paths:
 ```
 
 
-## Request/response pattern
+# Request/response pattern
 
 Many extensions require request/response style communication, which is natively supported by CoAP, but not MQTT.
 The following section describes request/response communication pattern for MQTT and CoAP.
@@ -149,7 +149,7 @@ Note that some requests do not require a full response but only a receipt acknow
 In that case, KP over MQTT SHOULD use PUBLISH acknowledgement only (PUBACK, PUBREC, PUBREL packets), as defined in the MQTT standard.
 
 
-### Request direction
+## Request direction
 
 For CoAP, server-initiated requests require implementing a server on client nodes.
 That also implies there must be an open path from server to client, which may require UDP hole punching.
@@ -157,7 +157,7 @@ That also implies there must be an open path from server to client, which may re
 Given that, server-initiated requests are NOT RECOMMENDED.
 
 
-### Request ID
+## Request ID
 
 CoAP message has a built-in Token used to match responses to requests.
 
@@ -178,7 +178,7 @@ For example, a request sent to `<endpoint_token>/update/42` topic is a request t
 If Request ID is not present in MQTT topic, response SHOULD NOT be published.
 
 
-### Response topic
+## Response topic
 
 For CoAP, request and response semantics are carried in CoAP messages.
 
@@ -193,7 +193,7 @@ For example, request sent to `<endpoint_token>/json/42` has the following succes
 >**NOTE:** Response type suffix is MQTT-specific and is not counted toward Resource Path.
 
 
-### Error response format
+## Error response format
 
 Error responses published over MQTT MUST be UTF-8 encoded JSON object with the following [JSON schema](http://json-schema.org/) ([0001-error-response.schema.json](./0001-error-response.schema.json)):
 
@@ -228,17 +228,17 @@ For CoAP, error responses SHOULD leverage built-in CoAP capabilities:
 Extensions MAY reuse the same format for successful responses.
 
 
-### Response QoS level
+## Response QoS level
 
 It is RECOMMENDED that responses are published with the same QoS level as the corresponding request.
 
 
-## Extension design guidelines
+# Extension design guidelines
 
 While extensions have all the freedom to define their own resource hierarchies, payload format, and communication template, they need a set of rules to make them uniform.
 
 
-### Payload format specifier
+## Payload format specifier
 
 Extensions may support multiple payload formats.
 In such case, it is RECOMMENDED to add a payload format specifier.
@@ -248,7 +248,7 @@ For example, use `/json` for JSON-formatted payload, and `/protobuf/<scheme_id>`
 <!--TODO: CoAP has Content-Format option for that. It already has json and cbor, but not protobuf.-->
 
 
-### Security
+## Security
 
 We separate *client authentication* and *endpoint identification*.
 During client authentication, client and server should verify each other: client verifies server identity and server verifies that client is authorized to access server.
@@ -277,22 +277,26 @@ Using an extension allows implementing different registration schemes as well as
 For more recommendations on KP security, refer to [8/KPSR](/0008/README.md).
 
 
-## Open questions
+# Open questions
 
-### Topic name aliases
+## Topic name aliases
 
 It's good to keep topic names short.
 Maybe we can introduce topic aliases, so users won't need to use full-length topic names.
 
 
-### Endpoints roaming
+## Endpoints roaming
 
 Endpoints might roam between different clients.
 
-#### UC1
+
+### UC1
+
 An endpoint is a wearable that communicates through stationary gateways.
 The endpoint thus can be seen through any of the gateways.
 Also, it can be seen through two or more gateways at the same time.
 
-#### UC2
+
+### UC2
+
 Endpoint has channel redundancy through two (or more) different gateways (or forward proxies).
