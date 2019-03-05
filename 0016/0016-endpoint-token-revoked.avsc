@@ -31,12 +31,12 @@
             "doc":"Identifier of the endpoint associated with revoked tokens"
         },
         {
-            "name":"tokens",
+            "name":"tokenIds",
             "type":{
                 "type":"array",
                 "items":"string"
             },
-            "doc":"List of revoked endpoint tokens"
+            "doc":"List of revoked endpoint token IDs"
         },
         {
             "name":"originatorReplicaId",

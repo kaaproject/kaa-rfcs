@@ -73,9 +73,9 @@ Endpoint token validation request message payload MUST be an [Avro-encoded](http
             "doc":"Amount of milliseconds (since the timestamp) until the message expires. Value of 0 is reserved to indicate no expiration."
         },
         {
-            "name":"appVersionName",
+            "name":"appName",
             "type":"string",
-            "doc":"Endpoint's application version, for which the token validation is requested"
+            "doc":"Application name of the endpoint, for which the token validation is requested"
         },
         {
             "name":"token",
@@ -115,6 +115,14 @@ Endpoint token validation response message payload MUST be an Avro-encoded objec
             "type":"long",
             "default":0,
             "doc":"Amount of milliseconds (since the timestamp) until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name":"tokenId",
+            "type":[
+                "string",
+                "null"
+            ],
+            "doc":"ID of the resolved token. May be null in case token is not found."
         },
         {
             "name":"endpointId",
@@ -191,12 +199,12 @@ Endpoint token revoked event message payload MUST be an Avro-encoded object with
             "doc":"Identifier of the endpoint associated with revoked tokens"
         },
         {
-            "name":"tokens",
+            "name":"tokenIds",
             "type":{
                 "type":"array",
                 "items":"string"
             },
-            "doc":"List of revoked endpoint tokens"
+            "doc":"List of revoked endpoint token IDs"
         },
         {
             "name":"originatorReplicaId",

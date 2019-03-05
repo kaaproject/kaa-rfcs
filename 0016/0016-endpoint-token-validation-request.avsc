@@ -21,9 +21,9 @@
             "doc":"Amount of milliseconds (since the timestamp) until the message expires. Value of 0 is reserved to indicate no expiration."
         },
         {
-            "name":"appVersionName",
+            "name":"appName",
             "type":"string",
-            "doc":"Endpoint's application version, for which the token validation is requested"
+            "doc":"Application name of the endpoint, for which the token validation is requested"
         },
         {
             "name":"token",
