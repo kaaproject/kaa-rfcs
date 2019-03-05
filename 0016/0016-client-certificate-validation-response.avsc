@@ -29,6 +29,14 @@
             "doc":"ID of the credential resolved by provided certificate fields. May be null in case certificate is not found."
         },
         {
+            "name":"clientId",
+            "type":[
+                "string",
+                "null"
+            ],
+            "doc":"ID of the client resolved by provided certificate fields. May be null in case certificate is not found or no client ID is known to provider."
+        },
+        {
             "name":"statusCode",
             "type":"int",
             "doc":"HTTP status code of the request processing"

@@ -319,6 +319,14 @@ Client username and password validation response message payload MUST be an Avro
             "doc":"ID of the credential resolved by provided username/password combination. May be null in case the combination is not found."
         },
         {
+            "name":"clientId",
+            "type":[
+                "string",
+                "null"
+            ],
+            "doc":"ID of the client resolved by provided username/password combination. May be null in case the combination is not found or no client ID is known to provider."
+        },
+        {
             "name":"statusCode",
             "type":"int",
             "doc":"HTTP status code of the request processing"
@@ -432,6 +440,14 @@ Client certificate validation response message payload MUST be an Avro-encoded o
                 "null"
             ],
             "doc":"ID of the credential resolved by provided certificate fields. May be null in case certificate is not found."
+        },
+        {
+            "name":"clientId",
+            "type":[
+                "string",
+                "null"
+            ],
+            "doc":"ID of the client resolved by provided certificate fields. May be null in case certificate is not found or no client ID is known to provider."
         },
         {
             "name":"statusCode",
