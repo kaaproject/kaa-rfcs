@@ -73,9 +73,9 @@ Endpoint token validation request message payload MUST be an [Avro-encoded](http
             "doc":"Amount of milliseconds (since the timestamp) until the message expires. Value of 0 is reserved to indicate no expiration."
         },
         {
-            "name":"appVersionName",
+            "name":"appName",
             "type":"string",
-            "doc":"Endpoint's application version, for which the token validation is requested"
+            "doc":"Application name of the endpoint, for which the token validation is requested"
         },
         {
             "name":"token",
@@ -115,6 +115,14 @@ Endpoint token validation response message payload MUST be an Avro-encoded objec
             "type":"long",
             "default":0,
             "doc":"Amount of milliseconds (since the timestamp) until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name":"tokenId",
+            "type":[
+                "string",
+                "null"
+            ],
+            "doc":"ID of the resolved token. May be null in case token is not found."
         },
         {
             "name":"endpointId",
@@ -181,17 +189,22 @@ Endpoint token revoked event message payload MUST be an Avro-encoded object with
             "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
         },
         {
+            "name":"appName",
+            "type":"string",
+            "doc":"Application name of the endpoint, for which tokens are revoked"
+        },
+        {
             "name":"endpointId",
             "type":"string",
             "doc":"Identifier of the endpoint associated with revoked tokens"
         },
         {
-            "name":"tokens",
+            "name":"tokenIds",
             "type":{
                 "type":"array",
                 "items":"string"
             },
-            "doc":"List of revoked endpoint tokens"
+            "doc":"List of revoked endpoint token IDs"
         },
         {
             "name":"originatorReplicaId",
@@ -298,12 +311,12 @@ Client username and password validation response message payload MUST be an Avro
             "doc":"Amount of milliseconds (since the timestamp) until the message expires. Value of 0 is reserved to indicate no expiration."
         },
         {
-            "name":"clientId",
+            "name":"credentialId",
             "type":[
                 "string",
                 "null"
             ],
-            "doc":"ID of the client resolved by provided username/password combination. May be null in case the combination is not found."
+            "doc":"ID of the credential resolved by provided username/password combination. May be null in case the combination is not found."
         },
         {
             "name":"statusCode",
@@ -413,12 +426,12 @@ Client certificate validation response message payload MUST be an Avro-encoded o
             "doc":"Amount of milliseconds (since the timestamp) until the message expires. Value of 0 is reserved to indicate no expiration."
         },
         {
-            "name":"clientId",
+            "name":"credentialId",
             "type":[
                 "string",
                 "null"
             ],
-            "doc":"ID of the client resolved by provided certificate fields. May be null in case certificate is not found."
+            "doc":"ID of the credential resolved by provided certificate fields. May be null in case certificate is not found."
         },
         {
             "name":"statusCode",
@@ -477,9 +490,9 @@ Client credential revoked event message payload MUST be an Avro-encoded object w
             "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
         },
         {
-            "name":"clientId",
+            "name":"credentialId",
             "type":"string",
-            "doc":"Identifier of the client associated with revoked credential"
+            "doc":"Identifier of the revoked credential"
         },
         {
             "name":"originatorReplicaId",

@@ -21,17 +21,22 @@
             "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
         },
         {
+            "name":"appName",
+            "type":"string",
+            "doc":"Application name of the endpoint, for which tokens are revoked"
+        },
+        {
             "name":"endpointId",
             "type":"string",
             "doc":"Identifier of the endpoint associated with revoked tokens"
         },
         {
-            "name":"tokens",
+            "name":"tokenIds",
             "type":{
                 "type":"array",
                 "items":"string"
             },
-            "doc":"List of revoked endpoint tokens"
+            "doc":"List of revoked endpoint token IDs"
         },
         {
             "name":"originatorReplicaId",

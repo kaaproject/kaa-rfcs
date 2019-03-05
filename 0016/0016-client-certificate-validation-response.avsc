@@ -21,12 +21,12 @@
             "doc":"Amount of milliseconds (since the timestamp) until the message expires. Value of 0 is reserved to indicate no expiration."
         },
         {
-            "name":"clientId",
+            "name":"credentialId",
             "type":[
                 "string",
                 "null"
             ],
-            "doc":"ID of the client resolved by provided certificate fields. May be null in case certificate is not found."
+            "doc":"ID of the credential resolved by provided certificate fields. May be null in case certificate is not found."
         },
         {
             "name":"statusCode",
