@@ -21,8 +21,8 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 The following terms and definitions are used in this RFC.
 
-- **Data point**: data structure consisting of a timestamp, a value, and optional key-value tags.
-Data point value and tags value can be of arbitrary primitive or composite data type.
+- **Data point**: data structure consisting of a timestamp and one or more values.
+Data point values can be of arbitrary primitive or composite data type.
 
 - **Endpoint time series (time series)**: uniquely named series of endpoint-related data points.
 
