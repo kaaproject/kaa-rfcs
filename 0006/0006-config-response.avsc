@@ -41,7 +41,10 @@
         },
         {
             "name":"contentType",
-            "type":"string",
+            "type":[
+                "string",
+                "null"
+            ],
             "default":"application/json",
             "doc":"Type of the configuration data, e.g.: application/json, application/x-protobuf, etc."
         },

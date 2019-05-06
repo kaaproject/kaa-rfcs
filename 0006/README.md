@@ -84,7 +84,10 @@ kaa.v1.events.{provider-service-instance-name}.endpoint.config.updated
         },
         {
             "name":"contentType",
-            "type":"string",
+            "type":[
+                "string",
+                "null"
+            ],
             "default":"application/json",
             "doc":"Type of the configuration data, e.g.: application/json, application/x-protobuf, etc."
         },
@@ -331,7 +334,10 @@ Provider MUST publish configuration response message to the subject provided in 
         },
         {
             "name":"contentType",
-            "type":"string",
+            "type":[
+                "string",
+                "null"
+            ],
             "default":"application/json",
             "doc":"Type of the configuration data, e.g.: application/json, application/x-protobuf, etc."
         },
