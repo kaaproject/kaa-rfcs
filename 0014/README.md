@@ -21,8 +21,8 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 The following terms and definitions are used in this RFC.
 
-- **Data point**: data structure consisting of a timestamp, a value, and optional key-value tags.
-Data point value and tags value can be of arbitrary primitive or composite data type.
+- **Data point**: data structure consisting of a timestamp and one or more values.
+Data point values can be of arbitrary primitive or composite data type.
 
 - **Endpoint time series (time series)**: uniquely named series of endpoint-related data points.
 
@@ -100,63 +100,21 @@ The NATS message payload is an Avro object with the following schema ([0014-ep-t
                             "doc":"Data point UNIX timestamp in milliseconds"
                         },
                         {
-                            "name":"contentType",
-                            "type":[
-                                "string",
-                                "null"
-                            ],
-                            "default":"null",
-                            "doc":"Type of the value in case of a composite type"
-                        },
-                        {
-                            "name":"value",
-                            "type":[
-                                "boolean",
-                                "int",
-                                "long",
-                                "float",
-                                "double",
-                                "string",
-                                "bytes",
-                                "null"
-                            ],
-                            "doc":"Data point value, can be any primitive or composite type. In case of a composite type, value should be encoded into string or bytes."
-                        },
-                        {
-                            "name":"tags",
-                            "doc":"Map of data point tags with tag names represented as map keys",
+                            "name":"values",
+                            "doc":"Map of data point values with value names represented as map keys.",
                             "type":{
                                 "type":"map",
-                                "values":{
-                                    "namespace":"org.kaaproject.ipc.tstp.gen.v1",
-                                    "name":"DataPointTagValue",
-                                    "type":"record",
-                                    "fields":[
-                                        {
-                                            "name":"contentType",
-                                            "type":[
-                                                "string",
-                                                "null"
-                                            ],
-                                            "default":"null",
-                                            "doc":"Type of the value in case of a composite type"
-                                        },
-                                        {
-                                            "name":"value",
-                                            "type":[
-                                                "boolean",
-                                                "int",
-                                                "long",
-                                                "float",
-                                                "double",
-                                                "string",
-                                                "bytes",
-                                                "null"
-                                            ],
-                                            "doc":"Data point tag value, can be any primitive or composite type. In case of a composite type, value should be encoded into string or bytes."
-                                        }
-                                    ]
-                                }
+                                "values":[
+                                    "boolean",
+                                    "int",
+                                    "long",
+                                    "float",
+                                    "double",
+                                    "string",
+                                    "bytes",
+                                    "null"
+                                ],
+                                "doc":"Data point value, can be any primitive or composite type. In case of a composite type, value should be encoded into string or bytes."
                             }
                         }
                     ]
