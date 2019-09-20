@@ -397,7 +397,7 @@ Client certificate validation request message payload MUST be an Avro-encoded ob
         {
             "name":"serialNumber",
             "type":"string",
-            "doc":"Serial number of the client's certificate"
+            "doc":"Serial number of the client's certificate, base 10 encoded"
         }
     ]
 }
