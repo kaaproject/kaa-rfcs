@@ -1,0 +1,32 @@
+{
+    "namespace": "org.kaaproject.scmp.event.gen.v1.service.configuration",
+    "name": "ServiceSpecificConfigurationUpdateEvent",
+    "type": "record",
+    "doc": "Service specific configuration update event message",
+    "fields": [
+        {
+            "name": "correlationId",
+            "type": "string",
+            "doc": "Message ID primarily used to track message processing across services"
+        },
+        {
+            "name": "timestamp",
+            "type": "long",
+            "doc": "Message creation UNIX timestamp in milliseconds"
+        },
+        {
+            "name": "appName",
+            "type": "string",
+            "doc": "Application name"
+        },
+        {
+            "name": "appVerName",
+            "type": [
+                "null",
+                "string"
+            ],
+            "default": null,
+            "doc": "Application version name"
+        }
+    ]
+}
