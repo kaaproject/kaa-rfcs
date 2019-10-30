@@ -1,0 +1,41 @@
+{
+    "namespace":"org.kaaproject.scmp.event.gen.v1.service.configuration",
+    "name":"BroadcastConfigurationUpdateEvent",
+    "type":"record",
+    "doc":"Platform-wise configuration update event message",
+    "fields":[
+        {
+            "name":"correlationId",
+            "type":"string",
+            "doc":"Message ID primarily used to track message processing across services"
+        },
+        {
+            "name":"timestamp",
+            "type":"long",
+            "doc":"Message creation UNIX timestamp in milliseconds"
+        },
+        {
+            "name":"originatorReplicaId",
+            "type":"string",
+            "doc":"Identifier of the service replica that generated the event"
+        },
+        {
+            "name":"appName",
+            "type":[
+              "null",
+              "string"
+            ],
+            "default":null,
+            "doc":"Application name"
+        },
+        {
+            "name":"appVerName",
+            "type":[
+              "null",
+              "string"
+            ],
+            "default":null,
+            "doc":"Application version name"
+        }
+    ]
+}
