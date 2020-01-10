@@ -1,7 +1,7 @@
 ---
 name: Metadata Transport Protocol
 shortname: 19/MDTP
-status: draft
+status: raw
 editor: Vitalii Kozlovskyi <vkozlovskyi@kaaiot.io>
 ---
 
@@ -13,7 +13,7 @@ editor: Vitalii Kozlovskyi <vkozlovskyi@kaaiot.io>
 
 Metadata Transport Protocol (MDTP) is designed to request device metadata from Endpoint Registry (EPR) and receive.
 
-DSTP complies with the [Inter-Service Messaging](/0003/README.md) guidelines.
+MDTP complies with the [Inter-Service Messaging](/0003/README.md) guidelines.
 
 
 # Language
@@ -22,13 +22,13 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 The following terms and definitions are used in this RFC. // TODO definitions
 
-- **Endpoint metadata request (request):** block of endpoint identification data and requested metadata fields
+- **Endpoint metadata request (request):** endpoint identification and list of required metadata fields
 
-- **Endpoint metadata response (response):** block of metadata // TODO: with content type?
+- **Endpoint metadata response (response):** block of serialised device metadata
 
-- **Data transmitter service (server)**: service that sends endpoint data samples.
+- **Data transmitter service (server)**: service that exposes MDTP interface to other services for access to device metadata
 
-- **Data receiver service (client)**: service that receives endpoint data samples for storage, processing, etc.
+- **Data receiver service (client)**: service that uses exposed MDTP interface to get device metadata.
 
 
 # Design
@@ -92,13 +92,15 @@ The NATS message payload is an Avro object with the following schema ([0019-meta
 
 Client MUST specify `replyTo` NATS subject in the emit message according to the [session affinity design](/0003/README.md#session-affinity).
 ```
-kaa.v1.replica.<service-instance-replica-id>.mdtp.metadata
+kaa.v1.replica.<service-instance-replica-id>.mdtp.metadata-response
 ```
 Where:
 - `<service-instance-replica-id>` is the name of current instance replica.
 
 
 ## Metadata Response 
+Server MAY process requests in any order and client MUST match Response by `correlationId`
+
 To read a response, service MUST be subscribed to NATS topic, specified in `replyTo` field of request message.
 
 The NATS message payload is an Avro object with the following schema ([0019-metadata-response.avsc](./0019-metadata-response.avsc)):
