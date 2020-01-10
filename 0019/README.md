@@ -1,6 +1,6 @@
 ---
 name: Metadata Transport Protocol
-shortname: 19/MDTP
+shortname: 19/EPMMP
 status: raw
 editor: Vitalii Kozlovskyi <vkozlovskyi@kaaiot.io>
 ---
@@ -11,9 +11,9 @@ editor: Vitalii Kozlovskyi <vkozlovskyi@kaaiot.io>
 
 # Introduction
 
-Metadata Transport Protocol (MDTP) is designed to request device metadata from Endpoint Registry (EPR) and receive.
+Metadata Transport Protocol (EPMMP) is designed for managing endpoint metadata between Kaa services.
 
-MDTP complies with the [Inter-Service Messaging](/0003/README.md) guidelines.
+EPMMP complies with the [Inter-Service Messaging](/0003/README.md) guidelines.
 
 
 # Language
@@ -22,13 +22,9 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 The following terms and definitions are used in this RFC.
 
-- **Endpoint metadata request (request):** endpoint identification and list of required metadata fields
+- **Endpoint metadata repository (repository)**: any service that exposes the EPMMP interface to other services for managing endpoint metadata.
 
-- **Endpoint metadata response (response):** block of serialised device metadata
-
-- **Data transmitter service (server)**: service that exposes MDTP interface to other services for access to device metadata
-
-- **Data receiver service (client)**: service that uses exposed MDTP interface to get device metadata.
+- **Endpoint metadata management client (client)**: any service that uses exposed EPMMP interface to manage endpoint metadata.
 
 
 # Design
@@ -38,7 +34,7 @@ The following terms and definitions are used in this RFC.
 
 In order to request endpoint metadata, clients MUST [emit](/0003/README.md#targeted-messaging) `MetadataRequest` message to the following NATS subject:
 ```
-kaa.v1.service.<metadata-service-instance-name>.mdtp.metadata-request
+kaa.v1.service.<metadata-service-instance-name>.epmmp.metadata-request
 ```
 Where:
 - `<metadata-service-instance-name>` is the instance name of endpoint registry or other metadata service.
@@ -46,7 +42,7 @@ Where:
 The NATS message payload is an Avro object with the following schema ([0019-metadata-request.avsc](./0019-metadata-request.avsc)):
 ```json
 {
-    "namespace":"org.kaaproject.ipc.mdtp.gen.v1",
+    "namespace":"org.kaaproject.ipc.epmmp.gen.v1",
     "name":"MetadataRequest",
     "type":"record",
     "doc":"Interservice metadata request",
@@ -54,7 +50,7 @@ The NATS message payload is an Avro object with the following schema ([0019-meta
         {
             "name":"correlationId",
             "type":"string",
-            "doc":"Message ID primarily used to track message processing across services. In context of mdtp also used to match request and response events"
+            "doc":"Message ID primarily used to track message processing across services"
         },
         {
             "name":"timestamp",
@@ -79,42 +75,46 @@ The NATS message payload is an Avro object with the following schema ([0019-meta
                 "items":"string"
             }, 
             "default":[],
-            "doc":"List of metadata fields. If not specified all fields are returned."
-        },
-        {
-            "name":"replyTo",
-            "type":"string",
-            "doc":"NATS inbox name of replica according to 3/ISM session affinity."
+            "doc":"List of metadata fields. If not specified all fields are returned"
         }
     ]
 }
 ```
 
 Client MUST specify `replyTo` NATS subject in the emit message according to the [session affinity design](/0003/README.md#session-affinity).
-```
-kaa.v1.replica.<service-instance-replica-id>.mdtp.metadata-response
-```
-Where:
-- `<service-instance-replica-id>` is the name of current instance replica.
 
 
 ## Metadata Response 
-Server MAY process requests in any order and client MUST match Response by `correlationId`
-
-To read a response, service MUST be subscribed to NATS topic, specified in `replyTo` field of request message.
+To receive a response, the client MUST be subscribed to the replyTo subject specified in the request message.
 
 The NATS message payload is an Avro object with the following schema ([0019-metadata-response.avsc](./0019-metadata-response.avsc)):
 ```json
 {
-    "namespace":"org.kaaproject.ipc.mdtp.gen.v1",
+    "namespace":"org.kaaproject.ipc.epmmp.gen.v1",
     "name":"MetadataResponse",
     "type":"record",
-    "doc":"Metadata response sent to specific `replyTo` replica.",
+    "doc":"Metadata response",
     "fields":[
         {
             "name":"correlationId",
             "type":"string",
-            "doc":"Message ID primarily used to track message processing across services. In context of mdtp shall be used to match request and response events"
+            "doc":"Message ID primarily used to track message processing across services"
+        },
+        {
+            "name":"timestamp",
+            "type":"long",
+            "doc":"Message creation UNIX timestamp in milliseconds"
+        },
+        {
+            "name":"timeout",
+            "type":"long",
+            "default":0,
+            "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name":"endpointId",
+            "type": "string",
+            "doc":"Identifier of the endpoint, on behalf of which metadata is requested"
         },
         {
             "name":"payload",

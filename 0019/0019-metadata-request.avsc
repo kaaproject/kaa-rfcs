@@ -1,5 +1,5 @@
 {
-    "namespace":"org.kaaproject.ipc.mdtp.gen.v1",
+    "namespace":"org.kaaproject.ipc.epmmp.gen.v1",
     "name":"MetadataRequest",
     "type":"record",
     "doc":"Interservice metadata request",
@@ -7,7 +7,7 @@
         {
             "name":"correlationId",
             "type":"string",
-            "doc":"Message ID primarily used to track message processing across services. In context of mdtp also used to match request and response events"
+            "doc":"Message ID primarily used to track message processing across services"
         },
         {
             "name":"timestamp",
@@ -32,12 +32,7 @@
                 "items":"string"
             }, 
             "default":[],
-            "doc":"List of metadata fields. If not specified all fields are returned."
-        },
-        {
-            "name":"replyTo",
-            "type":"string",
-            "doc":"NATS inbox name of replica according to 3/ISM session affinity."
+            "doc":"List of metadata fields. If not specified all fields are returned"
         }
     ]
 }
