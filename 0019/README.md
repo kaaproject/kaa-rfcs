@@ -11,7 +11,7 @@ editor: Vitalii Kozlovskyi <vkozlovskyi@kaaiot.io>
 
 # Introduction
 
-Metadata Transport Protocol (EPMMP) is designed for managing endpoint metadata between Kaa services.
+Endpoint Metadata Management Protocol (EPMMP) is designed for managing endpoint metadata between Kaa services.
 
 EPMMP complies with the [Inter-Service Messaging](/0003/README.md) guidelines.
 
