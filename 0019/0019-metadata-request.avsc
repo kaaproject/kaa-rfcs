@@ -1,0 +1,43 @@
+{
+    "namespace":"org.kaaproject.ipc.mdtp.gen.v1",
+    "name":"MetadataRequest",
+    "type":"record",
+    "doc":"Interservice metadata request",
+    "fields":[
+        {
+            "name":"correlationId",
+            "type":"string",
+            "doc":"Message ID primarily used to track message processing across services. In context of mdtp also used to match request and response events"
+        },
+        {
+            "name":"timestamp",
+            "type":"long",
+            "doc":"Message creation UNIX timestamp in milliseconds"
+        },
+        {
+            "name":"timeout",
+            "type":"long",
+            "default":0,
+            "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name":"endpointId",
+            "type": "string",
+            "doc":"Identifier of the endpoint, on behalf of which metadata is requested"
+        },
+        {
+            "name":"fields",
+            "type":{
+                "type":"array", 
+                "items":"string"
+            }, 
+            "default":[],
+            "doc":"List of metadata fields. If not specified all fields are returned."
+        },
+        {
+            "name":"replyTo",
+            "type":"string",
+            "doc":"NATS inbox name of replica according to 3/ISM session affinity."
+        }
+    ]
+}

@@ -1,0 +1,18 @@
+{
+    "namespace":"org.kaaproject.ipc.mdtp.gen.v1",
+    "name":"MetadataResponse",
+    "type":"record",
+    "doc":"Metadata response sent to specific `replyTo` replica.",
+    "fields":[
+        {
+            "name":"correlationId",
+            "type":"string",
+            "doc":"Message ID primarily used to track message processing across services. In context of mdtp shall be used to match request and response events"
+        },
+        {
+            "name":"payload",
+            "type":"bytes",
+            "doc":"Serialized metadata content"
+        }
+    ]
+}
