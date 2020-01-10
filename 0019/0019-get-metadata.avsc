@@ -26,13 +26,13 @@
             "doc":"Identifier of the endpoint, on behalf of which metadata is requested"
         },
         {
-            "name":"fields",
+            "name":"include",
             "type":{
                 "type":"array", 
                 "items":"string"
             }, 
             "default":[],
-            "doc":"List of metadata fields. If not specified all fields icluded"
+            "doc":"List of metadata fields. If not specified all fields are icluded"
         }
     ]
 }

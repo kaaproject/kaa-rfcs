@@ -75,7 +75,7 @@ The NATS message payload is an Avro object with the following schema ([0019-meta
                 "items":"string"
             }, 
             "default":[],
-            "doc":"List of metadata fields. If not specified all fields icluded"
+            "doc":"List of metadata fields. If not specified all fields are icluded"
         }
     ]
 }
