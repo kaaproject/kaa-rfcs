@@ -20,7 +20,7 @@ MDTP complies with the [Inter-Service Messaging](/0003/README.md) guidelines.
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).
 
-The following terms and definitions are used in this RFC. // TODO definitions
+The following terms and definitions are used in this RFC.
 
 - **Endpoint metadata request (request):** endpoint identification and list of required metadata fields
 
