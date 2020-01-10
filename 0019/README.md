@@ -1,5 +1,5 @@
 ---
-name: Metadata Transport Protocol
+name: Endpoint Metadata Management Protocol
 shortname: 19/EPMMP
 status: raw
 editor: Vitalii Kozlovskyi <vkozlovskyi@kaaiot.io>
@@ -43,7 +43,7 @@ The NATS message payload is an Avro object with the following schema ([0019-meta
 ```json
 {
     "namespace":"org.kaaproject.ipc.epmmp.gen.v1",
-    "name":"MetadataRequest",
+    "name":"GetMetadata",
     "type":"record",
     "doc":"Interservice metadata request",
     "fields":[
@@ -69,13 +69,13 @@ The NATS message payload is an Avro object with the following schema ([0019-meta
             "doc":"Identifier of the endpoint, on behalf of which metadata is requested"
         },
         {
-            "name":"fields",
+            "name":"include",
             "type":{
                 "type":"array", 
                 "items":"string"
             }, 
             "default":[],
-            "doc":"List of metadata fields. If not specified all fields are returned"
+            "doc":"List of metadata fields. If not specified all fields icluded"
         }
     ]
 }
@@ -91,9 +91,9 @@ The NATS message payload is an Avro object with the following schema ([0019-meta
 ```json
 {
     "namespace":"org.kaaproject.ipc.epmmp.gen.v1",
-    "name":"MetadataResponse",
+    "name":"Metadata",
     "type":"record",
-    "doc":"Metadata response",
+    "doc":"Metadata response sent to specific `replyTo` replica.",
     "fields":[
         {
             "name":"correlationId",
@@ -120,6 +120,20 @@ The NATS message payload is an Avro object with the following schema ([0019-meta
             "name":"payload",
             "type":"bytes",
             "doc":"Serialized metadata content"
+        },
+        {
+            "name":"statusCode",
+            "type":"int",
+            "doc":"HTTP status code of the request processing"
+        },
+        {
+            "name":"reasonPhrase",
+            "type":[
+              "null",
+              "string"
+            ],
+            "default":null,
+            "doc":"Human-readable status reason phrase"
         }
     ]
 }
