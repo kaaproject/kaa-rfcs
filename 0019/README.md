@@ -29,7 +29,7 @@ The following terms and definitions are used in this RFC.
 
 # Design
 
-## Request metadata
+## Get metadata
 
 
 In order to request endpoint metadata, clients MUST [emit](/0003/README.md#targeted-messaging) `MetadataRequest` message to the following NATS subject:
