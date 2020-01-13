@@ -100,12 +100,12 @@ The NATS message payload is an Avro object with the following schema ([0019-endp
         {
             "name":"correlationId",
             "type":"string",
-            "doc":"Message ID primarily used to track message processing across services."
+            "doc":"Message id primarily used to track message processing across services."
         },
         {
             "name":"timestamp",
             "type":"long",
-            "doc":"Message creation UNIX timestamp in milliseconds."
+            "doc":"Message creation unix timestamp in milliseconds."
         },
         {
             "name":"timeout",
@@ -121,15 +121,15 @@ The NATS message payload is an Avro object with the following schema ([0019-endp
         {
             "name":"payload",
             "type":"bytes",
-            "doc":"Serialized endpoint metadata."
+            "doc":"Serialized endpoint metadata content."
         },
         {
-            "name":"statuscode",
+            "name":"statusCode",
             "type":"int",
             "doc":"HTTP status code of the request processing."
         },
         {
-            "name":"reasonphrase",
+            "name":"reasonPhrase",
             "type":[
               "null",
               "string"
