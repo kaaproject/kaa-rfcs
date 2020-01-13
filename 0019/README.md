@@ -39,7 +39,7 @@ kaa.v1.service.<metadata-service-instance-name>.epmmp.metadata-request
 Where:
 - `<metadata-service-instance-name>` is the instance name of endpoint registry or other metadata service.
 
-The NATS message payload is an Avro object with the following schema ([0019-metadata-request.avsc](./0019-metadata-request.avsc)):
+The NATS message payload is an Avro object with the following schema ([0019-get-metadata.avsc](./0019-get-metadata.avsc)):
 ```json
 {
     "namespace":"org.kaaproject.ipc.epmmp.gen.v1",
@@ -87,7 +87,7 @@ Client MUST specify `replyTo` NATS subject in the emit message according to the 
 ## Metadata Response 
 To receive a response, the client MUST be subscribed to the replyTo subject specified in the request message.
 
-The NATS message payload is an Avro object with the following schema ([0019-metadata-response.avsc](./0019-metadata-response.avsc)):
+The NATS message payload is an Avro object with the following schema ([0019-metadata.avsc](./0019-metadata.avsc)):
 ```json
 {
     "namespace":"org.kaaproject.ipc.epmmp.gen.v1",
