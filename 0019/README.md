@@ -29,33 +29,33 @@ The following terms and definitions are used in this RFC.
 
 # Design
 
-## Get metadata
+## Endpoint metadata get request
 
-
-In order to request endpoint metadata, clients MUST [emit](/0003/README.md#targeted-messaging) `MetadataRequest` message to the following NATS subject:
+In order to request endpoint metadata, clients MUST [emit](/0003/README.md#targeted-messaging) `EndpointMetadataGetRequest` message to the following NATS subject:
 ```
-kaa.v1.service.<metadata-service-instance-name>.epmmp.metadata-request
+kaa.v1.service.<ep-metadata-service-instance-name>.epmmp.ep-metadata-get-request
 ```
-Where:
-- `<metadata-service-instance-name>` is the instance name of endpoint registry or other metadata service.
+where:
+- `<ep-metadata-service-instance-name>` is the endpoint metadata repository service instance name.
 
-The NATS message payload is an Avro object with the following schema ([0019-get-metadata.avsc](./0019-get-metadata.avsc)):
+The NATS message payload is an Avro object with the following schema ([0019-endpoint-metadata-get-request.avsc](./0019-endpoint-metadata-get-request.avsc)):
+
 ```json
 {
     "namespace":"org.kaaproject.ipc.epmmp.gen.v1",
-    "name":"GetMetadata",
+    "name":"EndpointMetadataGetRequest",
     "type":"record",
     "doc":"Interservice endpoint metadata get request",
     "fields":[
         {
             "name":"correlationId",
             "type":"string",
-            "doc":"Message ID primarily used to track message processing across services"
+            "doc":"Message ID primarily used to track message processing across services."
         },
         {
             "name":"timestamp",
             "type":"long",
-            "doc":"Message creation UNIX timestamp in milliseconds"
+            "doc":"Message creation UNIX timestamp in milliseconds."
         },
         {
             "name":"timeout",
@@ -66,16 +66,16 @@ The NATS message payload is an Avro object with the following schema ([0019-get-
         {
             "name":"endpointId",
             "type": "string",
-            "doc":"Identifier of the endpoint, on behalf of which metadata is requested"
+            "doc":"Identifier of the endpoint, on behalf of which metadata is requested."
         },
         {
             "name":"include",
             "type":{
-                "type":"array", 
+                "type":"array",
                 "items":"string"
-            }, 
+            },
             "default":[],
-            "doc":"List of metadata fields. If not specified all fields are icluded"
+            "doc":"List of metadata fields. If not specified all fields are icluded."
         }
     ]
 }
@@ -84,47 +84,49 @@ The NATS message payload is an Avro object with the following schema ([0019-get-
 Client MUST specify `replyTo` NATS subject in the emit message according to the [session affinity design](/0003/README.md#session-affinity).
 
 
-## Metadata Response 
+## Endpoint metadata response
+
 To receive a response, the client MUST be subscribed to the replyTo subject specified in the request message.
 
-The NATS message payload is an Avro object with the following schema ([0019-metadata.avsc](./0019-metadata.avsc)):
+The NATS message payload is an Avro object with the following schema ([0019-endpoint-metadata.avsc](./0019-endpoint-metadata.avsc)):
+
 ```json
 {
     "namespace":"org.kaaproject.ipc.epmmp.gen.v1",
-    "name":"Metadata",
+    "name":"EndpointMetadata",
     "type":"record",
-    "doc":"Endpoint metadata response sent to specific `replyto` subject",
+    "doc":"Endpoint metadata",
     "fields":[
         {
             "name":"correlationId",
             "type":"string",
-            "doc":"message id primarily used to track message processing across services"
+            "doc":"Message ID primarily used to track message processing across services."
         },
         {
             "name":"timestamp",
             "type":"long",
-            "doc":"message creation unix timestamp in milliseconds"
+            "doc":"Message creation UNIX timestamp in milliseconds."
         },
         {
             "name":"timeout",
             "type":"long",
             "default":0,
-            "doc":"amount of milliseconds since the timestamp until the message expires. value of 0 is reserved to indicate no expiration."
+            "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
         },
         {
             "name":"endpointId",
             "type": "string",
-            "doc":"identifier of the endpoint, on behalf of which metadata is requested"
+            "doc":"Identifier of the endpoint, on behalf of which metadata is requested."
         },
         {
             "name":"payload",
             "type":"bytes",
-            "doc":"serialized endpoint metadata content"
+            "doc":"Serialized endpoint metadata."
         },
         {
             "name":"statuscode",
             "type":"int",
-            "doc":"http status code of the request processing"
+            "doc":"HTTP status code of the request processing."
         },
         {
             "name":"reasonphrase",
@@ -133,11 +135,12 @@ The NATS message payload is an Avro object with the following schema ([0019-meta
               "string"
             ],
             "default":null,
-            "doc":"human-readable status reason phrase"
+            "doc":"Human-readable status reason phrase."
         }
     ]
 }
 ```
 
 ### Timeout and retry
+
 There is no garantee, that request and/or response will be delivered. Client SHOULD implement timeout and retry logic if required.
