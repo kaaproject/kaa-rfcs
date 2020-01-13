@@ -31,14 +31,22 @@ The following terms and definitions are used in this RFC.
 
 ## Endpoint metadata get request
 
-In order to request endpoint metadata, clients MUST [emit](/0003/README.md#targeted-messaging) `EndpointMetadataGetRequest` message to the following NATS subject:
+*Endpoint metadata get request* message is a [targeted message](/0003/README.md#targeted-messaging) that the client sends to the repository to retrieve endpoint metadata.
+
+The client MUST send endpoint metadata get request messages using the following NATS subject:
 ```
-kaa.v1.service.<ep-metadata-service-instance-name>.epmmp.ep-metadata-get-request
+kaa.v1.service.{ep-metadata-service-instance-name}.epmmp.ep-metadata-get-request
 ```
 where:
-- `<ep-metadata-service-instance-name>` is the endpoint metadata repository service instance name.
+- `{ep-metadata-service-instance-name}` is the endpoint metadata repository service instance name.
 
-The NATS message payload is an Avro object with the following schema ([0019-endpoint-metadata-get-request.avsc](./0019-endpoint-metadata-get-request.avsc)):
+The client MUST include NATS `replyTo` field to handle the response.
+It is RECOMMENDED to follow the subject format described in [3/ISM session affinity section](/0003/README.md#session-affinity):
+```
+kaa.v1.replica.{client-service-replica-id}.epmmp.ep-metadata-get-response
+```
+
+Endpoint metadata get request message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([0019-endpoint-metadata-get-request.avsc](./0019-endpoint-metadata-get-request.avsc)):
 
 ```json
 {
@@ -81,14 +89,13 @@ The NATS message payload is an Avro object with the following schema ([0019-endp
 }
 ```
 
-Client MUST specify `replyTo` NATS subject in the emit message according to the [session affinity design](/0003/README.md#session-affinity).
-
 
 ## Endpoint metadata response
 
-To receive a response, the client MUST be subscribed to the replyTo subject specified in the request message.
+*Endpoint metadata response* message MUST be sent by repository in response to an [Endpoint metadata get  request message](#endpoint-metadata-get-request).
+Repository MUST publish endpoint metadata get response message to the subject provided in the NATS `replyTo` field of the request.
 
-The NATS message payload is an Avro object with the following schema ([0019-endpoint-metadata.avsc](./0019-endpoint-metadata.avsc)):
+Endpoint metadata get response message payload MUST be an Avro-encoded object with the following schema ([0019-endpoint-metadata.avsc](./0019-endpoint-metadata.avsc)):
 
 ```json
 {
