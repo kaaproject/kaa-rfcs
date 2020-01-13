@@ -45,7 +45,7 @@ The NATS message payload is an Avro object with the following schema ([0019-meta
     "namespace":"org.kaaproject.ipc.epmmp.gen.v1",
     "name":"GetMetadata",
     "type":"record",
-    "doc":"Interservice metadata request",
+    "doc":"Interservice endpoint metadata get request",
     "fields":[
         {
             "name":"correlationId",
@@ -93,47 +93,47 @@ The NATS message payload is an Avro object with the following schema ([0019-meta
     "namespace":"org.kaaproject.ipc.epmmp.gen.v1",
     "name":"Metadata",
     "type":"record",
-    "doc":"Metadata response sent to specific `replyTo` replica.",
+    "doc":"Endpoint metadata response sent to specific `replyto` subject",
     "fields":[
         {
             "name":"correlationId",
             "type":"string",
-            "doc":"Message ID primarily used to track message processing across services"
+            "doc":"message id primarily used to track message processing across services"
         },
         {
             "name":"timestamp",
             "type":"long",
-            "doc":"Message creation UNIX timestamp in milliseconds"
+            "doc":"message creation unix timestamp in milliseconds"
         },
         {
             "name":"timeout",
             "type":"long",
             "default":0,
-            "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
+            "doc":"amount of milliseconds since the timestamp until the message expires. value of 0 is reserved to indicate no expiration."
         },
         {
             "name":"endpointId",
             "type": "string",
-            "doc":"Identifier of the endpoint, on behalf of which metadata is requested"
+            "doc":"identifier of the endpoint, on behalf of which metadata is requested"
         },
         {
             "name":"payload",
             "type":"bytes",
-            "doc":"Serialized metadata content"
+            "doc":"serialized endpoint metadata content"
         },
         {
-            "name":"statusCode",
+            "name":"statuscode",
             "type":"int",
-            "doc":"HTTP status code of the request processing"
+            "doc":"http status code of the request processing"
         },
         {
-            "name":"reasonPhrase",
+            "name":"reasonphrase",
             "type":[
               "null",
               "string"
             ],
             "default":null,
-            "doc":"Human-readable status reason phrase"
+            "doc":"human-readable status reason phrase"
         }
     ]
 }
