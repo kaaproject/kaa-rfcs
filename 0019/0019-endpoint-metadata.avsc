@@ -1,0 +1,48 @@
+{
+    "namespace":"org.kaaproject.ipc.epmmp.gen.v1",
+    "name":"EndpointMetadata",
+    "type":"record",
+    "doc":"Endpoint metadata",
+    "fields":[
+        {
+            "name":"correlationId",
+            "type":"string",
+            "doc":"Message id primarily used to track message processing across services."
+        },
+        {
+            "name":"timestamp",
+            "type":"long",
+            "doc":"Message creation unix timestamp in milliseconds."
+        },
+        {
+            "name":"timeout",
+            "type":"long",
+            "default":0,
+            "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name":"endpointId",
+            "type": "string",
+            "doc":"Identifier of the endpoint, on behalf of which metadata is requested."
+        },
+        {
+            "name":"payload",
+            "type":"bytes",
+            "doc":"Serialized endpoint metadata content."
+        },
+        {
+            "name":"statusCode",
+            "type":"int",
+            "doc":"HTTP status code of the request processing."
+        },
+        {
+            "name":"reasonPhrase",
+            "type":[
+              "null",
+              "string"
+            ],
+            "default":null,
+            "doc":"Human-readable status reason phrase."
+        }
+    ]
+}
