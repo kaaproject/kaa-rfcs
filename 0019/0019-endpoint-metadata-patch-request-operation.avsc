@@ -1,6 +1,6 @@
 {
     "namespace":"org.kaaproject.ipc.epmmp.gen.v1",
-    "name":"EndpointMetadataPatchOperations",
+    "name":"EndpointMetadataPatchOperation",
     "type":"record",
     "doc":"Command to do specific oparation with endpoint metadata",
     "fields":[

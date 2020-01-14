@@ -206,7 +206,7 @@ Endpoint metadata update request message payload MUST be an [Avro-encoded](https
             "name":"operations",
             "type":{
                 "type":"array",
-                "items":"EndpointMetadataPatchOperations"
+                "items":"EndpointMetadataPatchOperation"
             },
             "doc":"List of metadata operations"
         }
