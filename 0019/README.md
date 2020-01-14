@@ -35,10 +35,10 @@ The following terms and definitions are used in this RFC.
 
 The client MUST send endpoint metadata get request messages using the following NATS subject:
 ```
-kaa.v1.service.{ep-metadata-service-instance-name}.epmmp.ep-metadata-get-request
+kaa.v1.service.{repository-service-instance-name}.epmmp.ep-metadata-get-request
 ```
 where:
-- `{ep-metadata-service-instance-name}` is the endpoint metadata repository service instance name.
+- `{repository-service-instance-name}` is the endpoint metadata repository service instance name.
 
 The client MUST include NATS `replyTo` field to handle the response.
 It is RECOMMENDED to follow the subject format described in [3/ISM session affinity section](/0003/README.md#session-affinity):
