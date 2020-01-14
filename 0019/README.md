@@ -95,14 +95,14 @@ Endpoint metadata get request message payload MUST be an [Avro-encoded](https://
 *Endpoint metadata response* message MUST be sent by the repository in response to [Endpoint metadata get  request message](#endpoint-metadata-get-request).
 Repository MUST publish endpoint metadata get response message to the subject provided in the NATS `replyTo` field of the request.
 
-Endpoint metadata get response message payload MUST be an Avro-encoded object with the following schema ([0019-endpoint-metadata.avsc](./0019-endpoint-metadata.avsc)):
+Endpoint metadata get response message payload MUST be an Avro-encoded object with the following schema ([0019-endpoint-metadata.avsc](./0019-endpoint-metadata-get-response.avsc)):
 
 ```json
 {
      "namespace":"org.kaaproject.ipc.epmmp.gen.v1",
-     "name":"EndpointMetadataResponse",
+     "name":"EndpointMetadataGetResponse",
      "type":"record",
-     "doc":"Endpoint metadata",
+     "doc":"Endpoint metadata get response",
      "fields":[
          {
              "name":"correlationId",
@@ -150,8 +150,6 @@ Endpoint metadata get response message payload MUST be an Avro-encoded object wi
          }
      ]
  }
-
-
 ```
 
 ### Timeout and retry
