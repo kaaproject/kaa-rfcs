@@ -58,12 +58,12 @@ Endpoint metadata get request message payload MUST be an [Avro-encoded](https://
         {
             "name":"correlationId",
             "type":"string",
-            "doc":"Message ID primarily used to track message processing across services."
+            "doc":"Message ID primarily used to track message processing across services"
         },
         {
             "name":"timestamp",
             "type":"long",
-            "doc":"Message creation UNIX timestamp in milliseconds."
+            "doc":"Message creation UNIX timestamp in milliseconds"
         },
         {
             "name":"timeout",
@@ -74,7 +74,7 @@ Endpoint metadata get request message payload MUST be an [Avro-encoded](https://
         {
             "name":"endpointId",
             "type": "string",
-            "doc":"Identifier of the endpoint, on behalf of which metadata is requested."
+            "doc":"Identifier of the endpoint, on behalf of which metadata is requested"
         },
         {
             "name":"include",
@@ -83,7 +83,7 @@ Endpoint metadata get request message payload MUST be an [Avro-encoded](https://
                 "items":"string"
             },
             "default":[],
-            "doc":"List of metadata fields. If not specified all fields are icluded."
+            "doc":"List of metadata fields. If not specified all fields are included"
         }
     ]
 }
