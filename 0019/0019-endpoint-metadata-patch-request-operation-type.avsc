@@ -1,0 +1,7 @@
+{
+    "namespace":"org.kaaproject.ipc.epmmp.gen.v1",
+    "name":"EndpointMetadataPatchOperationType",
+    "type":"enum",
+    "doc":"Type of operation with endpoint metadata",
+    "symbols" : ["ADD", "MOVE", "REPLACE", "COPY", "TEST", "REMOVE"]
+}
