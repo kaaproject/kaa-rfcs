@@ -24,6 +24,7 @@ RFCs can be in raw, draft, stable, deprecated, or retired status.
 | [16/ECAP](0016/README.md) | Endpoint and Client Authentication Protocol | Draft   |
 | [17/SCMP](0017/README.md) | Service Configuration Management Protocol   | Draft   |
 | [18/EFE](0018/README.md)  | Endpoint Filter Events                      | Draft   |
+| [20/EFMP](0020/README.md) | Endpoint Filter Management Protocol         | Raw     |
 
 # Change process
 
