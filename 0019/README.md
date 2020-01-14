@@ -107,12 +107,12 @@ Endpoint metadata get response message payload MUST be an Avro-encoded object wi
          {
              "name":"correlationId",
              "type":"string",
-             "doc":"Message id primarily used to track message processing across services."
+             "doc":"Message id primarily used to track message processing across services"
          },
          {
              "name":"timestamp",
              "type":"long",
-             "doc":"Message creation unix timestamp in milliseconds."
+             "doc":"Message creation unix timestamp in milliseconds"
          },
          {
              "name":"timeout",
@@ -123,7 +123,7 @@ Endpoint metadata get response message payload MUST be an Avro-encoded object wi
          {
              "name":"endpointId",
              "type": "string",
-             "doc":"Identifier of the endpoint, on behalf of which metadata is requested."
+             "doc":"Identifier of the endpoint, on behalf of which metadata is requested"
          },
          {
              "name":"payload",
@@ -132,12 +132,12 @@ Endpoint metadata get response message payload MUST be an Avro-encoded object wi
                "bytes"
              ],
              "default":null,
-             "doc":"Serialized endpoint metadata content."
+             "doc":"Serialized endpoint metadata content"
          },
          {
              "name":"statusCode",
              "type":"int",
-             "doc":"HTTP status code of the request processing."
+             "doc":"HTTP status code of the request processing"
          },
          {
              "name":"reasonPhrase",
@@ -146,7 +146,7 @@ Endpoint metadata get response message payload MUST be an Avro-encoded object wi
                "string"
              ],
              "default":null,
-             "doc":"Human-readable status reason phrase."
+             "doc":"Human-readable status reason phrase"
          }
      ]
 }
