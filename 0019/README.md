@@ -29,7 +29,9 @@ The following terms and definitions are used in this RFC.
 
 # Design
 
-## Endpoint metadata get request
+## Get endpoint metadata
+
+### Endpoint metadata get request
 
 *Endpoint metadata get request* message is a [targeted message](/0003/README.md#targeted-messaging) that the client sends to the repository to retrieve endpoint metadata.
 
@@ -89,8 +91,7 @@ Endpoint metadata get request message payload MUST be an [Avro-encoded](https://
 }
 ```
 
-
-## Endpoint metadata response
+### Endpoint metadata response
 
 *Endpoint metadata response* message MUST be sent by the repository in response to [Endpoint metadata get  request message](#endpoint-metadata-get-request).
 Repository MUST publish endpoint metadata get response message to the subject provided in the NATS `replyTo` field of the request.
@@ -152,6 +153,131 @@ Endpoint metadata get response message payload MUST be an Avro-encoded object wi
 }
 ```
 
-### Timeout and retry
+## Partial metadata update
+
+Completing a partial metadata update request will update or create only the endpoint metadata key-value pairs present in the request payload using [JSON Patch](https://tools.ietf.org/html/rfc6902). Metadata keys must be non-empty strings containing Latin letters, digits, and underscores only.
+
+### Partial metadata update request
+
+*Partial metadata update request* message is a [targeted message](/0003/README.md#targeted-messaging) that the client sends to the repository to patch endpoint metadata.
+
+The client MUST send endpoint metadata get request messages using the following NATS subject:
+```
+kaa.v1.service.{repository-service-instance-name}.epmmp.ep-metadata-patch-request
+```
+where:
+- `{repository-service-instance-name}` is the endpoint metadata repository service instance name. 
+
+The client MUST include NATS `replyTo` field to handle the response. It is RECOMMENDED to follow the subject format described in [3/ISM session affinity section](/0003/README.md#session-affinity):
+```
+kaa.v1.replica.{client-service-replica-id}.epmmp.ep-metadata-patch-response
+```
+
+Endpoint metadata update request message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([0019-endpoint-metadata-patch-request.avsc](./0019-endpoint-metadata-patch-request.avsc)):
+```json
+{
+    "namespace":"org.kaaproject.ipc.epmmp.gen.v1",
+    "name":"EndpointMetadataPatchRequest",
+    "type":"record",
+    "doc":"Interservice endpoint parcial metadata update request",
+    "fields":[
+        {
+            "name":"correlationId",
+            "type":"string",
+            "doc":"Message ID primarily used to track message processing across services"
+        },
+        {
+            "name":"timestamp",
+            "type":"long",
+            "doc":"Message creation UNIX timestamp in milliseconds"
+        },
+        {
+            "name":"timeout",
+            "type":"long",
+            "default":0,
+            "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name":"endpointId",
+            "type": "string",
+            "doc":"Identifier of the endpoint, on behalf of which metadata is requested"
+        },
+        {
+            "name":"operations",
+            "type":{
+                "type":"array",
+                "items":"EndpointMetadataPatchOperations"
+            },
+            "doc":"List of metadata operations"
+        }
+    ]
+}
+```
+
+In case the client requests to create or update a restricted EP metadata key, the server MUST return an error.
+
+
+### Partial metadata update response
+
+*Partial metadata update response* message MUST be sent by the repository in response to [Partial metadata update request message](#endpoint-metadata-update-request).
+Repository MUST publish endpoint metadata update response message to the subject provided in the NATS `replyTo` field of the request.
+
+Endpoint metadata get response message payload MUST be an Avro-encoded object with the following schema ([0019-endpoint-metadata.avsc](./0019-endpoint-metadata-patch-response.avsc)):
+```json
+{
+     "namespace":"org.kaaproject.ipc.epmmp.gen.v1",
+     "name":"EndpointMetadataPatchResponse",
+     "type":"record",
+     "doc":"Endpoint parcial metadata update response",
+     "fields":[
+         {
+             "name":"correlationId",
+             "type":"string",
+             "doc":"Message id primarily used to track message processing across services"
+         },
+         {
+             "name":"timestamp",
+             "type":"long",
+             "doc":"Message creation unix timestamp in milliseconds"
+         },
+         {
+             "name":"timeout",
+             "type":"long",
+             "default":0,
+             "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
+         },
+         {
+             "name":"endpointId",
+             "type": "string",
+             "doc":"Identifier of the endpoint, on behalf of which metadata update is requested"
+         },
+         {
+             "name":"payload",
+             "type":[
+               "null",
+               "bytes"
+             ],
+             "default":null,
+             "doc":"Serialized endpoint metadata content"
+         },
+         {
+             "name":"statusCode",
+             "type":"int",
+             "doc":"HTTP status code of the request processing"
+         },
+         {
+             "name":"reasonPhrase",
+             "type":[
+               "null",
+               "string"
+             ],
+             "default":null,
+             "doc":"Human-readable status reason phrase"
+         }
+     ]
+}
+```
+
+## Timeout and retry
 
 There is no garantee, that request and/or response will be delivered. Client SHOULD implement timeout and retry logic if required.
