@@ -92,7 +92,7 @@ Endpoint metadata get request message payload MUST be an [Avro-encoded](https://
 
 ## Endpoint metadata response
 
-*Endpoint metadata response* message MUST be sent by repository in response to an [Endpoint metadata get  request message](#endpoint-metadata-get-request).
+*Endpoint metadata response* message MUST be sent by the repository in response to [Endpoint metadata get  request message](#endpoint-metadata-get-request).
 Repository MUST publish endpoint metadata get response message to the subject provided in the NATS `replyTo` field of the request.
 
 Endpoint metadata get response message payload MUST be an Avro-encoded object with the following schema ([0019-endpoint-metadata.avsc](./0019-endpoint-metadata.avsc)):
