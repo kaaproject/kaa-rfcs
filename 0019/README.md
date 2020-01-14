@@ -149,7 +149,7 @@ Endpoint metadata get response message payload MUST be an Avro-encoded object wi
              "doc":"Human-readable status reason phrase."
          }
      ]
- }
+}
 ```
 
 ### Timeout and retry
