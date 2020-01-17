@@ -129,7 +129,11 @@ Endpoint metadata get response message payload MUST be an Avro-encoded object wi
         },
         {
             "name": "eTag",
-            "type": "string",
+            "type": [
+                "null",
+                "string"
+            ],
+            "default": null,
             "doc": "Identifier for a specific version of endpoint metadata. See ETag HTTP header for more details."
         },
         {
