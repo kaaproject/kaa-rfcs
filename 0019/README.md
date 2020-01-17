@@ -101,56 +101,65 @@ Endpoint metadata get response message payload MUST be an Avro-encoded object wi
 
 ```json
 {
-     "namespace":"org.kaaproject.ipc.epmmp.gen.v1",
-     "name":"EndpointMetadataGetResponse",
-     "type":"record",
-     "doc":"Endpoint metadata get response",
-     "fields":[
-         {
-             "name":"correlationId",
-             "type":"string",
-             "doc":"Message id primarily used to track message processing across services"
-         },
-         {
-             "name":"timestamp",
-             "type":"long",
-             "doc":"Message creation unix timestamp in milliseconds"
-         },
-         {
-             "name":"timeout",
-             "type":"long",
-             "default":0,
-             "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
-         },
-         {
-             "name":"endpointId",
-             "type": "string",
-             "doc":"Identifier of the endpoint, on behalf of which metadata is requested"
-         },
-         {
-             "name":"payload",
-             "type":[
-               "null",
-               "bytes"
-             ],
-             "default":null,
-             "doc":"Serialized endpoint metadata content"
-         },
-         {
-             "name":"statusCode",
-             "type":"int",
-             "doc":"HTTP status code of the request processing"
-         },
-         {
-             "name":"reasonPhrase",
-             "type":[
-               "null",
-               "string"
-             ],
-             "default":null,
-             "doc":"Human-readable status reason phrase"
-         }
-     ]
+    "namespace": "org.kaaproject.ipc.epmmp.gen.v1",
+    "name": "EndpointMetadataGetResponse",
+    "type": "record",
+    "doc": "Endpoint metadata get response",
+    "fields": [
+        {
+            "name": "correlationId",
+            "type": "string",
+            "doc": "Message id primarily used to track message processing across services"
+        },
+        {
+            "name": "timestamp",
+            "type": "long",
+            "doc": "Message creation unix timestamp in milliseconds"
+        },
+        {
+            "name": "timeout",
+            "type": "long",
+            "default": 0,
+            "doc": "Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name": "endpointId",
+            "type": "string",
+            "doc": "Identifier of the endpoint, on behalf of which metadata is requested"
+        },
+        {
+            "name": "eTag",
+            "type": [
+                "null",
+                "string"
+            ],
+            "default": null,
+            "doc": "Identifier for a specific version of a resource"
+        },
+        {
+            "name": "payload",
+            "type": [
+                "null",
+                "bytes"
+            ],
+            "default": null,
+            "doc": "Serialized endpoint metadata content"
+        },
+        {
+            "name": "statusCode",
+            "type": "int",
+            "doc": "HTTP status code of the request processing"
+        },
+        {
+            "name": "reasonPhrase",
+            "type": [
+                "null",
+                "string"
+            ],
+            "default": null,
+            "doc": "Human-readable status reason phrase"
+        }
+    ]
 }
 ```
 
@@ -178,39 +187,45 @@ kaa.v1.replica.{client-service-replica-id}.epmmp.ep-metadata-patch-response
 Partial endpoint metadata update request message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([0019-endpoint-metadata-patch-request.avsc](./0019-endpoint-metadata-patch-request.avsc)):
 ```json
 {
-    "namespace":"org.kaaproject.ipc.epmmp.gen.v1",
-    "name":"EndpointMetadataPatchRequest",
-    "type":"record",
-    "doc":"Interservice endpoint parcial metadata update request",
-    "fields":[
+    "namespace": "org.kaaproject.ipc.epmmp.gen.v1",
+    "name": "EndpointMetadataPatchRequest",
+    "type": "record",
+    "doc": "Interservice endpoint partial metadata update request",
+    "fields": [
         {
-            "name":"correlationId",
-            "type":"string",
-            "doc":"Message ID primarily used to track message processing across services"
-        },
-        {
-            "name":"timestamp",
-            "type":"long",
-            "doc":"Message creation UNIX timestamp in milliseconds"
-        },
-        {
-            "name":"timeout",
-            "type":"long",
-            "default":0,
-            "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
-        },
-        {
-            "name":"endpointId",
+            "name": "correlationId",
             "type": "string",
-            "doc":"Identifier of the endpoint, on behalf of which metadata is requested"
+            "doc": "Message ID primarily used to track message processing across services"
         },
         {
-            "name":"operations",
-            "type":{
-                "type":"array",
-                "items":"EndpointMetadataPatchOperation"
-            },
-            "doc":"List of metadata operations"
+            "name": "timestamp",
+            "type": "long",
+            "doc": "Message creation UNIX timestamp in milliseconds"
+        },
+        {
+            "name": "timeout",
+            "type": "long",
+            "default": 0,
+            "doc": "Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name": "endpointId",
+            "type": "string",
+            "doc": "Identifier of the endpoint, on behalf of which metadata is requested"
+        },
+        {
+            "name": "ifMatch",
+            "type": [
+                "null",
+                "string"
+            ],
+            "default": null,
+            "doc": "Makes the request conditional"
+        },
+        {
+            "name": "patch",
+            "type": "bytes",
+            "doc": "Patch payload as defined in the RFC 6902"
         }
     ]
 }
@@ -227,56 +242,47 @@ Repository MUST publish partial endpoint metadata update response message to the
 Partial endpoint metadata update response message payload MUST be an Avro-encoded object with the following schema ([0019-endpoint-metadata.avsc](./0019-endpoint-metadata-patch-response.avsc)):
 ```json
 {
-     "namespace":"org.kaaproject.ipc.epmmp.gen.v1",
-     "name":"EndpointMetadataPatchResponse",
-     "type":"record",
-     "doc":"Endpoint parcial metadata update response",
-     "fields":[
-         {
-             "name":"correlationId",
-             "type":"string",
-             "doc":"Message id primarily used to track message processing across services"
-         },
-         {
-             "name":"timestamp",
-             "type":"long",
-             "doc":"Message creation unix timestamp in milliseconds"
-         },
-         {
-             "name":"timeout",
-             "type":"long",
-             "default":0,
-             "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
-         },
-         {
-             "name":"endpointId",
-             "type": "string",
-             "doc":"Identifier of the endpoint, on behalf of which metadata update is requested"
-         },
-         {
-             "name":"payload",
-             "type":[
-               "null",
-               "bytes"
-             ],
-             "default":null,
-             "doc":"Serialized endpoint metadata content"
-         },
-         {
-             "name":"statusCode",
-             "type":"int",
-             "doc":"HTTP status code of the request processing"
-         },
-         {
-             "name":"reasonPhrase",
-             "type":[
-               "null",
-               "string"
-             ],
-             "default":null,
-             "doc":"Human-readable status reason phrase"
-         }
-     ]
+    "namespace": "org.kaaproject.ipc.epmmp.gen.v1",
+    "name": "EndpointMetadataPatchResponse",
+    "type": "record",
+    "doc": "Endpoint partial metadata update response",
+    "fields": [
+        {
+            "name": "correlationId",
+            "type": "string",
+            "doc": "Message id primarily used to track message processing across services"
+        },
+        {
+            "name": "timestamp",
+            "type": "long",
+            "doc": "Message creation unix timestamp in milliseconds"
+        },
+        {
+            "name": "timeout",
+            "type": "long",
+            "default": 0,
+            "doc": "Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name": "endpointId",
+            "type": "string",
+            "doc": "Identifier of the endpoint, on behalf of which metadata update is requested"
+        },
+        {
+            "name": "statusCode",
+            "type": "int",
+            "doc": "HTTP status code of the request processing"
+        },
+        {
+            "name": "reasonPhrase",
+            "type": [
+                "null",
+                "string"
+            ],
+            "default": null,
+            "doc": "Human-readable status reason phrase"
+        }
+    ]
 }
 ```
 
