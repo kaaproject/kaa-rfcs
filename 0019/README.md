@@ -220,12 +220,12 @@ Partial endpoint metadata update request message payload MUST be an [Avro-encode
                 "string"
             ],
             "default": null,
-            "doc": "Makes the request conditional"
+            "doc": "Makes the request conditional. See If-Match HTTP header for more details."
         },
         {
             "name": "patch",
             "type": "bytes",
-            "doc": "Patch payload as defined in the RFC 6902"
+            "doc": "JSON Patch payload as defined in the RFC 6902"
         }
     ]
 }
