@@ -29,7 +29,7 @@ The following terms and definitions are used in this RFC.
 
 # Design
 
-## Get endpoint metadata
+## Getting endpoint metadata
 
 ### Endpoint metadata get request
 
@@ -161,7 +161,7 @@ Completing a partial metadata update request will update or create only the endp
 
 ### Partial endpoint metadata update request
 
-*Partial endpoint metadata update request* message is a [targeted message](/0003/README.md#targeted-messaging) that the client sends to the repository to patch endpoint metadata.
+*Partial endpoint metadata update request* message is a [targeted message](/0003/README.md#targeted-messaging) that the client sends to the repository to partially update endpoint metadata.
 
 The client MUST send partial endpoint metadata update request messages using the following NATS subject:
 ```

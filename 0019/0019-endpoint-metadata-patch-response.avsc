@@ -26,15 +26,6 @@
              "doc":"Identifier of the endpoint, on behalf of which metadata update is requested"
          },
          {
-             "name":"payload",
-             "type":[
-               "null",
-               "bytes"
-             ],
-             "default":null,
-             "doc":"Serialized endpoint metadata content"
-         },
-         {
              "name":"statusCode",
              "type":"int",
              "doc":"HTTP status code of the request processing"
@@ -47,6 +38,15 @@
              ],
              "default":null,
              "doc":"Human-readable status reason phrase"
-         }
+         },
+         {
+            "name": "eTag",
+            "type": [
+                "null",
+                "string"
+            ],
+            "default": null,
+            "doc": "Identifier for a specific version of a resource"
+        }
      ]
 }

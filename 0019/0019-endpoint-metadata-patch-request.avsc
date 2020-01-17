@@ -32,6 +32,15 @@
                 "items":"EndpointMetadataPatchOperations"
             },
             "doc":"List of metadata operations"
+        },
+        {
+            "name": "ifMatch",
+            "type": [
+                "null",
+                "string"
+            ],
+            "default": null,
+            "doc": "Makes the request conditional. Executed only if metadata wasn't changed (E-tag equals received from previous response)."
         }
     ]
 }
