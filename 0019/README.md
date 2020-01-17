@@ -157,7 +157,7 @@ Endpoint metadata get response message payload MUST be an Avro-encoded object wi
 
 ## Partial endpoint metadata update
 
-Completing a partial metadata update request will update or create only the endpoint metadata key-value pairs present in the request payload using [JSON Patch](https://tools.ietf.org/html/rfc6902). Metadata keys must be non-empty strings containing Latin letters, digits, and underscores only.
+Partial endpoint metadata update request MUST partially update endpoint metadata using the JSON Patch defined in [RFC 6902](https://tools.ietf.org/html/rfc6902).
 
 ### Partial endpoint metadata update request
 
