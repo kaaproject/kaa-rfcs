@@ -85,7 +85,7 @@ Endpoint metadata get request message payload MUST be an [Avro-encoded](https://
                 "items":"string"
             },
             "default":[],
-            "doc":"List of metadata fields. If not specified all fields are included"
+            "doc":"List of the endpoint metadata keys. If not specified all metadata will be returned"
         }
     ]
 }
@@ -287,11 +287,11 @@ Partial endpoint metadata update response message payload MUST be an Avro-encode
 ```
 
 
-## Timeout and retry
+## Getting endpoint metadata keys
 
-## Endpoint metadata keys get request
+### Endpoint metadata keys request
 
-*Endpoint metadata get keys request* message is a [targeted message](/0003/README.md#targeted-messaging) that the client sends to the repository to retrieve endpoint metadata keys.
+*Endpoint metadata keys get request* message is a [targeted message](/0003/README.md#targeted-messaging) that the client sends to the repository to retrieve endpoint metadata keys.
 
 The client MUST send endpoint metadata keys get request messages using the following NATS subject:
 ```
@@ -341,9 +341,9 @@ Endpoint metadata keys get request message payload MUST be an [Avro-encoded](htt
 ```
 
 
-## Endpoint metadata response
+### Endpoint metadata keys response
 
-*Endpoint metadata response* message MUST be sent by the repository in response to [Endpoint metadata keys get request message](#endpoint-metadata-keys-get-request).
+*Endpoint metadata keys get response* message MUST be sent by the repository in response to [Endpoint metadata keys get request message](#endpoint-metadata-keys-request).
 Repository MUST publish endpoint metadata keys get response message to the subject provided in the NATS `replyTo` field of the request.
 
 Endpoint metadata keys get response message payload MUST be an Avro-encoded object with the following schema ([0019-endpoint-metadata-keys-get-response.avsc](./0019-endpoint-metadata-keys-get-response.avsc)):
@@ -383,7 +383,7 @@ Endpoint metadata keys get response message payload MUST be an Avro-encoded obje
                "items":"string"
              },
              "default":[],
-             "doc":"List of metadata fields"
+             "doc":"List of the endpoint metadata keys"
          },
          {
              "name":"statusCode",

@@ -2,7 +2,7 @@
      "namespace":"org.kaaproject.ipc.epmmp.gen.v1",
      "name":"EndpointMetadataKeysGetResponse",
      "type":"record",
-     "doc":"Endpoint metadata keys get response",
+     "doc":"Endpoint metadata keys response",
      "fields":[
          {
              "name":"correlationId",
@@ -32,7 +32,7 @@
                 "items":"string"
              },
              "default":[],
-             "doc":"List of metadata fields"
+             "doc":"List of the endpoint metadata keys"
          },
          {
              "name":"statusCode",

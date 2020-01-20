@@ -32,7 +32,7 @@
                 "items":"string"
             },
             "default":[],
-            "doc":"List of metadata fields. If not specified all fields are included"
+            "doc":"List of the endpoint metadata keys. If not specified all metadata will be returned"
         }
     ]
 }

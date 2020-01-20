@@ -2,7 +2,7 @@
     "namespace":"org.kaaproject.ipc.epmmp.gen.v1",
     "name":"EndpointMetadataKeysGetRequest",
     "type":"record",
-    "doc":"Interservice endpoint metadata keys get request",
+    "doc":"Interservice endpoint metadata keys request",
     "fields":[
         {
             "name":"correlationId",
