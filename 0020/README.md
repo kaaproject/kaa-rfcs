@@ -113,12 +113,12 @@ Endpoint filters response message payload MUST be an Avro-encoded object with th
             "doc":"Endpoint identifier, for which the filters where requested"
         },
         {
-            "name":"filters",
+            "name":"filterIds",
             "type":{
                 "type":"array",
-                "items":"bytes"
+                "items":"string"
             },
-            "doc":"Array of endpoint filters"
+            "doc":"List of endpoint filter IDs"
         },
         {
             "name":"statusCode",
