@@ -1,37 +1,29 @@
 {
-    "namespace":"org.kaaproject.ipc.epmmp.gen.v1",
-    "name":"EndpointMetadataPatchRequest",
-    "type":"record",
-    "doc":"Interservice endpoint parcial metadata update request",
-    "fields":[
+    "namespace": "org.kaaproject.ipc.epmmp.gen.v1",
+    "name": "EndpointMetadataPatchRequest",
+    "type": "record",
+    "doc": "Interservice endpoint partial metadata update request",
+    "fields": [
         {
-            "name":"correlationId",
-            "type":"string",
-            "doc":"Message ID primarily used to track message processing across services"
-        },
-        {
-            "name":"timestamp",
-            "type":"long",
-            "doc":"Message creation UNIX timestamp in milliseconds"
-        },
-        {
-            "name":"timeout",
-            "type":"long",
-            "default":0,
-            "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
-        },
-        {
-            "name":"endpointId",
+            "name": "correlationId",
             "type": "string",
-            "doc":"Identifier of the endpoint, on behalf of which metadata is requested"
+            "doc": "Message ID primarily used to track message processing across services"
         },
         {
-            "name":"operations",
-            "type":{
-                "type":"array",
-                "items":"EndpointMetadataPatchOperations"
-            },
-            "doc":"List of metadata operations"
+            "name": "timestamp",
+            "type": "long",
+            "doc": "Message creation UNIX timestamp in milliseconds"
+        },
+        {
+            "name": "timeout",
+            "type": "long",
+            "default": 0,
+            "doc": "Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name": "endpointId",
+            "type": "string",
+            "doc": "Identifier of the endpoint, on behalf of which metadata is requested"
         },
         {
             "name": "ifMatch",
@@ -40,7 +32,12 @@
                 "string"
             ],
             "default": null,
-            "doc": "Makes the request conditional. Executed only if metadata wasn't changed (E-tag equals received from previous response)."
+            "doc": "Makes the request conditional. See If-Match HTTP header for more details."
+        },
+        {
+            "name": "patch",
+            "type": "bytes",
+            "doc": "JSON Patch payload as defined in the RFC 6902"
         }
     ]
 }
