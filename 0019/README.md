@@ -306,7 +306,7 @@ It is RECOMMENDED to follow the subject format described in [3/ISM session affin
 kaa.v1.replica.{client-service-replica-id}.epmmp.ep-metadata-keys-get-response
 ```
 
-Endpoint metadata keys get request message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([0019-endpoint-metadata-get-keys-request.avsc](./0019-endpoint-metadata-keys-get-request.avsc)):
+Endpoint metadata keys get request message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([0019-endpoint-metadata-keys-get-request.avsc](./0019-endpoint-metadata-keys-get-request.avsc)):
 
 ```json
 {
