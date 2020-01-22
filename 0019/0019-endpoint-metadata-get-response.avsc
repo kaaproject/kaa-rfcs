@@ -26,6 +26,15 @@
              "doc":"Identifier of the endpoint, on behalf of which metadata is requested"
          },
          {
+            "name": "eTag",
+            "type": [
+                "null",
+                "string"
+            ],
+            "default": null,
+            "doc": "Identifier for a specific version of endpoint metadata. See ETag HTTP header for more details."
+         },
+         {
              "name":"payload",
              "type":[
                "null",
