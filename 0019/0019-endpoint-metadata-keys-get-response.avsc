@@ -2,7 +2,7 @@
      "namespace":"org.kaaproject.ipc.epmmp.gen.v1",
      "name":"EndpointMetadataKeysGetResponse",
      "type":"record",
-     "doc":"Endpoint metadata keys response",
+     "doc":"Endpoint metadata keys get response",
      "fields":[
          {
              "name":"correlationId",
@@ -23,7 +23,7 @@
          {
              "name":"endpointId",
              "type": "string",
-             "doc":"Identifier of the endpoint, on behalf of which metadata is requested"
+             "doc":"Identifier of the endpoint, on behalf of which metadata keys are requested"
          },
          {
              "name":"keys",

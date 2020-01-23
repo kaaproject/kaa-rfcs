@@ -289,7 +289,7 @@ Partial endpoint metadata update response message payload MUST be an Avro-encode
 
 ## Getting endpoint metadata keys
 
-### Endpoint metadata keys request
+### Endpoint metadata keys get request
 
 *Endpoint metadata keys get request* message is a [targeted message](/0003/README.md#targeted-messaging) that the client sends to the repository to retrieve endpoint metadata keys.
 
@@ -334,16 +334,16 @@ Endpoint metadata keys get request message payload MUST be an [Avro-encoded](htt
         {
             "name":"endpointId",
             "type": "string",
-            "doc":"Identifier of the endpoint, on behalf of which metadata is requested"
+            "doc":"Identifier of the endpoint, on behalf of which metadata keys are requested"
         }
     ]
 }
 ```
 
 
-### Endpoint metadata keys response
+### Endpoint metadata keys get response
 
-*Endpoint metadata keys get response* message MUST be sent by the repository in response to [Endpoint metadata keys get request message](#endpoint-metadata-keys-request).
+*Endpoint metadata keys get response* message MUST be sent by the repository in response to [Endpoint metadata keys get request message](#endpoint-metadata-keys-get-request).
 Repository MUST publish endpoint metadata keys get response message to the subject provided in the NATS `replyTo` field of the request.
 
 Endpoint metadata keys get response message payload MUST be an Avro-encoded object with the following schema ([0019-endpoint-metadata-keys-get-response.avsc](./0019-endpoint-metadata-keys-get-response.avsc)):
@@ -374,7 +374,7 @@ Endpoint metadata keys get response message payload MUST be an Avro-encoded obje
          {
              "name":"endpointId",
              "type": "string",
-             "doc":"Identifier of the endpoint, on behalf of which metadata is requested"
+             "doc":"Identifier of the endpoint, on behalf of which metadata keys are requested"
          },
          {
              "name":"keys",
