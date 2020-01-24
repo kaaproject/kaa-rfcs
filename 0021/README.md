@@ -92,6 +92,9 @@ Tenant metadata get request message payload MUST be an [Avro-encoded](https://av
 }
 ```
 
+Note that `appName` and `appVersionName` fields are declared as optional. 
+A client MUST specify at least one of these fields so that a repository could resolve which application tenant metadata is requested for.
+
 
 ## Tenant metadata get response
 
@@ -134,9 +137,18 @@ Tenant metadata get response message payload MUST be an Avro-encoded object with
             "doc":"Tenant's application"
         },
         {
-            "name":"appVersionName",
-            "type":"string",
-            "doc":"Tenant's application version"
+            "name":"statusCode",
+            "type":"int",
+            "doc":"HTTP status code of the request processing"
+        },
+        {
+            "name":"reasonPhrase",
+            "type":[
+              "null",
+              "string"
+            ],
+            "default":null,
+            "doc":"Human-readable status reason phrase"
         }
     ]
 }
