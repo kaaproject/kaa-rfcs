@@ -1,0 +1,42 @@
+{
+    "namespace":"org.kaaproject.ipc.tmmp.gen.v1",
+    "name":"TenantMetadataGetRequest",
+    "type":"record",
+    "doc":"Tenant metadata get request",
+    "fields":[
+        {
+            "name":"correlationId",
+            "type":"string",
+            "doc":"Message ID primarily used to track message processing across services"
+        },
+        {
+            "name":"timestamp",
+            "type":"long",
+            "doc":"Message creation UNIX timestamp in milliseconds"
+        },
+        {
+            "name":"timeout",
+            "type":"long",
+            "default":0,
+            "doc":"Amount of milliseconds (since the timestamp) until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name":"appName",
+            "type":[
+              "null",
+              "string"
+            ],
+            "default":null,
+            "doc":"Application that tenant information is requested for"
+        },
+        {
+            "name":"appVersionName",
+            "type":[
+              "null",
+              "string"
+            ],
+            "default":null,
+            "doc":"Application version that tenant information is requested for"
+        }
+    ]
+}

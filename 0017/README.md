@@ -50,7 +50,7 @@ where:
 This allows consumers to subscribe to events from a specific provider.
 - `<update-type>` is either `upsert` when configuration data gets created or updated, or `delete` when configuration data is removed from the provider.
 
-The NATS message payload is an Avro object with the following schema ([0017-broadcast_configuration_update.avsc](./0017-broadcast_configuration_update.avsc)):
+The NATS message payload is an Avro object with the following schema ([0017-broadcast-configuration-update.avsc](0017-broadcast-configuration-update.avsc)):
 
 ```json
 {
@@ -118,7 +118,7 @@ where:
 - `<service-instance-name>` is the instance name of the target service.
 - `<update-type>` is either `upsert` when configuration data gets created or updated, or `delete` when configuration data is removed from the provider.
 
-The NATS message payload is an Avro object with the following schema ([0017-service_specific_configuration_update.avsc](./0017-service_specific_configuration_update.avsc)):
+The NATS message payload is an Avro object with the following schema ([0017-service-specific-configuration-update.avsc](0017-service-specific-configuration-update.avsc)):
 
 ```json
 {
