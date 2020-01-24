@@ -31,11 +31,6 @@
             "doc":"Tenant's application"
         },
         {
-            "name":"appVersionName",
-            "type":"string",
-            "doc":"Tenant's application version"
-        },
-        {
             "name":"statusCode",
             "type":"int",
             "doc":"HTTP status code of the request processing"
