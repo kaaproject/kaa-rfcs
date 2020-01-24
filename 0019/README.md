@@ -1,7 +1,7 @@
 ---
 name: Endpoint Metadata Management Protocol
 shortname: 19/EPMMP
-status: raw
+status: draft
 editor: Vitalii Kozlovskyi <vkozlovskyi@kaaiot.io>, Dmitry Romantsov <dromantsov@kaaiot.io>
 ---
 

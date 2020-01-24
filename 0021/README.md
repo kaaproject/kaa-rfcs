@@ -1,8 +1,8 @@
 ---
-name: Endpoint Filter Management Protocol
-shortname: 20/EFMP
+name: Tenant Metadata Management Protocol
+shortname: 21/TMMP
 status: draft
-editor: Oleksandr Didukh <odidukh@kaaiot.io>
+editor: Andrew Pasika <apasika@kaaiot.io>
 ---
 
 <!-- toc -->
@@ -98,7 +98,7 @@ Tenant metadata get request message payload MUST be an [Avro-encoded](https://av
 *Tenant metadata get response* message MUST be sent by repository in response to an [tenant metadata get request](#tenant-metadata-get-request).
 Repository MUST publish tenant metadata get response message to the subject provided in the NATS `replyTo` field of the request.
 
-Endpoint filters response message payload MUST be an Avro-encoded object with the following schema ([0021-tenant-metadata-get-response.avsc](./0021-tenant-metadata-get-response.avsc)):
+Tenant metadata get response message payload MUST be an Avro-encoded object with the following schema ([0021-tenant-metadata-get-response.avsc](./0021-tenant-metadata-get-response.avsc)):
 
 ```json
 {

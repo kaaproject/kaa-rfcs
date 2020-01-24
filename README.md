@@ -10,7 +10,7 @@ RFCs can be in raw, draft, stable, deprecated, or retired status.
 | [2/DCP](0002/README.md)    | Data Collection Protocol                    | Draft   |
 | [3/ISM](0003/README.md)    | Inter-Service Messaging                     | Draft   |
 | [4/ESP](0004/README.md)    | Extension Service Protocol                  | Draft   |
-| [5/CMX](0005/README.md)    | Configuration Management Extension Protocol | Deleted |
+| [5/CMX](0005/README.md)    | Configuration Management Extension Protocol | Retired |
 | [6/CDTP](0006/README.md)   | Configuration Data Transport Protocol       | Draft   |
 | [7/CMP](0007/README.md)    | Configuration Management Protocol           | Draft   |
 | [8/KPSR](0008/README.md)   | KP Security Recommendations                 | Raw     |
@@ -24,8 +24,9 @@ RFCs can be in raw, draft, stable, deprecated, or retired status.
 | [16/ECAP](0016/README.md)  | Endpoint and Client Authentication Protocol | Draft   |
 | [17/SCMP](0017/README.md)  | Service Configuration Management Protocol   | Draft   |
 | [18/EFE](0018/README.md)   | Endpoint Filter Events                      | Draft   |
-| [19/EPMMP](0019/README.md) | Endpoint Metadata Management Protocol       | Raw     |
-| [20/EFMP](0020/README.md)  | Endpoint Filter Management Protocol         | Raw     |
+| [19/EPMMP](0019/README.md) | Endpoint Metadata Management Protocol       | Draft   |
+| [20/EFMP](0020/README.md)  | Endpoint Filter Management Protocol         | Draft   |
+| [21/TMMP](0021/README.md)  | Tenant Metadata Management Protocol         | Draft   |
 
 # Change process
 
