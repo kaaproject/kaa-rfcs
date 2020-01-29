@@ -1,8 +1,8 @@
 {
     "namespace":"org.kaaproject.ipc.epmmp.gen.v1",
-    "name":"EndpointMetadataGetRequest",
+    "name":"EndpointMetadataKeysGetRequest",
     "type":"record",
-    "doc":"Interservice endpoint metadata get request",
+    "doc":"Interservice endpoint metadata keys get request",
     "fields":[
         {
             "name":"correlationId",
@@ -23,16 +23,7 @@
         {
             "name":"endpointId",
             "type": "string",
-            "doc":"Identifier of the endpoint, on behalf of which metadata is requested"
-        },
-        {
-            "name":"include",
-            "type":{
-                "type":"array",
-                "items":"string"
-            },
-            "default":[],
-            "doc":"List of the endpoint metadata keys. If not specified all metadata will be returned"
+            "doc":"Identifier of the endpoint, on behalf of which metadata keys are requested"
         }
     ]
 }

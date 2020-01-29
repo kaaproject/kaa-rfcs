@@ -85,7 +85,7 @@ Endpoint metadata get request message payload MUST be an [Avro-encoded](https://
                 "items":"string"
             },
             "default":[],
-            "doc":"List of metadata fields. If not specified all fields are included"
+            "doc":"List of the endpoint metadata keys. If not specified all metadata will be returned"
         }
     ]
 }
@@ -94,10 +94,10 @@ Endpoint metadata get request message payload MUST be an [Avro-encoded](https://
 
 ### Endpoint metadata get response
 
-*Endpoint metadata get response* message MUST be sent by the repository in response to [Endpoint metadata get  request message](#endpoint-metadata-get-request).
+*Endpoint metadata get response* message MUST be sent by the repository in response to [Endpoint metadata get request message](#endpoint-metadata-get-request).
 Repository MUST publish endpoint metadata get response message to the subject provided in the NATS `replyTo` field of the request.
 
-Endpoint metadata get response message payload MUST be an Avro-encoded object with the following schema ([0019-endpoint-metadata.avsc](./0019-endpoint-metadata-get-response.avsc)):
+Endpoint metadata get response message payload MUST be an Avro-encoded object with the following schema ([0019-endpoint-metadata-get-response.avsc](./0019-endpoint-metadata-get-response.avsc)):
 
 ```json
 {
@@ -287,6 +287,123 @@ Partial endpoint metadata update response message payload MUST be an Avro-encode
 ```
 
 
-## Timeout and retry
+## Getting endpoint metadata keys
 
-There is no garantee, that request and/or response will be delivered. Client SHOULD implement timeout and retry logic if required.
+### Endpoint metadata keys get request
+
+*Endpoint metadata keys get request* message is a [targeted message](/0003/README.md#targeted-messaging) that the client sends to the repository to retrieve endpoint metadata keys.
+
+The client MUST send endpoint metadata keys get request messages using the following NATS subject:
+```
+kaa.v1.service.{repository-service-instance-name}.epmmp.ep-metadata-keys-get-request
+```
+where:
+- `{repository-service-instance-name}` is the endpoint metadata repository service instance name.
+
+The client MUST include NATS `replyTo` field to handle the response.
+It is RECOMMENDED to follow the subject format described in [3/ISM session affinity section](/0003/README.md#session-affinity):
+```
+kaa.v1.replica.{client-service-replica-id}.epmmp.ep-metadata-keys-get-response
+```
+
+Endpoint metadata keys get request message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([0019-endpoint-metadata-keys-get-request.avsc](./0019-endpoint-metadata-keys-get-request.avsc)):
+
+```json
+{
+    "namespace":"org.kaaproject.ipc.epmmp.gen.v1",
+    "name":"EndpointMetadataKeysGetRequest",
+    "type":"record",
+    "doc":"Interservice endpoint metadata keys get request",
+    "fields":[
+        {
+            "name":"correlationId",
+            "type":"string",
+            "doc":"Message ID primarily used to track message processing across services"
+        },
+        {
+            "name":"timestamp",
+            "type":"long",
+            "doc":"Message creation UNIX timestamp in milliseconds"
+        },
+        {
+            "name":"timeout",
+            "type":"long",
+            "default":0,
+            "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name":"endpointId",
+            "type": "string",
+            "doc":"Identifier of the endpoint, on behalf of which metadata keys are requested"
+        }
+    ]
+}
+```
+
+
+### Endpoint metadata keys get response
+
+*Endpoint metadata keys get response* message MUST be sent by the repository in response to [Endpoint metadata keys get request message](#endpoint-metadata-keys-get-request).
+Repository MUST publish endpoint metadata keys get response message to the subject provided in the NATS `replyTo` field of the request.
+
+Endpoint metadata keys get response message payload MUST be an Avro-encoded object with the following schema ([0019-endpoint-metadata-keys-get-response.avsc](./0019-endpoint-metadata-keys-get-response.avsc)):
+
+```json
+{
+     "namespace":"org.kaaproject.ipc.epmmp.gen.v1",
+     "name":"EndpointMetadataKeysGetResponse",
+     "type":"record",
+     "doc":"Endpoint metadata keys get response",
+     "fields":[
+         {
+             "name":"correlationId",
+             "type":"string",
+             "doc":"Message id primarily used to track message processing across services"
+         },
+         {
+             "name":"timestamp",
+             "type":"long",
+             "doc":"Message creation unix timestamp in milliseconds"
+         },
+         {
+             "name":"timeout",
+             "type":"long",
+             "default":0,
+             "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
+         },
+         {
+             "name":"endpointId",
+             "type": "string",
+             "doc":"Identifier of the endpoint, on behalf of which metadata keys are requested"
+         },
+         {
+             "name":"keys",
+             "type":{
+               "type":"array",
+               "items":"string"
+             },
+             "default":[],
+             "doc":"List of the endpoint metadata keys"
+         },
+         {
+             "name":"statusCode",
+             "type":"int",
+             "doc":"HTTP status code of the request processing"
+         },
+         {
+             "name":"reasonPhrase",
+             "type":[
+               "null",
+               "string"
+             ],
+             "default":null,
+             "doc":"Human-readable status reason phrase"
+         }
+     ]
+}
+```
+
+
+### Timeout and retry
+
+There is no guarantee, that request and/or response will be delivered. Client SHOULD implement timeout and retry logic if required.
