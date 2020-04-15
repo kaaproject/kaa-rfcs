@@ -15,10 +15,10 @@ This document defines general design recommendations for the [NATS-based](https:
 
 NATS-based messaging is classified into two categories:
 
-- **Targeted messaging** is used when the message originator intentds to communicate with a specific service instance.
+- **Targeted messaging** is used when the message originator intends to communicate with a specific service instance.
 The sender may specify the exact target service replica, or allow NATS select one or more replicas to deliver the message to — depending on the subscription strategy of the target service instance.
 
-- **Broadcast messaging** is used when the originator intends to publish message without specifying the exact recipients.
+- **Broadcast messaging** is used when the originator intends to publish a message without specifying the exact recipients.
 This type of messaging is typically applied to communicate events that occurred and may require reaction from one or more subscribing services.
 Multiple service instances may subscribe to a broadcast event feed to receive message copies.
 
