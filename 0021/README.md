@@ -34,8 +34,8 @@ where:
 
 # Tenant updated
 
+The event is published when a tenant-related data was updated.
 The `{event-type}` is `updated`.
-Published when a tenant related data were updated.
 
 Originators MUST use the following NATS subject format for tenant updated events:
 ```
