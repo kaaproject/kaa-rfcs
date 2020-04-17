@@ -28,7 +28,7 @@ kaa.v1.events.{originator-service-instance-name}.tenant.lifecycle.{event-type}
 ```
 
 where:
-- `{originator-service-instance-name}` is the name of the originator service instance. Allows listeners to subscribe to events from a specific originator.
+- `{originator-service-instance-name}` is the name of the originator service instance. It allows listeners to subscribe to events from a specific originator.
 - `{event-type}` is a specific event type. For example, tenant lifecycle event types can be `updated` and `unregistered`.
 
 
