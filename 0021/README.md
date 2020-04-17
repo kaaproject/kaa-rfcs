@@ -84,8 +84,8 @@ The NATS message payload is an Avro object with the following schema ([0021-tena
 
 # Tenant unregistered
 
+The event is published when a tenant is unregistered from the platform.
 The `{event-type}` is `unregistered`.
-Published when a tenant is unregistered from the platform.
 
 Originators MUST use the following NATS subject format for tenant unregistered events:
 ```
