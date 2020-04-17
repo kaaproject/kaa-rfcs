@@ -70,7 +70,7 @@ The NATS message payload is an Avro object with the following schema ([0021-tena
         {
             "name":"tenantId",
             "type":"string",
-            "doc":"Identifier of the tenant which metadata were updated"
+            "doc":"Identifier of the tenant whose metadata was updated"
         },
         {
             "name":"originatorReplicaId",
