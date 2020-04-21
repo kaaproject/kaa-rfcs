@@ -39,7 +39,7 @@ The `{event-type}` is `updated`.
 
 Originators MUST use the following NATS subject format for tenant updated events:
 ```
-kaa.v1.events.{originator-service-instance-name}.tennat.lifecycle.updated
+kaa.v1.events.{originator-service-instance-name}.tenant.lifecycle.updated
 ```
 
 The NATS message payload is an Avro object with the following schema ([0021-tenant-updated.avsc](./0021-tenant-updated.avsc)):
