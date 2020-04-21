@@ -10,7 +10,7 @@ editor: Oleksandr Didukh <odidukh@kaaiot.io>
 
 # Introduction
 
-Tenant lifecycle events is a method for Kaa services to communicate events that occur to tenant-related data update or tenant removal.
+Tenant lifecycle events allow Kaa services to signal updates to tenant-related data, including tenant removal.
 The events are defined as [broadcast messages](/0003/README.md#broadcast-messaging) with `tenant` target entity type and `lifecycle` event group.
 This document describes the NATS subject and Avro message format for each event message.
 
