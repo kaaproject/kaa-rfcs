@@ -23,7 +23,7 @@
         {
             "name":"tenantId",
             "type":"string",
-            "doc":"Identifier of the tenant that unregistered from the platform"
+            "doc":"Identifier of the tenant that has been unregistered from the platform"
         },
         {
             "name":"originatorReplicaId",
