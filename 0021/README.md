@@ -120,7 +120,7 @@ The NATS message payload is an Avro object with the following schema ([0021-tena
         {
             "name":"tenantId",
             "type":"string",
-            "doc":"Identifier of the tenant that unregistered from the platform"
+            "doc":"Identifier of the tenant that has been unregistered from the platform"
         },
         {
             "name":"originatorReplicaId",
