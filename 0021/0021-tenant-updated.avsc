@@ -23,7 +23,7 @@
         {
             "name":"tenantId",
             "type":"string",
-            "doc":"Identifier of the tenant which metadata were updated"
+            "doc":"Identifier of the tenant whose metadata was updated"
         },
         {
             "name":"originatorReplicaId",
