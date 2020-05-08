@@ -123,8 +123,8 @@ Example:
 
 ### Configuration applied
 
-*Configuration applied* is a broadcast message that consumer MAY publish to indicate that an endpoint applied the configuration data.
-Providers MAY subscribe to these messages to keep track of the configurations that were last applied to the endpoints.
+*Configuration applied* is a broadcast message that consumer MAY publish to report configuration application status by an endpoint.
+Providers MAY subscribe to these messages to keep track of statuses.
 The message `{event-group}` is `config` and the `{event-type}` is `applied`.
 
 NATS subject format:
@@ -180,6 +180,21 @@ kaa.v1.events.{consumer-service-instance-name}.endpoint.config.applied
             ],
             "default":null,
             "doc":"Identifier of the service replica that generated the event"
+        },
+        {
+            "name":"statusCode",
+            "default":200,
+            "type":"int",
+            "doc":"HTTP status code of the request processing"
+        },
+        {
+            "name":"reasonPhrase",
+            "type":[
+              "null",
+              "string"
+            ],
+            "default":null,
+            "doc":"Human-readable status reason phrase"
         }
     ]
 }
@@ -193,7 +208,11 @@ Example:
     "timeout":0,
     "appVersionName":"smartKettleV1",
     "endpointId":"b197e391-1d13-403b-83f5-87bdd44888cf",
-    "configId":"6046b576591c75fd68ab67f7e4475311"
+    "configId":"6046b576591c75fd68ab67f7e4475311",
+    "statusCode":200,
+    "reasonPhrase":{
+        "string":"OK"
+    }
 }
 ```
 
