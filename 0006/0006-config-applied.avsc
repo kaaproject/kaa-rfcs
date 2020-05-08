@@ -43,6 +43,21 @@
             ],
             "default":null,
             "doc":"Identifier of the service replica that generated the event"
+        },
+        {
+            "name":"statusCode",
+            "default":200,
+            "type":"int",
+            "doc":"HTTP status code of the request processing"
+        },
+        {
+            "name":"reasonPhrase",
+            "type":[
+              "null",
+              "string"
+            ],
+            "default":null,
+            "doc":"Human-readable status reason phrase"
         }
     ]
 }
