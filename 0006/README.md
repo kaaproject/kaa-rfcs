@@ -123,7 +123,7 @@ Example:
 
 ### Configuration applied
 
-*Configuration applied* is a broadcast message that consumer MAY publish to indicate that an endpoint applied the configuration data.
+*Configuration applied* is a broadcast message that consumer MAY publish to report configuration application status by an endpoint.
 Providers MAY subscribe to these messages to keep track of the configurations that were last applied to the endpoints.
 The message `{event-group}` is `config` and the `{event-type}` is `applied`.
 
