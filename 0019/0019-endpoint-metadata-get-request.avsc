@@ -33,6 +33,11 @@
             },
             "default":[],
             "doc":"List of the endpoint metadata keys. If not specified all metadata will be returned"
+        },
+        {
+            "name":"includeMetadata",
+            "type":"boolean",
+            "doc":"Whether to include metadata for this endpoint in response"
         }
     ]
 }
