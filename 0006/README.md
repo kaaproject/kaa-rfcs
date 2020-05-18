@@ -364,12 +364,6 @@ Provider MUST publish configuration response message to the subject provided in 
             "doc":"Configuration data encoded according to the contentType. Optional. May be absent in case of an error, or when the configId in request matches the ID of the current configuration."
         },
         {
-            "name":"applied",
-            "type":"boolean",
-            "default":false,
-            "doc":"Indicates whether the current (returned) configuration ID matches the one previously applied to the endpoint"
-        },
-        {
             "name":"statusCode",
             "type":"int",
             "doc":"HTTP status code of the request processing"
@@ -402,7 +396,6 @@ Example:
     "content":{
         "bytes":"d2FpdXJoM2pmbmxzZGtjdjg3eTg3b3cz"
     },
-    "applied":true,
     "statusCode":200,
     "reasonPhrase":{
         "string":"OK"
