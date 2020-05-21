@@ -59,7 +59,11 @@
          },
          {
              "name":"appVersionName",
-             "type":"string",
+             "type":[
+               "null",
+               "string"
+             ],
+             "default":null,
              "doc":"Application version name of the endpoint of which metadata is requested"
          }
      ]

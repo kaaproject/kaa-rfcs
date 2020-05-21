@@ -37,6 +37,7 @@
         {
             "name":"includeMetadata",
             "type":"boolean",
+            "default": true,
             "doc":"Whether to include metadata for this endpoint in response"
         }
     ]
