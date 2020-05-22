@@ -90,6 +90,7 @@ Endpoint metadata get request message payload MUST be an [Avro-encoded](https://
         {
             "name":"includeMetadata",
             "type":"boolean",
+            "default": true,
             "doc":"Whether to include metadata for this endpoint in response"
         }
     ]
@@ -166,7 +167,11 @@ Endpoint metadata get response message payload MUST be an Avro-encoded object wi
         },
         {
             "name":"appVersionName",
-            "type":"string",
+            "type":[
+              "null",
+              "string"
+            ],
+            "default":null,
             "doc":"Application version name of the endpoint of which metadata is requested"
         }
     ]
