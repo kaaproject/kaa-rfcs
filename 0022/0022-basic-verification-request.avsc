@@ -1,0 +1,39 @@
+{
+    "namespace": "org.kaaproject.ipc.cap.gen.v1",
+    "name": "ClientUsernamePasswordVerificationRequest",
+    "type": "record",
+    "doc": "Client username/password combination verification request message",
+    "fields": [
+        {
+            "name": "correlationId",
+            "type": "string",
+            "doc": "Message ID primarily used to track message processing across services"
+        },
+        {
+            "name": "timestamp",
+            "type": "long",
+            "doc": "Message creation UNIX timestamp in milliseconds"
+        },
+        {
+            "name": "timeout",
+            "type": "long",
+            "default": 0,
+            "doc": "Amount of milliseconds (since the timestamp) until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name": "tenantId",
+            "type": "string",
+            "doc": "Tenant ID, within the scope of which to perform verification"
+        },
+        {
+            "name": "username",
+            "type": "string",
+            "doc": "Client's username for verification"
+        },
+        {
+            "name": "password",
+            "type": "string",
+            "doc": "Client's password for verification"
+        }
+    ]
+}
