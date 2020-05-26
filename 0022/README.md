@@ -1,7 +1,7 @@
 ---
 name: Client Authentication Protocol
 shortname: 22/CAP
-status: draft
+status: raw
 editor: Andrew Kokhanovskyi <ak@kaaiot.io>
 ---
 
