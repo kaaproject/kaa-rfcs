@@ -1,8 +1,8 @@
 {
     "namespace": "org.kaaproject.ipc.cap.gen.v1",
-    "name": "ClientCertificateVerificationRequest",
+    "name": "ClientBasicAuthenticationRequest",
     "type": "record",
-    "doc": "Client certificate verification request message",
+    "doc": "Client basic authentication request message",
     "fields": [
         {
             "name": "correlationId",
@@ -23,17 +23,17 @@
         {
             "name": "tenantId",
             "type": "string",
-            "doc": "Tenant ID, within the scope of which to perform verification"
+            "doc": "Tenant ID, within the scope of which to perform authentication"
         },
         {
-            "name": "issuer",
+            "name": "username",
             "type": "string",
-            "doc": "Issuer field of the client's certificate"
+            "doc": "Client's username for verification"
         },
         {
-            "name": "serialNumber",
+            "name": "password",
             "type": "string",
-            "doc": "Serial number of the client's certificate, base 10 encoded"
+            "doc": "Client's password for verification"
         }
     ]
 }

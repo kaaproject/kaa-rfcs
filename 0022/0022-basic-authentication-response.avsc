@@ -1,8 +1,8 @@
 {
     "namespace": "org.kaaproject.ipc.cap.gen.v1",
-    "name": "ClientUsernamePasswordVerificationResponse",
+    "name": "ClientBasicAuthenticationResponse",
     "type": "record",
-    "doc": "Client username/password combination verification response message",
+    "doc": "Client basic authentication response message",
     "fields": [
         {
             "name": "correlationId",

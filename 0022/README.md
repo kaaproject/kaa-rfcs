@@ -8,14 +8,16 @@ editor: Andrew Kokhanovskyi <ak@kaaiot.io>
 <!-- toc -->
 
 
-# Introduction
+# 22/CAP: Client Authentication Protocol
 
-Client Authentication Protocol (CAP) is designed for authentication services to provide [clients](/0001/README.md#language) authentication interface to other services in the Kaa platform.
+## Introduction
+
+Client Authentication Protocol (CAP) is designed for authentication services to provide [client](/0001/README.md#language) authentication interface to other services in the Kaa platform.
 
 CAP complies with the [Inter-Service Messaging](/0003/README.md) guidelines.
 
 
-# Language
+## Language
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).
 
@@ -26,15 +28,15 @@ The following terms and definitions are used in this RFC.
 - **Authentication consumer service (consumer)**: service that uses CAP interface exposed by a provider to authenticate endpoints and clients.
 
 
-# Design
+## Design
 
-## Client authentication by username and password
+### Basic client authentication
 
-### Client username and password verification request
+#### Basic authentication request
 
-*Client username and password verification request* message is a targeted message that consumer sends to provider to make sure that the client is allowed to connect and to resolve the client ID.
+*Basic authentication request* message is a targeted message that consumer sends to provider to make sure that the client is allowed to connect with the given username and password, and to resolve the client ID.
 
-The consumer MUST send client username and password verification request messages using the following NATS subject:
+The consumer MUST send basic authentication request messages using the following NATS subject:
 
 ```
 kaa.v1.service.{provider-service-instance-name}.cap.basic-request
@@ -47,14 +49,14 @@ It is RECOMMENDED to follow the subject format described in [3/ISM session affin
 kaa.v1.replica.{consumer-service-replica-id}.cap.basic-response
 ```
 
-Client username and password verification request message payload MUST be an Avro-encoded object with the following schema ([0022-basic-verification-request.avsc](./0022-basic-verification-request.avsc)):
+Basic authentication request message payload MUST be an Avro-encoded object with the following schema ([0022-basic-authentication-request.avsc](./0022-basic-authentication-request.avsc)):
 
 ```json
 {
     "namespace": "org.kaaproject.ipc.cap.gen.v1",
-    "name": "ClientUsernamePasswordVerificationRequest",
+    "name": "ClientBasicAuthenticationRequest",
     "type": "record",
-    "doc": "Client username/password combination verification request message",
+    "doc": "Client basic authentication request message",
     "fields": [
         {
             "name": "correlationId",
@@ -75,7 +77,7 @@ Client username and password verification request message payload MUST be an Avr
         {
             "name": "tenantId",
             "type": "string",
-            "doc": "Tenant ID, within the scope of which to perform verification"
+            "doc": "Tenant ID, within the scope of which to perform authentication"
         },
         {
             "name": "username",
@@ -92,19 +94,19 @@ Client username and password verification request message payload MUST be an Avr
 ```
 
 
-### Client username and password verification response
+#### Basic authentication response
 
-*Client username and password verification response* message MUST be sent by provider in response to a [client username and password verification request message](#client-username-and-password-verification-request).
-Provider MUST publish client username and password verification response message to the subject provided in the NATS `replyTo` field of the request.
+*Basic authentication response* message MUST be sent by provider in response to a [basic authentication request](#basic-authentication-request).
+Provider MUST publish basic authentication response message to the subject provided in the NATS `replyTo` field of the request.
 
-Client username and password verification response message payload MUST be an Avro-encoded object with the following schema ([0022-basic-verification-response.avsc](./0022-basic-verification-response.avsc)):
+Basic authentication response message payload MUST be an Avro-encoded object with the following schema ([0022-basic-authentication-response.avsc](./0022-basic-authentication-response.avsc)):
 
 ```json
 {
     "namespace": "org.kaaproject.ipc.cap.gen.v1",
-    "name": "ClientUsernamePasswordVerificationResponse",
+    "name": "ClientBasicAuthenticationResponse",
     "type": "record",
-    "doc": "Client username/password combination verification response message",
+    "doc": "Client basic authentication response message",
     "fields": [
         {
             "name": "correlationId",
@@ -157,15 +159,15 @@ Client username and password verification response message payload MUST be an Av
 ```
 
 
-## Client authentication by x.509 certificate
+### Client authentication by x.509 certificate
 
-### Client certificate verification request
+#### Client certificate authentication request
 
-*Client certificate verification request* message is a targeted message that consumer sends to provider to make sure that the client is allowed to connect and to resolve the client ID.
-Provider does not perform standard certificate verification (signature, authority, expiration, etc.).
-Consumer MUST perform such verification prior to sending a client certificate verification request to provider.
+*Client certificate authentication request* message is a targeted message that consumer sends to provider to make sure that the client is allowed to connect and to resolve the client ID.
+Provider does not perform standard certificate authentication (signature, authority, expiration, etc.).
+Consumer MUST perform such authentication prior to sending a client certificate authentication request to provider.
 
-The consumer MUST send client certificate verification request messages using the following NATS subject:
+The consumer MUST send client certificate authentication request messages using the following NATS subject:
 
 ```
 kaa.v1.service.{provider-service-instance-name}.cap.certificate-request
@@ -178,14 +180,14 @@ It is RECOMMENDED to follow the subject format described in [3/ISM session affin
 kaa.v1.replica.{consumer-service-replica-id}.cap.certificate-response
 ```
 
-Client certificate verification request message payload MUST be an Avro-encoded object with the following schema ([0022-certificate-verification-request.avsc](./0022-certificate-verification-request.avsc)):
+Client certificate authentication request message payload MUST be an Avro-encoded object with the following schema ([0022-certificate-authentication-request.avsc](./0022-certificate-authentication-request.avsc)):
 
 ```json
 {
     "namespace": "org.kaaproject.ipc.cap.gen.v1",
-    "name": "ClientCertificateVerificationRequest",
+    "name": "ClientCertificateAuthenticationRequest",
     "type": "record",
-    "doc": "Client certificate verification request message",
+    "doc": "Client certificate authentication request message",
     "fields": [
         {
             "name": "correlationId",
@@ -206,7 +208,7 @@ Client certificate verification request message payload MUST be an Avro-encoded 
         {
             "name": "tenantId",
             "type": "string",
-            "doc": "Tenant ID, within the scope of which to perform verification"
+            "doc": "Tenant ID, within the scope of which to perform authentication"
         },
         {
             "name": "issuer",
@@ -223,19 +225,19 @@ Client certificate verification request message payload MUST be an Avro-encoded 
 ```
 
 
-### Client certificate verification response
+#### Client certificate authentication response
 
-*Client certificate verification response* message MUST be sent by provider in response to an [client certificate verification request message](#client-certificate-verification-request).
-Provider MUST publish client certificate verification response message to the subject provided in the NATS `replyTo` field of the request.
+*Client certificate authentication response* message MUST be sent by provider in response to an [client certificate authentication request message](#client-certificate-authentication-request).
+Provider MUST publish client certificate authentication response message to the subject provided in the NATS `replyTo` field of the request.
 
-Client certificate verification response message payload MUST be an Avro-encoded object with the following schema ([0022-certificate-verification-response.avsc](./0022-certificate-verification-response.avsc)):
+Client certificate authentication response message payload MUST be an Avro-encoded object with the following schema ([0022-certificate-authentication-response.avsc](./0022-certificate-authentication-response.avsc)):
 
 ```json
 {
     "namespace": "org.kaaproject.ipc.cap.gen.v1",
-    "name": "ClientCertificateVerificationResponse",
+    "name": "ClientCertificateAuthenticationResponse",
     "type": "record",
-    "doc": "Client certificate verification response message",
+    "doc": "Client certificate authentication response message",
     "fields": [
         {
             "name": "correlationId",
@@ -288,18 +290,18 @@ Client certificate verification response message payload MUST be an Avro-encoded
 ```
 
 
-## Client credentials revocation event
+### Client credentials revocation event
 
 Provider MUST publish *client credentials revoked event* whenever previously valid client credentials becomes unusable for client authentication.
 On receipt of this event consumers MUST take immediate measures for terminating active communication sessions with the specified client.
 
-Client credentials revoked event is a [broadcast message](/0003/README.md#broadcast-messaging) with `client` target entity type, `credentials` event group, and `revoked` event type.
+Client credentials revoked event is a [broadcast message](/0003/README.md#broadcast-messaging) with `client-credentials` target entity type and `revoked` event type.
+The event group is `basic` for username/password credentials, and `certificate` for x.509 certificates.
 
 Providers MUST use the following NATS subject format for client credentials revoked events:
 
-```
-kaa.v1.events.{originator-service-instance-name}.client.credentials.revoked
-```
+- `kaa.v1.events.{originator-service-instance-name}.client-credentials.basic.revoked`---for basic credentials;
+- `kaa.v1.events.{originator-service-instance-name}.client-credentials.certificate.revoked`---for x.509 credentials.
 
 Client credentials revoked event message payload MUST be an Avro-encoded object with the following schema ([0022-client-credentials-revoked.avsc](./0022-client-credentials-revoked.avsc)):
 
