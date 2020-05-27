@@ -27,9 +27,9 @@ RFCs can be in raw, draft, stable, deprecated, or retired status.
 | [19/EPMMP](0019/README.md) | Endpoint Metadata Management Protocol       | Raw     |
 | [20/EFMP](0020/README.md)  | Endpoint Filter Management Protocol         | Raw     |
 | [21/TLE](0021/README.md)   | Tenant Lifecycle Events                     | Draft   |
+| [22/CAP](0022/README.md)   | Client Authentication Protocol              | Raw     |
 
-
-# Change process
+## Change process
 
 Kaa RFCs are developed in compliance with the [C4](https://rfc.zeromq.org/spec:42/C4/) and [COSS](https://rfc.unprotocols.org/spec:2/COSS/) specifications.
 Please refer to these specifications whenever you have difficulty understanding the process, the usage of specific terms, etc.

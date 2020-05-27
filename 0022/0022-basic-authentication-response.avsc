@@ -1,0 +1,54 @@
+{
+    "namespace": "org.kaaproject.ipc.cap.gen.v1",
+    "name": "ClientBasicAuthenticationResponse",
+    "type": "record",
+    "doc": "Client basic authentication response message",
+    "fields": [
+        {
+            "name": "correlationId",
+            "type": "string",
+            "doc": "Message ID primarily used to track message processing across services"
+        },
+        {
+            "name": "timestamp",
+            "type": "long",
+            "doc": "Message creation UNIX timestamp in milliseconds"
+        },
+        {
+            "name": "timeout",
+            "type": "long",
+            "default": 0,
+            "doc": "Amount of milliseconds (since the timestamp) until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name": "credentialsId",
+            "type": [
+                "string",
+                "null"
+            ],
+            "doc": "ID of the credentials resolved by provided username/password combination. May be null in case the combination is not found."
+        },
+        {
+            "name": "clientId",
+            "type": [
+                "string",
+                "null"
+            ],
+            "doc": "ID of the client resolved by provided username/password combination. May be null in case the combination is not found or no client ID is known to provider."
+        },
+        {
+            "name": "statusCode",
+            "type": "int",
+            "doc": "HTTP status code of the request processing"
+        },
+        {
+            "name": "reasonPhrase",
+            "type": [
+                "null",
+                "string"
+            ],
+            "default": null,
+            "doc": "Human-readable status reason phrase"
+        }
+    ]
+}
