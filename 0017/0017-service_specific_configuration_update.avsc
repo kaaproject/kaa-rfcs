@@ -15,8 +15,17 @@
             "doc": "Message creation UNIX timestamp in milliseconds"
         },
         {
-            "name": "appName",
+            "name": "tenantID",
             "type": "string",
+            "doc": "Tenant ID"
+        },
+        {
+            "name": "appName",
+            "type": [
+                "null",
+                "string"
+            ],
+            "default": null,
             "doc": "Application name"
         },
         {
