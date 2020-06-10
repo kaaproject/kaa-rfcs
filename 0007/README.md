@@ -248,7 +248,9 @@ The request payload MUST be a UTF-8 encoded JSON object with the following JSON 
 A request means the endpoint has received the provided configuration and tried to apply it.
 
 `statusCode` represents a result of applying the configuration (success or failure).
-2xx status codes indicate successful applying and all other - failed.
+By convention, HTTP status codes SHOULD be used.
+To indicate a successfully applied configuration, endpoints MUST use 2xx status codes.
+Any other status codes MUST be treated by server as a failure.
 If the result is a failure, `reasonPhrase` SHOULD include a reason for the failure.
 
 Examples below.
