@@ -247,7 +247,10 @@ The request payload MUST be a UTF-8 encoded JSON object with the following JSON 
 
 A request means the endpoint has received the provided configuration and tried to apply it.
 
-`statusCode` represents a result of appliyng the configuration (success or failure).
+`statusCode` represents a result of applying the configuration (success or failure).
+By convention, HTTP status codes SHOULD be used.
+To indicate a successfully applied configuration, endpoints MUST use 2xx status codes.
+Any other status codes MUST be treated by server as a failure.
 If the result is a failure, `reasonPhrase` SHOULD include a reason for the failure.
 
 Examples below.
@@ -271,6 +274,11 @@ Examples below.
 ### Response
 
 The response payload MUST be empty.
+
+
+### Implicit configuration application
+
+Server MAY mark configuration as applied if its identifier is specified in `configId` in [configuration resource request](#configuration-resource-request).
 
 
 # Open questions
