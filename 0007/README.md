@@ -247,7 +247,8 @@ The request payload MUST be a UTF-8 encoded JSON object with the following JSON 
 
 A request means the endpoint has received the provided configuration and tried to apply it.
 
-`statusCode` represents a result of appliyng the configuration (success or failure).
+`statusCode` represents a result of applying the configuration (success or failure).
+2xx status codes indicate successful applying and all other - failed.
 If the result is a failure, `reasonPhrase` SHOULD include a reason for the failure.
 
 Examples below.
