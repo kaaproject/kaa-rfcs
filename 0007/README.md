@@ -273,6 +273,11 @@ Examples below.
 The response payload MUST be empty.
 
 
+### Implicit configuration application
+
+Server MAY mark configuration as applied if its identifier is specified in `configId` in [configuration resource request](#configuration-resource-request).
+
+
 # Open questions
 
 ## Merge resources
