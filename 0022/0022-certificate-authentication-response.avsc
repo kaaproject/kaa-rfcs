@@ -21,6 +21,14 @@
             "doc": "Amount of milliseconds (since the timestamp) until the message expires. Value of 0 is reserved to indicate no expiration."
         },
         {
+            "name": "tenantId",
+            "type": [
+                "string",
+                "null"
+            ],
+            "doc": "ID of the tenant, which owns the credentials. May be null in case certificate is not found."
+        },
+        {
             "name": "credentialsId",
             "type": [
                 "string",

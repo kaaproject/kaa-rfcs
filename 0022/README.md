@@ -206,11 +206,6 @@ Client certificate authentication request message payload MUST be an Avro-encode
             "doc": "Amount of milliseconds (since the timestamp) until the message expires. Value of 0 is reserved to indicate no expiration."
         },
         {
-            "name": "tenantId",
-            "type": "string",
-            "doc": "Tenant ID, within the scope of which to perform authentication"
-        },
-        {
             "name": "issuer",
             "type": "string",
             "doc": "Issuer field of the client's certificate"
@@ -254,6 +249,14 @@ Client certificate authentication response message payload MUST be an Avro-encod
             "type": "long",
             "default": 0,
             "doc": "Amount of milliseconds (since the timestamp) until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name": "tenantId",
+            "type": [
+                "string",
+                "null"
+            ],
+            "doc": "ID of the tenant, which owns the credentials. May be null in case certificate is not found."
         },
         {
             "name": "credentialsId",
@@ -331,7 +334,7 @@ Client credentials revoked event message payload MUST be an Avro-encoded object 
         {
             "name": "tenantId",
             "type": "string",
-            "doc": "Tenant ID, within the scope of which credentials are revoked"
+            "doc": "ID of the tenant, which owns the revoked credentials"
         },
         {
             "name": "credentialsId",
