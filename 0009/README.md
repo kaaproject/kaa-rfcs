@@ -325,7 +325,7 @@ The NATS message payload is an Avro object with the following schema ([0009-ep-u
 
 ## Endpoint payload size
 
-The `{event-type}` is `sended payload size`.
+The `{event-type}` is `received payload size`.
 It is published with a certain periodicity, in the intervals between ticks the size of the payload received from the device is measured.
 
 Originators MUST use the following NATS subject format for endpoint registered events:
