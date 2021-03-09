@@ -1,0 +1,24 @@
+{
+    "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.lifecycle",
+    "name":"SendedPayloadSizeEvent",
+    "type":"record",
+    "doc":"Endpoint's sent payload size event message",
+    "fields":[
+        {
+            "name":"endpointId",
+            "type":"string",
+            "doc":"The identifier of the endpoint from which the data is sent."
+        },
+        {
+            "name":"tenantId",
+            "type":"string",
+            "doc":"The identifier of the tenant with which the data is sent."
+        },
+        {
+            "name":"payloadSize",
+            "type":"long",
+            "default":0,
+            "doc":"The number of bytes sent with the payload."
+        }
+    ]
+}
