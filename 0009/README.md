@@ -333,7 +333,7 @@ The `{event-group}` is `traffic-reporting`.
 The `{event-type}` is `rcv-payload-size`.
 Originator periodically publishes these events to report the cumulative volume of payloads received from an endpoint for a predefined time frame.
 
-Originator MUST use the following NATS subject format for the endpoint registered events:
+Originator MUST use the following NATS subject format for the endpoint payload size events:
 ```
 kaa.v1.events.{originator-service-instance-name}.endpoint.traffic-reporting.rcv-payload-size
 ```
