@@ -331,7 +331,7 @@ The `{event-group}` is `traffic-reporting`.
 ## Endpoint payload size
 
 The `{event-type}` is `rcv-payload-size`.
-Originator publishes these events periodically to report the cumulative volume of payloads received from endpoint in the reporting period.
+Originator periodically publishes these events to report the cumulative volume of payloads received from an endpoint for a predefined time frame.
 
 Originator MUST use the following NATS subject format for the endpoint registered events:
 ```
