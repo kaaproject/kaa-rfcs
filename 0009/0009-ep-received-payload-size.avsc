@@ -5,6 +5,11 @@
     "doc":"Endpoint's received payload size event message",
     "fields":[
         {
+            "name":"appVersionName",
+            "type":"string",
+            "doc":"The name of the version of the application, the endpoint for which the payload is being measured."
+        },
+        {
             "name":"endpointId",
             "type":"string",
             "doc":"The identifier of the endpoint from which the data is sent."
