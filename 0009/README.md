@@ -323,6 +323,11 @@ The NATS message payload is an Avro object with the following schema ([0009-ep-u
 }
 ```
 
+# Traffic reporting
+
+Traffic reporting events are for notifying listeners about endpoint events, such as the amount of payload received.
+The `{event-group}` is `traffic-reporting`.
+
 ## Endpoint payload size
 
 The `{event-type}` is `rcv-payload-size`.
@@ -330,13 +335,13 @@ Originator publishes these events periodically to report the cumulative volume o
 
 Originators MUST use the following NATS subject format for endpoint registered events:
 ```
-kaa.v1.events.{originator-service-instance-name}.endpoint.lifecycle.rcv-payload-size
+kaa.v1.events.{originator-service-instance-name}.endpoint.traffic-reporting.rcv-payload-size
 ```
 
 The NATS message payload is an Avro object with the following schema ([0009-ep-received-payload-size.avsc](0009-ep-received-payload-size.avsc)):
 ```json
 {
-    "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.lifecycle",
+    "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.traffic-reporting",
     "name":"ReceivedPayloadSizeEvent",
     "type":"record",
     "doc":"Endpoint's received payload size event message",

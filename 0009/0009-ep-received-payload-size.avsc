@@ -1,5 +1,5 @@
 {
-    "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.lifecycle",
+    "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.traffic-reporting",
     "name":"ReceivedPayloadSizeEvent",
     "type":"record",
     "doc":"Endpoint's received payload size event message",
