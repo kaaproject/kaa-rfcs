@@ -344,28 +344,28 @@ The NATS message payload is an Avro object with the following schema ([0009-ep-r
     "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.traffic-reporting",
     "name":"ReceivedPayloadSizeEvent",
     "type":"record",
-    "doc":"Endpoint's received payload size event message",
+    "doc":"The message about the size of the payload received from the endpoint",
     "fields":[
         {
             "name":"appVersionName",
             "type":"string",
-            "doc":"The name of the version of the application, the endpoint for which the payload is being measured."
+            "doc":"The name the application version that corresponds to the endpoint sending the data"
         },
         {
             "name":"endpointId",
             "type":"string",
-            "doc":"The identifier of the endpoint from which the data is sent."
+            "doc":"The identifier of the endpoint sending the data"
         },
         {
             "name":"tenantId",
             "type":"string",
-            "doc":"The identifier of the tenant with which the data is sent."
+            "doc":"The identifier of the tenant that corresponds to the endpoint sending the data"
         },
         {
             "name":"payloadSize",
             "type":"long",
             "default":0,
-            "doc":"The number of bytes received with the payload."
+            "doc":"The number of bytes in the payload"
         }
     ]
 }
