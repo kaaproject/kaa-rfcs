@@ -1,8 +1,8 @@
 {
     "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.lifecycle",
-    "name":"SendedPayloadSizeEvent",
+    "name":"ReceivedPayloadSizeEvent",
     "type":"record",
-    "doc":"Endpoint's sent payload size event message",
+    "doc":"Endpoint's received payload size event message",
     "fields":[
         {
             "name":"endpointId",
@@ -18,7 +18,7 @@
             "name":"payloadSize",
             "type":"long",
             "default":0,
-            "doc":"The number of bytes sent with the payload."
+            "doc":"The number of bytes received with the payload."
         }
     ]
 }

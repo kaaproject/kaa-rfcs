@@ -326,20 +326,20 @@ The NATS message payload is an Avro object with the following schema ([0009-ep-u
 ## Endpoint payload size
 
 The `{event-type}` is `sended payload size`.
-It is published with a certain periodicity, in the intervals between ticks the size of the payload sent from the device is measured.
+It is published with a certain periodicity, in the intervals between ticks the size of the payload received from the device is measured.
 
 Originators MUST use the following NATS subject format for endpoint registered events:
 ```
 kaa.v1.events.{originator-service-instance-name}.endpoint.lifecycle.payload-size
 ```
 
-The NATS message payload is an Avro object with the following schema ([0009-ep-sended-payload-size.avsc](./0009-ep-sended-payload-size.avsc)):
+The NATS message payload is an Avro object with the following schema ([0009-ep-received-payload-size.avsc](0009-ep-received-payload-size.avsc)):
 ```json
 {
     "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.lifecycle",
-    "name":"SendedPayloadSizeEvent",
+    "name":"ReceivedPayloadSizeEvent",
     "type":"record",
-    "doc":"Endpoint's sent payload size event message",
+    "doc":"Endpoint's received payload size event message",
     "fields":[
         {
             "name":"endpointId",
@@ -355,7 +355,7 @@ The NATS message payload is an Avro object with the following schema ([0009-ep-s
             "name":"payloadSize",
             "type":"long",
             "default":0,
-            "doc":"The number of bytes sent with the payload."
+            "doc":"The number of bytes received with the payload."
         }
     ]
 }
