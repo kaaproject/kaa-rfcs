@@ -349,7 +349,7 @@ The NATS message payload is an Avro object with the following schema ([0009-ep-r
         {
             "name":"appVersionName",
             "type":"string",
-            "doc":"The name the application version that corresponds to the endpoint sending the data"
+            "doc":"Application version name the endpoint registered with"
         },
         {
             "name":"endpointId",
@@ -366,6 +366,16 @@ The NATS message payload is an Avro object with the following schema ([0009-ep-r
             "type":"long",
             "default":0,
             "doc":"The number of bytes in the payload"
+        },
+        {
+             "name":"timeFrom",
+             "type":"long",
+             "doc":"Tick start UNIX timestamp in milliseconds"
+        },
+        {
+             "name":"timeTo",
+             "type":"long",
+             "doc":"Tick stop UNIX timestamp in milliseconds"
         }
     ]
 }
