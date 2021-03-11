@@ -342,39 +342,39 @@ The NATS message payload is an Avro object with the following schema ([0009-ep-t
 ```json
 {
   "namespace": "org.kaaproject.ipc.event.gen.v1.endpoint.traffic-reporting",
-  "name": "TrafficEvent",
+  "name": "TrafficReportEvent",
   "type": "record",
-  "doc": "Message about sent and received traffic over a period of time for a specific tenant",
+  "doc": "Report of endpoint sent and received traffic over a period of time",
   "fields": [
     {
       "name": "tenantTrafficStats",
-      "doc": "Statistics of sent and received traffic for a specific tenant",
+      "doc": "Map of endpoint traffic reports by tenant ID",
       "type": {
         "type": "map",
         "values": {
           "name": "appTrafficStats",
-          "doc": "Statistics of sent and received traffic for a specific application",
+          "doc": "Map of endpoint traffic reports by application name",
           "type": "map",
           "values": {
             "name": "endpointTrafficStats",
-            "doc": "Statistics of sent and received traffic for a specific endpoint",
+            "doc": "Map of traffic reports by endpoint ID",
             "type": "map",
             "values": {
               "name": "trafficStat",
               "type": "record",
-              "doc": "Statistics of sent and received traffic",
+              "doc": "Report of endpoint sent and received traffic",
               "fields": [
                 {
-                  "name": "rcvPayloadSize",
+                  "name": "totalReceivedPayload",
                   "type": "long",
                   "default": 0,
-                  "doc": "The number of bytes in the received payload"
+                  "doc": "The total number of payload bytes received from endpoint"
                 },
                 {
-                  "name": "sentPayloadSize",
+                  "name": "totalSentPayload",
                   "type": "long",
                   "default": 0,
-                  "doc": "The number of bytes in the sent payload"
+                  "doc": "The total number of payload bytes sent to endpoint"
                 }
               ]
             }
@@ -385,12 +385,12 @@ The NATS message payload is an Avro object with the following schema ([0009-ep-t
     {
       "name": "timeFrom",
       "type": "long",
-      "doc": "Current tick start UNIX timestamp in nanoseconds"
+      "doc": "Report start UNIX timestamp in nanoseconds"
     },
     {
       "name": "timeTo",
       "type": "long",
-      "doc": "Next tick start UNIX timestamp in nanoseconds"
+      "doc": "Report end UNIX timestamp in nanoseconds"
     }
   ]
 }
