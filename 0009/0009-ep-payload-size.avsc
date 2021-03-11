@@ -1,8 +1,8 @@
 {
     "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.traffic-reporting",
-    "name":"ReceivedPayloadSizeEvent",
+    "name":"PayloadSizeEvent",
     "type":"record",
-    "doc":"The message about the size of the payload received from the endpoint",
+    "doc":"The message about the size of the payload received from the endpoint, or sent to endpoint",
     "fields":[
         {
             "name":"appVersionName",
