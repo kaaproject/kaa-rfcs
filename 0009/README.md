@@ -325,58 +325,73 @@ The NATS message payload is an Avro object with the following schema ([0009-ep-u
 
 # Traffic reporting
 
-Traffic reporting events are for notifying listeners about endpoint events, such as the amount of payload received.
+Traffic reporting events are for notifying listeners about endpoint events, such as the amount of payload received or sent.
 The `{event-group}` is `traffic-reporting`.
 
-## Endpoint payload size
+## Endpoint payload reports
 
-The `{event-type}` is `rcv-payload-size`.
-Originator periodically publishes these events to report the cumulative volume of payloads received from an endpoint for a predefined time frame.
+The `{event-type}` is `payload`.
+The sender publishes these events periodically to report the aggregate amount of payload received from or sent to endpoints in the reporting time frame.
 
-Originator MUST use the following NATS subject format for the endpoint payload size events:
+Originator MUST use the following NATS subject format for the traffic payload size events:
 ```
-kaa.v1.events.{originator-service-instance-name}.endpoint.traffic-reporting.rcv-payload-size
+kaa.v1.events.{originator-service-instance-name}.endpoint.traffic-reporting.payload
 ```
 
-The NATS message payload is an Avro object with the following schema ([0009-ep-received-payload-size.avsc](0009-ep-received-payload-size.avsc)):
+The NATS message payload is an Avro object with the following schema ([0009-ep-traffic-stats.avsc](0009-ep-traffic-stats.avsc)):
 ```json
 {
-    "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.traffic-reporting",
-    "name":"ReceivedPayloadSizeEvent",
-    "type":"record",
-    "doc":"The message about the size of the payload received from the endpoint",
-    "fields":[
-        {
-            "name":"appVersionName",
-            "type":"string",
-            "doc":"Application version name the endpoint registered with"
-        },
-        {
-            "name":"endpointId",
-            "type":"string",
-            "doc":"The identifier of the endpoint sending the data"
-        },
-        {
-            "name":"tenantId",
-            "type":"string",
-            "doc":"The identifier of the tenant that corresponds to the endpoint sending the data"
-        },
-        {
-            "name":"payloadSize",
-            "type":"long",
-            "default":0,
-            "doc":"The number of bytes in the payload"
-        },
-        {
-             "name":"timeFrom",
-             "type":"long",
-             "doc":"Tick start UNIX timestamp in milliseconds"
-        },
-        {
-             "name":"timeTo",
-             "type":"long",
-             "doc":"Tick stop UNIX timestamp in milliseconds"
+  "namespace": "org.kaaproject.ipc.event.gen.v1.endpoint.traffic-reporting",
+  "name": "TrafficReportEvent",
+  "type": "record",
+  "doc": "Report of endpoint sent and received traffic over a period of time",
+  "fields": [
+    {
+      "name": "tenantTrafficStats",
+      "doc": "Map of endpoint traffic reports by tenant ID",
+      "type": {
+        "type": "map",
+        "values": {
+          "name": "appTrafficStats",
+          "doc": "Map of endpoint traffic reports by application name",
+          "type": "map",
+          "values": {
+            "name": "endpointTrafficStats",
+            "doc": "Map of traffic reports by endpoint ID",
+            "type": "map",
+            "values": {
+              "name": "trafficStat",
+              "type": "record",
+              "doc": "Report of endpoint sent and received traffic",
+              "fields": [
+                {
+                  "name": "totalReceivedPayload",
+                  "type": "long",
+                  "default": 0,
+                  "doc": "The total number of payload bytes received from endpoint"
+                },
+                {
+                  "name": "totalSentPayload",
+                  "type": "long",
+                  "default": 0,
+                  "doc": "The total number of payload bytes sent to endpoint"
+                }
+              ]
+            }
+          }
         }
-    ]
+      }
+    },
+    {
+      "name": "timeFrom",
+      "type": "long",
+      "doc": "Report start UNIX timestamp in nanoseconds"
+    },
+    {
+      "name": "timeTo",
+      "type": "long",
+      "doc": "Report end UNIX timestamp in nanoseconds"
+    }
+  ]
 }
 ```

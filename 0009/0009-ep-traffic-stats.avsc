@@ -1,0 +1,54 @@
+{
+  "namespace": "org.kaaproject.ipc.event.gen.v1.endpoint.traffic-reporting",
+  "name": "TrafficReportEvent",
+  "type": "record",
+  "doc": "Report of endpoint sent and received traffic over a period of time",
+  "fields": [
+    {
+      "name": "tenantTrafficStats",
+      "doc": "Map of endpoint traffic reports by tenant ID",
+      "type": {
+        "type": "map",
+        "values": {
+          "name": "appTrafficStats",
+          "doc": "Map of endpoint traffic reports by application name",
+          "type": "map",
+          "values": {
+            "name": "endpointTrafficStats",
+            "doc": "Map of traffic reports by endpoint ID",
+            "type": "map",
+            "values": {
+              "name": "trafficStat",
+              "type": "record",
+              "doc": "Report of endpoint sent and received traffic",
+              "fields": [
+                {
+                  "name": "totalReceivedPayload",
+                  "type": "long",
+                  "default": 0,
+                  "doc": "The total number of payload bytes received from endpoint"
+                },
+                {
+                  "name": "totalSentPayload",
+                  "type": "long",
+                  "default": 0,
+                  "doc": "The total number of payload bytes sent to endpoint"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "timeFrom",
+      "type": "long",
+      "doc": "Report start UNIX timestamp in nanoseconds"
+    },
+    {
+      "name": "timeTo",
+      "type": "long",
+      "doc": "Report end UNIX timestamp in nanoseconds"
+    }
+  ]
+}
