@@ -325,17 +325,17 @@ The NATS message payload is an Avro object with the following schema ([0009-ep-u
 
 # Traffic reporting
 
-Traffic reporting events are for notifying listeners about endpoint events, such as the amount of payload received.
+Traffic reporting events are for notifying listeners about endpoint events, such as the amount of payload received or sent.
 The `{event-group}` is `traffic-reporting`.
 
-## Tenant traffic stats
+## Endpoint payload reports
 
-The `{event-type}` is `traffic-stats`.
-The sender publishes these events periodically to report the aggregate amount of payload received from or sent to endpoints owned by the tenant over a predetermined time frame.
+The `{event-type}` is `payload`.
+The sender publishes these events periodically to report the aggregate amount of payload received from or sent to endpoints in the reporting time frame.
 
 Originator MUST use the following NATS subject format for the traffic payload size events:
 ```
-kaa.v1.events.{originator-service-instance-name}.endpoint.traffic-reporting.traffic-stats
+kaa.v1.events.{originator-service-instance-name}.endpoint.traffic-reporting.payload
 ```
 
 The NATS message payload is an Avro object with the following schema ([0009-ep-traffic-stats.avsc](0009-ep-traffic-stats.avsc)):
