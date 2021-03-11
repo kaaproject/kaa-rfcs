@@ -1,0 +1,54 @@
+{
+  "namespace": "org.kaaproject.ipc.event.gen.v1.endpoint.traffic-reporting",
+  "name": "TrafficEvent",
+  "type": "record",
+  "doc": "Message about sent and received traffic over a period of time for a specific tenant",
+  "fields": [
+    {
+      "name": "tenantTrafficStats",
+      "doc": "Statistics of sent and received traffic for a specific tenant",
+      "type": {
+        "type": "map",
+        "values": {
+          "name": "appTrafficStats",
+          "doc": "Statistics of sent and received traffic for a specific application",
+          "type": "map",
+          "values": {
+            "name": "endpointTrafficStats",
+            "doc": "Statistics of sent and received traffic for a specific endpoint",
+            "type": "map",
+            "values": {
+              "name": "trafficStat",
+              "type": "record",
+              "doc": "Statistics of sent and received traffic",
+              "fields": [
+                {
+                  "name": "rcvPayloadSize",
+                  "type": "long",
+                  "default": 0,
+                  "doc": "The number of bytes in the received payload"
+                },
+                {
+                  "name": "sentPayloadSize",
+                  "type": "long",
+                  "default": 0,
+                  "doc": "The number of bytes in the sent payload"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "timeFrom",
+      "type": "long",
+      "doc": "Current tick start UNIX timestamp in nanoseconds"
+    },
+    {
+      "name": "timeTo",
+      "type": "long",
+      "doc": "Next tick start UNIX timestamp in nanoseconds"
+    }
+  ]
+}

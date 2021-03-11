@@ -328,63 +328,70 @@ The NATS message payload is an Avro object with the following schema ([0009-ep-u
 Traffic reporting events are for notifying listeners about endpoint events, such as the amount of payload received.
 The `{event-group}` is `traffic-reporting`.
 
-## Endpoint payload size
+## Tenant traffic stats
 
-The `{event-type}` is `rcv-payload-size`.
-Originator periodically publishes these events to report the cumulative volume of payloads received from an endpoint, or sent to endpoint for a predefined time frame.
+The `{event-type}` is `traffic-stats`.
+The sender publishes these events periodically to report the aggregate amount of payload received from or sent to endpoints owned by the tenant over a predetermined time frame.
 
-Originator MUST use the following NATS subject format for the received endpoint payload size events:
+Originator MUST use the following NATS subject format for the traffic payload size events:
 ```
-kaa.v1.events.{originator-service-instance-name}.endpoint.traffic-reporting.rcv-payload-size
-```
-
-The `{event-type}` is `sent-payload-size`.
-Originator periodically publishes these events to report the cumulative volume of payloads sent to an endpoint for a predefined time frame.
-
-Originator MUST use the following NATS subject format for the sent endpoint payload size events:
-```
-kaa.v1.events.{originator-service-instance-name}.endpoint.traffic-reporting.sent-payload-size
+kaa.v1.events.{originator-service-instance-name}.endpoint.traffic-reporting.traffic-stats
 ```
 
-The NATS message payload is an Avro object with the following schema ([0009-ep-payload-size.avsc](0009-ep-payload-size.avsc)):
+The NATS message payload is an Avro object with the following schema ([0009-ep-traffic-stats.avsc](0009-ep-traffic-stats.avsc)):
 ```json
 {
-    "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.traffic-reporting",
-    "name":"PayloadSizeEvent",
-    "type":"record",
-    "doc":"The message about the size of the payload received from the endpoint, or sent to endpoint",
-    "fields":[
-        {
-            "name":"appVersionName",
-            "type":"string",
-            "doc":"Application version name the endpoint registered with"
-        },
-        {
-            "name":"endpointId",
-            "type":"string",
-            "doc":"The identifier of the endpoint sending the data"
-        },
-        {
-            "name":"tenantId",
-            "type":"string",
-            "doc":"The identifier of the tenant that corresponds to the endpoint sending the data"
-        },
-        {
-            "name":"payloadSize",
-            "type":"long",
-            "default":0,
-            "doc":"The number of bytes in the payload"
-        },
-        {
-             "name":"timeFrom",
-             "type":"long",
-             "doc":"Tick start UNIX timestamp in milliseconds"
-        },
-        {
-             "name":"timeTo",
-             "type":"long",
-             "doc":"Tick stop UNIX timestamp in milliseconds"
+  "namespace": "org.kaaproject.ipc.event.gen.v1.endpoint.traffic-reporting",
+  "name": "TrafficEvent",
+  "type": "record",
+  "doc": "Message about sent and received traffic over a period of time for a specific tenant",
+  "fields": [
+    {
+      "name": "tenantTrafficStats",
+      "doc": "Statistics of sent and received traffic for a specific tenant",
+      "type": {
+        "type": "map",
+        "values": {
+          "name": "appTrafficStats",
+          "doc": "Statistics of sent and received traffic for a specific application",
+          "type": "map",
+          "values": {
+            "name": "endpointTrafficStats",
+            "doc": "Statistics of sent and received traffic for a specific endpoint",
+            "type": "map",
+            "values": {
+              "name": "trafficStat",
+              "type": "record",
+              "doc": "Statistics of sent and received traffic",
+              "fields": [
+                {
+                  "name": "rcvPayloadSize",
+                  "type": "long",
+                  "default": 0,
+                  "doc": "The number of bytes in the received payload"
+                },
+                {
+                  "name": "sentPayloadSize",
+                  "type": "long",
+                  "default": 0,
+                  "doc": "The number of bytes in the sent payload"
+                }
+              ]
+            }
+          }
         }
-    ]
+      }
+    },
+    {
+      "name": "timeFrom",
+      "type": "long",
+      "doc": "Current tick start UNIX timestamp in nanoseconds"
+    },
+    {
+      "name": "timeTo",
+      "type": "long",
+      "doc": "Next tick start UNIX timestamp in nanoseconds"
+    }
+  ]
 }
 ```
