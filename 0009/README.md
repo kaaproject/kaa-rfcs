@@ -391,6 +391,22 @@ The NATS message payload is an Avro object with the following schema ([0009-ep-t
       "name": "timeTo",
       "type": "long",
       "doc": "Report end UNIX timestamp in nanoseconds"
+    },
+    {
+      "name": "correlationId",
+      "type": "string",
+      "doc": "Message ID primarily used to track message processing across services"
+    },
+    {
+      "name": "timestamp",
+      "type": "long",
+      "doc": "Message creation UNIX timestamp in milliseconds"
+    },
+    {
+      "name": "timeout",
+      "type": "long",
+      "default": 0,
+      "doc": "Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
     }
   ]
 }
