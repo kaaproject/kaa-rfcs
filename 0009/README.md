@@ -393,6 +393,11 @@ The NATS message payload is an Avro object with the following schema ([0009-ep-t
       "doc": "Report end UNIX timestamp in nanoseconds"
     },
     {
+      "name": "originatorReplicaId",
+      "type": "string",
+      "doc": "Identifier of the service replica that generated the event"
+    },
+    {
       "name": "correlationId",
       "type": "string",
       "doc": "Message ID primarily used to track message processing across services"

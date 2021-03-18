@@ -56,6 +56,11 @@
       "doc": "Message ID primarily used to track message processing across services"
     },
     {
+      "name": "originatorReplicaId",
+      "type": "string",
+      "doc": "Identifier of the service replica that generated the event"
+    },
+    {
       "name": "timestamp",
       "type": "long",
       "doc": "Message creation UNIX timestamp in milliseconds"
