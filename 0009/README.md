@@ -54,41 +54,57 @@ The NATS message payload is an Avro object with the following schema ([ep-connec
 
 ```json
 {
-    "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.connectivity",
-    "name":"ConnectedEvent",
-    "type":"record",
-    "doc":"Endpoints connected event message",
-    "fields":[
-        {
-            "name":"correlationId",
-            "type":"string",
-            "doc":"Message ID primarily used to track message processing across services"
-        },
-        {
-            "name":"timestamp",
-            "type":"long",
-            "doc":"Message creation UNIX timestamp in milliseconds"
-        },
-        {
-            "name":"timeout",
-            "type":"long",
-            "default":0,
-            "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
-        },
-        {
-            "name":"endpoints",
-            "doc":"Connected endpoints' IDs map to their application version names",
-            "type":{
-                "type":"map",
-                "values":"string"
+   "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.connectivity",
+   "name":"ConnectedEvent",
+   "type":"record",
+   "doc":"Endpoints connected event message",
+   "fields":[
+      {
+         "name":"correlationId",
+         "type":"string",
+         "doc":"Message ID primarily used to track message processing across services"
+      },
+      {
+         "name":"timestamp",
+         "type":"long",
+         "doc":"Message creation UNIX timestamp in milliseconds"
+      },
+      {
+         "name":"timeout",
+         "type":"long",
+         "default":0,
+         "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
+      },
+      {
+         "name":"endpoints",
+         "doc":"Connected endpoints' IDs map to their application version names",
+         "type":{
+            "type":"map",
+            "values":{
+               "type":"record",
+               "name":"EndpointMeta",
+               "doc":"Endpoint metadata.",
+               "fields":[
+                  {
+                     "name":"appVersion",
+                     "type":"string",
+                     "doc":"Identifier of the endpoint application"
+                  },
+                  {
+                     "name":"tenantId",
+                     "type":"string",
+                     "doc":"Identifier of the endpoint tenant"
+                  }
+               ]
             }
-        },
-        {
-            "name":"originatorReplicaId",
-            "type":"string",
-            "doc":"Identifier of the service replica that generated the event"
-        }
-    ]
+         }
+      },
+      {
+         "name":"originatorReplicaId",
+         "type":"string",
+         "doc":"Identifier of the service replica that generated the event"
+      }
+   ]
 }
 ```
 
@@ -107,41 +123,57 @@ The NATS message payload is an Avro object with the following schema ([ep-discon
 
 ```json
 {
-    "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.connectivity",
-    "name":"DisconnectedEvent",
-    "type":"record",
-    "doc":"Endpoints disconnected event message",
-    "fields":[
-        {
-            "name":"correlationId",
-            "type":"string",
-            "doc":"Message ID primarily used to track message processing across services"
-        },
-        {
-            "name":"timestamp",
-            "type":"long",
-            "doc":"Message creation UNIX timestamp in milliseconds"
-        },
-        {
-            "name":"timeout",
-            "type":"long",
-            "default":0,
-            "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
-        },
-        {
-            "name":"endpoints",
-            "doc":"Disconnected endpoints' IDs map to their application version names",
-            "type":{
-                "type":"map",
-                "values":"string"
+   "namespace":"org.kaaproject.ipc.event.gen.v1.endpoint.connectivity",
+   "name":"DisconnectedEvent",
+   "type":"record",
+   "doc":"Endpoints disconnected event message",
+   "fields":[
+      {
+         "name":"correlationId",
+         "type":"string",
+         "doc":"Message ID primarily used to track message processing across services"
+      },
+      {
+         "name":"timestamp",
+         "type":"long",
+         "doc":"Message creation UNIX timestamp in milliseconds"
+      },
+      {
+         "name":"timeout",
+         "type":"long",
+         "default":0,
+         "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
+      },
+      {
+         "name":"endpoints",
+         "doc":"Disconnected endpoints' IDs map to their application version names",
+         "type":{
+            "type":"map",
+            "values":{
+               "type":"record",
+               "name":"EndpointMeta",
+               "doc":"Endpoint metadata.",
+               "fields":[
+                  {
+                     "name":"appVersion",
+                     "type":"string",
+                     "doc":"Identifier of the endpoint application"
+                  },
+                  {
+                     "name":"tenantId",
+                     "type":"string",
+                     "doc":"Identifier of the endpoint tenant"
+                  }
+               ]
             }
-        },
-        {
-            "name":"originatorReplicaId",
-            "type":"string",
-            "doc":"Identifier of the service replica that generated the event"
-        }
-    ]
+         }
+      },
+      {
+         "name":"originatorReplicaId",
+         "type":"string",
+         "doc":"Identifier of the service replica that generated the event"
+      }
+   ]
 }
 ```
 
