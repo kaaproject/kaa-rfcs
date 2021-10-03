@@ -83,9 +83,10 @@ Endpoint filters request message payload MUST be an [Avro-encoded](https://avro.
 ## Endpoint filters response
 
 *Endpoint filters response* message MUST be sent by repository in response to an [endpoint filters request message](#endpoint-filters-request).
-Repository MUST publish endpoint filters response message to the subject provided in the NATS `replyTo` field of the request.
+Repository MUST publish *endpoint filters response* message to the subject provided in the NATS `replyTo` field of the request.
 
 Endpoint filters response message payload MUST be an Avro-encoded object with the following schema ([0020-endpoint-filters-response.avsc](./0020-endpoint-filters-response.avsc)):
+
 ```json
 {
     "namespace":"org.kaaproject.ipc.efmp.gen.v1",
@@ -158,7 +159,7 @@ It is RECOMMENDED to follow the subject format described in [3/ISM session affin
 kaa.v1.replica.{client-service-replica-id}.efmp.ep-list-by-filter-request
 ```
 
-Endpoint filters request message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([0020-endpoint-list-by-filter-request.avsc](./0020-endpoint-list-by-filter-request.avsc)):
+Endpoint list by filter message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([0020-endpoint-list-by-filter-request.avsc](./0020-endpoint-list-by-filter-request.avsc)):
 
 ```json
 {
@@ -196,9 +197,9 @@ Endpoint filters request message payload MUST be an [Avro-encoded](https://avro.
 ## Endpoint list by filter response
 
 *Endpoint list by filter response* message MUST be sent by repository in response to an [endpoint list by filter request](#endpoint-list-by-filter-request).
-Repository MUST publish endpoint list by filter response message to the subject provided in the NATS `replyTo` field of the request.
+Repository MUST publish *endpoint list by filter response* message to the subject provided in the NATS `replyTo` field of the request.
 
-Endpoint filters response message payload MUST be an Avro-encoded object with the following schema ([0020-endpoint-list-by-filter-response.avsc](./0020-endpoint-list-by-filter-response.avsc)):
+Endpoint list by filter response message payload MUST be an Avro-encoded object with the following schema ([0020-endpoint-list-by-filter-response.avsc](./0020-endpoint-list-by-filter-response.avsc)):
 
 ```json
 {
