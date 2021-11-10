@@ -1,0 +1,29 @@
+{
+    "namespace":"org.kaaproject.ipc.efmp.gen.v1",
+    "name":"EndpointListByFilterRequest",
+    "type":"record",
+    "doc":"Endpoint list by filter request message",
+    "fields":[
+        {
+            "name":"correlationId",
+            "type":"string",
+            "doc":"Message ID primarily used to track message processing across services"
+        },
+        {
+            "name":"timestamp",
+            "type":"long",
+            "doc":"Message creation UNIX timestamp in milliseconds"
+        },
+        {
+            "name":"timeout",
+            "type":"long",
+            "default":0,
+            "doc":"Amount of milliseconds (since the timestamp) until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name":"filterId",
+            "type":"string",
+            "doc":"Filter ID for which endpoint list is requested"
+        }
+    ]
+}
