@@ -33,14 +33,12 @@ The following terms and definitions are used in this RFC.
 *Endpoint filters request* message is a [targeted message](/0003/README.md#targeted-messaging) that client sends to repository to retrieve the endpoint filters.
 
 The client MUST send endpoint filters request messages using the following NATS subject:
-
 ```
 kaa.v1.service.{repository-service-instance-name}.efmp.ep-filters-request
 ```
 
 The client MUST include NATS `replyTo` field to handle the response.
 It is RECOMMENDED to follow the subject format described in [3/ISM session affinity section](/0003/README.md#session-affinity):
-
 ```
 kaa.v1.replica.{client-service-replica-id}.efmp.ep-filters-response
 ```
@@ -83,10 +81,9 @@ Endpoint filters request message payload MUST be an [Avro-encoded](https://avro.
 ## Endpoint filters response
 
 *Endpoint filters response* message MUST be sent by repository in response to an [endpoint filters request message](#endpoint-filters-request).
-Repository MUST publish *endpoint filters response* message to the subject provided in the NATS `replyTo` field of the request.
+Repository MUST publish endpoint filters response message to the subject provided in the NATS `replyTo` field of the request.
 
 Endpoint filters response message payload MUST be an Avro-encoded object with the following schema ([0020-endpoint-filters-response.avsc](./0020-endpoint-filters-response.avsc)):
-
 ```json
 {
     "namespace":"org.kaaproject.ipc.efmp.gen.v1",
@@ -141,25 +138,22 @@ Endpoint filters response message payload MUST be an Avro-encoded object with th
 }
 ```
 
-
 ## Endpoint list by filter request
 
-*Endpoint list by filter request* message is a [targeted message](/0003/README.md#targeted-messaging) that client sends to repository to retrieve the endpoint list that match specified filter.
+*Endpoint list by filter request* message is a [targeted message](/0003/README.md#targeted-messaging) that client sends to repository to retrieve the endpoint list by filter ID.
 
 The client MUST send endpoint list by filter request messages using the following NATS subject:
-
 ```
 kaa.v1.service.{repository-service-instance-name}.efmp.ep-list-by-filter-request
 ```
 
 The client MUST include NATS `replyTo` field to handle the response.
 It is RECOMMENDED to follow the subject format described in [3/ISM session affinity section](/0003/README.md#session-affinity):
-
 ```
-kaa.v1.replica.{client-service-replica-id}.efmp.ep-list-by-filter-request
+kaa.v1.replica.{client-service-replica-id}.efmp.ep-list-by-filter-response
 ```
 
-Endpoint list by filter message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([0020-endpoint-list-by-filter-request.avsc](./0020-endpoint-list-by-filter-request.avsc)):
+Endpoint list by filter request message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([0020-endpoint-list-by-filter-request.avsc](./0020-endpoint-list-by-filter-request.avsc)):
 
 ```json
 {
@@ -193,14 +187,12 @@ Endpoint list by filter message payload MUST be an [Avro-encoded](https://avro.a
 }
 ```
 
-
 ## Endpoint list by filter response
 
-*Endpoint list by filter response* message MUST be sent by repository in response to an [endpoint list by filter request](#endpoint-list-by-filter-request).
-Repository MUST publish *endpoint list by filter response* message to the subject provided in the NATS `replyTo` field of the request.
+*Endpoint list by filter response* message MUST be sent by repository in response to an [endpoint list by filter request message](#endpoint-list-by-filter-request).
+Repository MUST publish endpoint list by filter response message to the subject provided in the NATS `replyTo` field of the request.
 
 Endpoint list by filter response message payload MUST be an Avro-encoded object with the following schema ([0020-endpoint-list-by-filter-response.avsc](./0020-endpoint-list-by-filter-response.avsc)):
-
 ```json
 {
     "namespace":"org.kaaproject.ipc.efmp.gen.v1",
@@ -230,12 +222,15 @@ Endpoint list by filter response message payload MUST be an Avro-encoded object 
             "doc":"Filter ID for which endpoint list is requested"
         },
         {
-            "name":"endpointIds",
+            "name":"appVersions",
             "type":{
-                "type":"array",
-                "items":"string"
+                "type":"map",
+                "values":{
+                    "type":"array",
+                    "items":"string"
+                }
             },
-            "doc":"List of endpoint IDs that match filter"
+            "doc":"Map of application version names with endpoints that have such versions"
         },
         {
             "name":"statusCode",

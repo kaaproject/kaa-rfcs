@@ -26,12 +26,15 @@
             "doc":"Filter ID for which endpoint list is requested"
         },
         {
-            "name":"endpointIds",
+            "name":"appVersions",
             "type":{
-                "type":"array",
-                "items":"string"
+                "type":"map",
+                "values":{
+                    "type":"array",
+                    "items":"string"
+                }
             },
-            "doc":"List of endpoint IDs that match filter"
+            "doc":"Map of application version names with endpoints that have such versions"
         },
         {
             "name":"statusCode",
