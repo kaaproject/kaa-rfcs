@@ -26,7 +26,7 @@
             "doc":"Filter ID for which endpoint list is requested"
         },
         {
-            "name":"appVersions",
+            "name":"appVersionsToEndpoints",
             "type":{
                 "type":"map",
                 "values":{
@@ -34,7 +34,7 @@
                     "items":"string"
                 }
             },
-            "doc":"Map of application version names with endpoints that have such versions"
+            "doc":"Map of application version names to endpoints that match requested filter"
         },
         {
             "name":"statusCode",
