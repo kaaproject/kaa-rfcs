@@ -222,7 +222,7 @@ Endpoint list by filter response message payload MUST be an Avro-encoded object 
             "doc":"Filter ID for which endpoint list is requested"
         },
         {
-            "name":"appVersions",
+            "name":"appVersionsToEndpoints",
             "type":{
                 "type":"map",
                 "values":{
