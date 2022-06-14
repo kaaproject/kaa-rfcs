@@ -28,6 +28,7 @@ RFCs can be in raw, draft, stable, deprecated, or retired status.
 | [20/EFMP](0020/README.md)  | Endpoint Filter Management Protocol         | Raw     |
 | [21/TLE](0021/README.md)   | Tenant Lifecycle Events                     | Draft   |
 | [22/CAP](0022/README.md)   | Client Authentication Protocol              | Raw     |
+| [23/AIP](0023/README.md)   | Automation Invocation Protocol              | Raw     |
 
 ## Change process
 
