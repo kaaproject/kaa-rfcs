@@ -72,6 +72,11 @@ The NATS message payload is an Avro object with the following schema ([0023-auto
             "doc": "Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration"
         },
         {
+            "name": "tenantId",
+            "type": "string",
+            "doc": "Tenant ID"
+        },
+        {
             "name":"payload",
             "type":[
               "null",
