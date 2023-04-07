@@ -36,7 +36,7 @@ The caller MUST send command invocation request messages using the following NAT
 kaa.v1.service.{provider-service-instance-name}.cip.command-request
 ```
 
-The caller MUST include NATS `replyTo` field to handle the [command invocation result response](#command-invocation-result).
+The caller SHOULD include NATS `replyTo` field to handle the [command invocation result response](#command-invocation-result).
 It is RECOMMENDED to follow the subject format described in [3/ISM session affinity section](/0003/README.md#session-affinity):
 ```
 kaa.v1.replica.{consumer-service-replica-id}.cip.command-result
