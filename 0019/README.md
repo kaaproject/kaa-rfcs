@@ -24,7 +24,7 @@ The following terms and definitions are used in this RFC.
 
 - **Endpoint metadata repository (repository)**: any service that exposes the EPMMP interface to other services for managing endpoint metadata.
 
-- **Endpoint metadata management client (client)**: any service that uses exposed EPMMP interface to manage endpoint metadata.
+- **Endpoint metadata management client (client)**: any service that uses exposed EPMMP interface.
 
 
 # Design
