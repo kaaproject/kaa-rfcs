@@ -1,5 +1,5 @@
 {
-  "namespace": "org.kaaproject.ipc.event.gen.v1.endpoint.traffic-reporting",
+  "namespace": "org.kaaproject.ipc.event.gen.v1.endpoint.traffic.reporting",
   "name": "TrafficReportEvent",
   "type": "record",
   "doc": "Report of endpoint sent and received traffic over a period of time",
@@ -33,6 +33,18 @@
                   "type": "long",
                   "default": 0,
                   "doc": "The total number of payload bytes sent to endpoint"
+                },
+                {
+                  "name": "totalReceivedMessageCount",
+                  "type": "long",
+                  "default": 0,
+                  "doc": "The total number of messages received from endpoint"
+                },
+                {
+                  "name": "totalSentMessageCount",
+                  "type": "long",
+                  "default": 0,
+                  "doc": "The total number of messages sent to endpoint"
                 }
               ]
             }

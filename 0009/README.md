@@ -339,9 +339,10 @@ kaa.v1.events.{originator-service-instance-name}.endpoint.traffic-reporting.payl
 ```
 
 The NATS message payload is an Avro object with the following schema ([0009-ep-traffic-stats.avsc](0009-ep-traffic-stats.avsc)):
+
 ```json
 {
-  "namespace": "org.kaaproject.ipc.event.gen.v1.endpoint.traffic-reporting",
+  "namespace": "org.kaaproject.ipc.event.gen.v1.endpoint.traffic.reporting",
   "name": "TrafficReportEvent",
   "type": "record",
   "doc": "Report of endpoint sent and received traffic over a period of time",
@@ -375,6 +376,18 @@ The NATS message payload is an Avro object with the following schema ([0009-ep-t
                   "type": "long",
                   "default": 0,
                   "doc": "The total number of payload bytes sent to endpoint"
+                },
+                {
+                  "name": "totalReceivedMessageCount",
+                  "type": "long",
+                  "default": 0,
+                  "doc": "The total number of messages received from endpoint"
+                },
+                {
+                  "name": "totalSentMessageCount",
+                  "type": "long",
+                  "default": 0,
+                  "doc": "The total number of messages sent to endpoint"
                 }
               ]
             }
@@ -393,14 +406,14 @@ The NATS message payload is an Avro object with the following schema ([0009-ep-t
       "doc": "Report end UNIX timestamp in nanoseconds"
     },
     {
-      "name": "originatorReplicaId",
-      "type": "string",
-      "doc": "Identifier of the service replica that generated the event"
-    },
-    {
       "name": "correlationId",
       "type": "string",
       "doc": "Message ID primarily used to track message processing across services"
+    },
+    {
+      "name": "originatorReplicaId",
+      "type": "string",
+      "doc": "Identifier of the service replica that generated the event"
     },
     {
       "name": "timestamp",
