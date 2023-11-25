@@ -151,6 +151,115 @@ Endpoint token validation response message payload MUST be an Avro-encoded objec
 ```
 
 
+#### Endpoint token status transition request
+
+*Endpoint token status transition request* message is a [targeted message](/0003/README.md#targeted-messaging) that consumer sends to provider to transit a token status.
+
+The consumer MUST send endpoint token status transition request messages using the following NATS subject:
+```
+kaa.v1.service.{provider-service-instance-name}.ecap.ep-token-status-transition-request
+```
+
+The consumer MUST include NATS `replyTo` field to handle the response.
+It is RECOMMENDED to follow the subject format described in [3/ISM session affinity section](/0003/README.md#session-affinity):
+```
+kaa.v1.replica.{consumer-service-replica-id}.ecap.ep-token-status-transition-response
+```
+
+Endpoint token status transition request message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([0016-endpoint-token-status-transition-request.avsc](./0016-endpoint-token-status-transition-request.avsc)):
+
+```json
+{
+    "namespace":"org.kaaproject.ipc.ecap.gen.v1",
+    "name":"EndpointTokenStatusTransitionRequest",
+    "type":"record",
+    "doc":"EP token status transition request message",
+    "fields":[
+        {
+            "name":"correlationId",
+            "type":"string",
+            "doc":"Message ID primarily used to track message processing across services"
+        },
+        {
+            "name":"timestamp",
+            "type":"long",
+            "doc":"Message creation UNIX timestamp in milliseconds"
+        },
+        {
+            "name":"timeout",
+            "type":"long",
+            "default":0,
+            "doc":"Amount of milliseconds (since the timestamp) until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name":"appName",
+            "type":"string",
+            "doc":"Application name of the endpoint, for which the token status transition is requested"
+        },
+        {
+            "name":"token",
+            "type":"string",
+            "doc":"Endpoint token which status to transit"
+        },
+        {
+            "name":"targetStatus",
+            "type":"string",
+            "doc":"Target status to transit endpoint token to"
+        }
+    ]
+}
+```
+
+
+#### Endpoint token status transition response
+
+*Endpoint token status transition response* message MUST be sent by provider in response to an [endpoint token status transition request message](#endpoint-token-status-transition-request).
+Provider MUST publish endpoint token status transition response message to the subject provided in the NATS `replyTo` field of the request.
+
+Endpoint token status transition response message payload MUST be an Avro-encoded object with the following schema ([0016-endpoint-token-status-transition-response.avsc](./0016-endpoint-token-status-transition-response.avsc)):
+
+```json
+{
+  "namespace":"org.kaaproject.ipc.ecap.gen.v1",
+  "name":"EndpointTokenStatusTransitionResponse",
+  "type":"record",
+  "doc":"EP token status transition response message",
+  "fields":[
+    {
+      "name":"correlationId",
+      "type":"string",
+      "doc":"Message ID primarily used to track message processing across services"
+    },
+    {
+      "name":"timestamp",
+      "type":"long",
+      "doc":"Message creation UNIX timestamp in milliseconds"
+    },
+    {
+      "name":"timeout",
+      "type":"long",
+      "default":0,
+      "doc":"Amount of milliseconds (since the timestamp) until the message expires. Value of 0 is reserved to indicate no expiration."
+    },
+    {
+      "name":"statusCode",
+      "type":"int",
+      "doc":"HTTP status code of the request processing"
+    },
+    {
+      "name":"reasonPhrase",
+      "type":[
+        "null",
+        "string"
+      ],
+      "default":null,
+      "doc":"Human-readable status reason phrase"
+    }
+  ]
+}
+```
+
+
 #### Endpoint token revocation event
 
 Provider MUST publish *endpoint token revoked event* whenever one or more previously valid endpoint tokens become unusable for endpoint identification.
