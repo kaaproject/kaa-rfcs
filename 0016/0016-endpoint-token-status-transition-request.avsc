@@ -1,0 +1,39 @@
+{
+    "namespace":"org.kaaproject.ipc.ecap.gen.v1",
+    "name":"EndpointTokenStatusTransitionRequest",
+    "type":"record",
+    "doc":"EP token status transition request message",
+    "fields":[
+        {
+            "name":"correlationId",
+            "type":"string",
+            "doc":"Message ID primarily used to track message processing across services"
+        },
+        {
+            "name":"timestamp",
+            "type":"long",
+            "doc":"Message creation UNIX timestamp in milliseconds"
+        },
+        {
+            "name":"timeout",
+            "type":"long",
+            "default":0,
+            "doc":"Amount of milliseconds (since the timestamp) until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name":"appName",
+            "type":"string",
+            "doc":"Application name of the endpoint, for which the token status transition is requested"
+        },
+        {
+            "name":"token",
+            "type":"string",
+            "doc":"Endpoint token which status to transit"
+        },
+        {
+            "name":"targetStatus",
+            "type":"string",
+            "doc":"Target status to transit endpoint token to"
+        }
+    ]
+}
