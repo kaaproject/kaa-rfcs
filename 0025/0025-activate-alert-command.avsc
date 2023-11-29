@@ -1,0 +1,66 @@
+{
+  "namespace": "org.kaaproject.ipc.amp.gen.v1",
+  "name": "ActivateAlertCommand",
+  "type": "record",
+  "doc": "Alert activation command",
+  "fields": [
+    {
+      "name": "correlationId",
+      "type": "string",
+      "doc": "Message ID primarily used to track message processing across services"
+    },
+    {
+      "name": "timestamp",
+      "type": "long",
+      "doc": "Message creation UNIX timestamp in milliseconds"
+    },
+    {
+      "name": "timeout",
+      "type": "long",
+      "default": 0,
+      "doc": "Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
+    },
+    {
+      "name": "alertType",
+      "type": "string",
+      "doc": "Alert type"
+    },
+    {
+      "name": "severityLevel",
+      "type": "string",
+      "doc": "Alert severity level"
+    },
+    {
+      "name": "entityType",
+      "type": "string",
+      "doc": "Entity type that alert raised at"
+    },
+    {
+      "name": "entityId",
+      "type": "string",
+      "doc": "Entity ID that alert raised at"
+    },
+    {
+      "name": "tenantId",
+      "type": "string",
+      "doc": "Entity's tenant ID that alert raised at"
+    },
+    {
+      "name": "activateReason",
+      "type": "string",
+      "doc": "Alert activation reason"
+    },
+    {
+      "name": "startedAt",
+      "type": "long",
+      "default": null,
+      "doc": "Time when alert started. Server timestamp is used if not specified"
+    },
+    {
+      "name": "lastActiveAt",
+      "type": "long",
+      "default": null,
+      "doc": "Time when alert was last active. Server timestamp is used if not specified"
+    }
+  ]
+}

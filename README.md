@@ -5,7 +5,7 @@ Kaa RFCs define integration protocols, APIs, and general designs for the Kaa IoT
 RFCs can be in raw, draft, stable, deprecated, or retired status.
 
 | Shortname                  | Name                                        | Status  |
-|----------------------------|---------------------------------------------| ------- |
+|----------------------------|---------------------------------------------|---------|
 | [1/KP](0001/README.md)     | Kaa Protocol                                | Draft   |
 | [2/DCP](0002/README.md)    | Data Collection Protocol                    | Draft   |
 | [3/ISM](0003/README.md)    | Inter-Service Messaging                     | Draft   |
@@ -30,6 +30,7 @@ RFCs can be in raw, draft, stable, deprecated, or retired status.
 | [22/CAP](0022/README.md)   | Client Authentication Protocol              | Raw     |
 | [23/AIP](0023/README.md)   | Automation Invocation Protocol              | Raw     |
 | [24/EPRMP](0024/README.md) | Endpoint Relations Management Protocol      | Raw     |
+| [25/AMP](0025/README.md)   | Alert Management Protocol                   | Raw     |
 
 ## Change process
 
