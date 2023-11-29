@@ -98,13 +98,13 @@ Activate alert command payload MUST be an [Avro-encoded](https://avro.apache.org
     {
       "name": "startedAt",
       "type": "long",
-      "default": null,
+      "default": 0,
       "doc": "Time when alert started. Server timestamp is used if not specified"
     },
     {
       "name": "lastActiveAt",
       "type": "long",
-      "default": null,
+      "default": 0,
       "doc": "Time when alert was last active. Server timestamp is used if not specified"
     }
   ]
