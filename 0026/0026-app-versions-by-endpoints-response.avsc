@@ -1,0 +1,57 @@
+{
+    "namespace":"org.kaaproject.ipc.eavp.gen.v1",
+    "name":"AppVersionsByEndpointsResponse",
+    "type":"record",
+    "doc":"Application versions by endpoints response message",
+    "fields":[
+        {
+            "name":"correlationId",
+            "type":"string",
+            "doc":"Message ID primarily used to track message processing across services"
+        },
+        {
+            "name":"timestamp",
+            "type":"long",
+            "doc":"Message creation UNIX timestamp in milliseconds"
+        },
+        {
+            "name":"timeout",
+            "type":"long",
+            "default":0,
+            "doc":"Amount of milliseconds (since the timestamp) until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name":"endpointIds",
+            "type":{
+                "type":"array",
+                "items":"string"
+            },
+            "doc":"Endpoint identifiers for which the application versions were requested"
+        },
+        {
+            "name":"appVersionsToEndpoints",
+            "type":{
+                "type":"map",
+                "values":{
+                    "type":"array",
+                    "items":"string"
+                }
+            },
+            "doc":"Map of application version names to endpoints that match requested endpoints"
+        },
+        {
+            "name":"statusCode",
+            "type":"int",
+            "doc":"HTTP status code of the request processing"
+        },
+        {
+            "name":"reasonPhrase",
+            "type":[
+              "null",
+              "string"
+            ],
+            "default":null,
+            "doc":"Human-readable status reason phrase"
+        }
+    ]
+}
