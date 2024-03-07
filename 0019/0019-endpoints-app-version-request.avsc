@@ -1,0 +1,32 @@
+{
+    "namespace":"org.kaaproject.ipc.epmmp.gen.v1",
+    "name":"AppVersionsByEndpointsRequest",
+    "type":"record",
+    "doc":"Application versions by endpoints request message",
+    "fields":[
+        {
+            "name":"correlationId",
+            "type":"string",
+            "doc":"Message ID primarily used to track message processing across services"
+        },
+        {
+            "name":"timestamp",
+            "type":"long",
+            "doc":"Message creation UNIX timestamp in milliseconds"
+        },
+        {
+            "name":"timeout",
+            "type":"long",
+            "default":0,
+            "doc":"Amount of milliseconds (since the timestamp) until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name":"endpointIds",
+            "type":{
+                "type":"array",
+                "items":"string"
+            },
+            "doc":"Endpoint identifiers for which the application versions were requested"
+        }
+    ]
+}
