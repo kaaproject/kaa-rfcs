@@ -34,7 +34,5 @@ RFCs can be in raw, draft, stable, deprecated, or retired status.
 
 ## Change process
 
-Kaa RFCs are developed in compliance with the [C4](https://rfc.zeromq.org/spec:42/C4/)
-and [COSS](https://rfc.unprotocols.org/spec:2/COSS/) specifications.
-Please refer to these specifications whenever you have difficulty understanding the process, the
-usage of specific terms, etc.
+Kaa RFCs are developed in compliance with the [C4](https://rfc.zeromq.org/spec:42/C4/) and [COSS](https://rfc.unprotocols.org/spec:2/COSS/) specifications.
+Please refer to these specifications whenever you have difficulty understanding the process, the usage of specific terms, etc.
