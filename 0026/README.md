@@ -42,7 +42,7 @@ kaa.v1.service.{repository-service-instance-name}.armp.relation-get-request
 where:
 - `{repository-service-instance-name}` is the asset repository service instance name.
 
-Activate alert command payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([0026-relation-get-request.avsc](./0026-relation-get-request.avsc)):
+Relation get request payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([0026-relation-get-request.avsc](./0026-relation-get-request.avsc)):
 
 ```json
 {
