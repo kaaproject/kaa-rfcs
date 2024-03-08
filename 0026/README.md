@@ -46,7 +46,7 @@ Relation get request payload MUST be an [Avro-encoded](https://avro.apache.org/)
 
 ```json
 {
-  "namespace": "org.kaaproject.ipc.am.gen.v1",
+  "namespace": "org.kaaproject.ipc.armp.gen.v1",
   "name": "RelationGetRequest",
   "type": "record",
   "doc": "Interservice relation get request",
@@ -66,6 +66,11 @@ Relation get request payload MUST be an [Avro-encoded](https://avro.apache.org/)
       "type": "long",
       "default": 0,
       "doc": "Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
+    },
+    {
+      "name": "tenantId",
+      "type": "string",
+      "doc": "Tenant ID"
     },
     {
       "name": "entityType",
@@ -97,7 +102,7 @@ Relation get response message payload MUST be an Avro-encoded object with the fo
 
 ```json
 {
-  "namespace": "org.kaaproject.ipc.am.gen.v1",
+  "namespace": "org.kaaproject.ipc.armp.gen.v1",
   "name": "RelationGetResponse",
   "type": "record",
   "doc": "Interservice relation get request",
@@ -138,7 +143,7 @@ Relation get response message payload MUST be an Avro-encoded object with the fo
       "type": {
         "type": "array",
         "items": {
-          "namespace": "org.kaaproject.ipc.am.gen.v1",
+          "namespace": "org.kaaproject.ipc.armp.gen.v1",
           "name": "Relation",
           "type": "record",
           "fields": [
