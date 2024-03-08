@@ -1,5 +1,5 @@
 {
-  "namespace": "org.kaaproject.ipc.am.gen.v1",
+  "namespace": "org.kaaproject.ipc.armp.gen.v1",
   "name": "RelationGetRequest",
   "type": "record",
   "doc": "Interservice relation get request",
