@@ -426,13 +426,13 @@ Endpoint metadata keys get response message payload MUST be an Avro-encoded obje
 
 The client MUST send endpoint  application version request messages using the following NATS subject:
 ```
-kaa.v1.service.{repository-service-instance-name}.eavp.ep-app-version-get-request
+kaa.v1.service.{repository-service-instance-name}.epmmp.ep-app-version-get-request
 ```
 
 The client MUST include NATS `replyTo` field to handle the response.
 It is RECOMMENDED to follow the subject format described in [3/ISM session affinity section](/0003/README.md#session-affinity):
 ```
-kaa.v1.replica.{client-service-replica-id}.eavp.ep-app-version-get-response
+kaa.v1.replica.{client-service-replica-id}.epmmp.ep-app-version-get-response
 ```
 
 Endpoints application version request message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([0019-endpoints-app-version-request.avsc](./0019-endpoints-app-version-request.avsc)):
