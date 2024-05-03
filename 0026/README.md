@@ -170,3 +170,117 @@ Relation get response message payload MUST be an Avro-encoded object with the fo
   ]
 }
 ```
+
+
+### Relation tree get request
+
+*Relation tree get request* message is a [targeted message](/0003/README.md#targeted-messaging) that the client sends to the repository to retrieve relation tree.
+
+The client MUST send relation get request messages using the following NATS subject:
+```
+kaa.v1.service.{repository-service-instance-name}.armp.relation-tree-get-request
+```
+where:
+- `{repository-service-instance-name}` is the asset repository service instance name.
+
+Relation tree get request payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([0026-relation-tree-get-request.avsc](./0026-relation-tree-get-request.avsc)):
+
+```json
+{
+  "namespace": "org.kaaproject.ipc.armp.gen.v1",
+  "name": "RelationTreeGetRequest",
+  "type": "record",
+  "doc": "Interservice relation get request",
+  "fields": [
+    {
+      "name": "correlationId",
+      "type": "string",
+      "doc": "Message ID primarily used to track message processing across services"
+    },
+    {
+      "name": "timestamp",
+      "type": "long",
+      "doc": "Message creation UNIX timestamp in milliseconds"
+    },
+    {
+      "name": "timeout",
+      "type": "long",
+      "default": 0,
+      "doc": "Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
+    },
+    {
+      "name": "tenantId",
+      "type": "string",
+      "doc": "Tenant ID"
+    },
+    {
+      "name": "entityType",
+      "type": "string",
+      "doc": "Entity type"
+    },
+    {
+      "name": "entityId",
+      "type": "string",
+      "doc": "Entity ID"
+    }
+  ]
+}
+```
+
+
+### Relation tree get response
+
+*Relation tree get response* message MUST be sent by the repository in response to [Relation tree get request message](#relation-tree-get-request).
+Repository MUST publish response message to the subject provided in the NATS `replyTo` field of the request.
+
+Relation tree get response message payload MUST be an Avro-encoded object with the following schema ([0026-relation-tree-get-response.avsc](./0026-relation-tree-get-response.avsc)):
+
+```json
+{
+  "namespace": "org.kaaproject.ipc.armp.gen.v1",
+  "name": "RelationTreeGetResponse",
+  "type": "record",
+  "doc": "Interservice relation get request",
+  "fields": [
+    {
+      "name": "correlationId",
+      "type": "string",
+      "doc": "Message ID primarily used to track message processing across services"
+    },
+    {
+      "name": "timestamp",
+      "type": "long",
+      "doc": "Message creation UNIX timestamp in milliseconds"
+    },
+    {
+      "name": "timeout",
+      "type": "long",
+      "default": 0,
+      "doc": "Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
+    },
+    {
+      "name": "statusCode",
+      "type": "int",
+      "doc": "HTTP status code of the request processing"
+    },
+    {
+      "name": "reasonPhrase",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Human-readable status reason phrase"
+    },
+    {
+      "name": "relationTree",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Representation of relation tree in JSON format"
+    }
+  ]
+}
+```
