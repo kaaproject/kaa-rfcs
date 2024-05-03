@@ -31,8 +31,11 @@ RFCs can be in raw, draft, stable, deprecated, or retired status.
 | [23/AIP](0023/README.md)   | Automation Invocation Protocol              | Raw     |
 | [24/EPRMP](0024/README.md) | Endpoint Relations Management Protocol      | Raw     |
 | [25/AMP](0025/README.md)   | Alert Management Protocol                   | Raw     |
+| [26/ARMP](0026/README.md)  | Asset and Relation Management Protocol      | Raw     |
 
 ## Change process
 
-Kaa RFCs are developed in compliance with the [C4](https://rfc.zeromq.org/spec:42/C4/) and [COSS](https://rfc.unprotocols.org/spec:2/COSS/) specifications.
-Please refer to these specifications whenever you have difficulty understanding the process, the usage of specific terms, etc.
+Kaa RFCs are developed in compliance with the [C4](https://rfc.zeromq.org/spec:42/C4/)
+and [COSS](https://rfc.unprotocols.org/spec:2/COSS/) specifications.
+Please refer to these specifications whenever you have difficulty understanding the process, the
+usage of specific terms, etc.
