@@ -1,8 +1,8 @@
 {
   "namespace": "org.kaaproject.ipc.armp.gen.v1",
-  "name": "RelationTreeGetResponse",
+  "name": "RelationTreeUpdated",
   "type": "record",
-  "doc": "Interservice relation get request",
+  "doc": "Relation tree updated event",
   "fields": [
     {
       "name": "correlationId",
@@ -19,20 +19,6 @@
       "type": "long",
       "default": 0,
       "doc": "Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
-    },
-    {
-      "name": "statusCode",
-      "type": "int",
-      "doc": "HTTP status code of the request processing"
-    },
-    {
-      "name": "reasonPhrase",
-      "type": [
-        "null",
-        "string"
-      ],
-      "default": null,
-      "doc": "Human-readable status reason phrase"
     },
     {
       "name": "relationTree",
