@@ -274,12 +274,57 @@ Relation tree get response message payload MUST be an Avro-encoded object with t
     },
     {
       "name": "relationTree",
-      "type": [
-        "null",
-        "string"
-      ],
-      "default": null,
-      "doc": "Representation of relation tree in JSON format"
+      "type": "string",
+      "doc": "Representation of relation tree in JSON format. Empty JSON object in case no tree exists"
+    }
+  ]
+}
+```
+
+
+## Entity relation tree updated event
+
+Repository MUST publish an entity relation tree updated event on any changes to entity's relation tree.
+The `{target-entity-type}` is `entity`
+The `{event-group}` is `relation-tree`.
+The `{event-type}` is `updated`.
+
+Repositories MUST publish events to the following NATS subjects:
+
+```
+kaa.v1.events.{repository-service-instance-name}.entity.relation-tree.updated
+```
+where `{repository-service-instance-name}` is the name of the repository service instance.
+It allows listeners to subscribe to events from a specific repository.
+
+The NATS message payload is an Avro object with the following schema ([0026-relation-tree-updated.avsc](./0026-relation-tree-updated.avsc)):
+```json
+{
+  "namespace": "org.kaaproject.ipc.armp.gen.v1",
+  "name": "RelationTreeUpdated",
+  "type": "record",
+  "doc": "Relation tree updated event",
+  "fields": [
+    {
+      "name": "correlationId",
+      "type": "string",
+      "doc": "Message ID primarily used to track message processing across services"
+    },
+    {
+      "name": "timestamp",
+      "type": "long",
+      "doc": "Message creation UNIX timestamp in milliseconds"
+    },
+    {
+      "name": "timeout",
+      "type": "long",
+      "default": 0,
+      "doc": "Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
+    },
+    {
+      "name": "relationTree",
+      "type": "string",
+      "doc": "Representation of relation tree in JSON format. Empty JSON object in case no tree exists"
     }
   ]
 }
