@@ -1,0 +1,39 @@
+{
+    "namespace": "org.kaaproject.ipc.epmmp.gen.v1",
+    "name": "EndpointMetadataKeyUpdateRequest",
+    "type": "record",
+    "doc": "Interservice endpoint metadata key update request",
+    "fields": [
+        {
+            "name": "correlationId",
+            "type": "string",
+            "doc": "Message ID primarily used to track message processing across services"
+        },
+        {
+            "name": "timestamp",
+            "type": "long",
+            "doc": "Message creation UNIX timestamp in milliseconds"
+        },
+        {
+            "name": "timeout",
+            "type": "long",
+            "default": 0,
+            "doc": "Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name": "endpointId",
+            "type": "string",
+            "doc": "Identifier of the endpoint, on behalf of which metadata key is updated"
+        },
+        {
+            "name": "metadataKey",
+            "type": "string",
+            "doc": "Metadata key to update"
+        },
+        {
+            "name": "metadataValue",
+            "type": "bytes",
+            "doc": "Metadata value to update key with"
+        }
+    ]
+}

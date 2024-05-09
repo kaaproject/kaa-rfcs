@@ -274,7 +274,11 @@ Relation tree get response message payload MUST be an Avro-encoded object with t
     },
     {
       "name": "relationTree",
-      "type": "string",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
       "doc": "Representation of relation tree in JSON format. Empty JSON object in case no tree exists"
     }
   ]
