@@ -301,6 +301,124 @@ Partial endpoint metadata update response message payload MUST be an Avro-encode
 }
 ```
 
+## Endpoint metadata key update
+
+Endpoint metadata key update request MUST update endpoint metadata key with specified value.
+
+### Endpoint metadata key update request
+
+*Endpoint metadata key update request* message is a [targeted message](/0003/README.md#targeted-messaging) that the client sends to the repository to update endpoint metadata key.
+
+The client MUST send endpoint metadata key update request messages using the following NATS subject:
+```
+kaa.v1.service.{repository-service-instance-name}.epmmp.ep-metadata-key-update-request
+```
+where:
+- `{repository-service-instance-name}` is the endpoint metadata repository service instance name.
+
+The client MUST include NATS `replyTo` field to handle the response. It is RECOMMENDED to follow the subject format described in [3/ISM session affinity section](/0003/README.md#session-affinity):
+```
+kaa.v1.replica.{client-service-replica-id}.epmmp.ep-metadata-key-update-response
+```
+
+Endpoint metadata key update request message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([0019-endpoint-metadata-key-update-request.avsc](./0019-endpoint-metadata-key-update-request.avsc)):
+```json
+{
+  "namespace": "org.kaaproject.ipc.epmmp.gen.v1",
+  "name": "EndpointMetadataKeyUpdateRequest",
+  "type": "record",
+  "doc": "Interservice endpoint metadata key update request",
+  "fields": [
+    {
+      "name": "correlationId",
+      "type": "string",
+      "doc": "Message ID primarily used to track message processing across services"
+    },
+    {
+      "name": "timestamp",
+      "type": "long",
+      "doc": "Message creation UNIX timestamp in milliseconds"
+    },
+    {
+      "name": "timeout",
+      "type": "long",
+      "default": 0,
+      "doc": "Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
+    },
+    {
+      "name": "endpointId",
+      "type": "string",
+      "doc": "Identifier of the endpoint, on behalf of which metadata key is updated"
+    },
+    {
+      "name": "metadataKey",
+      "type": "string",
+      "doc": "Metadata key to update"
+    },
+    {
+      "name": "metadataValue",
+      "type": "bytes",
+      "doc": "Metadata value to update key with"
+    }
+  ]
+}
+```
+
+In case the client requests to create or update a restricted EP metadata key, the server MUST return an error.
+
+
+### Endpoint metadata key update response
+
+*Metadata key update response* message MUST be sent by the repository in response to [endpoint metadata key update request message](#endpoint-metadata-key-update-request).
+Repository MUST publish endpoint metadata key update response message to the subject provided in the NATS `replyTo` field of the request.
+
+Endpoint metadata key update response message payload MUST be an Avro-encoded object with the following schema ([0019-endpoint-metadata-key-update-response.avsc](./0019-endpoint-metadata-key-update-response.avsc)):
+```json
+{
+  "namespace": "org.kaaproject.ipc.epmmp.gen.v1",
+  "name": "EndpointMetadataKeyUpdateResponse",
+  "type": "record",
+  "doc": "Interservice endpoint metadata key update response",
+  "fields": [
+    {
+      "name": "correlationId",
+      "type": "string",
+      "doc": "Message id primarily used to track message processing across services"
+    },
+    {
+      "name": "timestamp",
+      "type": "long",
+      "doc": "Message creation UNIX timestamp in milliseconds"
+    },
+    {
+      "name": "timeout",
+      "type": "long",
+      "default": 0,
+      "doc": "Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
+    },
+    {
+      "name": "endpointId",
+      "type": "string",
+      "doc": "Identifier of the endpoint, on behalf of which metadata key is updated"
+    },
+    {
+      "name": "statusCode",
+      "type": "int",
+      "doc": "HTTP status code of the request processing"
+    },
+    {
+      "name": "reasonPhrase",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Human-readable status reason phrase"
+    }
+  ]
+}
+```
+
 
 ## Getting endpoint metadata keys
 
