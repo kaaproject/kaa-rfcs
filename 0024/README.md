@@ -145,6 +145,24 @@ Endpoint relations get response message payload MUST be an Avro-encoded object w
 }
 ```
 
+
+## Endpoint relations updated event
+
+Originator MUST publish an endpoint relations updated event on any changes to endpoint relations.
+The `{event-group}` is `relations`.
+The `{event-type}` is `updated`.
+
+Originators MUST publish events to the following NATS subjects:
+
+```
+kaa.v1.events.{originator-service-instance-name}.endpoint.relations.updated
+```
+where `{originator-service-instance-name}` is the name of the originator service instance.
+It allows listeners to subscribe to events from a specific originator.
+
+The NATS message payload is an Avro object with the following schema ([0024-endpoint-relations-updated.avsc](./0024-endpoint-relations-updated.avsc)):
+
+
 ### Timeout and retry
 
 There is no guarantee, that request and/or response will be delivered. Client SHOULD implement timeout and retry logic if required.
