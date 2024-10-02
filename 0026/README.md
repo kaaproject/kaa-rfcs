@@ -143,26 +143,7 @@ Relation get response message payload MUST be an Avro-encoded object with the fo
       "type": {
         "type": "array",
         "items": {
-          "namespace": "org.kaaproject.ipc.armp.gen.v1",
-          "name": "Relation",
-          "type": "record",
-          "fields": [
-            {
-              "name": "entityType",
-              "type": "string",
-              "doc": "Entity type"
-            },
-            {
-              "name": "entityId",
-              "type": "string",
-              "doc": "Entity ID"
-            },
-            {
-              "name": "relationType",
-              "type": "string",
-              "doc": "Relation type. Examples: CONTAINS, IS_CONTAINED_BY, MANAGES, IS_MANAGED_BY, etc."
-            }
-          ]
+          "type": "org.kaaproject.ipc.armp.gen.v1.Relation"
         }
       },
       "default": []
