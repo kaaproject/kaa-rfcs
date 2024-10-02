@@ -125,16 +125,47 @@ The NATS message payload is an Avro object with the following schema ([0014-ep-t
 }
 ```
 
+## Time series data transmission receiver acknowledgement
 
-## No receipt acknowledgement
+In case a `replyTo` subject is set in the endpoint data sample message, receivers MUST respond to that subject with a `TimeSeriesProcessed` message according to the [session affinity design](/0003/README.md#session-affinity).
 
-Receivers MUST NOT acknowledge the receipt of time series events.
-
-
-# Open questions
-
-## Receipt acknowledgement
-
-Is it worth acknowledging time series events?
-In the current version of the protocol there is no delivery guarantee whatsoever.
-This might pose a problem for receivers that rely on uninterrupted events delivery.
+```json
+{
+    "namespace":"org.kaaproject.ipc.dstp.gen.v1",
+    "name":"TimeSeriesProcessed",
+    "type":"record",
+    "doc": "Message from data receiver to indicate the result of processing time series event",
+    "fields":[
+        {
+            "name":"correlationId",
+            "type":"string",
+            "doc":"Message ID primarily used to track message processing across services"
+        },
+        {
+            "name":"timestamp",
+            "type":"long",
+            "doc":"Message creation UNIX timestamp in milliseconds"
+        },
+        {
+            "name":"timeout",
+            "type":"long",
+            "default":0,
+            "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name":"statusCode",
+            "type":"int",
+            "doc":"HTTP status code of the request processing"
+        },
+        {
+            "name":"reasonPhrase",
+            "type":[
+              "null",
+              "string"
+            ],
+            "default":null,
+            "doc":"Human-readable status reason phrase"
+        }
+    ]
+}
+```
