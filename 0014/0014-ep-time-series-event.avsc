@@ -45,6 +45,11 @@
                     "type":"record",
                     "fields":[
                         {
+                            "name":"systemTimestamp",
+                            "type":"long",
+                            "doc":"Platform provided UNIX timestamp in milliseconds"
+                        },
+                        {
                             "name":"timestamp",
                             "type":"long",
                             "doc":"Data point UNIX timestamp in milliseconds"
