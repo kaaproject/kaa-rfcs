@@ -45,7 +45,7 @@
                     "type":"record",
                     "fields":[
                         {
-                            "name":"systemTimestamp",
+                            "name":"ingestionTimestamp",
                             "type":"long",
                             "doc":"Platform provided UNIX timestamp in milliseconds"
                         },
