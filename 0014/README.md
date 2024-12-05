@@ -95,6 +95,12 @@ The NATS message payload is an Avro object with the following schema ([0014-ep-t
                     "type":"record",
                     "fields":[
                         {
+                            "name":"ingestionTimestamp",
+                            "type":"long",
+                            "doc":"Platform provided UNIX timestamp in milliseconds",
+                            "default":0
+                        },
+                        {
                             "name":"timestamp",
                             "type":"long",
                             "doc":"Data point UNIX timestamp in milliseconds"
