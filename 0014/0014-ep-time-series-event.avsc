@@ -47,7 +47,8 @@
                         {
                             "name":"ingestionTimestamp",
                             "type":"long",
-                            "doc":"Platform provided UNIX timestamp in milliseconds"
+                            "doc":"Platform provided UNIX timestamp in milliseconds",
+                            "default":0
                         },
                         {
                             "name":"timestamp",
