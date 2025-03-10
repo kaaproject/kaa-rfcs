@@ -45,6 +45,12 @@
                     "type":"record",
                     "fields":[
                         {
+                            "name":"ingestionTimestamp",
+                            "type":"long",
+                            "doc":"Platform provided UNIX timestamp in milliseconds",
+                            "default":0
+                        },
+                        {
                             "name":"timestamp",
                             "type":"long",
                             "doc":"Data point UNIX timestamp in milliseconds"
