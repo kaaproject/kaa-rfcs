@@ -1,0 +1,59 @@
+{
+    "namespace":"org.kaaproject.ipc.event.gen.v1.system.config",
+    "type":"record",
+    "name":"SystemConfigUpdated",
+    "doc":"Broadcast message to indicate that system configuration data got updated",
+    "fields":[
+        {
+            "name":"correlationId",
+            "type":"string",
+            "doc":"Message ID primarily used to track message processing across services"
+        },
+        {
+            "name":"timestamp",
+            "type":"long",
+            "doc":"Message creation UNIX timestamp in milliseconds"
+        },
+        {
+            "name":"timeout",
+            "type":"long",
+            "default":0,
+            "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name":"configName",
+            "type":"string",
+            "doc":"Name of the system configuration that was updated"
+        },
+        {
+            "name":"configLevel",
+            "type":"string",
+            "doc":"Level of the configuration hierarchy, e.g.: TENANT, APPLICATION, APP_VERSION, ENDPOINT"
+        },
+        {
+            "name":"configLevelId",
+            "type":"string",
+            "doc":"Identifier at the configuration level, e.g.: tenant ID, application name, app version name, or endpoint ID"
+        },
+        {
+            "name":"contentType",
+            "type":"string",
+            "default":"application/json",
+            "doc":"Type of the configuration data, e.g.: application/json, application/x-protobuf, etc."
+        },
+        {
+            "name":"content",
+            "type":"bytes",
+            "doc":"Configuration data encoded according to the contentType"
+        },
+        {
+            "name":"originatorReplicaId",
+            "type":[
+                "null",
+                "string"
+            ],
+            "default":null,
+            "doc":"Identifier of the service replica that generated the event"
+        }
+    ]
+}
