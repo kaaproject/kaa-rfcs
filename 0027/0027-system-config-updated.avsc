@@ -21,6 +21,11 @@
             "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
         },
         {
+            "name":"tenantId",
+            "type":"string",
+            "doc":"Tenant identifier"
+        },
+        {
             "name":"configName",
             "type":"string",
             "doc":"Name of the system configuration that was updated"

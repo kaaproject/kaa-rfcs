@@ -56,63 +56,68 @@ The NATS message payload is an Avro object with the following schema ([0027-syst
 
 ```json
 {
-    "namespace":"org.kaaproject.ipc.event.gen.v1.system.config",
-    "type":"record",
-    "name":"SystemConfigUpdated",
-    "doc":"Broadcast message to indicate that system configuration data got updated",
-    "fields":[
-        {
-            "name":"correlationId",
-            "type":"string",
-            "doc":"Message ID primarily used to track message processing across services"
-        },
-        {
-            "name":"timestamp",
-            "type":"long",
-            "doc":"Message creation UNIX timestamp in milliseconds"
-        },
-        {
-            "name":"timeout",
-            "type":"long",
-            "default":0,
-            "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
-        },
-        {
-            "name":"configName",
-            "type":"string",
-            "doc":"Name of the system configuration that was updated"
-        },
-        {
-            "name":"configLevel",
-            "type":"string",
-            "doc":"Level of the configuration hierarchy, e.g.: TENANT, APPLICATION, APP_VERSION, ENDPOINT"
-        },
-        {
-            "name":"configLevelId",
-            "type":"string",
-            "doc":"Identifier at the configuration level, e.g.: tenant ID, application name, app version name, or endpoint ID"
-        },
-        {
-            "name":"contentType",
-            "type":"string",
-            "default":"application/json",
-            "doc":"Type of the configuration data, e.g.: application/json, application/x-protobuf, etc."
-        },
-        {
-            "name":"content",
-            "type":"bytes",
-            "doc":"Configuration data encoded according to the contentType"
-        },
-        {
-            "name":"originatorReplicaId",
-            "type":[
-                "null",
-                "string"
-            ],
-            "default":null,
-            "doc":"Identifier of the service replica that generated the event"
-        }
-    ]
+  "namespace":"org.kaaproject.ipc.event.gen.v1.system.config",
+  "type":"record",
+  "name":"SystemConfigUpdated",
+  "doc":"Broadcast message to indicate that system configuration data got updated",
+  "fields":[
+    {
+      "name":"correlationId",
+      "type":"string",
+      "doc":"Message ID primarily used to track message processing across services"
+    },
+    {
+      "name":"timestamp",
+      "type":"long",
+      "doc":"Message creation UNIX timestamp in milliseconds"
+    },
+    {
+      "name":"timeout",
+      "type":"long",
+      "default":0,
+      "doc":"Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
+    },
+    {
+      "name":"tenantId",
+      "type":"string",
+      "doc":"Tenant identifier"
+    },
+    {
+      "name":"configName",
+      "type":"string",
+      "doc":"Name of the system configuration that was updated"
+    },
+    {
+      "name":"configLevel",
+      "type":"string",
+      "doc":"Level of the configuration hierarchy, e.g.: TENANT, APPLICATION, APP_VERSION, ENDPOINT"
+    },
+    {
+      "name":"configLevelId",
+      "type":"string",
+      "doc":"Identifier at the configuration level, e.g.: tenant ID, application name, app version name, or endpoint ID"
+    },
+    {
+      "name":"contentType",
+      "type":"string",
+      "default":"application/json",
+      "doc":"Type of the configuration data, e.g.: application/json, application/x-protobuf, etc."
+    },
+    {
+      "name":"content",
+      "type":"bytes",
+      "doc":"Configuration data encoded according to the contentType"
+    },
+    {
+      "name":"originatorReplicaId",
+      "type":[
+        "null",
+        "string"
+      ],
+      "default":null,
+      "doc":"Identifier of the service replica that generated the event"
+    }
+  ]
 }
 ```
 
@@ -140,6 +145,7 @@ A system configuration updated event for an application-level configuration:
   "correlationId": "550e8400-e29b-41d4-a716-446655440000",
   "timestamp": 1701432000000,
   "timeout": 0,
+  "tenantId": "f889ce8a-aac4-4de5-a4a3-8b4503174690",
   "configName": "logging-config",
   "configLevel": "APPLICATION",
   "configLevelId": "smart-meter-app",

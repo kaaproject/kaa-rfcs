@@ -32,6 +32,7 @@ RFCs can be in raw, draft, stable, deprecated, or retired status.
 | [24/EPRMP](0024/README.md) | Endpoint Relations Management Protocol      | Raw     |
 | [25/AMP](0025/README.md)   | Alert Management Protocol                   | Raw     |
 | [26/ARMP](0026/README.md)  | Asset and Relation Management Protocol      | Raw     |
+| [27/SCMP](0027/README.md)  | System Configuration Management Protocol    | Raw     |
 
 ## Change process
 
