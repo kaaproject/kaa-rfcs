@@ -65,6 +65,18 @@ Configuration delivery is initiated by server.
 Endpoint should receive latest configuration when it connects to server, if this configuration is not applied yet.
 
 
+## UC3: Named configurations
+
+Endpoint requires multiple independent configurations for different subsystems.
+For example, an IoT device may have separate configurations for:
+- Network settings (WiFi credentials, proxy settings)
+- Display settings (brightness, themes)
+- Sensor calibration parameters
+- Business logic rules
+
+Each named configuration can be managed, updated, and applied independently without affecting other configurations.
+
+
 # Design
 
 ## Configuration identifier
@@ -91,8 +103,23 @@ Configuration resource is used by endpoints to subscribe to and receive the late
 
 The configuration resource is a request/response resource with an observe extension which resides at the following extension-specific resource path:
 ```
-/<endpoint_token>/config/json
+/<endpoint_token>/config/json[/<config_name>]
 ```
+
+where `<config_name>` is an optional configuration name.
+
+When `<config_name>` is omitted, the endpoint accesses the **default configuration**.
+This ensures full backward compatibility with existing endpoints that use the path `/<endpoint_token>/config/json`.
+
+When `<config_name>` is provided, the endpoint accesses a **named configuration**.
+Named configurations allow endpoints to manage multiple independent configurations simultaneously.
+
+Configuration name MUST be a non-empty alphanumeric string (matching `^[a-zA-Z0-9_-]+$`) that uniquely identifies the configuration within the endpoint.
+
+Examples of valid resource paths:
+- `/<endpoint_token>/config/json` — default configuration (backward compatible)
+- `/<endpoint_token>/config/json/network` — named configuration "network"
+- `/<endpoint_token>/config/json/display_settings` — named configuration "display_settings"
 
 
 ### Configuration resource request
@@ -209,8 +236,15 @@ Applied resource is used by endpoints to notify server of successfully applied c
 
 The applied resource is a request/response resource with the following resource path:
 ```
-/<endpoint_token>/applied/json
+/<endpoint_token>/applied/json[/<config_name>]
 ```
+
+where `<config_name>` is an optional configuration name that MUST match the configuration name used in the corresponding [configuration resource](#configuration-resource) request.
+
+When `<config_name>` is omitted, the endpoint reports the applied status for the **default configuration**.
+This ensures full backward compatibility with existing endpoints that use the path `/<endpoint_token>/applied/json`.
+
+When `<config_name>` is provided, the endpoint reports the applied status for the specified **named configuration**.
 
 
 ### Applied configuration request
@@ -279,6 +313,101 @@ The response payload MUST be empty.
 ### Implicit configuration application
 
 Server MAY mark configuration as applied if its identifier is specified in `configId` in [configuration resource request](#configuration-resource-request).
+
+
+## Named configurations examples
+
+This section provides complete examples of using named configurations.
+
+
+### Example: Subscribing to multiple named configurations
+
+An endpoint subscribes to both "network" and "display" configurations:
+
+**Request to `/<endpoint_token>/config/json/network`:**
+```json
+{
+    "observe": true
+}
+```
+
+**Response:**
+```json
+{
+    "configId": "net-a1b2c3d4",
+    "config": {
+        "wifi": {
+            "ssid": "OfficeNetwork",
+            "security": "WPA2"
+        },
+        "proxy": {
+            "enabled": false
+        }
+    }
+}
+```
+
+**Request to `/<endpoint_token>/config/json/display`:**
+```json
+{
+    "observe": true
+}
+```
+
+**Response:**
+```json
+{
+    "configId": "disp-e5f6g7h8",
+    "config": {
+        "brightness": 80,
+        "theme": "dark",
+        "timeout": 300
+    }
+}
+```
+
+
+### Example: Reporting applied status for named configuration
+
+After successfully applying the "network" configuration:
+
+**Request to `/<endpoint_token>/applied/json/network`:**
+```json
+{
+    "configId": "net-a1b2c3d4"
+}
+```
+
+
+### Example: Backward compatibility
+
+Existing endpoints continue to work without changes by using the default configuration (no `<config_name>` in the path):
+
+**Request to `/<endpoint_token>/config/json`:**
+```json
+{
+    "observe": true
+}
+```
+
+**Response:**
+```json
+{
+    "configId": "default-x9y8z7",
+    "config": {
+        "mode": "AP",
+        "ssid": "Smart Teapot",
+        "password": "acupofteaplease"
+    }
+}
+```
+
+**Applied notification to `/<endpoint_token>/applied/json`:**
+```json
+{
+    "configId": "default-x9y8z7"
+}
+```
 
 
 # Open questions
