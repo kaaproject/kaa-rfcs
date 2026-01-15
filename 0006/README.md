@@ -280,6 +280,15 @@ For more information, see [3/Messaging IPC][3/MIPC].
             ],
             "default":null,
             "doc":"Identifier of the endpoint configuration known to the consumer at the time of the request. Optional. If absent, a non-error response MUST hold the latest configuration data."
+        },
+        {
+            "name":"configName",
+            "type":[
+                "null",
+                "string"
+            ],
+            "default":null,
+            "doc":"Named configuration identifier. Optional."
         }
     ]
 }
@@ -298,6 +307,19 @@ Example:
 }
 ```
 
+Example (named configuration):
+
+```json
+{
+    "correlationId":"07d78e95-2c4d-4899-957c-b9e5a3701fbb",
+    "timestamp":1490303342158,
+    "timeout":3000,
+    "appVersionName":"smartKettleV1",
+    "endpointId":"b197e391-1d13-403b-83f5-87bdd44888cf",
+    "configId":null,
+    "configName":"network"
+}
+```
 
 ### Configuration response
 
