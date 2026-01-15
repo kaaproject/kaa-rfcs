@@ -38,6 +38,15 @@
             ],
             "default":null,
             "doc":"Identifier of the endpoint configuration known to the consumer at the time of the request. Optional. If absent, a non-error response MUST hold the latest configuration data."
+        },
+        {
+            "name":"configName",
+            "type":[
+                "null",
+                "string"
+            ],
+            "default":null,
+            "doc":"Named configuration identifier. Optional. If absent, 'default' configuration name will be used."
         }
     ]
 }
