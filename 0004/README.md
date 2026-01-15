@@ -100,6 +100,15 @@ The NATS message payload is an Avro object with the following schema ([0004-clie
             "name":"payload",
             "type":"bytes",
             "doc":"Serialized message content"
+        },
+        {
+            "name":"configName",
+            "type":[
+                "null",
+                "string"
+            ],
+            "default":null,
+            "doc":"Named configuration identifier. Optional. If absent, 'default' configuration name will be used."
         }
     ]
 }
@@ -119,7 +128,8 @@ Example:
     "requestId":{
         "int":42
     },
-    "payload":"Ww0KICB7ICJodW1pZGl0eSI6IDg4IH0NCl0="
+    "payload":"Ww0KICB7ICJodW1pZGl0eSI6IDg4IH0NCl0=",
+    "configName":"network"
 }
  ``` 
 

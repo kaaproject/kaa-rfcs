@@ -50,6 +50,15 @@
             "name":"payload",
             "type":"bytes",
             "doc":"Serialized message content"
+        },
+        {
+            "name":"configName",
+            "type":[
+                "null",
+                "string"
+            ],
+            "default":null,
+            "doc":"Named configuration identifier. Optional. If absent, 'default' configuration name will be used."
         }
     ]
 }
