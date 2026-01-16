@@ -25,7 +25,23 @@
             "doc":"Disconnected endpoints' IDs map to their application version names",
             "type":{
                 "type":"map",
-                "values":"string"
+                "values":{
+                    "type": "record",
+                    "name": "EndpointMeta",
+                    "doc":"Endpoint metadata.",
+                    "fields":[
+                        {
+                            "name":"appVersion",
+                            "type":"string",
+                            "doc":"Identifier of the endpoint application"
+                        },
+                        {
+                            "name":"tenantId",
+                            "type":"string",
+                            "doc":"Identifier of the endpoint tenant"
+                        }
+                    ]
+                }
             }
         },
         {
