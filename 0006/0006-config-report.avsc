@@ -1,0 +1,60 @@
+{
+    "namespace":"org.kaaproject.ipc.cdtp.gen.v1",
+    "type":"record",
+    "name":"ConfigReport",
+    "doc":"EP-originated message reporting the configuration the endpoint is currently running",
+    "fields":[
+        {
+            "name":"correlationId",
+            "type":"string",
+            "doc":"Message ID primarily used to track message processing across services"
+        },
+        {
+            "name":"timestamp",
+            "type":"long",
+            "doc":"Message creation UNIX timestamp in milliseconds"
+        },
+        {
+            "name":"timeout",
+            "type":"long",
+            "default":0,
+            "doc":"Amount of milliseconds (since the timestamp) until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name":"appVersionName",
+            "type":"string",
+            "doc":"Endpoint's application version, for which the configuration is reported"
+        },
+        {
+            "name":"endpointId",
+            "type":"string",
+            "doc":"Endpoint identifier, which reported the configuration. Transport-asserted; the only source of the endpoint identity."
+        },
+        {
+            "name":"configName",
+            "type":[
+                "null",
+                "string"
+            ],
+            "default":null,
+            "doc":"Named configuration identifier. Optional. If absent, 'default' configuration name will be used."
+        },
+        {
+            "name":"contentType",
+            "type":"string",
+            "default":"application/json",
+            "doc":"Type of the reported configuration data, e.g.: application/json, application/x-protobuf, etc."
+        },
+        {
+            "name":"content",
+            "type":"bytes",
+            "doc":"Reported configuration data encoded according to the contentType"
+        },
+        {
+            "name":"reportedAt",
+            "type":"long",
+            "default":0,
+            "doc":"UNIX timestamp in milliseconds of the moment the reported configuration was in effect, as asserted by the consumer. Used to resolve out-of-order reports. Value of 0 means unspecified."
+        }
+    ]
+}
