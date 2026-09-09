@@ -1,0 +1,25 @@
+{
+    "$schema":"http://json-schema.org/schema#",
+    "title":"7/CMP reported configuration response schema",
+
+    "type":"object",
+    "properties":{
+        "configId":{
+            "type":"string",
+            "description":"Identifier assigned to the stored configuration"
+        },
+        "statusCode":{
+            "type":"number",
+            "description":"Status code based on HTTP status codes"
+        },
+        "reasonPhrase":{
+            "type":"string",
+            "description":"Human-readable string explaining the result of the report processing"
+        }
+    },
+    "required":[
+        "statusCode",
+        "reasonPhrase"
+    ],
+    "additionalProperties":false
+}

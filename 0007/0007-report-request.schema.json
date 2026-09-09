@@ -1,0 +1,15 @@
+{
+    "$schema":"http://json-schema.org/schema#",
+    "title":"7/CMP reported configuration request schema",
+
+    "type":"object",
+    "properties":{
+        "config":{
+            "description":"Configuration body of an arbitrary type the endpoint is currently running"
+        }
+    },
+    "required":[
+        "config"
+    ],
+    "additionalProperties":false
+}

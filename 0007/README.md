@@ -77,6 +77,15 @@ For example, an IoT device may have separate configurations for:
 Each named configuration can be managed, updated, and applied independently without affecting other configurations.
 
 
+## UC4: Endpoint-reported configuration
+
+Endpoint is the authority for some of its own configuration.
+For example, a device may be configured locally through a physical control panel, a companion mobile application, or a vendor tool, and the server has no other way to learn the outcome.
+
+Endpoint should be able to report the configuration it is currently running, so that the server holds a record of the endpoint's actual state.
+A report is not a request for configuration: the server must not send a reported configuration back to the endpoint that reported it.
+
+
 # Design
 
 ## Configuration identifier
@@ -314,6 +323,148 @@ The response payload MUST be empty.
 
 Server MAY mark configuration as applied if its identifier is specified in `configId` in [configuration resource request](#configuration-resource-request).
 
+
+## Reported configuration resource
+
+Reported configuration resource is used by endpoints to report the configuration they are currently running to the server.
+
+The reported configuration resource is a request/response resource with the following resource path:
+```
+/<endpoint_token>/report/json[/<config_name>]
+```
+
+where `<config_name>` is an optional configuration name.
+
+Server MUST store a reported configuration as the endpoint's configuration under the resolved configuration name.
+Server MUST record a reported configuration as applied by the endpoint, without waiting for an [applied configuration request](#applied-configuration-request).
+Server MUST NOT send a reported configuration back to the endpoint that reported it through the [configuration resource](#configuration-resource).
+
+The endpoint owns the reported configuration name space in full, `default` included.
+Reporting under a name that is also managed on the server replaces the server-assigned configuration for that endpoint.
+
+Server MAY refuse to accept reported configurations, in which case it does not respond to requests to this resource.
+
+
+### Reported configuration name
+
+The configuration name is taken from the `<config_name>` segment of the resource path.
+When the path carries no name, the server resolves it to the `default` configuration name.
+
+The resolved name MUST be a valid configuration name as defined in the [configuration resource](#configuration-resource) section.
+Server MUST reject a report carrying an invalid configuration name with the 400 status code.
+
+Examples of valid resource paths:
+- `/<endpoint_token>/report/json` — report under the default configuration name
+- `/<endpoint_token>/report/json/state` — report under the "state" configuration name
+
+
+### Reported configuration request
+
+The request payload MUST be a UTF-8 encoded JSON object with the following [JSON schema](http://json-schema.org/) ([0007-report-request.schema.json](./0007-report-request.schema.json)):
+
+```json
+{
+    "$schema":"http://json-schema.org/schema#",
+    "title":"7/CMP reported configuration request schema",
+
+    "type":"object",
+    "properties":{
+        "config":{
+            "description":"Configuration body of an arbitrary type the endpoint is currently running"
+        }
+    },
+    "required":[
+        "config"
+    ],
+    "additionalProperties":false
+}
+```
+
+`config` is REQUIRED and MUST NOT be `null`.
+
+The payload MUST NOT carry a `configId`.
+The identifier of a reported configuration is assigned by the server, not by the endpoint.
+
+Request ID is OPTIONAL on this resource.
+An endpoint that does not need an acknowledgement MAY omit it, in which case the server publishes no response at all, including for a rejected report.
+
+Server MAY limit the size of a reported configuration and reject larger payloads.
+
+Example:
+```json
+{
+    "config":{
+        "mode":"eco",
+        "brightness":80
+    }
+}
+```
+
+
+### Reported configuration response
+
+The server response payload MUST be a UTF-8 encoded JSON object with the following JSON Schema ([0007-report-response.schema.json](./0007-report-response.schema.json)):
+
+```json
+{
+    "$schema":"http://json-schema.org/schema#",
+    "title":"7/CMP reported configuration response schema",
+
+    "type":"object",
+    "properties":{
+        "configId":{
+            "type":"string",
+            "description":"Identifier assigned to the stored configuration"
+        },
+        "statusCode":{
+            "type":"number",
+            "description":"Status code based on HTTP status codes"
+        },
+        "reasonPhrase":{
+            "type":"string",
+            "description":"Human-readable string explaining the result of the report processing"
+        }
+    },
+    "required":[
+        "statusCode",
+        "reasonPhrase"
+    ],
+    "additionalProperties":false
+}
+```
+
+The response MUST NOT contain a `config` field.
+Echoing a reported configuration back to the reporting endpoint is not allowed under any status code.
+
+`configId` MUST be present when the report was stored, and MUST be absent otherwise, which keeps an error response conformant with the [1/KP error response format](/0001/README.md#error-response-format).
+
+Server MUST use the following status codes.
+
+| Status code | Meaning |
+| --- | --- |
+| 200 | The reported configuration is stored. `configId` holds the identifier assigned to it |
+| 400 | The payload is absent, is not valid JSON, or does not match the request schema; the resolved configuration name is invalid; or the payload exceeds the size the server accepts |
+| 404 | The application version is unknown to the server, or a configuration schema is required for the application version but none is configured |
+| 409 | A newer report has already been applied for the same endpoint and configuration name. The report is discarded |
+| 422 | The reported configuration violates the configuration schema of the application version |
+| 500 | The report could not be processed for an unexpected reason |
+
+Example:
+```json
+{
+    "configId":"97016dbe8bb4adff8f754ecbf24612f2",
+    "statusCode":200,
+    "reasonPhrase":"OK"
+}
+```
+
+Example (stale report):
+```json
+{
+    "statusCode":409,
+    "reasonPhrase":"A newer configuration report has already been applied"
+}
+```
 
 ## Named configurations examples
 
