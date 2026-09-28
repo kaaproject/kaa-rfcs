@@ -1,0 +1,90 @@
+{
+  "namespace": "org.kaaproject.ipc.amp.gen.v1",
+  "name": "AlertLifecycleEvent",
+  "type": "record",
+  "doc": "Alert lifecycle event broadcast by the alert storage",
+  "fields": [
+    {
+      "name": "correlationId",
+      "type": "string",
+      "doc": "Message ID primarily used to track message processing across services"
+    },
+    {
+      "name": "timestamp",
+      "type": "long",
+      "doc": "Message creation UNIX timestamp in milliseconds"
+    },
+    {
+      "name": "timeout",
+      "type": "long",
+      "default": 0,
+      "doc": "Amount of milliseconds since the timestamp until the message expires. Value of 0 is reserved to indicate no expiration."
+    },
+    {
+      "name": "eventId",
+      "type": "string",
+      "doc": "Unique identifier of the alert lifecycle event"
+    },
+    {
+      "name": "eventType",
+      "type": "string",
+      "doc": "Alert lifecycle event type: CREATED, ACTIVE, RESOLVED, ACKNOWLEDGED, UNACKNOWLEDGED, SEVERITY_LEVEL_INCREASED, or SEVERITY_LEVEL_DECREASED"
+    },
+    {
+      "name": "eventTimestamp",
+      "type": "long",
+      "doc": "UNIX timestamp in milliseconds when the lifecycle event occurred"
+    },
+    {
+      "name": "alertId",
+      "type": "string",
+      "doc": "Alert ID"
+    },
+    {
+      "name": "alertType",
+      "type": "string",
+      "doc": "Alert type"
+    },
+    {
+      "name": "severityLevel",
+      "type": "string",
+      "doc": "Alert severity level at the time of the event"
+    },
+    {
+      "name": "tenantId",
+      "type": "string",
+      "doc": "Tenant ID of the entity that the alert is raised at"
+    },
+    {
+      "name": "entityType",
+      "type": "string",
+      "doc": "Entity type that the alert is raised at: ENDPOINT or TENANT"
+    },
+    {
+      "name": "entityId",
+      "type": "string",
+      "doc": "Entity ID that the alert is raised at"
+    },
+    {
+      "name": "appVersionName",
+      "type": ["null", "string"],
+      "default": null,
+      "doc": "Application version name of the endpoint. Present only for ENDPOINT entity type when known."
+    },
+    {
+      "name": "metadata",
+      "type": ["null", "string"],
+      "default": null,
+      "doc": "JSON-encoded event metadata: activation metadata for CREATED and ACTIVE events, resolution metadata for RESOLVED events"
+    },
+    {
+      "name": "systemMetadata",
+      "type": {
+        "type": "map",
+        "values": "string"
+      },
+      "default": {},
+      "doc": "Event system metadata, such as the activation, resolution, or transition reason"
+    }
+  ]
+}
