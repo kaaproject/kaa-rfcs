@@ -1,0 +1,57 @@
+{
+    "namespace":"org.kaaproject.ipc.cdtp.gen.v1",
+    "type":"record",
+    "name":"ConfigReportResponse",
+    "doc":"Response to an EP-originated configuration report",
+    "fields":[
+        {
+            "name":"correlationId",
+            "type":"string",
+            "doc":"Message ID primarily used to track message processing across services"
+        },
+        {
+            "name":"timestamp",
+            "type":"long",
+            "doc":"Message creation UNIX timestamp in milliseconds"
+        },
+        {
+            "name":"timeout",
+            "type":"long",
+            "default":0,
+            "doc":"Amount of milliseconds (since the timestamp) until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name":"appVersionName",
+            "type":"string",
+            "doc":"Endpoint's application version, for which the configuration was reported"
+        },
+        {
+            "name":"endpointId",
+            "type":"string",
+            "doc":"Endpoint identifier, which reported the configuration"
+        },
+        {
+            "name":"configId",
+            "type":[
+                "null",
+                "string"
+            ],
+            "default":null,
+            "doc":"Identifier assigned to the stored configuration. Absent in case of an error response."
+        },
+        {
+            "name":"statusCode",
+            "type":"int",
+            "doc":"HTTP status code of the report processing"
+        },
+        {
+            "name":"reasonPhrase",
+            "type":[
+                "null",
+                "string"
+            ],
+            "default":null,
+            "doc":"Human-readable status reason phrase"
+        }
+    ]
+}

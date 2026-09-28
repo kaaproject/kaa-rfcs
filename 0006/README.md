@@ -26,6 +26,7 @@ The following terms and definitions are used in this RFC.
 - **Configuration push**: a communication pattern where a provider broadcasts new EP configuration data in an unsolicited manner.
 Consumers may choose to subscribe to the broadcast events and react according to their design.
 - **Configuration pull**: a communication pattern where a consumer explicitly requests EP configuration data from a provider.
+- **Configuration reporting**: a communication pattern where a consumer submits to a provider the configuration an endpoint declares to be running, and the provider records it as that endpoint's configuration.
 
 
 # Design
@@ -288,7 +289,7 @@ For more information, see [3/Messaging IPC][3/MIPC].
                 "string"
             ],
             "default":null,
-            "doc":"Named configuration identifier. Optional."
+            "doc":"Named configuration identifier. Optional. If absent, 'default' configuration name will be used."
         }
     ]
 }
@@ -426,5 +427,235 @@ Example:
 ```
 
 After receiving a configuration response, consumer MAY broadcast a [*configuration applied* event](#configuration-applied) to indicate that the endpoint applied the configuration.
+
+
+## Configuration reporting
+
+### Configuration report
+
+Configuration report message is a [targeted message](/0003/README.md#targeted-messaging) that consumer sends to provider to report the configuration an endpoint declares to be running.
+Unlike a [configuration request](#configuration-request), a configuration report carries configuration data from consumer to provider.
+
+The consumer MUST send configuration report messages using the following NATS subject:
+```
+kaa.v1.service.{provider-service-instance-name}.cdtp.report
+```
+
+The consumer MUST include NATS `replyTo` field to handle the response.
+It is RECOMMENDED to follow the subject format described in [3/ISM session affinity section](/0003/README.md#session-affinity):
+```
+kaa.v1.replica.{consumer-service-replica-id}.cdtp.report-response
+```
+
+For more information, see [3/Messaging IPC][3/MIPC].
+
+*Configuration report* message payload MUST be an [Avro-encoded](https://avro.apache.org/) object with the following schema ([0006-config-report.avsc](./0006-config-report.avsc)):
+
+```json
+{
+    "namespace":"org.kaaproject.ipc.cdtp.gen.v1",
+    "type":"record",
+    "name":"ConfigReport",
+    "doc":"EP-originated message reporting the configuration the endpoint is currently running",
+    "fields":[
+        {
+            "name":"correlationId",
+            "type":"string",
+            "doc":"Message ID primarily used to track message processing across services"
+        },
+        {
+            "name":"timestamp",
+            "type":"long",
+            "doc":"Message creation UNIX timestamp in milliseconds"
+        },
+        {
+            "name":"timeout",
+            "type":"long",
+            "default":0,
+            "doc":"Amount of milliseconds (since the timestamp) until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name":"appVersionName",
+            "type":"string",
+            "doc":"Endpoint's application version, for which the configuration is reported"
+        },
+        {
+            "name":"endpointId",
+            "type":"string",
+            "doc":"Endpoint identifier, which reported the configuration. Transport-asserted; the only source of the endpoint identity."
+        },
+        {
+            "name":"configName",
+            "type":[
+                "null",
+                "string"
+            ],
+            "default":null,
+            "doc":"Named configuration identifier. Optional. If absent, 'default' configuration name will be used."
+        },
+        {
+            "name":"contentType",
+            "type":"string",
+            "default":"application/json",
+            "doc":"Type of the reported configuration data, e.g.: application/json, application/x-protobuf, etc."
+        },
+        {
+            "name":"content",
+            "type":"bytes",
+            "doc":"Reported configuration data encoded according to the contentType"
+        },
+        {
+            "name":"reportedAt",
+            "type":"long",
+            "default":0,
+            "doc":"UNIX timestamp in milliseconds of the moment the reported configuration was in effect, as asserted by the consumer. Used to resolve out-of-order reports. Value of 0 means unspecified."
+        }
+    ]
+}
+```
+
+`endpointId` and `appVersionName` are the only source of the endpoint identity.
+Provider MUST NOT let `content` influence which endpoint the reported configuration is stored for.
+
+If `configName` is absent, provider MUST resolve it to the `default` configuration name.
+
+`reportedAt` is used to resolve reports that arrive out of order, which is possible because reports may be consumed concurrently by several provider replicas.
+Provider MUST discard a report whose `reportedAt` is older than that of the last report accepted for the same `endpointId`, `appVersionName`, and `configName` triple, and MUST respond with the 409 status code.
+`reportedAt` values are compared numerically, including the value of 0, so a consumer SHOULD either always set `reportedAt` or never set it for a given endpoint.
+
+Upon accepting a report, provider MUST store the reported configuration as the endpoint-specific configuration under the resolved configuration name, and MUST record the status of the resulting configuration as applied.
+
+Provider MUST NOT publish a [*configuration updated* event](#configuration-updated) for a configuration it accepted from a report.
+Doing so would deliver the configuration back to the very endpoint that reported it.
+
+Provider MAY choose not to support configuration reporting, in which case it does not respond to configuration report messages.
+
+Example:
+
+```json
+{
+    "correlationId":"07d78e95-2c4d-4899-957c-b9e5a3701fbb",
+    "timestamp":1490303342158,
+    "timeout":3000,
+    "appVersionName":"smartKettleV1",
+    "endpointId":"b197e391-1d13-403b-83f5-87bdd44888cf",
+    "configName":{
+        "string":"state"
+    },
+    "contentType":"application/json",
+    "content":"eyJtb2RlIjoiZWNvIn0=",
+    "reportedAt":1490303342158
+}
+```
+
+
+### Configuration report response
+
+*Configuration report response* message MUST be sent by provider in response to a [Configuration report message](#configuration-report).
+Provider MUST publish configuration report response message to the subject provided in the NATS `replyTo` field of the report.
+
+*Configuration report response* message payload MUST be an Avro-encoded object with the following schema ([0006-config-report-response.avsc](./0006-config-report-response.avsc)):
+
+```json
+{
+    "namespace":"org.kaaproject.ipc.cdtp.gen.v1",
+    "type":"record",
+    "name":"ConfigReportResponse",
+    "doc":"Response to an EP-originated configuration report",
+    "fields":[
+        {
+            "name":"correlationId",
+            "type":"string",
+            "doc":"Message ID primarily used to track message processing across services"
+        },
+        {
+            "name":"timestamp",
+            "type":"long",
+            "doc":"Message creation UNIX timestamp in milliseconds"
+        },
+        {
+            "name":"timeout",
+            "type":"long",
+            "default":0,
+            "doc":"Amount of milliseconds (since the timestamp) until the message expires. Value of 0 is reserved to indicate no expiration."
+        },
+        {
+            "name":"appVersionName",
+            "type":"string",
+            "doc":"Endpoint's application version, for which the configuration was reported"
+        },
+        {
+            "name":"endpointId",
+            "type":"string",
+            "doc":"Endpoint identifier, which reported the configuration"
+        },
+        {
+            "name":"configId",
+            "type":[
+                "null",
+                "string"
+            ],
+            "default":null,
+            "doc":"Identifier assigned to the stored configuration. Absent in case of an error response."
+        },
+        {
+            "name":"statusCode",
+            "type":"int",
+            "doc":"HTTP status code of the report processing"
+        },
+        {
+            "name":"reasonPhrase",
+            "type":[
+                "null",
+                "string"
+            ],
+            "default":null,
+            "doc":"Human-readable status reason phrase"
+        }
+    ]
+}
+```
+
+`configId` MUST be present in a non-error response, and MUST be absent otherwise.
+
+Configuration report response message MUST NOT carry configuration data.
+A reported configuration is never returned to the endpoint that reported it.
+
+Example:
+
+```json
+{
+    "correlationId":"07d78e95-2c4d-4899-957c-b9e5a3701fbb",
+    "timestamp":1490303342158,
+    "timeout":0,
+    "appVersionName":"smartKettleV1",
+    "endpointId":"b197e391-1d13-403b-83f5-87bdd44888cf",
+    "configId":{
+        "string":"6046b576591c75fd68ab67f7e4475311"
+    },
+    "statusCode":200,
+    "reasonPhrase":{
+        "string":"OK"
+    }
+}
+```
+
+Example (stale report):
+
+```json
+{
+    "correlationId":"07d78e95-2c4d-4899-957c-b9e5a3701fbb",
+    "timestamp":1490303342158,
+    "timeout":0,
+    "appVersionName":"smartKettleV1",
+    "endpointId":"b197e391-1d13-403b-83f5-87bdd44888cf",
+    "configId":null,
+    "statusCode":409,
+    "reasonPhrase":{
+        "string":"A newer configuration report has already been applied"
+    }
+}
+```
+
 
 [3/MIPC]: /0003/README.md
